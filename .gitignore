@@ -3,7 +3,8 @@
 ################################################################################
 
 /.vs
+*.user
 /WeddingShare/.vs/WeddingShare
 /WeddingShare/WeddingShare/bin/Debug/net8.0
 /WeddingShare/WeddingShare/obj
-*.user
+/WeddingShare/WeddingShare/wwwroot/gallery/**/*
