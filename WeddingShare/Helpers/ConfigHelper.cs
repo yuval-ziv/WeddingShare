@@ -26,7 +26,7 @@
         {
             try
             {
-                var value = Environment.GetEnvironmentVariable(key);
+                var value = Environment.GetEnvironmentVariable(key.Replace(":", "_").ToUpper());
                 if (!string.IsNullOrEmpty(value))
                 { 
                     return value;
