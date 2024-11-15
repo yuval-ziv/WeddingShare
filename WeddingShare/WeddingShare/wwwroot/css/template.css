@@ -3734,7 +3734,7 @@ textarea.form-control-lg {
   --bs-navbar-active-color: rgba(0, 0, 0, 0.9);
   --bs-navbar-brand-padding-y: 0.3125rem;
   --bs-navbar-brand-margin-end: 1rem;
-  --bs-navbar-brand-font-size: 1.25rem;
+  --bs-navbar-brand-font-size: 1.7rem;
   --bs-navbar-brand-color: rgba(0, 0, 0, 0.9);
   --bs-navbar-brand-hover-color: rgba(0, 0, 0, 0.9);
   --bs-navbar-nav-link-padding-x: 0.5rem;
@@ -3781,6 +3781,12 @@ textarea.form-control-lg {
   a.navbar-brand .navbar-logo {
     height: 45px !important;
     padding: 0px 40px 0px 0px !important;
+  }
+
+  a.navbar-brand .navbar-title {
+    position: relative;
+    top: 3px;
+    display: inline-block;
   }
 
 .navbar-nav {
