@@ -3784,6 +3784,7 @@ textarea.form-control-lg {
   }
 
   a.navbar-brand .navbar-title {
+    font-size: 1.3rem;
     position: relative;
     top: 3px;
     display: inline-block;

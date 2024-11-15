@@ -23,10 +23,11 @@ namespace WeddingShare.Controllers
 
             var galleryPath = "gallery";
             var workingDirectory = Path.Combine(Environment.CurrentDirectory, "wwwroot", galleryPath.Replace('/', '\\'));
+
             var images = new PhotoGallery(_config.GetOrDefault("Settings:GalleryColumns", 4))
             { 
                 GalleryPath = $"/{galleryPath.Replace('\\', '/').TrimStart('/')}",
-                Images = Directory.GetFiles(workingDirectory, "*.*", SearchOption.TopDirectoryOnly)?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList()
+                Images = Directory.Exists(workingDirectory) ? Directory.GetFiles(workingDirectory, "*.*", SearchOption.TopDirectoryOnly)?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList() : null
             };
 
             return View(images);
