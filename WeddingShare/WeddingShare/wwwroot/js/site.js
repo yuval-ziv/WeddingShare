@@ -19,6 +19,12 @@ console.clear();
         event.stopPropagation();
     };
 
+    const triggerSelector = event => {
+        const zone = event.target.closest('.upload_drop') || false;
+        const input = zone.querySelector('input[type="file"]') || false;
+        input.click();
+    }
+
     const highlight = event =>
         event.target.classList.add('highlight');
 
@@ -50,6 +56,10 @@ console.clear();
             document.body.addEventListener(event, preventDefaults, false);
         });
 
+        // Open file browser on drop area click
+        ;['click', 'touch'].forEach(event => {
+            zone.addEventListener(event, triggerSelector, false);
+        });
         // Highlighting drop area when item is dragged over it
         ;['dragenter', 'dragover'].forEach(event => {
             zone.addEventListener(event, highlight, false);

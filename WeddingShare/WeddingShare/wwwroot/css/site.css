@@ -6,6 +6,7 @@
     outline-offset: -12px;
     transition: outline-offset 0.2s ease-out, outline-color 0.3s ease-in-out, background-color 0.2s ease-out;
     border-radius: 20px;
+    cursor: pointer;
 }
 
     .upload_drop.highlight {
