@@ -15,6 +15,7 @@ namespace WeddingShare
                 .UseIISIntegration()
                 .UseIIS()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .UseUrls("http://localhost:5000/");
     }
 }
