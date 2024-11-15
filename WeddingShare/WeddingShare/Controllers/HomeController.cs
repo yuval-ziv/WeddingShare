@@ -19,6 +19,8 @@ namespace WeddingShare.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.Title = _config.GetOrDefault("Settings:SiteName", "Wedding Share");
+
             var galleryPath = "gallery";
             var workingDirectory = Path.Combine(Environment.CurrentDirectory, "wwwroot", galleryPath.Replace('/', '\\'));
             var images = new PhotoGallery(_config.GetOrDefault("Settings:GalleryColumns", 4))

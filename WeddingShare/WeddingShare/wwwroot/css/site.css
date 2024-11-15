@@ -15,3 +15,31 @@
         -ms-transform: translate(-50%,-50%);
         transform: translate(-50%,-50%);
     }
+
+/* File Upload */
+
+.upload_drop {
+    color: #FFFFFF;
+    outline: 2px dashed #FFFFFF;
+    outline-offset: -12px;
+    transition: outline-offset 0.2s ease-out, outline-color 0.3s ease-in-out, background-color 0.2s ease-out;
+    border-radius: 20px;
+}
+
+    .upload_drop.highlight {
+        outline-offset: -4px;
+        outline-color: #FFFFFF;
+    }
+
+.upload_svg {
+    fill: #FFFFFF;
+}
+
+.btn-upload {
+    background-color: #FFFFFF;
+}
+
+    .btn-upload:hover, .btn-upload:focus {
+        color: #FFFFFF;
+        background-color: #ff7563;
+    }

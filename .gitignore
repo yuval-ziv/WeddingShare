@@ -2,9 +2,11 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs
+**/.vs
 *.user
-/WeddingShare/.vs/WeddingShare
-/WeddingShare/WeddingShare/bin/Debug/net8.0
-/WeddingShare/WeddingShare/obj
+**/bin
+**/obj
 /WeddingShare/WeddingShare/wwwroot/gallery/**/*
+/WeddingShare/WeddingShare/appsettings.Development.json
+/WeddingShare/WeddingShare/appsettings.Production.json
+/WeddingShare/WeddingShare/appsettings.Development.json

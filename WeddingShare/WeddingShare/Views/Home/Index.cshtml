@@ -1,10 +1,16 @@
 ﻿@model WeddingShare.Models.PhotoGallery
-@{
-    ViewData["Title"] = "Home Page";
-}
+
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-1 px-lg-1">
+        <div class="text-center text-white">
+            <partial name="~/Views/Shared/_FileUpload.cshtml" model="null" />
+        </div>
+    </div>
+</header>
 
 <section class="py-5">
-    <div class="container px-1 px-lg-1 mt-5">
+    <div class="container px-1 px-lg-1 mt-2">
         <partial name="~/Views/Shared/_PhotoGallery.cshtml" model="Model" />
     </div>
 </section>
