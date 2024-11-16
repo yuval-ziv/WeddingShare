@@ -128,7 +128,17 @@ console.clear();
             .then(response => response.json())
             .then(data => {
                 if (data.success === true) {
-                    displayMessage(`Successfully uploaded ${data.uploaded} photos`);
+                    if (data.errors && data.errors.length > 0) {
+                        var message = `Successfully uploaded ${data.uploaded} photos<br/><br/><b>Errors:</b><ul>`;
+                        data.errors.forEach((error) => {
+                            message += `<li>${error}</li>`;
+                        });
+                        message += `</ul>`;
+
+                        displayMessage(message);
+                    } else {
+                        displayMessage(`Successfully uploaded ${data.uploaded} photos`);
+                    }
                 } else if (data.message) {
                     displayMessage(`Upload failed: ${data.message}`);
                 }
@@ -159,7 +169,7 @@ console.clear();
     }
 
     function displayMessage(message) {
-        $('#image-upload-modal .modal-body').text(message);
+        $('#image-upload-modal .modal-body').html(message);
         $('#image-upload-modal').modal('show');
     }
 

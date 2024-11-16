@@ -4,7 +4,8 @@
     {
         string? GetEnvironmentVariable(string key);
         string? GetConfigValue(string key);
-        string? GetOrDefault(string key, string? defaultValue);
+        string? Get(string key);
+        string GetOrDefault(string key, string defaultValue);
         int GetOrDefault(string key, int defaultValue);
         long GetOrDefault(string key, long defaultValue);
         decimal GetOrDefault(string key, decimal defaultValue);
@@ -60,7 +61,7 @@
             return null;
         }
 
-        public string? GetOrDefault(string key, string? defaultValue)
+        public string? Get(string key)
         {
             try
             {
@@ -80,6 +81,21 @@
             {
                 _logger.LogWarning(ex, $"Failed to find key '{key}' in either environment variables or appsettings");
             }
+
+            return null;
+        }
+
+        public string GetOrDefault(string key, string defaultValue)
+        {
+            try
+            {
+                var value = this.Get(key);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    return value;
+                }
+            }
+            catch { }
 
             return defaultValue;
         }
