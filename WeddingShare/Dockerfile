@@ -22,3 +22,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "WeddingShare.dll"]
+
+RUN chown -R app:app /app/wwwroot/uploads

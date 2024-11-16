@@ -14,5 +14,10 @@
 
             return value;
         }
+
+        public static string Remove(this string value, string needle)
+        {
+            return value.Replace(needle, string.Empty);
+        }
     }
 }

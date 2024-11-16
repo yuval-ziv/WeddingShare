@@ -11,8 +11,8 @@ namespace WeddingShare.Controllers
         private readonly IConfigHelper _config;
         private readonly ILogger _logger;
      
-        private readonly string WorkingDirectory;
-        private readonly string GalleryPath;
+        private readonly string ContentDirectory;
+        private readonly string UploadsDirectory;
         private readonly string PathSeparator;
 
         public HomeController(IConfigHelper config, ILogger<HomeController> logger)
@@ -20,17 +20,17 @@ namespace WeddingShare.Controllers
             _config = config;
             _logger = logger;
 
-            WorkingDirectory = Path.Combine(Environment.CurrentDirectory, "wwwroot");
-            GalleryPath = "gallery";
+            ContentDirectory = Path.Combine(Environment.CurrentDirectory, "wwwroot");
+            UploadsDirectory = Path.Combine(ContentDirectory, "uploads");
             PathSeparator = _config.GetOrDefault("Settings:PathSeparator", "\\");
         }
 
         public IActionResult Index()
         {
-            var uploadPath = Path.Combine(WorkingDirectory, GalleryPath).ReplaceSeparator(PathSeparator);
+            var uploadPath = UploadsDirectory.ReplaceSeparator(PathSeparator);
             var images = new PhotoGallery(_config.GetOrDefault("Settings:GalleryColumns", 4))
             { 
-                GalleryPath = $"/{GalleryPath}".Replace('\\', '/'),
+                GalleryPath = $"/{UploadsDirectory.Remove(ContentDirectory)}".Replace('\\', '/'),
                 Images = Directory.Exists(uploadPath) ? Directory.GetFiles(uploadPath, "*.*", SearchOption.TopDirectoryOnly)?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList() : null
             };
 
@@ -44,7 +44,7 @@ namespace WeddingShare.Controllers
                 var files = Request?.Form?.Files;
                 if (files != null && files.Count > 0)
                 {
-                    var uploadPath = Path.Combine(WorkingDirectory, GalleryPath).ReplaceSeparator(PathSeparator);
+                    var uploadPath = UploadsDirectory.ReplaceSeparator(PathSeparator);
                     if (!Directory.Exists(uploadPath))
                     {
                         Directory.CreateDirectory(uploadPath);
