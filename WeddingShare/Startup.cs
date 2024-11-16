@@ -12,16 +12,9 @@ namespace WeddingShare
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {
-            //services.AddSerilog((services, config) => config.ReadFrom.Configuration(Configuration));
-            
+        {            
             services.AddScoped<IConfigHelper, ConfigHelper>();
 
-            //services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
-            //services.AddAuthorization(options =>
-            //{
-            //    options.FallbackPolicy = options.DefaultPolicy;
-            //});
             services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
@@ -34,7 +27,6 @@ namespace WeddingShare
                 app.UseHsts();
             }
 
-            //app.UseSerilogRequestLogging();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
