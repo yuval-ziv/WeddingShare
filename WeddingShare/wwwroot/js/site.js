@@ -121,6 +121,8 @@ console.clear();
             formData.append(dataRefs.files[i].name, dataRefs.files[i]);
         }
 
+        // TODO - Add "uploading" screen
+
         fetch(url, {
             method: 'POST',
             body: formData

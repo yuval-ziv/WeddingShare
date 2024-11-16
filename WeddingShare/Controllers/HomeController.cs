@@ -19,7 +19,7 @@ namespace WeddingShare.Controllers
             _config = config;
             _logger = logger;
 
-            ContentDirectory = Path.Combine(Environment.CurrentDirectory, "wwwroot");
+            ContentDirectory = Environment.CurrentDirectory;
             UploadsDirectory = Path.Combine(ContentDirectory, "uploads");
         }
 
