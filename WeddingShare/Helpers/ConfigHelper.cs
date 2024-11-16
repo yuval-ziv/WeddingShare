@@ -2,6 +2,8 @@
 {
     public interface IConfigHelper
     {
+        string? GetEnvironmentVariable(string key);
+        string? GetConfigValue(string key);
         string? GetOrDefault(string key, string? defaultValue);
         int GetOrDefault(string key, int defaultValue);
         long GetOrDefault(string key, long defaultValue);
@@ -22,19 +24,59 @@
             _logger = logger;
         }
 
-        public string? GetOrDefault(string key, string? defaultValue)
+        public string? GetEnvironmentVariable(string key)
         {
             try
             {
                 var value = Environment.GetEnvironmentVariable(key.Replace(":", "_").ToUpper());
                 if (!string.IsNullOrEmpty(value))
-                { 
+                {
+                    return value;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, $"Failed to get environment variable '{key}'");
+            }
+
+            return null;
+        }
+
+        public string? GetConfigValue(string key)
+        {
+            try
+            {
+                var value = _configuration.GetValue<string>(key);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    return value;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, $"Failed to get config value '{key}'");
+            }
+
+            return null;
+        }
+
+        public string? GetOrDefault(string key, string? defaultValue)
+        {
+            try
+            {
+                var value = this.GetEnvironmentVariable(key);
+                if (!string.IsNullOrEmpty(value))
+                {
                     return value;
                 }
 
-                return  _configuration.GetValue<string>(key);
+                value = this.GetConfigValue(key);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    return value;
+                }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogWarning(ex, $"Failed to find key '{key}' in either environment variables or appsettings");
             }

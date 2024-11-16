@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WeddingShare.Helpers;
 using WeddingShare.Models;
@@ -9,7 +8,7 @@ namespace WeddingShare.Controllers
     public class HomeController : Controller
     {
         private readonly IConfigHelper _config;
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger _logger;
 
         public HomeController(IConfigHelper config, ILogger<HomeController> logger)
         {
@@ -19,8 +18,6 @@ namespace WeddingShare.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.Title = _config.GetOrDefault("Settings:SiteName", "Wedding Share");
-
             var galleryPath = "gallery";
             var workingDirectory = Path.Combine(Environment.CurrentDirectory, "wwwroot", galleryPath.Replace('/', '\\'));
 
