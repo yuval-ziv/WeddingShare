@@ -117,7 +117,9 @@ console.clear();
         if (!name) return;
 
         const formData = new FormData();
-        formData.append(name, dataRefs.files);
+        for (var i = 0; i < dataRefs.files.length; i++) {
+            formData.append(dataRefs.files[i].name, dataRefs.files[i]);
+        }
 
         fetch(url, {
             method: 'POST',
@@ -125,15 +127,14 @@ console.clear();
         })
             .then(response => response.json())
             .then(data => {
-                console.log('posted: ', data);
                 if (data.success === true) {
-                    previewFiles(dataRefs);
-                } else {
-                    console.log('URL: ', url, '  name: ', name)
+                    displayMessage(`Successfully uploaded ${data.uploaded} photos`);
+                } else if (data.message) {
+                    displayMessage(`Upload failed: ${data.message}`);
                 }
             })
             .catch(error => {
-                console.error('errored: ', error);
+                displayMessage(`Error: ${error}`);
             });
     }
 
@@ -156,5 +157,14 @@ console.clear();
         previewFiles(dataRefs);
         imageUpload(dataRefs);
     }
+
+    function displayMessage(message) {
+        $('#image-upload-modal .modal-body').text(message);
+        $('#image-upload-modal').modal('show');
+    }
+
+    $(document).off('click', '.btn-reload').on('click', '.btn-reload', function () {
+        window.location.reload();
+    });
 
 })();

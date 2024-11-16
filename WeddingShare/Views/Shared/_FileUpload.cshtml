@@ -1,5 +1,5 @@
 ﻿<form>
-    <fieldset class="upload_drop text-center p-4">
+    <fieldset class="upload_drop text-center p-4 text-center text-white">
         <svg class="upload_svg" width="60" height="60" aria-hidden="true">
             <use href="#icon-image-upload"></use>
         </svg>
@@ -7,8 +7,7 @@
         <h2 class="strong my-2">Upload Photos</h2>
         <p class="small my-2">Drag &amp; Drop image(s) here to upload them to the gallery</p>
 
-        <input id="upload_image_logo" data-post-name="image_logo" data-post-url="https://someplace.com/image/uploads/logos/" class="position-absolute invisible" type="file" multiple accept="image/jpeg, image/png, image/svg+xml" />
-        @* <label class="btn btn-upload mb-3" for="upload_image_logo">Choose file(s)</label> *@
+        <input data-post-name="image_upload" data-post-url="@Url.Action("UploadImage", "Home")" class="position-absolute invisible" type="file" multiple accept="image/jpeg, image/png" />
     </fieldset>
 </form>
 
@@ -19,3 +18,17 @@
         </symbol>
     </defs>
 </svg>
+
+<div id="image-upload-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload</h5>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-reload" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

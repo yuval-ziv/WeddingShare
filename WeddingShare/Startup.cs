@@ -44,7 +44,7 @@ namespace WeddingShare
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}",
+                    pattern: "{controller}/{action}/{id?}",
                     defaults: new { controller = "Home", action = "Index" });
 
                 endpoints.MapRazorPages();
