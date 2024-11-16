@@ -28,7 +28,7 @@ namespace WeddingShare.Controllers
             var images = new PhotoGallery(_config.GetOrDefault("Settings:GalleryColumns", 4))
             { 
                 GalleryPath = $"/{UploadsDirectory.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
-                Images = Directory.Exists(UploadsDirectory) ? Directory.GetFiles(UploadsDirectory, "*.*", SearchOption.TopDirectoryOnly)?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList() : null
+                Images = Directory.Exists(UploadsDirectory) ? Directory.GetFiles(UploadsDirectory, "*.*", SearchOption.TopDirectoryOnly)?.Where(x => x.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) || x.EndsWith(".png", StringComparison.OrdinalIgnoreCase))?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList() : null
             };
 
             return View(images);
