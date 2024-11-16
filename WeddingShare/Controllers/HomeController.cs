@@ -8,26 +8,26 @@ namespace WeddingShare.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IConfigHelper _config;
         private readonly ILogger _logger;
      
-        private readonly string ContentDirectory;
         private readonly string UploadsDirectory;
 
-        public HomeController(IConfigHelper config, ILogger<HomeController> logger)
+        public HomeController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, ILogger<HomeController> logger)
         {
+            _hostingEnvironment = hostingEnvironment;
             _config = config;
             _logger = logger;
 
-            ContentDirectory = Path.Combine(Environment.CurrentDirectory, "wwwroot");
-            UploadsDirectory = Path.Combine(ContentDirectory, "uploads");
+            UploadsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
         }
 
         public IActionResult Index()
         {
             var images = new PhotoGallery(_config.GetOrDefault("Settings:GalleryColumns", 4))
             { 
-                GalleryPath = $"/{UploadsDirectory.Remove(ContentDirectory).Replace('\\', '/').TrimStart('/')}",
+                GalleryPath = $"/{UploadsDirectory.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
                 Images = Directory.Exists(UploadsDirectory) ? Directory.GetFiles(UploadsDirectory, "*.*", SearchOption.TopDirectoryOnly)?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList() : null
             };
 
