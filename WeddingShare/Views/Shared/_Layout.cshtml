@@ -38,11 +38,18 @@
         </nav>
         
         <!-- Body -->
-        @RenderBody()
+        <div id="main-wrapper">
+            @RenderBody()
+        </div>
 
         <!-- Footer -->
         <footer class="py-1 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Cirx08 @DateTime.UtcNow.Year</p></div>
+            <div class="container">
+                <p class="m-0 text-white">
+                    <span class="float-none">&copy; Copyright Cirx08 @DateTime.UtcNow.Year</span>
+                    <span class="float-end">v1.0.0</span>
+                </p>
+            </div>
         </footer>
         
         <!-- JS -->

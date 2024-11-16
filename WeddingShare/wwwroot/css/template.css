@@ -3747,12 +3747,15 @@ textarea.form-control-lg {
   --bs-navbar-toggler-border-radius: 0.375rem;
   --bs-navbar-toggler-focus-width: 0.25rem;
   --bs-navbar-toggler-transition: box-shadow 0.15s ease-in-out;
-  position: relative;
+  position: fixed;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   padding: var(--bs-navbar-padding-y) var(--bs-navbar-padding-x);
+  border-bottom: 1px solid #EFEFEF;
+  z-index: 1;
 }
 .navbar > .container,
 .navbar > .container-fluid,
@@ -10836,4 +10839,12 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+
+footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    font-size: 0.7rem;
 }

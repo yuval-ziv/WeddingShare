@@ -1,5 +1,9 @@
-/* File Upload */
+#main-wrapper {
+  position: relative;
+  top: 75px;
+}
 
+/* File Upload */
 .upload_drop {
     color: #FFFFFF;
     outline: 2px dashed #FFFFFF;
