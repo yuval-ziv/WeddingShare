@@ -55,7 +55,7 @@ namespace WeddingShare.Controllers
                             var extension = Path.GetExtension(file.FileName);
                             var maxFilesSize = _config.GetOrDefault("Settings:MaxFileSizeBytes", 20000000);
 
-                            if (!string.Equals(".png", extension) && !string.Equals(".jgp", extension))
+                            if (!string.Equals(".png", extension) && !string.Equals(".jpg", extension))
                             {
                                 errors.Add($"Failed to upload file '{Path.GetFileName(file.FileName)}'. Only JPG and PNG images are allowed");
                             }
