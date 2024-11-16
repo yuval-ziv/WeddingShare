@@ -87,7 +87,7 @@ console.clear();
 
     // No 'image/gif' or PDF or webp allowed here, but it's up to your use case.
     // Double checks the input "accept" attribute
-    const isImageFile = file => ['image/jpeg', 'image/png', 'image/svg+xml'].includes(file.type);
+    const isImageFile = file => ['image/jpeg', 'image/png'].includes(file.type);
 
     function previewFiles(dataRefs) {
         if (!dataRefs.gallery) return;

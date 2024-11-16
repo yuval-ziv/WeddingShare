@@ -25,10 +25,12 @@ namespace WeddingShare.Controllers
 
         public IActionResult Index()
         {
+            var allowedFileTypes = _config.GetOrDefault("Settings:AllowedFileTypes", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            var files = Directory.Exists(UploadsDirectory) ? Directory.GetFiles(UploadsDirectory, "*.*", SearchOption.TopDirectoryOnly)?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase))) : null;
             var images = new PhotoGallery(_config.GetOrDefault("Settings:GalleryColumns", 4))
             { 
                 GalleryPath = $"/{UploadsDirectory.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
-                Images = Directory.Exists(UploadsDirectory) ? Directory.GetFiles(UploadsDirectory, "*.*", SearchOption.TopDirectoryOnly)?.Where(x => x.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) || x.EndsWith(".png", StringComparison.OrdinalIgnoreCase))?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList() : null
+                Images = files?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList()
             };
 
             return View(images);
@@ -55,9 +57,10 @@ namespace WeddingShare.Controllers
                             var extension = Path.GetExtension(file.FileName);
                             var maxFilesSize = _config.GetOrDefault("Settings:MaxFileSizeBytes", 20000000);
 
-                            if (!string.Equals(".png", extension) && !string.Equals(".jpg", extension))
+                            var allowedFileTypes = _config.GetOrDefault("Settings:AllowedFileTypes", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                            if (!allowedFileTypes.Any(x => string.Equals(x.Trim('.'), extension.Trim('.'), StringComparison.OrdinalIgnoreCase)))
                             {
-                                errors.Add($"Failed to upload file '{Path.GetFileName(file.FileName)}'. Only JPG and PNG images are allowed");
+                                errors.Add($"Failed to upload file '{Path.GetFileName(file.FileName)}'. File type is invalid");
                             }
                             else if (file.Length > maxFilesSize)
                             {
