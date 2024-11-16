@@ -21,4 +21,5 @@ RUN dotnet publish "./WeddingShare.csproj" -c $BUILD_CONFIGURATION -o /app/publi
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+RUN chown -R app:app ./wwwroot
 ENTRYPOINT ["dotnet", "WeddingShare.dll"]
