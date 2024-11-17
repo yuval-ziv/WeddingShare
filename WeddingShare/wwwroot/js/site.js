@@ -212,7 +212,7 @@
 
         var galleryId = $('input#gallery-id').val();
         if (galleryId && galleryId.length > 0) {
-            window.location = `/Home/Gallery?id=${galleryId}`;
+            window.location = `/Gallery?id=${galleryId}`;
         } else {
             displayMessage(`Gallery`, `Please select a valid gallery name`);
         }

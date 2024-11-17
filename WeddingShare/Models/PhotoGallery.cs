@@ -18,7 +18,7 @@
             this.GalleryPath = path;
             this.ColumnCount = columnCount;
             this.Images = images;
-            this.FileUploader = new FileUploader(id, "/Home/UploadImage");
+            this.FileUploader = new FileUploader(id, "/Gallery/UploadImage");
         }
 
         public string? GalleryId { get; set; }
