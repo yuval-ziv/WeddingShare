@@ -107,19 +107,19 @@
 
         // Multiple source routes, so double check validity
         if (!dataRefs.files || !dataRefs.input) {
-            displayMessage(`No files were detected to upload`);
+            displayMessage(`Upload`, `No files were detected to upload`);
             return;
         }
 
         const galleryId = dataRefs.input.getAttribute('data-post-gallery-id');
         if (!galleryId) {
-            displayMessage(`Invalid gallery Id detected`);
+            displayMessage(`Upload`, `Invalid gallery Id detected`);
             return;
         }
 
         const url = dataRefs.input.getAttribute('data-post-url');
         if (!url) {
-            displayMessage(`Could not find upload Url`);
+            displayMessage(`Upload`, `Could not find upload Url`);
             return;
         }
 
@@ -140,14 +140,14 @@
                 $('body').loading('stop');
 
                 if (data.success === true) {
-                    displayMessage(`Successfully uploaded ${data.uploaded} photos`, data.errors);
+                    displayMessage(`Upload`, `Successfully uploaded ${data.uploaded} photos`, data.errors);
                 } else if (data.message) {
-                    displayMessage(`Upload failed`, [data.message]);
+                    displayMessage(`Upload`, `Upload failed`, [data.message]);
                 }
             })
             .catch(error => {
                 $('body').loading('stop');
-                displayMessage(`Upload failed`, [error]);
+                displayMessage(`Upload`, `Upload failed`, [error]);
             });
     }
 
@@ -171,10 +171,11 @@
         imageUpload(dataRefs);
     }
 
-    function displayMessage(message, errors) {
-        $('#image-upload-modal .modal-message').html(message);
+    function displayMessage(title, message, errors) {
+        $('#alert-message-modal .modal-title').text(title);
+        $('#alert-message-modal .modal-message').html(message);
 
-        $('#image-upload-modal .modal-error').hide();
+        $('#alert-message-modal .modal-error').hide();
         if (errors && errors.length > 0) {
             var errorMessage = `<b>Errors:</b>`;
             errorMessage += `<ul>`;
@@ -182,17 +183,39 @@
                 errorMessage += `<li>${error}</li>`;
             });
             errorMessage += `</ul>`;
-            $('#image-upload-modal .modal-error').html(errorMessage);
-            $('#image-upload-modal .modal-error').show();
+            $('#alert-message-modal .modal-error').html(errorMessage);
+            $('#alert-message-modal .modal-error').show();
         } else {
-            $('#image-upload-modal .modal-error').html('');
+            $('#alert-message-modal .modal-error').html('');
         }
 
-        $('#image-upload-modal').modal('show');
+        $('#alert-message-modal').modal('show');
+    }
+
+    function uuidv4() {
+        return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+            (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+        );
     }
 
     $(document).off('click', '.btn-reload').on('click', '.btn-reload', function () {
         window.location.reload();
+    });
+
+    $(document).off('click', '#btnGenerateGalleryName').on('click', '#btnGenerateGalleryName', function (e) {
+        preventDefaults(e);
+        $('input#gallery-id').val(uuidv4());
+    });
+
+    $(document).off('submit', '#frmSelectGallery').on('submit', '#frmSelectGallery', function (e) {
+        preventDefaults(e);
+
+        var galleryId = $('input#gallery-id').val();
+        if (galleryId && galleryId.length > 0) {
+            window.location = `/Home/Gallery?id=${galleryId}`;
+        } else {
+            displayMessage(`Gallery`, `Please select a valid gallery name`);
+        }
     });
 
     $('body').loading({

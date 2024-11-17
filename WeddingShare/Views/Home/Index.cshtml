@@ -1,16 +1,27 @@
 ﻿@model WeddingShare.Models.PhotoGallery
 
-@if (Model?.FileUploader != null)
-{
-    <header class="bg-dark py-1 py-lg-5">
-        <div class="container px-0 px-lg-2">
-            <partial name="~/Views/Shared/_FileUpload.cshtml" model="Model.FileUploader" />
-        </div>
-    </header>
-}
-
 <section class="py-1 py-lg-5">
     <div class="container px-3 px-lg-1 my-3 mt-lg-1">
-        <partial name="~/Views/Shared/_PhotoGallery.cshtml" model="Model" />
+        <div class="card">
+            <div class="card-header">
+                <h1 class="display-6">Gallery Name</h1>
+            </div>
+            <div class="card-body m-1 m-lg-5">
+                <form id="frmSelectGallery">
+                    <div class="">
+                        <div class="input-group">
+                            <input type="text" id="gallery-id" class="form-control" aria-describedby="gallery-id-help" placeholder="my-wedding-gallery" aria-label="Gallery Name" aria-describedby="btnGroupAddon">
+                            <button class="btn btn-outline-success" id="btnGenerateGalleryName">Generate</button>
+                        </div>
+                        <div id="gallery-id-help" class="form-text">
+                            Please enter the name of the gallery you want to visit.
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 mt-4 mt-lg-5">
+                        <button class="btn btn-primary" type="submit">Visit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </section>

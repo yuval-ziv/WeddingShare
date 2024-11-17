@@ -1,0 +1,16 @@
+﻿@model WeddingShare.Models.PhotoGallery
+
+@if (Model?.FileUploader != null)
+{
+    <header class="bg-dark py-1 py-lg-5">
+        <div class="container px-0 px-lg-2">
+            <partial name="~/Views/Shared/_FileUpload.cshtml" model="Model.FileUploader" />
+        </div>
+    </header>
+}
+
+<section class="py-1 py-lg-5">
+    <div class="container px-3 px-lg-1 my-3 mt-lg-1">
+        <partial name="~/Views/Shared/_PhotoGallery.cshtml" model="Model" />
+    </div>
+</section>
