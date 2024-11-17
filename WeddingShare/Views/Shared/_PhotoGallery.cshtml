@@ -19,7 +19,10 @@
                     var index = columnIndex;
                     while (index < Model.Images.Count())
                     {
-                        <img src="@Model.GalleryPath/@Model.Images[index]" class="w-100 shadow-1-strong rounded mb-4" alt="" />
+                        var caption = System.IO.Path.GetFileNameWithoutExtension(Model.Images[index]);
+                        <a href="@Model.GalleryPath/@Model.Images[index]" data-lightbox="@caption">
+                            <img src="@Model.GalleryPath/@Model.Images[index]" class="w-100 shadow-1-strong rounded mb-4" alt="@caption" />
+                        </a>
                         index += columnCount;
                     }
                 }

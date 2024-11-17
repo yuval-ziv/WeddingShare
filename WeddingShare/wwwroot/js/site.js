@@ -1,8 +1,6 @@
 ﻿/* Bootstrap 5 JS included */
 
-console.clear();
 ('use strict');
-
 
 // Drag and drop - single or multiple image files
 // https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
@@ -203,4 +201,8 @@ console.clear();
         stoppable: false,
         start: false
     });
+
+    lightbox.option({
+        'disableScrolling': true
+    })
 })();
