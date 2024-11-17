@@ -3,6 +3,10 @@
   top: 75px;
 }
 
+.gallery-container {
+    position: relative;
+}
+
 /* File Upload */
 .upload_drop {
     color: #FFFFFF;
@@ -34,7 +38,7 @@
 .qrcode-container {
     position: absolute;
     top: 0px;
-    right: -200px;
+    right: -300px;
 }
 
     .qrcode-container span {

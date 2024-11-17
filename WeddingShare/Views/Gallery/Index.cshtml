@@ -10,16 +10,18 @@
 }
 
 <section class="py-1 py-lg-5">
-    <div class="container px-3 px-lg-1 my-3 mt-lg-1" style="position: relative;">
+    <div class="container gallery-container px-3 px-lg-1 my-3 mt-lg-1">
         <div class="qrcode-container d-none d-lg-block">
             <div id="qrcode"></div>
             <span>Share Code</span>
         </div>
         <script>
             document.addEventListener('DOMContentLoaded', function () { 
-                $(function () { 
-                    $('#qrcode').qrcode({ width: 150, height: 150, text: window.location.href });
-                });
+                if ($('#qrcode').length > 0 && $('#qrcode').is(':visible')) {
+                    $(function () {
+                        $('#qrcode').qrcode({ width: 150, height: 150, text: window.location.href });
+                    });
+                }
             }, false);
         </script>
         <partial name="~/Views/Shared/_PhotoGallery.cshtml" model="Model" />
