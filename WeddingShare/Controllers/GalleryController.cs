@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using WeddingShare.Extensions;
 using WeddingShare.Helpers;
 using WeddingShare.Models;
@@ -23,12 +24,24 @@ namespace WeddingShare.Controllers
             UploadsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
         }
 
-        public IActionResult Index(string id)
+        public IActionResult Index(string id, string? key)
         {
-            if (string.IsNullOrEmpty(id))
+            var secretKey = _config.Get("Settings:SecretKey");
+            if (!string.IsNullOrEmpty(secretKey) && !string.Equals(secretKey, key))
             {
-                return RedirectToAction("Index", "Home");
+                _logger.LogWarning("A request was made using an invalid security hey");
+                ViewBag.ErrorMessage = "Invalid gallery key";
+
+                return View("~/Views/Home/Index.cshtml");
             }
+            else if (string.IsNullOrEmpty(id))
+            {
+                ViewBag.ErrorMessage = "Invalid gallery id";
+
+                return View("~/Views/Home/Index.cshtml");
+            }
+
+            ViewBag.SecretKey = key;
 
             var galleryPath = Path.Combine(UploadsDirectory, id);
             var allowedFileTypes = _config.GetOrDefault("Settings:AllowedFileTypes", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
@@ -48,6 +61,14 @@ namespace WeddingShare.Controllers
         {
             try
             {
+                var secretKey = _config.Get("Settings:SecretKey");
+                var key = Request?.Form?.FirstOrDefault(x => string.Equals("SecretKey", x.Key, StringComparison.OrdinalIgnoreCase)).Value;
+                if (!string.IsNullOrEmpty(secretKey) && !string.Equals(secretKey, key))
+                {
+                    _logger.LogWarning("A request was made using an invalid security hey");
+                    throw new UnauthorizedAccessException("The provided access token was invalid");
+                }
+
                 var galleryId = Request?.Form?.FirstOrDefault(x => string.Equals("GalleryId", x.Key, StringComparison.OrdinalIgnoreCase)).Value;
                 if (string.IsNullOrEmpty(galleryId))
                 { 

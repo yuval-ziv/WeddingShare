@@ -123,7 +123,10 @@
             return;
         }
 
+        const secretKey = dataRefs.input.getAttribute('data-post-key');
+
         const formData = new FormData();
+        formData.append('SecretKey', secretKey);
         formData.append('GalleryId', galleryId);
         for (var i = 0; i < dataRefs.files.length; i++) {
             formData.append(dataRefs.files[i].name, dataRefs.files[i]);
@@ -140,7 +143,7 @@
                 $('body').loading('stop');
 
                 if (data.success === true) {
-                    displayMessage(`Upload`, `Successfully uploaded ${data.uploaded} photos`, data.errors);
+                    displayMessage(`Upload`, `Successfully uploaded ${data.uploaded} photo(s)`, data.errors);
                 } else if (data.message) {
                     displayMessage(`Upload`, `Upload failed`, [data.message]);
                 }
@@ -211,8 +214,14 @@
         preventDefaults(e);
 
         var galleryId = $('input#gallery-id').val();
+        var secretKey = $('input#gallery-key').val();
         if (galleryId && galleryId.length > 0) {
-            window.location = `/Gallery?id=${galleryId}`;
+            var url = `/Gallery?id=${galleryId}`;
+            if (secretKey && secretKey.length > 0) {
+                url = `${url}&key=${secretKey}`;
+            }
+
+            window.location = url;
         } else {
             displayMessage(`Gallery`, `Please select a valid gallery name`);
         }

@@ -14,7 +14,7 @@
         <p class="small my-2">Drag &amp; Drop image(s) here to upload them to the gallery</p>
         <p class="small my-2">(@string.Join(", ", allowedFileTypes))</p>
 
-        <input data-post-gallery-id="@Model.GalleryId" data-post-url="@Model.UploadUrl" class="position-absolute invisible" type="file" multiple accept="image/jpeg, image/png" />
+        <input data-post-gallery-id="@Model.GalleryId" data-post-url="@Model.UploadUrl" data-post-key="@(ViewBag.SecretKey ?? string.Empty)" class="position-absolute invisible" type="file" multiple accept="image/jpeg, image/png" />
     </fieldset>
 </form>
 

@@ -1,4 +1,5 @@
-﻿@model WeddingShare.Models.PhotoGallery
+﻿@inject WeddingShare.Helpers.IConfigHelper _config
+@model WeddingShare.Models.PhotoGallery
 
 <section class="py-1 py-lg-5">
     <div class="container px-3 px-lg-1 my-3 mt-lg-1">
@@ -10,12 +11,20 @@
                 <form id="frmSelectGallery">
                     <div class="">
                         <div class="input-group">
-                            <input type="text" id="gallery-id" class="form-control" aria-describedby="gallery-id-help" placeholder="my-wedding-gallery" aria-label="Gallery Name" aria-describedby="btnGroupAddon">
-                            <input type="button" id="btnGenerateGalleryName" class="btn btn-outline-success" value="Generate">
+                            <input type="text" id="gallery-id" class="form-control" aria-describedby="gallery-id-help" placeholder="my-wedding-gallery" aria-label="Gallery Name" />
+                            <input type="button" id="btnGenerateGalleryName" class="btn btn-outline-success" value="Generate" />
                         </div>
                         <div id="gallery-id-help" class="form-text">
                             Please enter the name of the gallery you want to visit.
                         </div>
+
+                        @if (!string.IsNullOrEmpty(_config.Get("Settings:SecretKey")))
+                        {
+                            <input type="text" id="gallery-key" class="form-control mt-4" aria-describedby="gallery-key-help" placeholder="wedding-day" aria-label="Gallery Key" />
+                            <div id="gallery-key-help" class="form-text">
+                                Please enter the secret vault key.
+                            </div>
+                        }
                     </div>
                     <div class="d-grid gap-2 mt-4 mt-lg-5">
                         <button id="btnVisitGallery" class="btn btn-primary" type="submit">Visit</button>
