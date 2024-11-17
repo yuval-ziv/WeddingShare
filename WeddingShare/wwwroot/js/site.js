@@ -227,5 +227,5 @@
 
     lightbox.option({
         'disableScrolling': true
-    })
+    });
 })();

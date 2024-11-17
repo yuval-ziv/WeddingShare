@@ -30,3 +30,22 @@
         color: #FFFFFF;
         background-color: #ff7563;
     }
+
+.qrcode-container {
+    position: absolute;
+    top: 0px;
+    right: -200px;
+}
+
+@media (max-width: 900px) {
+    .qrcode-container {
+        display: none;
+    }
+}
+
+    .qrcode-container span {
+        display: block;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
