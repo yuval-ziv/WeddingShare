@@ -26,6 +26,8 @@ namespace WeddingShare.Controllers
 
         public IActionResult Index(string id, string? key)
         {
+            id = id.ToLower();
+
             var secretKey = _config.Get("Settings:SecretKey");
             if (!string.IsNullOrEmpty(secretKey) && !string.Equals(secretKey, key))
             {
@@ -69,11 +71,13 @@ namespace WeddingShare.Controllers
                     throw new UnauthorizedAccessException("The provided access token was invalid");
                 }
 
-                var galleryId = Request?.Form?.FirstOrDefault(x => string.Equals("GalleryId", x.Key, StringComparison.OrdinalIgnoreCase)).Value;
+                string galleryId = Request?.Form?.FirstOrDefault(x => string.Equals("GalleryId", x.Key, StringComparison.OrdinalIgnoreCase)).Value ?? string.Empty;
                 if (string.IsNullOrEmpty(galleryId))
-                { 
+                {
                     return Json(new { success = true, uploaded = 0, errors = new List<string>() { "Invalid gallery Id detected" } });
                 }
+
+                galleryId = galleryId.ToLower();
 
                 var galleryPath = Path.Combine(UploadsDirectory, galleryId);
                 var files = Request?.Form?.Files;
