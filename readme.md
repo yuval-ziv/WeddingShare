@@ -12,4 +12,10 @@ there are no warranties. Use at your own risk.
 
 ## Screenshots
 
+### Desktop
+
 ![Homepage](https://github.com/Cirx08/WeddingShare/blob/main/screenshots/Homepage.png?raw=true)
+
+### Mobile
+
+![Homepage](https://github.com/Cirx08/WeddingShare/blob/main/screenshots/Homepage-Mobile.png?raw=true)
