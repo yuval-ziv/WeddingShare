@@ -37,7 +37,8 @@ namespace WeddingShare.Controllers
             {
                 GalleryId = id,
                 GalleryPath = $"/{galleryPath.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
-                Images = files?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList()
+                Images = files?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList(),
+                FileUploader = new FileUploader(id, "/Gallery/UploadImage")
             };
 
             return View(images);
