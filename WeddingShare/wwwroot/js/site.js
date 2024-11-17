@@ -108,20 +108,30 @@ console.clear();
     const imageUpload = dataRefs => {
 
         // Multiple source routes, so double check validity
-        if (!dataRefs.files || !dataRefs.input) return;
+        if (!dataRefs.files || !dataRefs.input) {
+            displayMessage(`No files were detected to upload`);
+            return;
+        }
+
+        const galleryId = dataRefs.input.getAttribute('data-post-gallery-id');
+        if (!galleryId) {
+            displayMessage(`Invalid gallery Id detected`);
+            return;
+        }
 
         const url = dataRefs.input.getAttribute('data-post-url');
-        if (!url) return;
-
-        const name = dataRefs.input.getAttribute('data-post-name');
-        if (!name) return;
+        if (!url) {
+            displayMessage(`Could not find upload Url`);
+            return;
+        }
 
         const formData = new FormData();
+        formData.append('GalleryId', galleryId);
         for (var i = 0; i < dataRefs.files.length; i++) {
             formData.append(dataRefs.files[i].name, dataRefs.files[i]);
         }
 
-        // TODO - Add "uploading" screen
+        $('body').loading('start');
 
         fetch(url, {
             method: 'POST',
@@ -129,24 +139,17 @@ console.clear();
         })
             .then(response => response.json())
             .then(data => {
-                if (data.success === true) {
-                    if (data.errors && data.errors.length > 0) {
-                        var message = `Successfully uploaded ${data.uploaded} photos<br/><br/><b>Errors:</b><ul>`;
-                        data.errors.forEach((error) => {
-                            message += `<li>${error}</li>`;
-                        });
-                        message += `</ul>`;
+                $('body').loading('stop');
 
-                        displayMessage(message);
-                    } else {
-                        displayMessage(`Successfully uploaded ${data.uploaded} photos`);
-                    }
+                if (data.success === true) {
+                    displayMessage(`Successfully uploaded ${data.uploaded} photos`, data.errors);
                 } else if (data.message) {
-                    displayMessage(`Upload failed: ${data.message}`);
+                    displayMessage(`Upload failed`, [data.message]);
                 }
             })
             .catch(error => {
-                displayMessage(`Error: ${error}`);
+                $('body').loading('stop');
+                displayMessage(`Upload failed`, [error]);
             });
     }
 
@@ -170,8 +173,23 @@ console.clear();
         imageUpload(dataRefs);
     }
 
-    function displayMessage(message) {
-        $('#image-upload-modal .modal-body').html(message);
+    function displayMessage(message, errors) {
+        $('#image-upload-modal .modal-message').html(message);
+
+        $('#image-upload-modal .modal-error').hide();
+        if (errors && errors.length > 0) {
+            var errorMessage = `<b>Errors:</b>`;
+            errorMessage += `<ul>`;
+            errors.forEach((error) => {
+                errorMessage += `<li>${error}</li>`;
+            });
+            errorMessage += `</ul>`;
+            $('#image-upload-modal .modal-error').html(errorMessage);
+            $('#image-upload-modal .modal-error').show();
+        } else {
+            $('#image-upload-modal .modal-error').html('');
+        }
+
         $('#image-upload-modal').modal('show');
     }
 
@@ -179,4 +197,10 @@ console.clear();
         window.location.reload();
     });
 
+    $('body').loading({
+        theme: 'dark',
+        message: 'Uploading...',
+        stoppable: false,
+        start: false
+    });
 })();

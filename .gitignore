@@ -12,3 +12,5 @@
 /WeddingShare/WeddingShare/appsettings.Development.json
 /WeddingShare/appsettings.Development.json
 /WeddingShare/wwwroot/uploads/*
+!/WeddingShare/wwwroot/uploads/default
+/WeddingShare/wwwroot/uploads/default/*

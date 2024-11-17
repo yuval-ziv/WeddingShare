@@ -23,13 +23,15 @@ namespace WeddingShare.Controllers
             UploadsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string id = "default")
         {
+            var galleryPath = Path.Combine(UploadsDirectory, id);
             var allowedFileTypes = _config.GetOrDefault("Settings:AllowedFileTypes", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-            var files = Directory.Exists(UploadsDirectory) ? Directory.GetFiles(UploadsDirectory, "*.*", SearchOption.TopDirectoryOnly)?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase))) : null;
+            var files = Directory.Exists(galleryPath) ? Directory.GetFiles(galleryPath, "*.*", SearchOption.TopDirectoryOnly)?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase))) : null;
             var images = new PhotoGallery(_config.GetOrDefault("Settings:GalleryColumns", 4))
             { 
-                GalleryPath = $"/{UploadsDirectory.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
+                GalleryId = id,
+                GalleryPath = $"/{galleryPath.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
                 Images = files?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList()
             };
 
@@ -40,12 +42,19 @@ namespace WeddingShare.Controllers
         {
             try
             {
+                var galleryId = Request?.Form?.FirstOrDefault(x => string.Equals("GalleryId", x.Key, StringComparison.OrdinalIgnoreCase)).Value;
+                if (string.IsNullOrEmpty(galleryId))
+                { 
+                    return Json(new { success = true, uploaded = 0, errors = new List<string>() { "Invalid gallery Id detected" } });
+                }
+
+                var galleryPath = Path.Combine(UploadsDirectory, galleryId);
                 var files = Request?.Form?.Files;
                 if (files != null && files.Count > 0)
                 {
-                    if (!Directory.Exists(UploadsDirectory))
+                    if (!Directory.Exists(galleryPath))
                     {
-                        Directory.CreateDirectory(UploadsDirectory);
+                        Directory.CreateDirectory(galleryPath);
                     }
 
                     var uploaded = 0;
@@ -68,7 +77,7 @@ namespace WeddingShare.Controllers
                             }
                             else
                             {
-                                var filePath = Path.Combine(UploadsDirectory, $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}");
+                                var filePath = Path.Combine(galleryPath, $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}");
                                 if (!string.IsNullOrEmpty(filePath))
                                 {
                                     using (var fs = new FileStream(filePath, FileMode.Create))

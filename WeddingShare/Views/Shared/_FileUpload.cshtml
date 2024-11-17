@@ -1,4 +1,5 @@
-﻿@inject WeddingShare.Helpers.IConfigHelper _config
+﻿@model WeddingShare.Models.FileUploader
+@inject WeddingShare.Helpers.IConfigHelper _config
 @{
     var allowedFileTypes = _config.GetOrDefault("Settings:AllowedFileTypes", ".jpg,.jpeg,.png")?.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)?.Select(x => $".{x.Trim('.')}")?.OrderBy(x => x)?.ToList() ?? new List<string>();
 }
@@ -13,7 +14,7 @@
         <p class="small my-2">Drag &amp; Drop image(s) here to upload them to the gallery</p>
         <p class="small my-2">(@string.Join(", ", allowedFileTypes))</p>
 
-        <input data-post-name="image_upload" data-post-url="@Url.Action("UploadImage", "Home")" class="position-absolute invisible" type="file" multiple accept="image/jpeg, image/png" />
+        <input data-post-gallery-id="@Model.GalleryId" data-post-url="@Model.UploadUrl" class="position-absolute invisible" type="file" multiple accept="image/jpeg, image/png" />
     </fieldset>
 </form>
 
@@ -31,7 +32,8 @@
             <div class="modal-header">
                 <h5 class="modal-title">Upload</h5>
             </div>
-            <div class="modal-body"></div>
+            <div class="modal-body modal-message"></div>
+            <div class="modal-body modal-error" display="none"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-reload" data-dismiss="modal">Close</button>
             </div>
