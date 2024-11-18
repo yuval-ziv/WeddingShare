@@ -55,7 +55,7 @@ volumes:
 
 ## Links
 - GitHub - https://github.com/Cirx08/WeddingShare
-- GitHub - https://hub.docker.com/r/cirx08/wedding_share
+- DockerHub - https://hub.docker.com/r/cirx08/wedding_share
 - BuyMeACoffee - https://buymeacoffee.com/cirx08
 
 ## Screenshots
