@@ -23,7 +23,7 @@ there are no warranties. Use at your own risk.
 ## Docker Run
 
 ```
-docker run --name WeddingShare -h wedding-share -p 8080:5000 -v /var/lib/docker/volumes/wedding-share/_data:/app/wwwroot/uploads:rw --restart always cirx08/wedding-share:latest
+docker run --name WeddingShare -h wedding-share -p 8080:5000 -v /var/lib/docker/volumes/wedding-share/_data:/app/wwwroot/uploads:rw --restart always cirx08/wedding_share:latest
 ```
 
 ## Docker Compose
@@ -32,7 +32,7 @@ docker run --name WeddingShare -h wedding-share -p 8080:5000 -v /var/lib/docker/
 services:
   wedding-share:
     container_name: WeddingShare
-    image: cirx08/wedding-share:latest
+    image: cirx08/wedding_share:latest
     ports:
       - '${HTTP_PORT:-8080}:5000/tcp'
     environment:
