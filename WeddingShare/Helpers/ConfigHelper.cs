@@ -65,7 +65,7 @@
         {
             try
             {
-                var value = this.GetEnvironmentVariable(key);
+                var value = !IsProtectedVariable($"{section}_{key}") ? this.GetEnvironmentVariable(key) : string.Empty;
                 if (!string.IsNullOrEmpty(value))
                 {
                     return value;
@@ -188,6 +188,17 @@
             catch { }
 
             return defaultValue;
+        }
+
+        private bool IsProtectedVariable(string key)
+        {
+            switch (key.Replace(":", "_").Trim('_').ToUpper())
+            {
+                case "RELEASE_VERSION":
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }
