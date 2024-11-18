@@ -51,7 +51,17 @@ push_tag:
     - 'docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA'
     - 'docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME'
     - 'docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME'
+
+push_docker_hub:
+  variables:
+    GIT_STRATEGY: none
+  stage: push
+  only:
+    - tags
+  script:
+    - 'docker pull $CI_REGISTRY_IMAGE:latest'
     - 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN $DOCKERHUB_REGISTRY'
-    - 'docker images'
-    - 'docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $DOCKERHUB_USERNAME/wedding_share:$CI_COMMIT_REF_NAME'
+    - 'docker tag $CI_REGISTRY_IMAGE:latest $DOCKERHUB_USERNAME/wedding_share:latest'
+    - 'docker push $DOCKERHUB_USERNAME/wedding_share:latest'
+    - 'docker tag $CI_REGISTRY_IMAGE:latest $DOCKERHUB_USERNAME/wedding_share:$CI_COMMIT_REF_NAME'
     - 'docker push $DOCKERHUB_USERNAME/wedding_share:$CI_COMMIT_REF_NAME'
