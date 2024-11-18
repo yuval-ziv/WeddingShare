@@ -10,6 +10,49 @@ You are not limited to a single gallery. You can generate multiple gallerys all 
 Warning. This is open source software (GPL-V3), and while we make a best effort to ensure releases are stable and bug-free,
 there are no warranties. Use at your own risk.
 
+## Settings
+| Name                | Value                         |
+| ------------------- | ----------------------------- |
+| TITLE               | WeddingShare                  |
+| LOGO                | https://someurl/someimage.png |
+| GALLERY_COLUMNS     | 4                             |
+| ALLOWED_FILE_TYPES  | .jpg,.jpeg,.png               |
+| MAX_FILE_SIZE_MB    | 10                            |
+| SECRET_KEY          | (optional)                    |
+
+## Docker Run
+
+```
+docker run --name WeddingShare -h wedding-share -p 8080:5000 -v /var/lib/docker/volumes/wedding-share/_data:/app/wwwroot/uploads:rw --restart always cirx08/wedding-share:latest
+```
+
+## Docker Compose
+
+```
+services:
+  wedding-share:
+    container_name: WeddingShare
+    image: cirx08/wedding-share:latest
+    ports:
+      - '${HTTP_PORT:-8080}:5000/tcp'
+    environment:
+      TITLE: 'WeddingShare'
+      LOGO: 'Url'
+      GALLERY_COLUMNS: 4
+      ALLOWED_FILE_TYPES: '.jpg,.jpeg,.png'
+      MAX_FILE_SIZE_MB: 10
+      SECRET_KEY: 'password'
+    volumes:
+      - data-volume:/app/wwwroot/uploads
+    network_mode: bridge
+    hostname: wedding-share
+    restart: always
+
+volumes:
+  data-volume:
+    name: WeddingShare
+```
+
 ## Screenshots
 
 ### Desktop

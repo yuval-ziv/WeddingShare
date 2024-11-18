@@ -28,7 +28,7 @@ namespace WeddingShare.Controllers
         {
             id = id.ToLower();
 
-            var secretKey = _config.Get("Settings:SecretKey");
+            var secretKey = _config.Get("Settings", "Secret_Key");
             if (!string.IsNullOrEmpty(secretKey) && !string.Equals(secretKey, key))
             {
                 _logger.LogWarning("A request was made using an invalid security hey");
@@ -46,9 +46,9 @@ namespace WeddingShare.Controllers
             ViewBag.SecretKey = key;
 
             var galleryPath = Path.Combine(UploadsDirectory, id);
-            var allowedFileTypes = _config.GetOrDefault("Settings:AllowedFileTypes", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             var files = Directory.Exists(galleryPath) ? Directory.GetFiles(galleryPath, "*.*", SearchOption.TopDirectoryOnly)?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase))) : null;
-            var images = new PhotoGallery(_config.GetOrDefault("Settings:GalleryColumns", 4))
+            var images = new PhotoGallery(_config.GetOrDefault("Settings", "Gallery_Columns", 4))
             {
                 GalleryId = id,
                 GalleryPath = $"/{galleryPath.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
@@ -63,7 +63,7 @@ namespace WeddingShare.Controllers
         {
             try
             {
-                var secretKey = _config.Get("Settings:SecretKey");
+                var secretKey = _config.Get("Settings", "Secret_Key");
                 var key = Request?.Form?.FirstOrDefault(x => string.Equals("SecretKey", x.Key, StringComparison.OrdinalIgnoreCase)).Value;
                 if (!string.IsNullOrEmpty(secretKey) && !string.Equals(secretKey, key))
                 {
@@ -95,9 +95,9 @@ namespace WeddingShare.Controllers
                         try
                         {
                             var extension = Path.GetExtension(file.FileName);
-                            var maxFilesSize = _config.GetOrDefault("Settings:MaxFileSizeBytes", 20000000);
+                            var maxFilesSize = _config.GetOrDefault("Settings", "Max_File_Size_Mb", 10) * 1000000;
 
-                            var allowedFileTypes = _config.GetOrDefault("Settings:AllowedFileTypes", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                            var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                             if (!allowedFileTypes.Any(x => string.Equals(x.Trim('.'), extension.Trim('.'), StringComparison.OrdinalIgnoreCase)))
                             {
                                 errors.Add($"Failed to upload file '{Path.GetFileName(file.FileName)}'. File type is invalid");

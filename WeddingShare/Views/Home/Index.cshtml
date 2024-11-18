@@ -18,7 +18,7 @@
                             Please enter the name of the gallery you want to visit.
                         </div>
 
-                        @if (!string.IsNullOrEmpty(_config.Get("Settings:SecretKey")))
+                        @if (!string.IsNullOrEmpty(_config.Get("Settings", "Secret_Key")))
                         {
                             <input type="text" id="gallery-key" class="form-control mt-4" aria-describedby="gallery-key-help" placeholder="wedding-day" aria-label="Gallery Key" />
                             <div id="gallery-key-help" class="form-text">

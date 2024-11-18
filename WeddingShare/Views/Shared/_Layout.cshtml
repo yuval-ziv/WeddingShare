@@ -1,7 +1,7 @@
 ﻿@inject WeddingShare.Helpers.IConfigHelper _config
 @{
-    var title = _config.GetOrDefault("Settings:SiteName", "Wedding Share");
-    var logo = _config.GetOrDefault("Settings:Logo", "/images/logo.png");
+    var title = _config.GetOrDefault("Settings", "Title", "WeddingShare");
+    var logo = _config.GetOrDefault("Settings", "Logo", "/images/logo.png");
 }
 
 <!DOCTYPE html>

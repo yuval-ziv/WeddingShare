@@ -1,7 +1,7 @@
 ﻿@model WeddingShare.Models.FileUploader
 @inject WeddingShare.Helpers.IConfigHelper _config
 @{
-    var allowedFileTypes = _config.GetOrDefault("Settings:AllowedFileTypes", ".jpg,.jpeg,.png")?.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)?.Select(x => $".{x.Trim('.')}")?.OrderBy(x => x)?.ToList() ?? new List<string>();
+    var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png")?.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)?.Select(x => $".{x.Trim('.')}")?.OrderBy(x => x)?.ToList() ?? new List<string>();
 }
 
 <form>

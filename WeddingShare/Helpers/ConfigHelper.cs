@@ -3,15 +3,15 @@
     public interface IConfigHelper
     {
         string? GetEnvironmentVariable(string key);
-        string? GetConfigValue(string key);
-        string? Get(string key);
-        string GetOrDefault(string key, string defaultValue);
-        int GetOrDefault(string key, int defaultValue);
-        long GetOrDefault(string key, long defaultValue);
-        decimal GetOrDefault(string key, decimal defaultValue);
-        double GetOrDefault(string key, double defaultValue);
-        bool GetOrDefault(string key, bool defaultValue);
-        DateTime? GetOrDefault(string key, DateTime? defaultValue);
+        string? GetConfigValue(string section, string key);
+        string? Get(string section, string key);
+        string GetOrDefault(string section, string key, string defaultValue);
+        int GetOrDefault(string section, string key, int defaultValue);
+        long GetOrDefault(string section, string key, long defaultValue);
+        decimal GetOrDefault(string section, string key, decimal defaultValue);
+        double GetOrDefault(string section, string key, double defaultValue);
+        bool GetOrDefault(string section, string key, bool defaultValue);
+        DateTime? GetOrDefault(string section, string key, DateTime? defaultValue);
     }
 
     public class ConfigHelper : IConfigHelper
@@ -43,11 +43,11 @@
             return null;
         }
 
-        public string? GetConfigValue(string key)
+        public string? GetConfigValue(string section, string key)
         {
             try
             {
-                var value = _configuration.GetValue<string>(key);
+                var value = _configuration.GetValue<string>(!string.IsNullOrEmpty(section) ? $"{section}:{key}" : key);
                 if (!string.IsNullOrEmpty(value))
                 {
                     return value;
@@ -61,7 +61,7 @@
             return null;
         }
 
-        public string? Get(string key)
+        public string? Get(string section, string key)
         {
             try
             {
@@ -71,7 +71,7 @@
                     return value;
                 }
 
-                value = this.GetConfigValue(key);
+                value = this.GetConfigValue(section, key);
                 if (!string.IsNullOrEmpty(value))
                 {
                     return value;
@@ -85,11 +85,11 @@
             return null;
         }
 
-        public string GetOrDefault(string key, string defaultValue)
+        public string GetOrDefault(string section, string key, string defaultValue)
         {
             try
             {
-                var value = this.Get(key);
+                var value = this.Get(section, key);
                 if (!string.IsNullOrEmpty(value))
                 {
                     return value;
@@ -100,11 +100,11 @@
             return defaultValue;
         }
 
-        public int GetOrDefault(string key, int defaultValue)
+        public int GetOrDefault(string section, string key, int defaultValue)
         {
             try
             {
-                var value = this.GetOrDefault(key, string.Empty);
+                var value = this.GetOrDefault(section, key, string.Empty);
                 if (!string.IsNullOrEmpty(value))
                 {
                     return Convert.ToInt32(value);
@@ -115,11 +115,11 @@
             return defaultValue;
         }
 
-        public long GetOrDefault(string key, long defaultValue)
+        public long GetOrDefault(string section, string key, long defaultValue)
         {
             try
             {
-                var value = this.GetOrDefault(key, string.Empty);
+                var value = this.GetOrDefault(section, key, string.Empty);
                 if (!string.IsNullOrEmpty(value))
                 {
                     return Convert.ToInt64(value);
@@ -130,11 +130,11 @@
             return defaultValue;
         }
 
-        public decimal GetOrDefault(string key, decimal defaultValue)
+        public decimal GetOrDefault(string section, string key, decimal defaultValue)
         {
             try
             {
-                var value = this.GetOrDefault(key, string.Empty);
+                var value = this.GetOrDefault(section, key, string.Empty);
                 if (!string.IsNullOrEmpty(value))
                 {
                     return Convert.ToDecimal(value);
@@ -145,11 +145,11 @@
             return defaultValue;
         }
 
-        public double GetOrDefault(string key, double defaultValue)
+        public double GetOrDefault(string section, string key, double defaultValue)
         {
             try
             {
-                var value = this.GetOrDefault(key, string.Empty);
+                var value = this.GetOrDefault(section, key, string.Empty);
                 if (!string.IsNullOrEmpty(value))
                 {
                     return Convert.ToDouble(value);
@@ -160,11 +160,11 @@
             return defaultValue;
         }
 
-        public bool GetOrDefault(string key, bool defaultValue)
+        public bool GetOrDefault(string section, string key, bool defaultValue)
         {
             try
             {
-                var value = this.GetOrDefault(key, string.Empty);
+                var value = this.GetOrDefault(section, key, string.Empty);
                 if (!string.IsNullOrEmpty(value))
                 {
                     return Convert.ToBoolean(value);
@@ -175,11 +175,11 @@
             return defaultValue;
         }
 
-        public DateTime? GetOrDefault(string key, DateTime? defaultValue)
+        public DateTime? GetOrDefault(string section, string key, DateTime? defaultValue)
         {
             try
             {
-                var value = this.GetOrDefault(key, string.Empty);
+                var value = this.GetOrDefault(section, key, string.Empty);
                 if (!string.IsNullOrEmpty(value))
                 {
                     return Convert.ToDateTime(value);
