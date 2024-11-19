@@ -1,4 +1,6 @@
-﻿@model WeddingShare.Models.PhotoGallery
+﻿@using WeddingShare.Views.Shared
+@inject Microsoft.Extensions.Localization.IStringLocalizer<PhotoGalleryModel> _localizer
+@model WeddingShare.Models.PhotoGallery
 @{
     var columnCount = Model.ColumnCount;
     while (12 % columnCount != 0)
@@ -6,7 +8,6 @@
         columnCount--;
     }
 }
-        
 
 @if (Model.Images != null && Model.Images.Any())
 {
@@ -34,7 +35,7 @@ else
 {
     <div class="row mt-5 pt-5">
         <div class="col-12 text-center">
-            <h3 class="display-6">There are currently no memories shared, why don't you upload yours above!</h3>
+            <h3 class="display-6">@_localizer["Gallery_Empty"].Value</h3>
         </div>
     </div>
 }

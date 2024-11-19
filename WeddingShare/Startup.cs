@@ -1,4 +1,6 @@
-﻿using WeddingShare.Helpers;
+﻿using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+using WeddingShare.Helpers;
 
 namespace WeddingShare
 {
@@ -17,6 +19,23 @@ namespace WeddingShare
 
             services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "Resources";
+            });
+
+            services.Configure<RequestLocalizationOptions>(options => {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en-GB"),
+                    new CultureInfo("fr-FR")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("en-GB");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -31,6 +50,7 @@ namespace WeddingShare
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
+            app.UseRequestLocalization();
 
             app.UseEndpoints(endpoints =>
             {
