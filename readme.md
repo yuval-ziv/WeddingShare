@@ -11,14 +11,18 @@ Warning. This is open source software (GPL-V3), and while we make a best effort 
 there are no warranties. Use at your own risk.
 
 ## Settings
-| Name                | Value                         |
-| ------------------- | ----------------------------- |
-| TITLE               | WeddingShare                  |
-| LOGO                | https://someurl/someimage.png |
-| GALLERY_COLUMNS     | 4                             |
-| ALLOWED_FILE_TYPES  | .jpg,.jpeg,.png               |
-| MAX_FILE_SIZE_MB    | 10                            |
-| SECRET_KEY          | (optional)                    |
+| Name                  | Value                         |
+| -------------------   | ----------------------------- |
+| TITLE                 | WeddingShare                  |
+| LOGO                  | https://someurl/someimage.png |
+| GALLERY_COLUMNS       | 4                             |
+| ALLOWED_FILE_TYPES    | .jpg,.jpeg,.png               |
+| MAX_FILE_SIZE_MB      | 10                            |
+| SECRET_KEY            | (optional)                    |
+| DISABLE_UPLOAD        | false                         |
+| DISABLE_QR_CODE       | false                         |
+| HIDE_KEY_FROM_QR_CODE | false                         |
+| DISABLE_HOME_LINK     | false                         |
 
 ## Docker Run
 

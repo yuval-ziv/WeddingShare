@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Localization;
 using WeddingShare.Extensions;
 using WeddingShare.Helpers;
 using WeddingShare.Models;
@@ -12,14 +12,17 @@ namespace WeddingShare.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IConfigHelper _config;
         private readonly ILogger _logger;
-     
+        private readonly IStringLocalizer<GalleryController> _localizer;
+
+
         private readonly string UploadsDirectory;
 
-        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, ILogger<GalleryController> logger)
+        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, ILogger<GalleryController> logger, IStringLocalizer<GalleryController> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
             _logger = logger;
+            _localizer = localizer;
 
             UploadsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
         }
@@ -31,14 +34,14 @@ namespace WeddingShare.Controllers
             var secretKey = _config.Get("Settings", "Secret_Key");
             if (!string.IsNullOrEmpty(secretKey) && !string.Equals(secretKey, key))
             {
-                _logger.LogWarning("A request was made using an invalid security hey");
-                ViewBag.ErrorMessage = "Invalid gallery key";
+                _logger.LogWarning(_localizer["Invalid_Security_Key_Warning"].Value);
+                ViewBag.ErrorMessage = _localizer["Invalid_Gallery_Key"].Value;
 
                 return View("~/Views/Home/Index.cshtml");
             }
             else if (string.IsNullOrEmpty(id))
             {
-                ViewBag.ErrorMessage = "Invalid gallery id";
+                ViewBag.ErrorMessage = _localizer["Invalid_Gallery_Id"].Value;
 
                 return View("~/Views/Home/Index.cshtml");
             }
@@ -53,7 +56,7 @@ namespace WeddingShare.Controllers
                 GalleryId = id,
                 GalleryPath = $"/{galleryPath.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
                 Images = files?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList(),
-                FileUploader = new FileUploader(id, "/Gallery/UploadImage")
+                FileUploader = !_config.GetOrDefault("Settings", "Disable_Upload", false) ? new FileUploader(id, "/Gallery/UploadImage") : null
             };
 
             return View(images);
@@ -67,14 +70,14 @@ namespace WeddingShare.Controllers
                 var key = Request?.Form?.FirstOrDefault(x => string.Equals("SecretKey", x.Key, StringComparison.OrdinalIgnoreCase)).Value;
                 if (!string.IsNullOrEmpty(secretKey) && !string.Equals(secretKey, key))
                 {
-                    _logger.LogWarning("A request was made using an invalid security hey");
-                    throw new UnauthorizedAccessException("The provided access token was invalid");
+                    _logger.LogWarning(_localizer["Invalid_Security_Key_Warning"].Value);
+                    throw new UnauthorizedAccessException(_localizer["Invalid_Access_Token"].Value);
                 }
 
                 string galleryId = Request?.Form?.FirstOrDefault(x => string.Equals("GalleryId", x.Key, StringComparison.OrdinalIgnoreCase)).Value ?? string.Empty;
                 if (string.IsNullOrEmpty(galleryId))
                 {
-                    return Json(new { success = true, uploaded = 0, errors = new List<string>() { "Invalid gallery Id detected" } });
+                    return Json(new { success = true, uploaded = 0, errors = new List<string>() { _localizer["Invalid_Gallery_Id"].Value } });
                 }
 
                 galleryId = galleryId.ToLower();
@@ -100,11 +103,11 @@ namespace WeddingShare.Controllers
                             var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                             if (!allowedFileTypes.Any(x => string.Equals(x.Trim('.'), extension.Trim('.'), StringComparison.OrdinalIgnoreCase)))
                             {
-                                errors.Add($"Failed to upload file '{Path.GetFileName(file.FileName)}'. File type is invalid");
+                                errors.Add($"{_localizer["File_Upload_Failed"].Value} '{Path.GetFileName(file.FileName)}'. {_localizer["Invalid_File_Type"].Value}");
                             }
                             else if (file.Length > maxFilesSize)
                             {
-                                errors.Add($"Failed to upload file '{Path.GetFileName(file.FileName)}'. Max file size is {maxFilesSize} bytes");
+                                errors.Add($"{_localizer["File_Upload_Failed"].Value} '{Path.GetFileName(file.FileName)}'. {_localizer["Max_File_Size"].Value} {maxFilesSize} bytes");
                             }
                             else
                             {
@@ -121,7 +124,7 @@ namespace WeddingShare.Controllers
                         }
                         catch (Exception ex)
                         {
-                            _logger.LogWarning(ex, $"Failed to save image to gallery - {ex?.Message}");
+                            _logger.LogWarning(ex, $"{_localizer["Save_To_Gallery_Failed"].Value} - {ex?.Message}");
                         }
                     }
 
@@ -130,7 +133,7 @@ namespace WeddingShare.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Failed to upload images - {ex?.Message}");
+                _logger.LogError(ex, $"{_localizer["Image_Upload_Failed"].Value} - {ex?.Message}");
             }
 
             return Json(new { success = false, uploaded = 0 });

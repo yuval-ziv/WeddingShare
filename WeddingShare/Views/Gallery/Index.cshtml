@@ -1,4 +1,28 @@
-﻿@model WeddingShare.Models.PhotoGallery
+﻿@using System.Text
+@using WeddingShare.Views.Gallery
+@inject Microsoft.Extensions.Localization.IStringLocalizer<IndexModel> _localizer
+@inject WeddingShare.Helpers.IConfigHelper _config
+@model WeddingShare.Models.PhotoGallery
+
+@{
+    var ctx = Context.Request;
+    var qrCodeLink = $"{ctx.Scheme}://{ctx.Host}{ctx.Path}";
+
+    if (_config.GetOrDefault("Settings", "Hide_Key_From_QR_Code", false))
+    {
+        var queryString = new StringBuilder();
+        foreach (var q in ctx.Query.Where(x => !string.Equals("key", x.Key, StringComparison.OrdinalIgnoreCase)))
+        {
+            queryString.Append($"&{q.Key}={q.Value}");
+        }
+
+        qrCodeLink = $"{qrCodeLink}?{queryString.ToString().TrimStart('&')}";
+    }
+    else
+    {
+        qrCodeLink = $"{qrCodeLink}?{ctx.QueryString.ToString().TrimStart('?')}";
+    }
+}
 
 @if (Model?.FileUploader != null)
 {
@@ -11,19 +35,22 @@
 
 <section class="py-1 py-lg-5">
     <div class="container gallery-container px-3 px-lg-1 my-3 mt-lg-1">
-        <div class="qrcode-container d-none d-lg-block">
-            <div id="qrcode"></div>
-            <span>Share Code</span>
-        </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () { 
-                if ($('#qrcode').length > 0 && $('#qrcode').is(':visible')) {
-                    $(function () {
-                        $('#qrcode').qrcode({ width: 150, height: 150, text: window.location.href });
-                    });
-                }
-            }, false);
-        </script>
+        @if (!_config.GetOrDefault("Settings", "Disable_QR_Code", false))
+        {
+            <div class="qrcode-container d-none d-lg-block">
+                <div id="qrcode"></div>
+                <span>@_localizer["Share_Code"].Value</span>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () { 
+                    if ($('#qrcode').length > 0 && $('#qrcode').is(':visible')) {
+                        $(function () {
+                            $('#qrcode').qrcode({ width: 150, height: 150, text: '@Html.Raw(qrCodeLink)' });
+                        });
+                    }
+                }, false);
+            </script>
+        }
         <partial name="~/Views/Shared/_PhotoGallery.cshtml" model="Model" />
     </div>
 </section>
