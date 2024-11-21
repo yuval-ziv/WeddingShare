@@ -58,12 +58,13 @@ namespace WeddingShare.Controllers
             var galleryPath = Path.Combine(UploadsDirectory, id);
             var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             var files = Directory.Exists(galleryPath) ? Directory.GetFiles(galleryPath, "*.*", SearchOption.TopDirectoryOnly)?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase))) : null;
+            var pendingPath = Path.Combine(galleryPath, "Pending");
             var images = new PhotoGallery(_config.GetOrDefault("Settings", "Gallery_Columns", 4))
             {
                 GalleryId = id,
                 GalleryPath = $"/{galleryPath.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
                 Images = files?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList(),
-                PendingCount = Directory.GetFiles(Path.Combine(galleryPath, "Pending"), "*.*", SearchOption.TopDirectoryOnly).Length,
+                PendingCount = Directory.Exists(pendingPath) ? Directory.GetFiles(pendingPath, "*.*", SearchOption.TopDirectoryOnly).Length : 0,
                 FileUploader = !_config.GetOrDefault("Settings", "Disable_Upload", false) ? new FileUploader(id, "/Gallery/UploadImage") : null
             };
 
