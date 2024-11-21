@@ -7,6 +7,8 @@
     try
     {
         var dd = new DeviceDetectorNET.DeviceDetector(Context.Request.Headers["User-Agent"].ToString());
+        dd.Parse();
+
         if (dd.IsMobile())
         {
             columnCount = 1;
