@@ -1,0 +1,78 @@
+﻿@model IndexModel
+@using WeddingShare.Views.Admin
+@inject Microsoft.Extensions.Localization.IStringLocalizer<IndexModel> _localizer
+@inject WeddingShare.Helpers.IConfigHelper _config
+
+<section class="py-1 pt-lg-5">
+    <div class="container px-3 px-lg-1 my-3 mt-lg-1">
+        @if (Model?.Galleries != null && Model.Galleries.Any())
+        {
+            var key = _config.GetOrDefault("Settings", "Secret_Key", string.Empty);
+            var ctx = Context.Request;
+            var link = $"{ctx.Scheme}://{ctx.Host}/Gallery?{(!string.IsNullOrEmpty(key) ? $"key={key}&" : string.Empty)}";
+
+            <h1 class="display-6">@_localizer["Available_Galleries"].Value: </h1>
+            <table class="table table-bordered">
+                <tr>
+                    <th>@_localizer["Name"].Value</th>
+                    <th>@_localizer["Link"].Value</th>
+                </tr>
+                @foreach (var gallery in Model.Galleries)
+                {
+                    var galleryLink = $"{link}id={gallery.Key}";
+                    <tr>
+                        <td class="text-capitalize">@gallery.Key</td>
+                        <td><a href="@galleryLink">@galleryLink</a></td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <h3 class="display-6">@_localizer["No_Galleries"].Value</h3>
+        }
+    </div>
+</section>
+
+<section class="py-0 pt-lg-4">
+    <div class="container gallery-container px-3 px-lg-1 my-3 my-lg-0">
+        @{
+            var hasFiles = (Model?.PendingRequests != null && Model.PendingRequests.Any());
+        }
+
+        <div id="gallery-review" class="row @(hasFiles ? string.Empty : "visually-hidden")">
+            <h1 class="display-6">@_localizer["Pending_Uploads"].Value: </h1>
+            @if (Model?.PendingRequests != null)
+            {
+                foreach (var review in Model.PendingRequests)
+                {
+                    <div class="col-12 mb-4 mb-lg-0 mb-1 mb-lg-5">
+                        @{
+                            var photo = review.Replace('\\', '/');
+                            var parts = photo.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+                            <div class="card pending-approval">
+                                <div class="card-header">
+                                    <h5 class="card-title m-0 text-capitalize">@parts[0]</h5>
+                                </div>
+                                <img src="/uploads/@photo" alt="" />
+                                <div class="card-body m-0 p-0">
+                                    <div class="btn-group w-100" role="group" data-gallery-id="@parts[0]" data-photo-id="@parts[2]">
+                                        <button type="button" class="btn btn-success btnReviewApprove">@_localizer["Approve"].Value</button>
+                                        <button type="button" class="btn btn-danger btnReviewReject">@_localizer["Reject"].Value</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        </div>
+
+        <div id="no-review-msg" class="row mt-5 pt-5 @(hasFiles ? "visually-hidden" : string.Empty)">
+            <div class="col-12 text-center">
+                <h3 class="display-6">@_localizer["No_Pending_Uploads"].Value</h3>
+            </div>
+        </div>
+    </div>
+</section>

@@ -3,6 +3,9 @@
 @inject WeddingShare.Helpers.IConfigHelper _config
 @model WeddingShare.Models.PhotoGallery
 
+@{
+    var singleGalleryMode = _config.GetOrDefault("Settings", "Single_Gallery_Mode", false);
+}
 <section class="py-1 py-lg-5">
     <div class="container px-3 px-lg-1 my-3 mt-lg-1">
         <div class="card">
@@ -11,7 +14,8 @@
             </div>
             <div class="card-body m-1 m-lg-5">
                 <form id="frmSelectGallery">
-                    <div class="">
+                    @if (!singleGalleryMode)
+                    {
                         <div class="input-group">
                             <input type="text" id="gallery-id" class="form-control" aria-describedby="gallery-id-help" placeholder="@_localizer["Gallery_Name_Placeholder"].Value" aria-label="@_localizer["Gallery_Name"].Value" />
                             <input type="button" id="btnGenerateGalleryName" class="btn btn-outline-success" value="@_localizer["Generate"].Value" />
@@ -19,19 +23,55 @@
                         <div id="gallery-id-help" class="form-text">
                             @_localizer["Gallery_Name_Help"].Value
                         </div>
+                    }
+                    else
+                    {
+                        <input type="hidden" id="gallery-id" value="default" />
+                    }
 
-                        @if (!string.IsNullOrEmpty(_config.Get("Settings", "Secret_Key")))
-                        {
-                            <input type="text" id="gallery-key" class="form-control mt-4" aria-describedby="gallery-key-help" placeholder="@_localizer["Gallery_Key_Placeholder"].Value" aria-label="@_localizer["Gallery_Key"].Value" />
-                            <div id="gallery-key-help" class="form-text">
-                                @_localizer["Gallery_Key_Help"].Value
-                            </div>
-                        }
-                    </div>
-                    <div class="d-grid gap-2 mt-4 mt-lg-5">
+                    @if (!string.IsNullOrEmpty(_config.Get("Settings", "Secret_Key")))
+                    {
+                        <input type="text" id="gallery-key" class="form-control mt-4" aria-describedby="gallery-key-help" placeholder="@_localizer["Gallery_Key_Placeholder"].Value" aria-label="@_localizer["Gallery_Key"].Value" />
+                        <div id="gallery-key-help" class="form-text">
+                            @_localizer["Gallery_Key_Help"].Value
+                        </div>
+                    }
+
+                    <div class="d-grid gap-2 @(!singleGalleryMode ? "mt-4 mt-lg-5" : string.Empty)">
                         <button id="btnVisitGallery" class="btn btn-primary" type="submit">@_localizer["Visit"].Value</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-1 pb-lg-5">
+    <div class="container px-3 px-lg-1 my-3 mt-lg-1">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="display-6">@_localizer["Admin_Login"].Value</h1>
+            </div>
+            <div class="card-body m-1 m-lg-5">
+                @if (User?.Identity == null || !User.Identity.IsAuthenticated)
+                {
+                    <form id="frmAdminLogin">
+                        <div class="input-group">
+                            <input type="password" id="admin-password" class="form-control" aria-describedby="admin-password-help" placeholder="@_localizer["Admin_Login_Placeholder"].Value" aria-label="@_localizer["Admin_Login"].Value" />
+                        </div>
+                        <div id="admin-password-help" class="form-text">
+                            @_localizer["Admin_Login_Help"].Value
+                        </div>
+                        <div class="d-grid gap-2 mt-4 mt-lg-5">
+                            <button id="btnAdminLogin" class="btn btn-primary" type="submit">@_localizer["Login"].Value</button>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <a href="/Admin" class="w-100 btn btn-primary">@_localizer["Visit"].Value</a>
+                    <a href="/Admin/Logout" class="w-100 btn btn-danger mt-3">@_localizer["Logout"].Value</a>
+                }
             </div>
         </div>
     </div>

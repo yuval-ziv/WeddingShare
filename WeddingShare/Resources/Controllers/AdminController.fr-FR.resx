@@ -117,46 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Admin_Login" xml:space="preserve">
-    <value>Admin Login</value>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Impossible de trouver le fichier</value>
   </data>
-  <data name="Admin_Login_Help" xml:space="preserve">
-    <value>Please enter the admin area password.</value>
+  <data name="Failed_Reviewing_Photo" xml:space="preserve">
+    <value>Impossible de vérifier la photo</value>
   </data>
-  <data name="Admin_Login_Placeholder" xml:space="preserve">
-    <value>Password</value>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Impossible de connecter l'utilisateur</value>
   </data>
-  <data name="Gallery_Key" xml:space="preserve">
-    <value>Gallery Key</value>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Impossible d'obtenir les téléchargements en attente</value>
   </data>
-  <data name="Gallery_Key_Help" xml:space="preserve">
-    <value>Please enter the secret key.</value>
-  </data>
-  <data name="Gallery_Key_Placeholder" xml:space="preserve">
-    <value>wedding-day</value>
-  </data>
-  <data name="Gallery_Name" xml:space="preserve">
-    <value>Gallery Name</value>
-  </data>
-  <data name="Gallery_Name_Help" xml:space="preserve">
-    <value>Please enter the name of the gallery you want to visit.</value>
-  </data>
-  <data name="Gallery_Name_Placeholder" xml:space="preserve">
-    <value>my-wedding-gallery</value>
-  </data>
-  <data name="Gallery_Selector_Title" xml:space="preserve">
-    <value>Gallery Selector</value>
-  </data>
-  <data name="Generate" xml:space="preserve">
-    <value>Generate</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Login</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
-  </data>
-  <data name="Visit" xml:space="preserve">
-    <value>Visit</value>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Action de révision inconnue</value>
   </data>
 </root>

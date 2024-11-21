@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Localization;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using WeddingShare.Helpers;
 
@@ -36,6 +37,19 @@ namespace WeddingShare
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
             });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+            {
+                options.Cookie.HttpOnly = false;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+
+                options.LoginPath = "/Home";
+                options.AccessDeniedPath = "/Error/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+
+            services.AddSession();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -49,6 +63,7 @@ namespace WeddingShare
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseRequestLocalization();
 

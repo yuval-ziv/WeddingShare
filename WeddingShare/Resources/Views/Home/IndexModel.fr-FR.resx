@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Admin_Login" xml:space="preserve">
+    <value>Connexion administrateur</value>
+  </data>
+  <data name="Admin_Login_Help" xml:space="preserve">
+    <value>Veuillez entrer le mot de passe de la zone d'administration.</value>
+  </data>
+  <data name="Admin_Login_Placeholder" xml:space="preserve">
+    <value>Mot de passe</value>
+  </data>
   <data name="Gallery_Key" xml:space="preserve">
     <value>Clé de la galerie</value>
   </data>
@@ -140,6 +149,12 @@
   </data>
   <data name="Generate" xml:space="preserve">
     <value>Générer</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Se connecter</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Déconnexion</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Visite</value>

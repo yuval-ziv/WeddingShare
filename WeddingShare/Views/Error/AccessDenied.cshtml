@@ -1,0 +1,10 @@
+﻿@model IndexModel
+@using WeddingShare.Views.Error
+@inject Microsoft.Extensions.Localization.IStringLocalizer<AccessDeniedModel> _localizer
+@inject WeddingShare.Helpers.IConfigHelper _config
+
+<!--( Error Message )-->
+<div class="content border p-5">
+    <p class="text-center mb-2" style="font-size: 40px;">@_localizer["Access_Denied"].Value</p>
+    <p class="text-center" style="font-size: 18px;">@_localizer["Access_Denied_Message"].Value</p>
+</div>
