@@ -3,10 +3,23 @@
 @model WeddingShare.Models.PhotoGallery
 @{
     var columnCount = Model.ColumnCount;
-    while (12 % columnCount != 0)
+
+    try
     {
-        columnCount--;
+        var dd = new DeviceDetectorNET.DeviceDetector(Context.Request.Headers["User-Agent"].ToString());
+        if (dd.IsMobile())
+        {
+            columnCount = 1;
+        }
+        else
+        {
+            while (12 % columnCount != 0)
+            {
+                columnCount--;
+            }
+        }
     }
+    catch { }
 }
 
 @if (Model.Images != null && Model.Images.Any())
