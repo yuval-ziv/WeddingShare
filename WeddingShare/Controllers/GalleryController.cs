@@ -38,7 +38,12 @@ namespace WeddingShare.Controllers
 
             id = id.ToLower();
 
-            var secretKey = _config.Get("Settings", "Secret_Key");
+            var secretKey = _config.Get("Settings", $"Secret_Key_{id}");
+            if (string.IsNullOrEmpty(secretKey))
+            {
+                secretKey = _config.Get("Settings", "Secret_Key");
+            }
+
             if (!string.IsNullOrEmpty(secretKey) && !string.Equals(secretKey, key))
             {
                 _logger.LogWarning(_localizer["Invalid_Security_Key_Warning"].Value);

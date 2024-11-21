@@ -19,6 +19,7 @@ there are no warranties. Use at your own risk.
 | ALLOWED_FILE_TYPES     | .jpg,.jpeg,.png               |
 | MAX_FILE_SIZE_MB       | 10                            |
 | SECRET_KEY             | (optional)                    |
+| SECRET_KEY_{GalleryId} | (optional)                    |
 | ADMIN_PASSWORD         | admin                         |
 | SINGLE_GALLERY_MODE    | false                         |
 | REQUIRE_REVIEW         | true                          |
