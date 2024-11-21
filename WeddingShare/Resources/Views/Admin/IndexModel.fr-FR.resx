@@ -117,46 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Admin_Login" xml:space="preserve">
-    <value>Admin Login</value>
+  <data name="Approve" xml:space="preserve">
+    <value>Approuver</value>
   </data>
-  <data name="Admin_Login_Help" xml:space="preserve">
-    <value>Please enter the admin area password.</value>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Galeries disponibles</value>
   </data>
-  <data name="Admin_Login_Placeholder" xml:space="preserve">
-    <value>Password</value>
+  <data name="Link" xml:space="preserve">
+    <value>Lien</value>
   </data>
-  <data name="Gallery_Key" xml:space="preserve">
-    <value>Gallery Key</value>
+  <data name="Name" xml:space="preserve">
+    <value>Nom</value>
   </data>
-  <data name="Gallery_Key_Help" xml:space="preserve">
-    <value>Please enter the secret key.</value>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Aucune galerie n'a encore été créée</value>
   </data>
-  <data name="Gallery_Key_Placeholder" xml:space="preserve">
-    <value>wedding-day</value>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Aucun téléchargement en attente de révision</value>
   </data>
-  <data name="Gallery_Name" xml:space="preserve">
-    <value>Gallery Name</value>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Téléchargements en attente</value>
   </data>
-  <data name="Gallery_Name_Help" xml:space="preserve">
-    <value>Please enter the name of the gallery you want to visit.</value>
-  </data>
-  <data name="Gallery_Name_Placeholder" xml:space="preserve">
-    <value>my-wedding-gallery</value>
-  </data>
-  <data name="Gallery_Selector_Title" xml:space="preserve">
-    <value>Gallery Selector</value>
-  </data>
-  <data name="Generate" xml:space="preserve">
-    <value>Generate</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Login</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
-  </data>
-  <data name="Visit" xml:space="preserve">
-    <value>Visit</value>
+  <data name="Reject" xml:space="preserve">
+    <value>Rejeter</value>
   </data>
 </root>

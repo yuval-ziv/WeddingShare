@@ -11,18 +11,22 @@ Warning. This is open source software (GPL-V3), and while we make a best effort 
 there are no warranties. Use at your own risk.
 
 ## Settings
-| Name                  | Value                         |
-| -------------------   | ----------------------------- |
-| TITLE                 | WeddingShare                  |
-| LOGO                  | https://someurl/someimage.png |
-| GALLERY_COLUMNS       | 4                             |
-| ALLOWED_FILE_TYPES    | .jpg,.jpeg,.png               |
-| MAX_FILE_SIZE_MB      | 10                            |
-| SECRET_KEY            | (optional)                    |
-| DISABLE_UPLOAD        | false                         |
-| DISABLE_QR_CODE       | false                         |
-| HIDE_KEY_FROM_QR_CODE | false                         |
-| DISABLE_HOME_LINK     | false                         |
+| Name                   | Value                         |
+| -------------------    | ----------------------------- |
+| TITLE                  | WeddingShare                  |
+| LOGO                   | https://someurl/someimage.png |
+| GALLERY_COLUMNS        | 4                             |
+| ALLOWED_FILE_TYPES     | .jpg,.jpeg,.png               |
+| MAX_FILE_SIZE_MB       | 10                            |
+| SECRET_KEY             | (optional)                    |
+| ADMIN_PASSWORD         | admin                         |
+| SINGLE_GALLERY_MODE    | false                         |
+| REQUIRE_REVIEW         | true                          |
+| DISABLE_HOME_LINK      | false                         |
+| DISABLE_REVIEW_COUNTER | false                         |
+| DISABLE_UPLOAD         | false                         |
+| DISABLE_QR_CODE        | false                         |
+| HIDE_KEY_FROM_QR_CODE  | false                         |
 
 ## Docker Run
 
@@ -67,9 +71,15 @@ volumes:
 ### Desktop
 
 ![Homepage](https://github.com/Cirx08/WeddingShare/blob/main/screenshots/Homepage.png?raw=true)
+
 ![Gallery](https://github.com/Cirx08/WeddingShare/blob/main/screenshots/Gallery.png?raw=true)
+
+![Admin Area](https://github.com/Cirx08/WeddingShare/blob/main/screenshots/Admin.png?raw=true)
 
 ### Mobile
 
 ![Homepage](https://github.com/Cirx08/WeddingShare/blob/main/screenshots/Homepage-Mobile.png?raw=true)
+
 ![Gallery](https://github.com/Cirx08/WeddingShare/blob/main/screenshots/Gallery-Mobile.png?raw=true)
+
+![Admin Area](https://github.com/Cirx08/WeddingShare/blob/main/screenshots/Admin-Mobile.png?raw=true)

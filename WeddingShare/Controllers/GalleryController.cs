@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using WeddingShare.Extensions;
@@ -7,13 +8,13 @@ using WeddingShare.Models;
 
 namespace WeddingShare.Controllers
 {
+    [AllowAnonymous]
     public class GalleryController : Controller
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IConfigHelper _config;
         private readonly ILogger _logger;
         private readonly IStringLocalizer<GalleryController> _localizer;
-
 
         private readonly string UploadsDirectory;
 
@@ -27,8 +28,14 @@ namespace WeddingShare.Controllers
             UploadsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
         }
 
+        [HttpGet]
         public IActionResult Index(string id, string? key)
         {
+            if (_config.GetOrDefault("Settings", "Single_Gallery_Mode", false))
+            {
+                id = "default";
+            }
+
             id = id.ToLower();
 
             var secretKey = _config.Get("Settings", "Secret_Key");
@@ -56,12 +63,14 @@ namespace WeddingShare.Controllers
                 GalleryId = id,
                 GalleryPath = $"/{galleryPath.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
                 Images = files?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList(),
+                PendingCount = Directory.GetFiles(Path.Combine(galleryPath, "Pending"), "*.*", SearchOption.TopDirectoryOnly).Length,
                 FileUploader = !_config.GetOrDefault("Settings", "Disable_Upload", false) ? new FileUploader(id, "/Gallery/UploadImage") : null
             };
 
             return View(images);
         }
 
+        [HttpPost]
         public async Task<IActionResult> UploadImage()
         {
             try
@@ -89,6 +98,16 @@ namespace WeddingShare.Controllers
                     if (!Directory.Exists(galleryPath))
                     {
                         Directory.CreateDirectory(galleryPath);
+                    }
+
+                    var requiresReview = _config.GetOrDefault("Settings", "Require_Review", true);
+                    if (requiresReview)
+                    { 
+                        galleryPath = Path.Combine(galleryPath, "Pending");
+                        if (!Directory.Exists(galleryPath))
+                        {
+                            Directory.CreateDirectory(galleryPath);
+                        }
                     }
 
                     var uploaded = 0;
@@ -128,7 +147,7 @@ namespace WeddingShare.Controllers
                         }
                     }
 
-                    return Json(new { success = true, uploaded, errors });
+                    return Json(new { success = true, uploaded, requiresReview, errors });
                 }
             }
             catch (Exception ex)
@@ -137,12 +156,6 @@ namespace WeddingShare.Controllers
             }
 
             return Json(new { success = false, uploaded = 0 });
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

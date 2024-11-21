@@ -117,46 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Admin_Login" xml:space="preserve">
-    <value>Admin Login</value>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Impossible de télécharger le fichier</value>
   </data>
-  <data name="Admin_Login_Help" xml:space="preserve">
-    <value>Please enter the admin area password.</value>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Impossible de télécharger les images</value>
   </data>
-  <data name="Admin_Login_Placeholder" xml:space="preserve">
-    <value>Password</value>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Le jeton d'accès fourni n'était pas valide</value>
   </data>
-  <data name="Gallery_Key" xml:space="preserve">
-    <value>Gallery Key</value>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Le type de fichier n'est pas valide</value>
   </data>
-  <data name="Gallery_Key_Help" xml:space="preserve">
-    <value>Please enter the secret key.</value>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>ID de galerie invalide</value>
   </data>
-  <data name="Gallery_Key_Placeholder" xml:space="preserve">
-    <value>wedding-day</value>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Clé de galerie non valide</value>
   </data>
-  <data name="Gallery_Name" xml:space="preserve">
-    <value>Gallery Name</value>
+  <data name="Invalid_Security_Key_Warning" xml:space="preserve">
+    <value>Une demande a été effectuée à l'aide d'une clé de sécurité non valide</value>
   </data>
-  <data name="Gallery_Name_Help" xml:space="preserve">
-    <value>Please enter the name of the gallery you want to visit.</value>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>La taille maximale du fichier est</value>
   </data>
-  <data name="Gallery_Name_Placeholder" xml:space="preserve">
-    <value>my-wedding-gallery</value>
-  </data>
-  <data name="Gallery_Selector_Title" xml:space="preserve">
-    <value>Gallery Selector</value>
-  </data>
-  <data name="Generate" xml:space="preserve">
-    <value>Generate</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Login</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
-  </data>
-  <data name="Visit" xml:space="preserve">
-    <value>Visit</value>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Impossible d'enregistrer l'image dans la galerie</value>
   </data>
 </root>

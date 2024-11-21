@@ -35,6 +35,21 @@
 
 <section class="py-1 py-lg-5">
     <div class="container gallery-container px-3 px-lg-1 my-3 mt-lg-1">
+        @if (!_config.GetOrDefault("Settings", "Disable_Review_Counter", false))
+        {
+            <div class="row mb-4 mb-lg-5">
+                <div class="col-4">
+                    <h6 class="my-0 text-center">Total<br/>@(Model?.TotalCount ?? 0)</h6>
+                </div>
+                <div class="col-4">
+                    <h6 class="my-0 text-center">Approved<br/>@(Model?.ApprovedCount ?? 0)</h6>
+                </div>
+                <div class="col-4">
+                    <h6 class="my-0 text-center">Pending<br/>@(Model?.PendingCount ?? 0)</h6>
+                </div>
+            </div>
+        }
+
         @if (!_config.GetOrDefault("Settings", "Disable_QR_Code", false))
         {
             <div class="qrcode-container d-none d-lg-block">
@@ -42,7 +57,7 @@
                 <span>@_localizer["Share_Code"].Value</span>
             </div>
             <script>
-                document.addEventListener('DOMContentLoaded', function () { 
+                document.addEventListener('DOMContentLoaded', function () {
                     if ($('#qrcode').length > 0 && $('#qrcode').is(':visible')) {
                         $(function () {
                             $('#qrcode').qrcode({ width: 150, height: 150, text: '@Html.Raw(qrCodeLink)' });

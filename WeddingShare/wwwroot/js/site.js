@@ -87,21 +87,6 @@
     // Double checks the input "accept" attribute
     const isImageFile = file => ['image/jpeg', 'image/png'].includes(file.type);
 
-    function previewFiles(dataRefs) {
-        if (!dataRefs.gallery) return;
-        for (const file of dataRefs.files) {
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = function () {
-                let img = document.createElement('img');
-                img.className = 'upload_img mt-2';
-                img.setAttribute('alt', file.name);
-                img.src = reader.result;
-                dataRefs.gallery.appendChild(img);
-            }
-        }
-    }
-
     // Based on: https://flaviocopes.com/how-to-upload-files-fetch/
     const imageUpload = dataRefs => {
 
@@ -132,7 +117,7 @@
             formData.append(dataRefs.files[i].name, dataRefs.files[i]);
         }
 
-        $('body').loading('start');
+        displayLoader('Uploading...');
 
         fetch(url, {
             method: 'POST',
@@ -140,16 +125,20 @@
         })
             .then(response => response.json())
             .then(data => {
-                $('body').loading('stop');
+                hideLoader();
 
                 if (data.success === true) {
-                    displayMessage(`Upload`, `Successfully uploaded ${data.uploaded} photo(s)`, data.errors);
+                    if (data.requiresReview === true) {
+                        displayMessage(`Upload`, `Successfully uploaded ${data.uploaded} photo(s) pending review`, data.errors);
+                    } else {
+                        displayMessage(`Upload`, `Successfully uploaded ${data.uploaded} photo(s)`, data.errors);
+                    }
                 } else if (data.message) {
                     displayMessage(`Upload`, `Upload failed`, [data.message]);
                 }
             })
             .catch(error => {
-                $('body').loading('stop');
+                hideLoader();
                 displayMessage(`Upload`, `Upload failed`, [error]);
             });
     }
@@ -170,8 +159,50 @@
         if (!files.length) return;
         dataRefs.files = files;
 
-        previewFiles(dataRefs);
         imageUpload(dataRefs);
+    }
+
+    function reviewPhoto(element, action) {
+        var galleryId = element.parent('.btn-group').data('gallery-id');
+        if (!galleryId) {
+            displayMessage(`Review`, `Could not find gallery Id`);
+            return;
+        }
+
+        var photoId = element.parent('.btn-group').data('photo-id')
+        if (!photoId) {
+            displayMessage(`Review`, `Could not find photo Id`);
+            return;
+        }
+
+        displayLoader('Loading...');
+
+        $.ajax({
+            url: '/Admin/ReviewPhoto',
+            method: 'POST',
+            data: { galleryId, photoId, action }
+        })
+            .done(data => {
+                hideLoader();
+
+                if (data.success === true) {
+                    element.closest('.pending-approval').remove();
+
+                    if ($('.pending-approval').length == 0) {
+                        $('#gallery-review').addClass('visually-hidden');
+                        $('#no-review-msg').removeClass('visually-hidden');
+                    } else {
+                        $('#no-review-msg').addClass('visually-hidden');
+                        $('#gallery-review').removeClass('visually-hidden');
+                    }
+                } else if (data.message) {
+                    displayMessage(`Review`, `Review failed`, [data.message]);
+                }
+            })
+            .fail((xhr, error) => {
+                hideLoader();
+                displayMessage(`Review`, `Review failed`, [error]);
+            });
     }
 
     function displayMessage(title, message, errors) {
@@ -193,6 +224,19 @@
         }
 
         $('#alert-message-modal').modal('show');
+    }
+
+    function displayLoader(message) {
+        $('body').loading({
+            theme: 'dark',
+            message,
+            stoppable: false,
+            start: true
+        });
+    }
+
+    function hideLoader() {
+        $('body').loading('stop');
     }
 
     function uuidv4() {
@@ -227,11 +271,45 @@
         }
     });
 
-    $('body').loading({
-        theme: 'dark',
-        message: 'Uploading...',
-        stoppable: false,
-        start: false
+    $(document).off('submit', '#frmAdminLogin').on('submit', '#frmAdminLogin', function (e) {
+        preventDefaults(e);
+
+        var password = $('input#admin-password').val();
+        if (password === undefined || password.length === 0) {
+            displayMessage(`Login`, `Please enter a valid password`);
+            return;
+        }
+
+        displayLoader('Loading...');
+
+        $.ajax({
+            url: '/Admin/Login',
+            method: 'POST',
+            data: { Password: password }
+        })
+            .done(data => {
+                hideLoader();
+
+                if (data.success === true) {
+                    window.location = `/Admin`;
+                } else if (data.message) {
+                    displayMessage(`Login`, `Login failed`, [data.message]);
+                }
+            })
+            .fail((xhr, error) => {
+                hideLoader();
+                displayMessage(`Login`, `Login failed`, [error]);
+            });
+    });
+
+    $(document).off('click', 'button.btnReviewApprove').on('click', 'button.btnReviewApprove', function (e) {
+        preventDefaults(e);
+        reviewPhoto($(this), 1);
+    });
+
+    $(document).off('click', 'button.btnReviewReject').on('click', 'button.btnReviewReject', function (e) {
+        preventDefaults(e);
+        reviewPhoto($(this), 2);
     });
 
     lightbox.option({
