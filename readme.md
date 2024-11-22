@@ -11,23 +11,24 @@ Warning. This is open source software (GPL-V3), and while we make a best effort 
 there are no warranties. Use at your own risk.
 
 ## Settings
-| Name                   | Value                         |
-| -------------------    | ----------------------------- |
-| TITLE                  | WeddingShare                  |
-| LOGO                   | https://someurl/someimage.png |
-| GALLERY_COLUMNS        | 4                             |
-| ALLOWED_FILE_TYPES     | .jpg,.jpeg,.png               |
-| MAX_FILE_SIZE_MB       | 10                            |
-| SECRET_KEY             | (optional)                    |
-| SECRET_KEY_{GalleryId} | (optional)                    |
-| ADMIN_PASSWORD         | admin                         |
-| SINGLE_GALLERY_MODE    | false                         |
-| REQUIRE_REVIEW         | true                          |
-| DISABLE_HOME_LINK      | false                         |
-| DISABLE_REVIEW_COUNTER | false                         |
-| DISABLE_UPLOAD         | false                         |
-| DISABLE_QR_CODE        | false                         |
-| HIDE_KEY_FROM_QR_CODE  | false                         |
+| Name                      | Value                         |
+| -------------------       | ----------------------------- |
+| TITLE                     | WeddingShare                  |
+| LOGO                      | https://someurl/someimage.png |
+| GALLERY_COLUMNS           | 4                             |
+| ALLOWED_FILE_TYPES        | .jpg,.jpeg,.png               |
+| MAX_FILE_SIZE_MB          | 10                            |
+| SECRET_KEY                | (optional)                    |
+| SECRET_KEY_{GalleryId}    | (optional)                    |
+| ADMIN_PASSWORD            | admin                         |
+| SINGLE_GALLERY_MODE       | false                         |
+| REQUIRE_REVIEW            | true                          |
+| DISABLE_HOME_LINK         | false                         |
+| DISABLE_REVIEW_COUNTER    | false                         |
+| DISABLE_UPLOAD            | false                         |
+| DISABLE_QR_CODE           | false                         |
+| HIDE_KEY_FROM_QR_CODE     | false                         |
+| IDLE_GALLERY_REFRESH_MINS | 5 (0 = disable)               |
 
 ## Docker Run
 
