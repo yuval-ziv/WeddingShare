@@ -63,7 +63,6 @@ else
         <script>
             document.addEventListener('DOMContentLoaded', function () { 
                 $(function () { 
-                    var idleTime = @TimeSpan.FromMinutes(idleTimeout).TotalMilliseconds;
                     var idleTimeout;
 
                     onIdle();
@@ -73,7 +72,7 @@ else
                         clearTimeout(idleTimeout);
                         idleTimeout = setTimeout(function () {
                             window.location.reload();
-                        }, idleTime * 60 * 1000);
+                        }, @TimeSpan.FromMinutes(idleTimeout).TotalMilliseconds);
                     }
                 });
             }, false);
