@@ -60,6 +60,11 @@ namespace WeddingShare.Controllers
 
             ViewBag.SecretKey = key;
 
+            var dd = new DeviceDetectorNET.DeviceDetector(Request.Headers["User-Agent"].ToString());
+            dd.Parse();
+
+            ViewBag.IsMobile = dd.IsParsed() && dd.IsMobile();
+
             var galleryPath = Path.Combine(UploadsDirectory, id);
             var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             var files = Directory.Exists(galleryPath) ? Directory.GetFiles(galleryPath, "*.*", SearchOption.TopDirectoryOnly)?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase))) : null;
@@ -70,7 +75,7 @@ namespace WeddingShare.Controllers
                 GalleryPath = $"/{galleryPath.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
                 Images = files?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList(),
                 PendingCount = Directory.Exists(pendingPath) ? Directory.GetFiles(pendingPath, "*.*", SearchOption.TopDirectoryOnly).Length : 0,
-                FileUploader = !_config.GetOrDefault("Settings", "Disable_Upload", false) ? new FileUploader(id, "/Gallery/UploadImage") : null
+                FileUploader = !_config.GetOrDefault("Settings", "Disable_Upload", false) || (User?.Identity != null && User.Identity.IsAuthenticated) ? new FileUploader(id, "/Gallery/UploadImage") : null
             };
 
             return View(images);
