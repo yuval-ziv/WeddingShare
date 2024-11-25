@@ -13,8 +13,8 @@
         </svg>
 
         <h2 class="strong my-2">@_localizer["Upload_Photos"].Value</h2>
-        <p class="small my-2">@_localizer["Drag_And_Drop"].Value</p>
-        <p class="small my-2">(@string.Join(", ", allowedFileTypes))</p>
+        <p class="small my-2">@(ViewBag.IsMobile ?? false ? _localizer["Click_To_Upload"].Value : _localizer["Drag_And_Drop"].Value)</p>
+        <p class="small my-2">(@string.Join(", ", allowedFileTypes).ToLower())</p>
 
         <input data-post-gallery-id="@Model.GalleryId" data-post-url="@Model.UploadUrl" data-post-key="@(ViewBag.SecretKey ?? string.Empty)" class="position-absolute invisible" type="file" multiple accept="image/jpeg, image/png" />
     </fieldset>
