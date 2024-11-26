@@ -85,7 +85,7 @@
 
     // No 'image/gif' or PDF or webp allowed here, but it's up to your use case.
     // Double checks the input "accept" attribute
-    const isImageFile = file => ['image/jpeg', 'image/png'].includes(file.type);
+    const isImageFile = file => file.type.toLowerCase().startsWith('image/');
 
     // Based on: https://flaviocopes.com/how-to-upload-files-fetch/
     const imageUpload = dataRefs => {
@@ -150,10 +150,12 @@
 
         // Remove unaccepted file types
         files = files.filter(item => {
-            if (!isImageFile(item)) {
+            var isImage = isImageFile(item);
+            if (!isImage) {
                 console.log('Not an image, ', item.type);
             }
-            return isImageFile(item) ? item : null;
+
+            return isImage ? item : null;
         });
 
         if (!files.length) return;
