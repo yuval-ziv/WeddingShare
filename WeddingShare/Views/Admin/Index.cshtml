@@ -55,7 +55,7 @@
                                 <div class="card-header">
                                     <h5 class="card-title m-0 text-capitalize">@parts[0]</h5>
                                 </div>
-                                <img src="/uploads/@photo" loading="lazy" />
+                                <img src="/uploads/@photo.TrimStart('/')" loading="lazy" />
                                 <div class="card-body m-0 p-0">
                                     <div class="btn-group w-100" role="group" data-gallery-id="@parts[0]" data-photo-id="@parts[2]">
                                         <button type="button" class="btn btn-success btnReviewApprove">@_localizer["Approve"].Value</button>

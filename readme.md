@@ -10,7 +10,12 @@ You are not limited to a single gallery. You can generate multiple gallerys all 
 Warning. This is open source software (GPL-V3), and while we make a best effort to ensure releases are stable and bug-free,
 there are no warranties. Use at your own risk.
 
+## Notes
+
+Not all image formats are supported in browsers so although you may be able to add them via the ALLOWED_FILE_TYPES environment variable they may not be supported. One such format is Apples .heic format. It is specific to Apple devices and due to its licensing a lot of browsers have not implemented it.
+
 ## Settings
+
 | Name                      | Value                         |
 | -------------------       | ----------------------------- |
 | TITLE                     | WeddingShare                  |
