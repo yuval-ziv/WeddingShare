@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Globalization;
 using WeddingShare.Helpers;
 
@@ -24,6 +25,11 @@ namespace WeddingShare
             services.AddLocalization(options =>
             {
                 options.ResourcesPath = "Resources";
+            });
+
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.Limits.MaxRequestBodySize = int.MaxValue;
             });
 
             services.Configure<RequestLocalizationOptions>(options => {

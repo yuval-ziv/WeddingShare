@@ -18,7 +18,10 @@
                     {
                         <div class="input-group">
                             <input type="text" id="gallery-id" class="form-control" aria-describedby="gallery-id-help" placeholder="@_localizer["Gallery_Name_Placeholder"].Value" aria-label="@_localizer["Gallery_Name"].Value" />
-                            <input type="button" id="btnGenerateGalleryName" class="btn btn-outline-success" value="@_localizer["Generate"].Value" />
+                            @if ((User?.Identity != null && User.Identity.IsAuthenticated) || !_config.GetOrDefault("Settings", "Disable_Guest_Gallery_Creation", false))
+                            {
+                                <input type="button" id="btnGenerateGalleryName" class="btn btn-outline-success" value="@_localizer["Generate"].Value" />
+                            }
                         </div>
                         <div id="gallery-id-help" class="form-text mb-4 mb-lg-5">
                             @_localizer["Gallery_Name_Help"].Value
