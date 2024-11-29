@@ -37,6 +37,8 @@ namespace WeddingShare.Controllers
             }
 
             id = id.ToLower();
+            var galleryPath = Path.Combine(UploadsDirectory, id);
+            var galleryExists = Directory.Exists(galleryPath);
 
             var secretKey = _config.Get("Settings", $"Secret_Key_{id}");
             if (string.IsNullOrEmpty(secretKey))
@@ -57,6 +59,12 @@ namespace WeddingShare.Controllers
 
                 return View("~/Views/Home/Index.cshtml");
             }
+            else if (!string.Equals("default", id, StringComparison.OrdinalIgnoreCase) && (User?.Identity == null || !User.Identity.IsAuthenticated) && _config.GetOrDefault("Settings", "Disable_Guest_Gallery_Creation", false) && !galleryExists)
+            {
+                ViewBag.ErrorMessage = _localizer["Gallery_Does_Not_Exist"].Value;
+
+                return View("~/Views/Home/Index.cshtml");
+            }
 
             ViewBag.SecretKey = key;
 
@@ -65,9 +73,13 @@ namespace WeddingShare.Controllers
 
             ViewBag.IsMobile = dd.IsParsed() && dd.IsMobile();
 
-            var galleryPath = Path.Combine(UploadsDirectory, id);
+            if (!galleryExists)
+            {
+                Directory.CreateDirectory(galleryPath);
+            }
+
             var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-            var files = Directory.Exists(galleryPath) ? Directory.GetFiles(galleryPath, "*.*", SearchOption.TopDirectoryOnly)?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase))) : null;
+            var files = Directory.GetFiles(galleryPath, "*.*", SearchOption.TopDirectoryOnly)?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
             var pendingPath = Path.Combine(galleryPath, "Pending");
             var images = new PhotoGallery(_config.GetOrDefault("Settings", "Gallery_Columns", 4))
             {
@@ -108,7 +120,7 @@ namespace WeddingShare.Controllers
                 {
                     if (!Directory.Exists(galleryPath))
                     {
-                        Directory.CreateDirectory(galleryPath);
+                        return Json(new { success = true, uploaded = 0, errors = new List<string>() { _localizer["Gallery_Does_Not_Exist"].Value } });
                     }
 
                     var requiresReview = _config.GetOrDefault("Settings", "Require_Review", true);

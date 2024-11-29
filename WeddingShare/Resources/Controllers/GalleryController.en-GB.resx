@@ -120,6 +120,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>Failed to upload file</value>
   </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>The requested gallery was not found or does not exist</value>
+  </data>
   <data name="Image_Upload_Failed" xml:space="preserve">
     <value>Failed to upload images</value>
   </data>
