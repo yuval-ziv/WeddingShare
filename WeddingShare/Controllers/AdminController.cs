@@ -83,7 +83,7 @@ namespace WeddingShare.Controllers
                 if (Directory.Exists(UploadsDirectory))
                 {
                     model.Galleries = Directory.GetDirectories(UploadsDirectory)?.Select(x => new KeyValuePair<string, string>(Path.GetFileName(x), x))?.ToList();
-                    model.PendingRequests = model.Galleries?.SelectMany(x => Directory.GetFiles(Path.Combine(x.Value, "Pending"), "*.*", SearchOption.TopDirectoryOnly))?.Select(x => x.Replace(UploadsDirectory, string.Empty))?.ToList();
+                    model.PendingRequests = model.Galleries?.SelectMany(x => Directory.Exists(Path.Combine(x.Value, "Pending")) ? Directory.GetFiles(Path.Combine(x.Value, "Pending"), "*.*", SearchOption.TopDirectoryOnly) : new string[0])?.Select(x => x.Replace(UploadsDirectory, string.Empty))?.ToList();
                 }
             }
             catch (Exception ex)

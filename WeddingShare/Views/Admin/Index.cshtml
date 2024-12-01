@@ -7,9 +7,8 @@
     <div class="container px-3 px-lg-1 my-3 mt-lg-1">
         @if (Model?.Galleries != null && Model.Galleries.Any())
         {
-            var key = _config.GetOrDefault("Settings", "Secret_Key", string.Empty);
             var ctx = Context.Request;
-            var link = $"{ctx.Scheme}://{ctx.Host}/Gallery?{(!string.IsNullOrEmpty(key) ? $"key={key}&" : string.Empty)}";
+            var link = $"{(_config.GetOrDefault("Settings", "Force_Https", false) ? "https" : ctx.Scheme)}://{ctx.Host}/Gallery";
 
             <h1 class="display-6">@_localizer["Available_Galleries"].Value: </h1>
             <table class="table table-bordered">
@@ -19,10 +18,17 @@
                 </tr>
                 @foreach (var gallery in Model.Galleries)
                 {
-                    var galleryLink = $"{link}id={gallery.Key}";
+                    var secretKey = _config.Get("Settings", $"Secret_Key_{gallery.Key}");
+                    if (string.IsNullOrEmpty(secretKey))
+                    {
+                        secretKey = _config.Get("Settings", "Secret_Key");
+                    }
+
+                    var safeGalleryLink = $"{link}?id={gallery.Key}";
+                    var fullGalleryLink = $"{safeGalleryLink}{(!string.IsNullOrWhiteSpace(secretKey) ? $"&key={secretKey}" : string.Empty)}";
                     <tr>
                         <td class="text-capitalize">@gallery.Key</td>
-                        <td><a href="@galleryLink">@galleryLink</a></td>
+                        <td><a href="@fullGalleryLink">@safeGalleryLink</a></td>
                     </tr>
                 }
             </table>

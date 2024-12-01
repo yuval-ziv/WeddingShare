@@ -6,7 +6,7 @@
 
 @{
     var ctx = Context.Request;
-    var qrCodeLink = $"{ctx.Scheme}://{ctx.Host}{ctx.Path}";
+    var qrCodeLink = $"{(_config.GetOrDefault("Settings", "Force_Https", false) ? "https" : ctx.Scheme)}://{ctx.Host}{ctx.Path}";
 
     if (_config.GetOrDefault("Settings", "Hide_Key_From_QR_Code", false))
     {
