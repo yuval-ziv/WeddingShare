@@ -20,6 +20,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | ------------------------------ | ----------------------------- |
 | TITLE                          | WeddingShare                  |
 | LOGO                           | https://someurl/someimage.png |
+| FORCE_HTTPS                    | false                         |
 | GALLERY_COLUMNS                | 4                             |
 | ALLOWED_FILE_TYPES             | .jpg,.jpeg,.png               |
 | MAX_FILE_SIZE_MB               | 10                            |
