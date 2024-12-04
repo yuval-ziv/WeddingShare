@@ -117,11 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Actions" xml:space="preserve">
+    <value>Actes</value>
+  </data>
   <data name="Approve" xml:space="preserve">
     <value>Approuver</value>
   </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Approuvée</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>Galeries disponibles</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Créer</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Clé</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Lien</value>
@@ -135,10 +150,19 @@
   <data name="No_Pending_Uploads" xml:space="preserve">
     <value>Aucun téléchargement en attente de révision</value>
   </data>
+  <data name="Pending" xml:space="preserve">
+    <value>En attente</value>
+  </data>
   <data name="Pending_Uploads" xml:space="preserve">
     <value>Téléchargements en attente</value>
   </data>
   <data name="Reject" xml:space="preserve">
     <value>Rejeter</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rebaptiser</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Totale</value>
   </data>
 </root>

@@ -138,11 +138,14 @@
   <data name="Invalid_Gallery_Key" xml:space="preserve">
     <value>Clé de galerie non valide</value>
   </data>
-  <data name="Invalid_Security_Key_Warning" xml:space="preserve">
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
     <value>Une demande a été effectuée à l'aide d'une clé de sécurité non valide</value>
   </data>
   <data name="Max_File_Size" xml:space="preserve">
     <value>La taille maximale du fichier est</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Aucun fichier n'a été détecté pour le téléchargement</value>
   </data>
   <data name="Save_To_Gallery_Failed" xml:space="preserve">
     <value>Impossible d'enregistrer l'image dans la galerie</value>

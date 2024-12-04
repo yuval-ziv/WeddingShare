@@ -16,3 +16,6 @@
 /WeddingShare/wwwroot/uploads/default/*
 /release notes
 /WeddingShare/weddingshare.db
+/WeddingShare/wedding-share.db
+/WeddingShare/config/wedding-share.db
+/WeddingShare/wwwroot/thumbnails

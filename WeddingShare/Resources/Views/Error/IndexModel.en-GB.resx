@@ -117,10 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Unexpected_Error" xml:space="preserve">
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>If this issue persists please contact the web administrator</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
     <value>Opps, it looks like an unexpected error occurred...</value>
   </data>
-  <data name="Unexpected_Error_Message" xml:space="preserve">
-    <value>If this issue persists please contact the web administrator</value>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>It looks like you are not authorized to view that page...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Access Denied</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>The provided secret key was incorrect</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Invalid Secret Key</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>The specified gellery does not exist and you do not have permissions to create it</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Access Denied</value>
   </data>
 </root>

@@ -34,7 +34,7 @@
                     while (index < Model.Images.Count())
                     {
                         <a href="@Model.GalleryPath/@Model.Images[index]" data-lightbox="@Model.GalleryId">
-                            <img src="@Model.GalleryPath/@Model.Images[index].TrimStart('/')" class="w-100 shadow-1-strong rounded mb-4" loading="lazy" />
+                            <img src="@Model.ThumbnailsPath/@(System.IO.Path.GetFileNameWithoutExtension(Model.Images[index].TrimStart('/'))).webp" class="w-100 shadow-1-strong rounded mb-4" loading="lazy" />
                         </a>
                         index += columnCount;
                     }

@@ -1,10 +1,23 @@
 ﻿@model IndexModel
+@using WeddingShare.Helpers
 @using WeddingShare.Views.Error
 @inject Microsoft.Extensions.Localization.IStringLocalizer<IndexModel> _localizer
 @inject WeddingShare.Helpers.IConfigHelper _config
 
+@{
+    var reasonCode = 400;
+    try
+    {
+        reasonCode = Context.Request.Query.ContainsKey("Reason") ? Convert.ToInt32(Context.Request.Query["Reason"]) : 400;
+    }
+    catch { }
+    
+    var title = _localizer[$"{reasonCode}_Error_Title"].Value;
+    var message = _localizer[$"{reasonCode}_Error_Message"].Value;
+}
+
 <!--( Error Message )-->
 <div class="content border p-5">
-    <p class="text-center mb-2" style="font-size: 40px;">@_localizer["Unexpected_Error"].Value</p>
-    <p class="text-center" style="font-size: 18px;">@_localizer["Unexpected_Error_Message"].Value</p>
+    <p class="text-center mb-2" style="font-size: 40px;">@title</p>
+    <p class="text-center" style="font-size: 18px;">@message</p>
 </div>

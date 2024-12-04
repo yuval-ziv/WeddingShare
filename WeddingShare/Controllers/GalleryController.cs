@@ -1,10 +1,14 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
+using WeddingShare.Attributes;
+using WeddingShare.Enums;
 using WeddingShare.Extensions;
 using WeddingShare.Helpers;
+using WeddingShare.Helpers.Database;
 using WeddingShare.Models;
+using WeddingShare.Models.Database;
 
 namespace WeddingShare.Controllers
 {
@@ -13,84 +17,97 @@ namespace WeddingShare.Controllers
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IConfigHelper _config;
+        private readonly IDatabaseHelper _database;
+        private readonly ISecretKeyHelper _secretKey;
+        private readonly IMemoryCache _memoryCache;
         private readonly ILogger _logger;
         private readonly IStringLocalizer<GalleryController> _localizer;
 
         private readonly string UploadsDirectory;
+        private readonly string ThumbnailsDirectory;
 
-        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, ILogger<GalleryController> logger, IStringLocalizer<GalleryController> localizer)
+        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, ISecretKeyHelper secretKey, IMemoryCache cache, ILogger<GalleryController> logger, IStringLocalizer<GalleryController> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
+            _database = database;
+            _secretKey = secretKey;
+            _memoryCache = cache;
             _logger = logger;
             _localizer = localizer;
 
             UploadsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+            ThumbnailsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "thumbnails");
         }
 
         [HttpGet]
-        public IActionResult Index(string id, string? key)
+        [RequiresSecretKey]
+        [AllowGuestCreate]
+        public async Task<IActionResult> Index(string id = "default", string? key = null)
         {
-            if (_config.GetOrDefault("Settings", "Single_Gallery_Mode", false))
+            id = id.ToLower();
+            if (string.IsNullOrWhiteSpace(id) || _config.GetOrDefault("Settings", "Single_Gallery_Mode", false))
             {
                 id = "default";
             }
 
-            id = id.ToLower();
-            var galleryPath = Path.Combine(UploadsDirectory, id);
-            var galleryExists = Directory.Exists(galleryPath);
-
-            var secretKey = _config.Get("Settings", $"Secret_Key_{id}");
-            if (string.IsNullOrEmpty(secretKey))
+            try
             {
-                secretKey = _config.Get("Settings", "Secret_Key");
+                var userAgent = Request.Headers["User-Agent"].ToString();
+                if (!_memoryCache.TryGetValue<bool>(userAgent, out var isMobile))
+                {
+                    var dd = new DeviceDetectorNET.DeviceDetector(userAgent);
+                    dd.Parse();
+
+                    isMobile = dd.IsParsed() && dd.IsMobile();
+
+                    _memoryCache.Set(userAgent, isMobile);
+                }
+            
+                ViewBag.IsMobile = isMobile;
             }
-
-            if (!string.IsNullOrEmpty(secretKey) && !string.Equals(secretKey, key))
-            {
-                _logger.LogWarning(_localizer["Invalid_Security_Key_Warning"].Value);
-                ViewBag.ErrorMessage = _localizer["Invalid_Gallery_Key"].Value;
-
-                return View("~/Views/Home/Index.cshtml");
-            }
-            else if (string.IsNullOrEmpty(id))
-            {
-                ViewBag.ErrorMessage = _localizer["Invalid_Gallery_Id"].Value;
-
-                return View("~/Views/Home/Index.cshtml");
-            }
-            else if (!string.Equals("default", id, StringComparison.OrdinalIgnoreCase) && (User?.Identity == null || !User.Identity.IsAuthenticated) && _config.GetOrDefault("Settings", "Disable_Guest_Gallery_Creation", false) && !galleryExists)
-            {
-                ViewBag.ErrorMessage = _localizer["Gallery_Does_Not_Exist"].Value;
-
-                return View("~/Views/Home/Index.cshtml");
+            catch
+            { 
+                ViewBag.IsMobile = false;
             }
 
             ViewBag.SecretKey = key;
 
-            var dd = new DeviceDetectorNET.DeviceDetector(Request.Headers["User-Agent"].ToString());
-            dd.Parse();
-
-            ViewBag.IsMobile = dd.IsParsed() && dd.IsMobile();
-
-            if (!galleryExists)
+            var galleryPath = Path.Combine(UploadsDirectory, id);
+            if (!Directory.Exists(galleryPath))
             {
                 Directory.CreateDirectory(galleryPath);
+                Directory.CreateDirectory(Path.Combine(galleryPath, "Pending"));
             }
 
-            var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-            var files = Directory.GetFiles(galleryPath, "*.*", SearchOption.TopDirectoryOnly)?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
-            var pendingPath = Path.Combine(galleryPath, "Pending");
-            var images = new PhotoGallery(_config.GetOrDefault("Settings", "Gallery_Columns", 4))
+            GalleryModel? gallery = await _database.GetGallery(id);
+            if (gallery == null)
             {
-                GalleryId = id,
-                GalleryPath = $"/{galleryPath.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
-                Images = files?.OrderByDescending(x => new FileInfo(x).CreationTimeUtc)?.Select(x => Path.GetFileName(x))?.ToList(),
-                PendingCount = Directory.Exists(pendingPath) ? Directory.GetFiles(pendingPath, "*.*", SearchOption.TopDirectoryOnly).Length : 0,
-                FileUploader = !_config.GetOrDefault("Settings", "Disable_Upload", false) || (User?.Identity != null && User.Identity.IsAuthenticated) ? new FileUploader(id, "/Gallery/UploadImage") : null
-            };
+                gallery = await _database.AddGallery(new GalleryModel()
+                {
+                    Name = id.ToLower(),
+                    SecretKey = key
+                });
+            }
 
-            return View(images);
+            if (gallery != null)
+            { 
+                var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);            
+                var images = new PhotoGallery(_config.GetOrDefault("Settings", "Gallery_Columns", 4))
+                {
+                    GalleryId = id,
+                    GalleryPath = $"/{galleryPath.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
+                    ThumbnailsPath = $"/{ThumbnailsDirectory.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
+                    Images = (await _database.GetAllGalleryItems(gallery.Id, GalleryItemState.Approved))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)))?.Select(x => Path.GetFileName(x.Title))?.ToList(),
+                    PendingCount = gallery?.PendingItems ?? 0,
+                    FileUploader = !_config.GetOrDefault("Settings", "Disable_Upload", false) || (User?.Identity != null && User.Identity.IsAuthenticated) ? new FileUploader(id, "/Gallery/UploadImage") : null
+                };
+            
+                return View(images);
+            }
+
+            return View(new PhotoGallery());
+
         }
 
         [HttpPost]
@@ -98,79 +115,87 @@ namespace WeddingShare.Controllers
         {
             try
             {
-                var secretKey = _config.Get("Settings", "Secret_Key");
-                var key = Request?.Form?.FirstOrDefault(x => string.Equals("SecretKey", x.Key, StringComparison.OrdinalIgnoreCase)).Value;
-                if (!string.IsNullOrEmpty(secretKey) && !string.Equals(secretKey, key))
-                {
-                    _logger.LogWarning(_localizer["Invalid_Security_Key_Warning"].Value);
-                    throw new UnauthorizedAccessException(_localizer["Invalid_Access_Token"].Value);
-                }
-
-                string galleryId = Request?.Form?.FirstOrDefault(x => string.Equals("GalleryId", x.Key, StringComparison.OrdinalIgnoreCase)).Value ?? string.Empty;
-                if (string.IsNullOrEmpty(galleryId))
+                string galleryId = (Request?.Form?.FirstOrDefault(x => string.Equals("Id", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString()?.ToLower() ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(galleryId))
                 {
                     return Json(new { success = true, uploaded = 0, errors = new List<string>() { _localizer["Invalid_Gallery_Id"].Value } });
                 }
 
-                galleryId = galleryId.ToLower();
-
-                var galleryPath = Path.Combine(UploadsDirectory, galleryId);
-                var files = Request?.Form?.Files;
-                if (files != null && files.Count > 0)
+                var gallery = await _database.GetGallery(galleryId);
+                if (gallery != null)
                 {
-                    if (!Directory.Exists(galleryPath))
+                    var secretKey = await _secretKey.GetGallerySecretKey(galleryId);
+                    string key = (Request?.Form?.FirstOrDefault(x => string.Equals("SecretKey", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString()?.ToLower() ?? string.Empty;
+                    if (!string.IsNullOrWhiteSpace(secretKey) && !string.Equals(secretKey, key))
                     {
-                        return Json(new { success = true, uploaded = 0, errors = new List<string>() { _localizer["Gallery_Does_Not_Exist"].Value } });
+                        return Json(new { success = true, uploaded = 0, errors = new List<string>() { _localizer["Invalid_Secret_Key_Warning"].Value } });
                     }
 
-                    var requiresReview = _config.GetOrDefault("Settings", "Require_Review", true);
-                    if (requiresReview)
-                    { 
-                        galleryPath = Path.Combine(galleryPath, "Pending");
-                        if (!Directory.Exists(galleryPath))
-                        {
-                            Directory.CreateDirectory(galleryPath);
-                        }
-                    }
-
-                    var uploaded = 0;
-                    var errors = new List<string>();
-                    foreach (IFormFile file in files)
+                    var files = Request?.Form?.Files;
+                    if (files != null && files.Count > 0)
                     {
-                        try
-                        {
-                            var extension = Path.GetExtension(file.FileName);
-                            var maxFilesSize = _config.GetOrDefault("Settings", "Max_File_Size_Mb", 10) * 1000000;
+                        var requiresReview = _config.GetOrDefault("Settings", "Require_Review", true);
 
-                            var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-                            if (!allowedFileTypes.Any(x => string.Equals(x.Trim('.'), extension.Trim('.'), StringComparison.OrdinalIgnoreCase)))
+                        var uploaded = 0;
+                        var errors = new List<string>();
+                        foreach (IFormFile file in files)
+                        {
+                            try
                             {
-                                errors.Add($"{_localizer["File_Upload_Failed"].Value} '{Path.GetFileName(file.FileName)}'. {_localizer["Invalid_File_Type"].Value}");
-                            }
-                            else if (file.Length > maxFilesSize)
-                            {
-                                errors.Add($"{_localizer["File_Upload_Failed"].Value} '{Path.GetFileName(file.FileName)}'. {_localizer["Max_File_Size"].Value} {maxFilesSize} bytes");
-                            }
-                            else
-                            {
-                                var filePath = Path.Combine(galleryPath, $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}");
-                                if (!string.IsNullOrEmpty(filePath))
+                                var extension = Path.GetExtension(file.FileName);
+                                var maxFilesSize = _config.GetOrDefault("Settings", "Max_File_Size_Mb", 10) * 1000000;
+
+                                var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                                if (!allowedFileTypes.Any(x => string.Equals(x.Trim('.'), extension.Trim('.'), StringComparison.OrdinalIgnoreCase)))
                                 {
-                                    using (var fs = new FileStream(filePath, FileMode.Create))
+                                    errors.Add($"{_localizer["File_Upload_Failed"].Value} '{Path.GetFileName(file.FileName)}'. {_localizer["Invalid_File_Type"].Value}");
+                                }
+                                else if (file.Length > maxFilesSize)
+                                {
+                                    errors.Add($"{_localizer["File_Upload_Failed"].Value} '{Path.GetFileName(file.FileName)}'. {_localizer["Max_File_Size"].Value} {maxFilesSize} bytes");
+                                }
+                                else
+                                {
+                                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+                                    var galleryPath = requiresReview ? Path.Combine(UploadsDirectory, gallery.Name, "Pending") : Path.Combine(UploadsDirectory, gallery.Name);
+                                    var filePath = Path.Combine(galleryPath, fileName);
+                                    if (!string.IsNullOrWhiteSpace(filePath))
                                     {
-                                        await file.CopyToAsync(fs);
-                                        uploaded++;
+                                        using (var fs = new FileStream(filePath, FileMode.Create))
+                                        {
+                                            await file.CopyToAsync(fs);
+                                        }
+
+                                        var item = await _database.AddGalleryItem(new GalleryItemModel()
+                                        {
+                                            GalleryId = gallery.Id,
+                                            Title = fileName,
+                                            State = requiresReview ? GalleryItemState.Pending : GalleryItemState.Approved
+                                        });
+
+                                        if (item?.Id > 0)
+                                        { 
+                                            uploaded++;
+                                        }
                                     }
                                 }
                             }
+                            catch (Exception ex)
+                            {
+                                _logger.LogWarning(ex, $"{_localizer["Save_To_Gallery_Failed"].Value} - {ex?.Message}");
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            _logger.LogWarning(ex, $"{_localizer["Save_To_Gallery_Failed"].Value} - {ex?.Message}");
-                        }
-                    }
 
-                    return Json(new { success = true, uploaded, requiresReview, errors });
+                        return Json(new { success = true, uploaded, requiresReview, errors });
+                    }
+                    else
+                    {
+                        return Json(new { success = false, uploaded = 0, errors = new List<string>() { _localizer["No_Files_For_Upload"].Value } });
+                    }
+                }
+                else
+                {
+                    return Json(new { success = false, uploaded = 0, errors = new List<string>() { _localizer["Gallery_Does_Not_Exist"].Value } });
                 }
             }
             catch (Exception ex)

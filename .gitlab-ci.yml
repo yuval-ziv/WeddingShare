@@ -1,6 +1,7 @@
 image: mcr.microsoft.com/dotnet/sdk:latest
 
 stages:
+  - test
   - build
   - push
   - release
@@ -22,12 +23,20 @@ cache:
 before_script:
   - 'docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY'
   
+test:
+  stage: test
+  script:
+    - 'dotnet restore'
+    - 'dotnet test'
+
 build:
   stage: build
   script:
     - 'docker build -t $CI_REGISTRY_IMAGE:dev -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA -f WeddingShare/Dockerfile .'
     - 'docker push $CI_REGISTRY_IMAGE:dev'
     - 'docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA'
+  needs:
+    - test
     
 push_pre_release:
   variables:
@@ -41,6 +50,8 @@ push_pre_release:
     - 'docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH'
     - 'docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:pre_release'
     - 'docker push $CI_REGISTRY_IMAGE:pre_release'
+  needs:
+    - build
 
 push_latest:
   variables:
@@ -53,6 +64,8 @@ push_latest:
     - 'docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA'
     - 'docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:latest'
     - 'docker push $CI_REGISTRY_IMAGE:latest'
+  needs:
+    - build
     
 push_tag:
   variables:
@@ -64,6 +77,8 @@ push_tag:
     - 'docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA'
     - 'docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME'
     - 'docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME'
+  needs:
+    - build
 
 push_docker_hub:
   variables:
@@ -78,3 +93,5 @@ push_docker_hub:
     - 'docker push $DOCKERHUB_USERNAME/wedding_share:latest'
     - 'docker tag $CI_REGISTRY_IMAGE:latest $DOCKERHUB_USERNAME/wedding_share:$CI_COMMIT_REF_NAME'
     - 'docker push $DOCKERHUB_USERNAME/wedding_share:$CI_COMMIT_REF_NAME'
+  needs:
+    - build
