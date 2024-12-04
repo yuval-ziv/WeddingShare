@@ -42,7 +42,7 @@ Not all image formats are supported in browsers so although you may be able to a
 ## Docker Run
 
 ```
-docker run --name WeddingShare -h wedding-share -p 8080:5000 -v /var/lib/docker/volumes/wedding-share-config/_data:/app/config:rw -v /var/lib/docker/volumes/wedding-share-uploads/_data:/app/wwwroot/uploads:rw --restart always cirx08/wedding_share:latest
+docker run --name WeddingShare -h wedding-share -p 8080:5000 -v /var/lib/docker/volumes/wedding-share-config/_data:/app/config:rw -v /var/lib/docker/volumes/wedding-share-thumbnails/_data:/app/wwwroot/thumbnails:rw -v /var/lib/docker/volumes/wedding-share-uploads/_data:/app/wwwroot/uploads:rw --restart always cirx08/wedding_share:latest
 ```
 
 ## Docker Compose
@@ -63,6 +63,7 @@ services:
       SECRET_KEY: 'password'
     volumes:
       - data-volume-config:/app/config
+      - data-volume-thumbnails:/app/wwwroot/thumbnails
       - data-volume-uploads:/app/wwwroot/uploads
     network_mode: bridge
     hostname: wedding-share
@@ -71,6 +72,8 @@ services:
 volumes:
   data-volume-config:
     name: WeddingShare-Config
+  data-volume-thumbnails:
+    name: WeddingShare-Thumbnails
   data-volume-uploads:
     name: WeddingShare-Uploads
 ```
