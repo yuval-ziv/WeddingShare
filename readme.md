@@ -1,3 +1,5 @@
+![Banner](https://github.com/Cirx08/WeddingShare/blob/main/banner.png?raw=true)
+
 # WeddingShare
 
 ## About
