@@ -117,14 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Failed to create gallery</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Failed to delete gallery</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Failed to download gallery</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Failed to update gallery</value>
+  </data>
   <data name="Failed_Finding_File" xml:space="preserve">
     <value>Failed to find file</value>
   </data>
   <data name="Failed_Reviewing_Photo" xml:space="preserve">
     <value>Failed to review photo</value>
   </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Gallery name already exists</value>
+  </data>
   <data name="Login_Failed" xml:space="preserve">
     <value>Faied to log user in</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Gallery name cannot be empty</value>
   </data>
   <data name="Pending_Uploads_Failed" xml:space="preserve">
     <value>Failed to get pending uploads</value>

@@ -8,14 +8,15 @@
         }
 
         public PhotoGallery(int columnCount)
-            : this("default", columnCount, string.Empty, new List<string>())
+            : this("default", columnCount, string.Empty, string.Empty, new List<string>())
         {
         }
 
-        public PhotoGallery(string id, int columnCount, string path, List<string> images)
+        public PhotoGallery(string id, int columnCount, string galleryPath, string thumbnailPath, List<string> images)
         {
             this.GalleryId = id;
-            this.GalleryPath = path;
+            this.GalleryPath = galleryPath;
+            this.ThumbnailsPath = thumbnailPath;
             this.ColumnCount = columnCount;
             this.PendingCount = 0;
             this.Images = images;
@@ -24,6 +25,7 @@
 
         public string? GalleryId { get; set; }
         public string? GalleryPath { get; set; }
+        public string? ThumbnailsPath { get; set; }
         public int ColumnCount { get; set; }
         public int PendingCount { get; set; }
         public int ApprovedCount

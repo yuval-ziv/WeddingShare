@@ -123,4 +123,22 @@
   <data name="Default" xml:space="preserve">
     <value>Default</value>
   </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Are you sure you want to delete this gallery?</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Secret Key</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Please enter a new secret key for the gallery</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Gallery Name</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Please enter a new name for the gallery</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
 </root>

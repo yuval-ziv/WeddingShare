@@ -1,23 +1,42 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using System.Globalization;
 using WeddingShare.Helpers;
+using WeddingShare.Helpers.Database;
+using WeddingShare.Helpers.Dbup;
 
 namespace WeddingShare
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILoggerFactory _loggerFactory;
+
+        public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             Configuration = configuration;
+            _loggerFactory = loggerFactory;
         }
 
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {            
-            services.AddScoped<IConfigHelper, ConfigHelper>();
+        {
+            services.AddSingleton<IConfigHelper, ConfigHelper>();
+            services.AddSingleton<IEnvironmentWrapper, EnvironmentWrapper>();
+            services.AddSingleton<ISecretKeyHelper, SecretKeyHelper>();
+            services.AddSingleton<IImageHelper, ImageHelper>();
+
+            var config = new ConfigHelper(new EnvironmentWrapper(), Configuration, _loggerFactory.CreateLogger<ConfigHelper>());
+            switch (config.GetOrDefault("Database", "Database_Type", "sqlite")?.ToLower())
+            {
+                case "sqlite":
+                    services.AddSingleton<IDatabaseHelper, SQLiteDatabaseHelper>();
+                    break;
+            }
+
+            services.AddHostedService<DbupMigrator>();
+            services.AddHostedService<DirectoryScanner>();
 
             services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -51,10 +70,9 @@ namespace WeddingShare
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
 
                 options.LoginPath = "/Home";
-                options.AccessDeniedPath = "/Error/AccessDenied";
+                options.AccessDeniedPath = $"/Error?Reason={ErrorCode.Unauthorized}";
                 options.SlidingExpiration = true;
             });
-
             services.AddSession();
         }
 
@@ -66,7 +84,12 @@ namespace WeddingShare
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            var config = new ConfigHelper(new EnvironmentWrapper(), Configuration, _loggerFactory.CreateLogger<ConfigHelper>());
+            if (config.GetOrDefault("Settings", "Force_Https", false))
+            { 
+                app.UseHttpsRedirection();
+            }
+
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();

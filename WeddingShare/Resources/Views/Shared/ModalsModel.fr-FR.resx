@@ -123,4 +123,22 @@
   <data name="Default" xml:space="preserve">
     <value>Défaut</value>
   </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Etes-vous sûr de vouloir supprimer cette galerie ?</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Clé secrète</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Veuillez saisir une nouvelle clé secrète pour la galerie</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Nom de la galerie</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Veuillez saisir un nouveau nom pour la galerie</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Mise à jour</value>
+  </data>
 </root>

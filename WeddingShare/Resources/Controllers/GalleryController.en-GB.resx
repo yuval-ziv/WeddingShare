@@ -138,11 +138,14 @@
   <data name="Invalid_Gallery_Key" xml:space="preserve">
     <value>Invalid gallery key</value>
   </data>
-  <data name="Invalid_Security_Key_Warning" xml:space="preserve">
-    <value>A request was made using an invalid security key</value>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>A request was made using an invalid secret key</value>
   </data>
   <data name="Max_File_Size" xml:space="preserve">
     <value>Max file size is</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>No files were detected for upload</value>
   </data>
   <data name="Save_To_Gallery_Failed" xml:space="preserve">
     <value>Failed to save image to gallery</value>

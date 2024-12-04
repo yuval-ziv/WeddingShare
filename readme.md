@@ -24,6 +24,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | GALLERY_COLUMNS                | 4                             |
 | ALLOWED_FILE_TYPES             | .jpg,.jpeg,.png               |
 | MAX_FILE_SIZE_MB               | 10                            |
+| THUMBNAIL_SIZE                 | 720                           |
 | SECRET_KEY                     | (optional)                    |
 | SECRET_KEY_{GalleryId}         | (optional)                    |
 | ADMIN_PASSWORD                 | admin                         |
@@ -33,14 +34,15 @@ Not all image formats are supported in browsers so although you may be able to a
 | DISABLE_REVIEW_COUNTER         | false                         |
 | DISABLE_UPLOAD                 | false                         |
 | DISABLE_QR_CODE                | false                         |
-| DISABLE_GUEST_GALLERY_CREATION | false                         |
+| DISABLE_GUEST_GALLERY_CREATION | true                          |
 | HIDE_KEY_FROM_QR_CODE          | false                         |
 | IDLE_GALLERY_REFRESH_MINS      | 5 (0 = disable)               |
+| DIRECTORY_SCANNER_INTERVAL     | */30 * * * * (cron)           |
 
 ## Docker Run
 
 ```
-docker run --name WeddingShare -h wedding-share -p 8080:5000 -v /var/lib/docker/volumes/wedding-share/_data:/app/wwwroot/uploads:rw --restart always cirx08/wedding_share:latest
+docker run --name WeddingShare -h wedding-share -p 8080:5000 -v /var/lib/docker/volumes/wedding-share-config/_data:/app/config:rw -v /var/lib/docker/volumes/wedding-share-uploads/_data:/app/wwwroot/uploads:rw --restart always cirx08/wedding_share:latest
 ```
 
 ## Docker Compose
@@ -60,14 +62,17 @@ services:
       MAX_FILE_SIZE_MB: 10
       SECRET_KEY: 'password'
     volumes:
-      - data-volume:/app/wwwroot/uploads
+      - data-volume-config:/app/config
+      - data-volume-uploads:/app/wwwroot/uploads
     network_mode: bridge
     hostname: wedding-share
     restart: always
 
 volumes:
-  data-volume:
-    name: WeddingShare
+  data-volume-config:
+    name: WeddingShare-Config
+  data-volume-uploads:
+    name: WeddingShare-Uploads
 ```
 
 ## Links

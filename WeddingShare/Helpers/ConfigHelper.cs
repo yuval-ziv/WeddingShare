@@ -16,11 +16,13 @@
 
     public class ConfigHelper : IConfigHelper
     {
+        private readonly IEnvironmentWrapper _environment;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<ConfigHelper> _logger;
+        private readonly ILogger _logger;
 
-        public ConfigHelper(IConfiguration config, ILogger<ConfigHelper> logger)
-        { 
+        public ConfigHelper(IEnvironmentWrapper environment, IConfiguration config, ILogger<ConfigHelper> logger)
+        {
+            _environment = environment;
             _configuration = config;
             _logger = logger;
         }
@@ -29,8 +31,8 @@
         {
             try
             {
-                var value = Environment.GetEnvironmentVariable(key.Replace(":", "_").ToUpper());
-                if (!string.IsNullOrEmpty(value))
+                var value = _environment.GetEnvironmentVariable(key.Replace(":", "_").ToUpper());
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     return value;
                 }
@@ -47,8 +49,9 @@
         {
             try
             {
-                var value = _configuration.GetValue<string>(!string.IsNullOrEmpty(section) ? $"{section}:{key}" : key);
-                if (!string.IsNullOrEmpty(value))
+                var configKey = !string.IsNullOrWhiteSpace(section) ? $"{section}:{key}" : key;
+                var value = _configuration.GetValue<string>(configKey);
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     return value;
                 }
@@ -66,13 +69,13 @@
             try
             {
                 var value = !IsProtectedVariable($"{section}_{key}") ? this.GetEnvironmentVariable(key) : string.Empty;
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     return value;
                 }
 
                 value = this.GetConfigValue(section, key);
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     return value;
                 }
@@ -90,7 +93,7 @@
             try
             {
                 var value = this.Get(section, key);
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     return value;
                 }
@@ -105,7 +108,7 @@
             try
             {
                 var value = this.GetOrDefault(section, key, string.Empty);
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     return Convert.ToInt32(value);
                 }
@@ -120,7 +123,7 @@
             try
             {
                 var value = this.GetOrDefault(section, key, string.Empty);
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     return Convert.ToInt64(value);
                 }
@@ -135,7 +138,7 @@
             try
             {
                 var value = this.GetOrDefault(section, key, string.Empty);
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     return Convert.ToDecimal(value);
                 }
@@ -150,7 +153,7 @@
             try
             {
                 var value = this.GetOrDefault(section, key, string.Empty);
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     return Convert.ToDouble(value);
                 }
@@ -165,7 +168,7 @@
             try
             {
                 var value = this.GetOrDefault(section, key, string.Empty);
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     return Convert.ToBoolean(value);
                 }
@@ -180,7 +183,7 @@
             try
             {
                 var value = this.GetOrDefault(section, key, string.Empty);
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     return Convert.ToDateTime(value);
                 }

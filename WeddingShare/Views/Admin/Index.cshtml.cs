@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WeddingShare.Models.Database;
 
 namespace WeddingShare.Views.Admin
 {
@@ -8,8 +9,8 @@ namespace WeddingShare.Views.Admin
         {
         }
 
-        public List<KeyValuePair<string, string>>? Galleries { get; set; }
-        public List<string>? PendingRequests { get; set; }
+        public List<GalleryModel>? Galleries { get; set; }
+        public List<PendingGalleryItemModel>? PendingRequests { get; set; }
 
         public void OnGet()
         {

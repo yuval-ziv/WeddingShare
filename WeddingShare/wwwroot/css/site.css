@@ -7,6 +7,38 @@
     position: relative;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
+.text-link, .text-link:hover, .text-link:active {
+    text-decoration: none;
+}
+
+.display-6 .fa-solid {
+    font-size: 25px !important;
+    margin: 0px;
+}
+
+.btn-outline-disabled, .btn-outline-disabled:active, .btn-outline-disabled:hover {
+    color: #777777;
+    border: 1px solid #777777;
+    cursor: default;
+}
+
+tr td {
+    line-height: 30px;
+    margin: 0px;
+    padding: 0px;
+}
+
+tr td i {
+    width: 30px;
+    height: 30px;
+    margin: 0px 2px 0px 0px;
+    padding: 5px !important;
+}
+
 /* File Upload */
 .upload_drop {
     color: #FFFFFF;

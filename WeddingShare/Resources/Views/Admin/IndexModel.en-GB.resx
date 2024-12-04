@@ -117,11 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
   <data name="Approve" xml:space="preserve">
     <value>Approve</value>
   </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Approved</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>Available Galleries</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Key</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Link</value>
@@ -135,10 +150,19 @@
   <data name="No_Pending_Uploads" xml:space="preserve">
     <value>No uploads pending review</value>
   </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
   <data name="Pending_Uploads" xml:space="preserve">
     <value>Pending Uploads</value>
   </data>
   <data name="Reject" xml:space="preserve">
     <value>Reject</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
   </data>
 </root>

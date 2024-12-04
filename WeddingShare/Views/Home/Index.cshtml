@@ -18,7 +18,7 @@
                     {
                         <div class="input-group">
                             <input type="text" id="gallery-id" class="form-control" aria-describedby="gallery-id-help" placeholder="@_localizer["Gallery_Name_Placeholder"].Value" aria-label="@_localizer["Gallery_Name"].Value" />
-                            @if ((User?.Identity != null && User.Identity.IsAuthenticated) || !_config.GetOrDefault("Settings", "Disable_Guest_Gallery_Creation", false))
+                            @if ((User?.Identity != null && User.Identity.IsAuthenticated) || !_config.GetOrDefault("Settings", "Disable_Guest_Gallery_Creation", true))
                             {
                                 <input type="button" id="btnGenerateGalleryName" class="btn btn-outline-success" value="@_localizer["Generate"].Value" />
                             }
@@ -32,13 +32,10 @@
                         <input type="hidden" id="gallery-id" value="default" />
                     }
 
-                    @if (!string.IsNullOrEmpty(_config.Get("Settings", "Secret_Key")))
-                    {
-                        <input type="text" id="gallery-key" class="form-control" aria-describedby="gallery-key-help" placeholder="@_localizer["Gallery_Key_Placeholder"].Value" aria-label="@_localizer["Gallery_Key"].Value" />
-                        <div id="gallery-key-help" class="form-text mb-4 mb-lg-5">
-                            @_localizer["Gallery_Key_Help"].Value
-                        </div>
-                    }
+                    <input type="text" id="gallery-key" class="form-control" aria-describedby="gallery-key-help" placeholder="@_localizer["Gallery_Key_Placeholder"].Value" aria-label="@_localizer["Gallery_Key"].Value" />
+                    <div id="gallery-key-help" class="form-text mb-4 mb-lg-5">
+                        @_localizer["Gallery_Key_Help"].Value
+                    </div>
 
                     <div class="d-grid gap-2">
                         <button id="btnVisitGallery" class="btn btn-primary" type="submit">@_localizer["Visit"].Value</button>
