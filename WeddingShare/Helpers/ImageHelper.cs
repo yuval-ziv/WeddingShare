@@ -50,7 +50,12 @@ namespace WeddingShare.Helpers
                             height = (int)((decimal)img.Height * scale);
                         }
 
-                        img.Mutate(x => x.Resize(width, height));
+                        img.Mutate(x =>
+                        {
+                            x.Resize(width, height);
+                            x.AutoOrient();
+                        });
+
                         await img.SaveAsWebpAsync(savePath);
                     }
 

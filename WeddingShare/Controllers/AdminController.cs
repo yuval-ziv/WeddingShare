@@ -1,17 +1,16 @@
+using System.IO.Compression;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using WeddingShare.Enums;
 using WeddingShare.Helpers;
-using WeddingShare.Views.Admin;
-using WeddingShare.Models;
 using WeddingShare.Helpers.Database;
+using WeddingShare.Models;
 using WeddingShare.Models.Database;
-using System.IO;
-using System.IO.Compression;
+using WeddingShare.Views.Admin;
 
 namespace WeddingShare.Controllers
 {
