@@ -1,6 +1,6 @@
-![Banner](https://github.com/Cirx08/WeddingShare/blob/main/banner.png?raw=true)
-
 # WeddingShare
+ 
+ <br />![Banner](https://github.com/Cirx08/WeddingShare/blob/main/banner.png?raw=true)
 
 ## About
 
@@ -102,3 +102,6 @@ volumes:
 ![Gallery](https://github.com/Cirx08/WeddingShare/blob/main/screenshots/Gallery-Mobile.png?raw=true)
 
 ![Admin Area](https://github.com/Cirx08/WeddingShare/blob/main/screenshots/Admin-Mobile.png?raw=true)
+
+### Attributions
+- [Bride icons created by Freepik - Flaticon](https://www.flaticon.com/free-icon/wedding-couple_703213)
