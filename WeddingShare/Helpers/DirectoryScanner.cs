@@ -1,4 +1,6 @@
 ﻿using NCrontab;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using WeddingShare.Enums;
 using WeddingShare.Helpers.Database;
 using WeddingShare.Models.Database;
@@ -87,6 +89,20 @@ namespace WeddingShare.Helpers
                                                     if (!File.Exists(thumbnailPath))
                                                     {
                                                         await imageHelper.GenerateThumbnail(file, thumbnailPath, configHelper.GetOrDefault("Settings", "Thumbnail_Size", 720));
+                                                    }
+                                                    else
+                                                    {
+                                                        using (var img = await Image.LoadAsync(thumbnailPath))
+                                                        {
+                                                            var width = img.Width;
+
+                                                            img.Mutate(x => x.AutoOrient());
+
+                                                            if (width != img.Width)
+                                                            {
+                                                                await img.SaveAsWebpAsync(thumbnailPath);
+                                                            }
+                                                        }
                                                     }
                                                 }
                                                 catch (Exception ex)
