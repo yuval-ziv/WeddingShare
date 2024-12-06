@@ -7,15 +7,25 @@ namespace WeddingShare.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
+        private readonly IDeviceDetector _deviceDetector;
         private readonly ILogger _logger;
-        public HomeController(IConfigHelper config, ILogger<HomeController> logger)
+
+        public HomeController(IDeviceDetector deviceDetector, ILogger<HomeController> logger)
         {
+            _deviceDetector = deviceDetector;
             _logger = logger;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var deviceType = HttpContext.Session.GetString("DeviceType");
+            if (string.IsNullOrWhiteSpace(deviceType))
+            {
+                deviceType = (await _deviceDetector.ParseDeviceType(Request.Headers["User-Agent"].ToString())).ToString();
+                HttpContext.Session.SetString("DeviceType", deviceType ?? "Desktop");
+            }
+
             return View();
         }
     }

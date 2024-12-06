@@ -20,6 +20,7 @@ namespace WeddingShare.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IConfigHelper _config;
         private readonly IDatabaseHelper _database;
+        private readonly IDeviceDetector _deviceDetector;
         private readonly IImageHelper _imageHelper;
         private readonly ILogger _logger;
         private readonly IStringLocalizer<AdminController> _localizer;
@@ -27,11 +28,12 @@ namespace WeddingShare.Controllers
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IImageHelper imageHelper, ILogger<AdminController> logger, IStringLocalizer<AdminController> localizer)
+        public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IDeviceDetector deviceDetector, IImageHelper imageHelper, ILogger<AdminController> logger, IStringLocalizer<AdminController> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
             _database = database;
+            _deviceDetector = deviceDetector;
             _imageHelper = imageHelper;
             _logger = logger;
             _localizer = localizer;
@@ -86,6 +88,13 @@ namespace WeddingShare.Controllers
             }
 
             var model = new IndexModel();
+
+            var deviceType = HttpContext.Session.GetString("DeviceType");
+            if (string.IsNullOrWhiteSpace(deviceType))
+            {
+                deviceType = (await _deviceDetector.ParseDeviceType(Request.Headers["User-Agent"].ToString())).ToString();
+                HttpContext.Session.SetString("DeviceType", deviceType ?? "Desktop");
+            }
 
             try
             {

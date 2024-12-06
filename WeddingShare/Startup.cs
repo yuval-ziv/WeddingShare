@@ -26,6 +26,7 @@ namespace WeddingShare
             services.AddSingleton<IEnvironmentWrapper, EnvironmentWrapper>();
             services.AddSingleton<ISecretKeyHelper, SecretKeyHelper>();
             services.AddSingleton<IImageHelper, ImageHelper>();
+            services.AddSingleton<IDeviceDetector, DeviceDetector>();
 
             var config = new ConfigHelper(new EnvironmentWrapper(), Configuration, _loggerFactory.CreateLogger<ConfigHelper>());
             switch (config.GetOrDefault("Database", "Database_Type", "sqlite")?.ToLower())
@@ -95,6 +96,7 @@ namespace WeddingShare
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseRequestLocalization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

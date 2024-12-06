@@ -19,20 +19,20 @@ namespace WeddingShare.Controllers
         private readonly IConfigHelper _config;
         private readonly IDatabaseHelper _database;
         private readonly ISecretKeyHelper _secretKey;
-        private readonly IMemoryCache _memoryCache;
+        private readonly IDeviceDetector _deviceDetector;
         private readonly ILogger _logger;
         private readonly IStringLocalizer<GalleryController> _localizer;
 
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, ISecretKeyHelper secretKey, IMemoryCache cache, ILogger<GalleryController> logger, IStringLocalizer<GalleryController> localizer)
+        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, ISecretKeyHelper secretKey, IDeviceDetector deviceDetector, ILogger<GalleryController> logger, IStringLocalizer<GalleryController> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
             _database = database;
             _secretKey = secretKey;
-            _memoryCache = cache;
+            _deviceDetector = deviceDetector;
             _logger = logger;
             _localizer = localizer;
 
@@ -51,26 +51,14 @@ namespace WeddingShare.Controllers
                 id = "default";
             }
 
-            try
+            var deviceType = HttpContext.Session.GetString("DeviceType");
+            if (string.IsNullOrWhiteSpace(deviceType))
             {
-                var userAgent = Request.Headers["User-Agent"].ToString();
-                if (!_memoryCache.TryGetValue<bool>(userAgent, out var isMobile))
-                {
-                    var dd = new DeviceDetectorNET.DeviceDetector(userAgent);
-                    dd.Parse();
-
-                    isMobile = dd.IsParsed() && dd.IsMobile();
-
-                    _memoryCache.Set(userAgent, isMobile);
-                }
-            
-                ViewBag.IsMobile = isMobile;
-            }
-            catch
-            { 
-                ViewBag.IsMobile = false;
+                deviceType = (await _deviceDetector.ParseDeviceType(Request.Headers["User-Agent"].ToString())).ToString();
+                HttpContext.Session.SetString("DeviceType", deviceType ?? "Desktop");
             }
 
+            ViewBag.IsMobile = !string.Equals("Desktop", deviceType, StringComparison.OrdinalIgnoreCase);
             ViewBag.SecretKey = key;
 
             var galleryPath = Path.Combine(UploadsDirectory, id);
