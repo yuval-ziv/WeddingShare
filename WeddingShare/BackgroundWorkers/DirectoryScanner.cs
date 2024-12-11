@@ -2,17 +2,18 @@
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using WeddingShare.Enums;
+using WeddingShare.Helpers;
 using WeddingShare.Helpers.Database;
 using WeddingShare.Models.Database;
 
-namespace WeddingShare.Helpers
+namespace WeddingShare.BackgroundWorkers
 {
     public sealed class DirectoryScanner(IWebHostEnvironment hostingEnvironment, IConfigHelper configHelper, IDatabaseHelper databaseHelper, IImageHelper imageHelper, ILogger<DirectoryScanner> logger) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var cron = configHelper.GetOrDefault("BackgroundServices", "Directory_Scanner_Interval", "*/30 * * * *");
-            var schedule = CrontabSchedule.Parse(cron);
+            var schedule = CrontabSchedule.Parse(cron, new CrontabSchedule.ParseOptions() { IncludingSeconds = cron.Split(new[] { ' ' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Length == 6 });
 
             await Task.Delay((int)TimeSpan.FromSeconds(10).TotalMilliseconds, stoppingToken);
             await ScanForFiles();
@@ -27,7 +28,7 @@ namespace WeddingShare.Helpers
                 await ScanForFiles();
             }
         }
-                
+
         private async Task ScanForFiles()
         {
             await Task.Run(async () =>
@@ -66,7 +67,7 @@ namespace WeddingShare.Helpers
                                     var galleryItems = await databaseHelper.GetAllGalleryItems(galleryItem.Id);
 
                                     if (Path.Exists(gallery))
-                                    { 
+                                    {
                                         var approvedFiles = Directory.GetFiles(gallery, "*.*", SearchOption.TopDirectoryOnly).Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
                                         if (approvedFiles != null)
                                         {
@@ -113,7 +114,7 @@ namespace WeddingShare.Helpers
                                         }
 
                                         if (Path.Exists(Path.Combine(gallery, "Pending")))
-                                        { 
+                                        {
                                             var pendingFiles = Directory.GetFiles(Path.Combine(gallery, "Pending"), "*.*", SearchOption.TopDirectoryOnly).Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
                                             if (pendingFiles != null)
                                             {

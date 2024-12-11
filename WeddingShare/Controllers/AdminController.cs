@@ -1,3 +1,4 @@
+using System.Composition;
 using System.IO.Compression;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
@@ -258,6 +259,81 @@ namespace WeddingShare.Controllers
         }
 
         [HttpDelete]
+        public async Task<IActionResult> WipeGallery(int id)
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                try
+                {
+                    var gallery = await _database.GetGallery(id);
+                    if (gallery != null)
+                    {
+                        var galleryDir = Path.Combine(UploadsDirectory, gallery.Name);
+                        if (Directory.Exists(galleryDir))
+                        {
+                            foreach (var photo in Directory.GetFiles(galleryDir, "*.*", SearchOption.AllDirectories))
+                            {
+                                var thumbnail = Path.Combine(ThumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(photo)}.webp");
+                                if (System.IO.File.Exists(thumbnail))
+                                {
+                                    System.IO.File.Delete(thumbnail);
+                                }
+                            }
+
+                            Directory.Delete(galleryDir, true);
+                            Directory.CreateDirectory(galleryDir);
+                        }
+
+                        return Json(new { success = await _database.WipeGallery(gallery) });
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = _localizer["Failed_Wipe_Gallery"].Value });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"{_localizer["Failed_Wipe_Gallery"].Value} - {ex?.Message}");
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> WipeAllGalleries()
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                try
+                {
+                    if (Directory.Exists(UploadsDirectory))
+                    {
+                        foreach (var gallery in Directory.GetDirectories(UploadsDirectory, "*", SearchOption.TopDirectoryOnly))
+                        {
+                            Directory.Delete(gallery, true);
+                        }
+
+                        foreach (var thumbnail in Directory.GetFiles(ThumbnailsDirectory, "*.*", SearchOption.AllDirectories))
+                        {
+                            System.IO.File.Delete(thumbnail);
+                        }
+
+                        Directory.CreateDirectory(Path.Combine(UploadsDirectory, "default"));
+                    }
+
+                    return Json(new { success = await _database.WipeAllGalleries() });
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"{_localizer["Failed_Wipe_Galleries"].Value} - {ex?.Message}");
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpDelete]
         public async Task<IActionResult> DeleteGallery(int id)
         {
             if (User?.Identity != null && User.Identity.IsAuthenticated)
@@ -274,6 +350,42 @@ namespace WeddingShare.Controllers
                         }
 
                         return Json(new { success = await _database.DeleteGallery(gallery) });
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = _localizer["Failed_Delete_Gallery"].Value });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"{_localizer["Failed_Delete_Gallery"].Value} - {ex?.Message}");
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeletePhoto(int id)
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                try
+                {
+                    var photo = await _database.GetGalleryItem(id);
+                    if (photo != null)
+                    {
+                        var gallery = await _database.GetGallery(photo.GalleryId);
+                        if (gallery != null)
+                        { 
+                            var photoPath = Path.Combine(UploadsDirectory, gallery.Name, photo.Title);
+                            if (System.IO.File.Exists(photoPath))
+                            {
+                                System.IO.File.Delete(photoPath);
+                            }
+
+                            return Json(new { success = await _database.DeleteGalleryItem(photo) });
+                        }
                     }
                     else
                     {
@@ -325,6 +437,140 @@ namespace WeddingShare.Controllers
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, $"{_localizer["Failed_Download_Gallery"].Value} - {ex?.Message}");
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExportBackup()
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var tempDir = $"Temp";
+                var exportDir = Path.Combine(tempDir, "Export");
+
+                try
+                {
+                    if (Directory.Exists(UploadsDirectory))
+                    {
+                        if (!Directory.Exists(tempDir))
+                        {
+                            Directory.CreateDirectory(tempDir);
+                        }
+
+                        if (Directory.Exists(exportDir))
+                        {
+                            Directory.Delete(exportDir, true);
+                        }
+                            
+                        Directory.CreateDirectory(exportDir);
+
+                        var dbExport = Path.Combine(exportDir, $"WeddingShare.bak");
+                        var exported = await _database.Export($"Data Source={dbExport}");
+                        if (exported)
+                        {
+                            var uploadsZip = Path.Combine(exportDir, $"Uploads.bak");
+                            ZipFile.CreateFromDirectory(UploadsDirectory, uploadsZip, CompressionLevel.Optimal, false);
+
+                            var thumbnailsZip = Path.Combine(exportDir, $"Thumbnails.bak");
+                            ZipFile.CreateFromDirectory(ThumbnailsDirectory, thumbnailsZip, CompressionLevel.Optimal, false);
+
+                            var exportZipFile = Path.Combine(tempDir, $"WeddingShare-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.zip");
+                            if (System.IO.File.Exists(exportZipFile))
+                            {
+                                System.IO.File.Delete(exportZipFile);
+                            }
+
+                            ZipFile.CreateFromDirectory(exportDir, exportZipFile, CompressionLevel.Optimal, false);
+                            System.IO.File.Delete(dbExport);
+                            System.IO.File.Delete(uploadsZip);
+                            System.IO.File.Delete(thumbnailsZip);
+
+                            byte[] bytes = System.IO.File.ReadAllBytes(exportZipFile);
+                            System.IO.File.Delete(exportZipFile);
+
+                            return Json(new { success = true, filename = Path.GetFileName(exportZipFile), content = Convert.ToBase64String(bytes, 0, bytes.Length) });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"{_localizer["Failed_Export"].Value} - {ex?.Message}");
+                }
+                finally
+                {
+                    Directory.Delete(exportDir, true);
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ImportBackup()
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var tempDir = $"Temp";
+                var importDir = Path.Combine(tempDir, "Import");
+
+                try
+                {
+                    var files = Request?.Form?.Files;
+                    if (files != null && files.Count > 0)
+                    {
+                        foreach (IFormFile file in files)
+                        {
+                            var extension = Path.GetExtension(file.FileName)?.Trim('.');
+                            if (string.Equals("zip", extension, StringComparison.OrdinalIgnoreCase))
+                            {
+                                if (!Directory.Exists(tempDir))
+                                {
+                                    Directory.CreateDirectory(tempDir);
+                                }
+
+                                var filePath = Path.Combine(tempDir, "Import.zip");
+                                if (!string.IsNullOrWhiteSpace(filePath))
+                                {
+                                    using (var fs = new FileStream(filePath, FileMode.Create))
+                                    {
+                                        await file.CopyToAsync(fs);
+                                    }
+
+                                    if (Directory.Exists(importDir))
+                                    {
+                                        Directory.Delete(importDir, true);
+                                    }
+
+                                    Directory.CreateDirectory(importDir);
+
+                                    ZipFile.ExtractToDirectory(filePath, importDir, true);
+                                    System.IO.File.Delete(filePath);
+
+                                    var uploadsZip = Path.Combine(importDir, "Uploads.bak");
+                                    ZipFile.ExtractToDirectory(uploadsZip, UploadsDirectory, true);
+
+                                    var thumbnailsZip = Path.Combine(importDir, "Thumbnails.bak");
+                                    ZipFile.ExtractToDirectory(thumbnailsZip, ThumbnailsDirectory, true);
+
+                                    var dbImport = Path.Combine(importDir, "WeddingShare.bak");
+                                    var imported = await _database.Import($"Data Source={dbImport}");
+
+                                    return Json(new { success = imported });
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"{_localizer["Import_Failed"].Value} - {ex?.Message}");
+                }
+                finally
+                {
+                    Directory.Delete(importDir, true);
                 }
             }
 

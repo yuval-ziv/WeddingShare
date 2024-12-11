@@ -1,7 +1,9 @@
 ﻿using System.Globalization;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using WeddingShare.BackgroundWorkers;
 using WeddingShare.Helpers;
 using WeddingShare.Helpers.Database;
 using WeddingShare.Helpers.Dbup;
@@ -50,6 +52,16 @@ namespace WeddingShare
             services.Configure<KestrelServerOptions>(options =>
             {
                 options.Limits.MaxRequestBodySize = int.MaxValue;
+            });
+
+            services.Configure<FormOptions>(x =>
+            {
+                x.MultipartHeadersLengthLimit = Int32.MaxValue;
+                x.MultipartBoundaryLengthLimit = Int32.MaxValue;
+                x.MultipartBodyLengthLimit = Int64.MaxValue;
+                x.ValueLengthLimit = Int32.MaxValue;
+                x.BufferBodyLengthLimit = Int64.MaxValue;
+                x.MemoryBufferThreshold = Int32.MaxValue;
             });
 
             services.Configure<RequestLocalizationOptions>(options => {

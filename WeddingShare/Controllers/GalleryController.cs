@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 using WeddingShare.Attributes;
 using WeddingShare.Enums;
@@ -20,19 +19,21 @@ namespace WeddingShare.Controllers
         private readonly IDatabaseHelper _database;
         private readonly ISecretKeyHelper _secretKey;
         private readonly IDeviceDetector _deviceDetector;
+        private readonly IImageHelper _imageHelper;
         private readonly ILogger _logger;
         private readonly IStringLocalizer<GalleryController> _localizer;
 
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, ISecretKeyHelper secretKey, IDeviceDetector deviceDetector, ILogger<GalleryController> logger, IStringLocalizer<GalleryController> localizer)
+        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, ISecretKeyHelper secretKey, IDeviceDetector deviceDetector, IImageHelper imageHelper, ILogger<GalleryController> logger, IStringLocalizer<GalleryController> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
             _database = database;
             _secretKey = secretKey;
             _deviceDetector = deviceDetector;
+            _imageHelper = imageHelper;
             _logger = logger;
             _localizer = localizer;
 
@@ -43,7 +44,7 @@ namespace WeddingShare.Controllers
         [HttpGet]
         [RequiresSecretKey]
         [AllowGuestCreate]
-        public async Task<IActionResult> Index(string id = "default", string? key = null)
+        public async Task<IActionResult> Index(string id = "default", string? key = null, GalleryOrder order = GalleryOrder.None)
         {
             id = id.ToLower();
             if (string.IsNullOrWhiteSpace(id) || _config.GetOrDefault("Settings", "Single_Gallery_Mode", false))
@@ -80,18 +81,38 @@ namespace WeddingShare.Controllers
 
             if (gallery != null)
             { 
-                var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);            
-                var images = new PhotoGallery(_config.GetOrDefault("Settings", "Gallery_Columns", 4))
+                var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+                var images = (await _database.GetAllGalleryItems(gallery.Id, GalleryItemState.Approved))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
+                switch (order) 
+                {
+                    case GalleryOrder.UploadedAsc:
+                        images = images?.OrderBy(x => x.Id);
+                        break;
+                    case GalleryOrder.UploadedDesc:
+                        images = images?.OrderByDescending(x => x.Id);
+                        break;
+                    case GalleryOrder.NameAsc:
+                        images = images?.OrderByDescending(x => x.Title);
+                        break;
+                    case GalleryOrder.NameDesc:
+                        images = images?.OrderBy(x => x.Title);
+                        break;
+                    default: 
+                        break;
+                }
+
+                var model = new PhotoGallery(_config.GetOrDefault("Settings", "Gallery_Columns", 4))
                 {
                     GalleryId = id,
                     GalleryPath = $"/{galleryPath.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
                     ThumbnailsPath = $"/{ThumbnailsDirectory.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
-                    Images = (await _database.GetAllGalleryItems(gallery.Id, GalleryItemState.Approved))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)))?.Select(x => Path.GetFileName(x.Title))?.ToList(),
+                    Images = images?.Select(x => new PhotoGalleryImage() { Id = x.Id, Name = Path.GetFileName(x.Title), Path = x.Title })?.ToList(),
                     PendingCount = gallery?.PendingItems ?? 0,
                     FileUploader = !_config.GetOrDefault("Settings", "Disable_Upload", false) || (User?.Identity != null && User.Identity.IsAuthenticated) ? new FileUploader(id, "/Gallery/UploadImage") : null
                 };
             
-                return View(images);
+                return View(model);
             }
 
             return View(new PhotoGallery());
@@ -146,12 +167,27 @@ namespace WeddingShare.Controllers
                                 {
                                     var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
                                     var galleryPath = requiresReview ? Path.Combine(UploadsDirectory, gallery.Name, "Pending") : Path.Combine(UploadsDirectory, gallery.Name);
+                                    if (!Directory.Exists(galleryPath))
+                                    {
+                                        Directory.CreateDirectory(galleryPath);
+                                    }
+
                                     var filePath = Path.Combine(galleryPath, fileName);
                                     if (!string.IsNullOrWhiteSpace(filePath))
                                     {
                                         using (var fs = new FileStream(filePath, FileMode.Create))
                                         {
                                             await file.CopyToAsync(fs);
+                                        }
+
+                                        if (!requiresReview)
+                                        { 
+                                            if (!Directory.Exists(ThumbnailsDirectory))
+                                            {
+                                                Directory.CreateDirectory(ThumbnailsDirectory);
+                                            }
+
+                                            await _imageHelper.GenerateThumbnail(filePath, Path.Combine(ThumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(filePath)}.webp"), _config.GetOrDefault("Settings", "Thumbnail_Size", 720));
                                         }
 
                                         var item = await _database.AddGalleryItem(new GalleryItemModel()

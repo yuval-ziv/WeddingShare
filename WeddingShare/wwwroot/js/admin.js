@@ -51,11 +51,224 @@
         $(document).off('click', 'i.btnAddGallery').on('click', 'i.btnAddGallery', function (e) {
             preventDefaults(e);
 
-            displayPopup('add-gallery-modal');
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
+            displayPopup({
+                Title: 'Create Gallery',
+                Fields: [{
+                    Id: 'gallery-name',
+                    Name: 'Gallery Name',
+                    Hint: 'Please enter a new gallery name'
+                }, {
+                    Id: 'gallery-key',
+                    Name: 'Secret Key',
+                    Hint: 'Please enter a new secret key'
+                }],
+                Buttons: [{
+                    Text: 'Create',
+                    Class: 'btn-success',
+                    Callback: function () {
+                        displayLoader('Loading...');
+
+                        let name = $('#popup-modal-field-gallery-name').val();
+                        if (name == undefined || name.length == 0) {
+                            displayMessage(`Create Gallery`, `Gallery name cannot be empty`);
+                            return;
+                        }
+
+                        let key = $('#popup-modal-field-gallery-key').val();
+                        
+                        $.ajax({
+                            url: '/Admin/AddGallery',
+                            method: 'POST',
+                            data: { Id: 0, Name: name, SecretKey: key }
+                        })
+                            .done(data => {
+                                if (data.success === true) {
+                                    displayMessage(`Create Gallery`, `Successfully created gallery`);
+                                } else if (data.message) {
+                                    displayMessage(`Create Gallery`, `Create failed`, [data.message]);
+                                } else {
+                                    displayMessage(`Create Gallery`, `Failed to create gallery`);
+                                }
+                            })
+                            .fail((xhr, error) => {
+                                displayMessage(`Create Gallery`, `Create failed`, [error]);
+                            });
+                    }
+                }, {
+                    Text: 'Close'
+                }]
+            });
+        });
+
+        $(document).off('click', 'i.btnImport').on('click', 'i.btnImport', function (e) {
+            preventDefaults(e);
+
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
+            displayPopup({
+                Title: 'Import Data',
+                Fields: [{
+                    Id: 'import-file',
+                    Name: 'Backup File',
+                    Type: 'File',
+                    Hint: 'Please select a WeddingShare backup archive',
+                    Accept: '.zip'
+                }],
+                Buttons: [{
+                    Text: 'Import',
+                    Class: 'btn-success',
+                    Callback: function () {
+                        displayLoader('Loading...');
+
+                        var files = $('#popup-modal-field-import-file')[0].files;
+                        if (files == undefined || files.length == 0) {
+                            displayMessage(`Import Data`, `Please select an import file`);
+                            return;
+                        }
+
+                        var data = new FormData();
+                        data.append('file-0', files[0]);
+
+                        $.ajax({
+                            url: '/Admin/ImportBackup',
+                            method: 'POST',
+                            data: data,
+                            contentType: false,
+                            processData: false
+                        })
+                            .done(data => {
+                                if (data.success === true) {
+                                    displayMessage(`Import Data`, `Successfully imported data`);
+                                    window.location.reload();
+                                } else if (data.message) {
+                                    displayMessage(`Import Data`, `Import failed`, [data.message]);
+                                } else {
+                                    displayMessage(`Import Data`, `Failed to import data`);
+                                }
+                            })
+                            .fail((xhr, error) => {
+                                displayMessage(`Import Data`, `Import failed`, [error]);
+                            });
+                    }
+                }, {
+                    Text: 'Close'
+                }]
+            });
+        });
+
+        $(document).off('click', 'i.btnExport').on('click', 'i.btnExport', function (e) {
+            preventDefaults(e);
+
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
+            displayPopup({
+                Title: 'Export Data',
+                Message: 'Are you sure you want to continue?',
+                Buttons: [{
+                    Text: 'Export',
+                    Class: 'btn-success',
+                    Callback: function () {
+                        displayLoader('Loading...');
+
+                        $.ajax({
+                            url: '/Admin/ExportBackup',
+                            method: 'GET'
+                        })
+                            .done(data => {
+                                hideLoader();
+
+                                if (data.success === true) {
+                                    var s = window.atob(data.content);
+                                    var bytes = new Uint8Array(s.length);
+                                    for (var i = 0; i < s.length; i++) {
+                                        bytes[i] = s.charCodeAt(i);
+                                    }
+
+                                    var blob = new Blob([bytes], { type: "application/octetstream" });
+
+                                    var isIE = false || !!document.documentMode;
+                                    if (isIE) {
+                                        window.navigator.msSaveBlob(blob, data.filename);
+                                    } else {
+                                        var url = window.URL || window.webkitURL;
+                                        link = url.createObjectURL(blob);
+                                        var a = $("<a />");
+                                        a.attr("download", data.filename);
+                                        a.attr("href", link);
+                                        $("body").append(a);
+                                        a[0].click();
+                                        $("body").remove(a);
+                                    }
+                                } else if (data.message) {
+                                    displayMessage(`Export Data`, `Export failed`, [data.message]);
+                                } else {
+                                    displayMessage(`Export Data`, `Failed to export data`);
+                                }
+                            })
+                            .fail((xhr, error) => {
+                                displayMessage(`Export Data`, `Export failed`, [error]);
+                            });
+                    }
+                }, {
+                    Text: 'Close'
+                }]
+            });
+        });
+
+        $(document).off('click', 'i.btnWipeAllGalleries').on('click', 'i.btnWipeAllGalleries', function (e) {
+            preventDefaults(e);
+
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
+            displayPopup({
+                Title: 'Wipe Data',
+                Message: 'Are you sure you want to wipe all data?',
+                Buttons: [{
+                    Text: 'Wipe',
+                    Class: 'btn-danger',
+                    Callback: function () {
+                        displayLoader('Loading...');
+
+                        $.ajax({
+                            url: '/Admin/WipeAllGalleries',
+                            method: 'DELETE'
+                        })
+                            .done(data => {
+                                if (data.success === true) {
+                                    displayMessage(`Wipe Data`, `Successfully wiped data`);
+                                } else if (data.message) {
+                                    displayMessage(`Wipe Data`, `Wipe failed`, [data.message]);
+                                } else {
+                                    displayMessage(`Wipe Data`, `Failed to wipe data`);
+                                }
+                            })
+                            .fail((xhr, error) => {
+                                displayMessage(`Wipe Data`, `Wipe failed`, [error]);
+                            });
+                    }
+                }, {
+                    Text: 'Close'
+                }]
+            });
         });
 
         $(document).off('click', 'i.btnOpenGallery').on('click', 'i.btnOpenGallery', function (e) {
             preventDefaults(e);
+
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
             window.open($(this).data('url'), '_blank');
         });
 
@@ -116,119 +329,177 @@
         $(document).off('click', 'i.btnEditGallery').on('click', 'i.btnEditGallery', function (e) {
             preventDefaults(e);
 
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
             let row = $(this).closest('tr');
+            displayPopup({
+                Title: 'Edit Gallery',
+                Fields: [{
+                    Id: 'gallery-id',
+                    Value: row.data('gallery-id'),
+                    Type: 'hidden'
+                }, {
+                    Id: 'gallery-name',
+                    Name: 'Gallery Name',
+                    Value: row.data('gallery-name'),
+                    Hint: 'Please enter a new gallery name'
+                }, {
+                    Id: 'gallery-key',
+                    Name: 'Secret Key',
+                    Value: row.data('gallery-key'),
+                    Hint: 'Please enter a new secret key'
+                }],
+                Buttons: [{
+                    Text: 'Update',
+                    Class: 'btn-success',
+                    Callback: function () {
+                        displayLoader('Loading...');
 
-            $('#edit-gallery-modal #gallery-id').val(row.data('gallery-id'));
-            $('#edit-gallery-modal #gallery-name').val(row.data('gallery-name'));
-            $('#edit-gallery-modal #gallery-key').val(row.data('gallery-key'));
+                        let id = $('#popup-modal-field-gallery-id').val();
+                        if (id == undefined || id.length == 0) {
+                            displayMessage(`Edit Gallery`, `Gallery id cannot be empty`);
+                            return;
+                        }
 
-            displayPopup('edit-gallery-modal');
+                        let name = $('#popup-modal-field-gallery-name').val();
+                        if (name == undefined || name.length == 0) {
+                            displayMessage(`Edit Gallery`, `Gallery name cannot be empty`);
+                            return;
+                        }
+
+                        let key = $('#popup-modal-field-gallery-key').val();
+
+                        $.ajax({
+                            url: '/Admin/EditGallery',
+                            method: 'PUT',
+                            data: { Id: id, Name: name, SecretKey: key }
+                        })
+                            .done(data => {
+                                if (data.success === true) {
+                                    $(`tr[data-gallery-id=${id}] .gallery-name`).text(name);
+                                    displayMessage(`Edit Gallery`, `Successfully updated gallery`);
+                                } else if (data.message) {
+                                    displayMessage(`Edit Gallery`, `Update failed`, [data.message]);
+                                } else {
+                                    displayMessage(`Edit Gallery`, `Failed to update gallery`);
+                                }
+                            })
+                            .fail((xhr, error) => {
+                                displayMessage(`Edit Gallery`, `Update failed`, [error]);
+                            });
+                    }
+                }, {
+                    Text: 'Close'
+                }]
+            });
+        });
+
+        $(document).off('click', 'i.btnWipeGallery').on('click', 'i.btnWipeGallery', function (e) {
+            preventDefaults(e);
+
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
+            let row = $(this).closest('tr');
+            displayPopup({
+                Title: 'Wipe Gallery',
+                Message: `Are you sure you want to wipe gallery '${row.data('gallery-name') }'?`,
+                Fields: [{
+                    Id: 'gallery-id',
+                    Value: row.data('gallery-id'),
+                    Type: 'hidden'
+                }],
+                Buttons: [{
+                    Text: 'Wipe',
+                    Class: 'btn-danger',
+                    Callback: function () {
+                        displayLoader('Loading...');
+
+                        let id = $('#popup-modal-field-gallery-id').val();
+                        if (id == undefined || id.length == 0) {
+                            displayMessage(`Wipe Gallery`, `Gallery id cannot be empty`);
+                            return;
+                        }
+
+                        $.ajax({
+                            url: '/Admin/WipeGallery',
+                            method: 'DELETE',
+                            data: { id }
+                        })
+                            .done(data => {
+                                if (data.success === true) {
+                                    $(`tr[data-gallery-id=${id}] .gallery-name`).text(name);
+                                    displayMessage(`Wipe Gallery`, `Successfully wiped gallery`);
+                                } else if (data.message) {
+                                    displayMessage(`Wipe Gallery`, `Wipe failed`, [data.message]);
+                                } else {
+                                    displayMessage(`Wipe Gallery`, `Failed to wipe gallery`);
+                                }
+                            })
+                            .fail((xhr, error) => {
+                                displayMessage(`Wipe Gallery`, `Wipe failed`, [error]);
+                            });
+                    }
+                }, {
+                    Text: 'Close'
+                }]
+            });
         });
 
         $(document).off('click', 'i.btnDeleteGallery').on('click', 'i.btnDeleteGallery', function (e) {
             preventDefaults(e);
 
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
             let row = $(this).closest('tr');
+            displayPopup({
+                Title: 'Delete Gallery',
+                Message: `Are you sure you want to delete gallery '${row.data('gallery-name')}'?`,
+                Fields: [{
+                    Id: 'gallery-id',
+                    Value: row.data('gallery-id'),
+                    Type: 'hidden'
+                }],
+                Buttons: [{
+                    Text: 'Delete',
+                    Class: 'btn-danger',
+                    Callback: function () {
+                        displayLoader('Loading...');
 
-            $('#delete-gallery-modal #gallery-id').val(row.data('gallery-id'));
-            $('#delete-gallery-modal #gallery-name').val(row.data('gallery-name'));
+                        let id = $('#popup-modal-field-gallery-id').val();
+                        if (id == undefined || id.length == 0) {
+                            displayMessage(`Delete Gallery`, `Gallery id cannot be empty`);
+                            return;
+                        }
 
-            displayPopup('delete-gallery-modal');
-        });
-
-        $(document).off('click', '#add-gallery-modal .btnCreate').on('click', '#add-gallery-modal .btnCreate', function (e) {
-            preventDefaults(e);
-
-            hidePopup('add-gallery-modal');
-            displayLoader('Loading...');
-
-            let name = $('#add-gallery-modal #gallery-name').val();
-            let key = $('#add-gallery-modal #gallery-key').val();
-
-            $.ajax({
-                url: '/Admin/AddGallery',
-                method: 'POST',
-                data: { Id: 0, Name: name, SecretKey: key }
-            })
-                .done(data => {
-                    hideLoader();
-
-                    if (data.success === true) {
-                        displayMessage(`Create`, `Successfully created gallery`);
-                    } else if (data.message) {
-                        displayMessage(`Create`, `Create failed`, [data.message]);
-                    } else {
-                        displayMessage(`Create`, `Failed to create gallery`);
+                        $.ajax({
+                            url: '/Admin/DeleteGallery',
+                            method: 'DELETE',
+                            data: { id }
+                        })
+                            .done(data => {
+                                if (data.success === true) {
+                                    $(`tr[data-gallery-id=${id}]`).remove();
+                                    displayMessage(`Delete Gallery`, `Successfully deleted gallery`);
+                                } else if (data.message) {
+                                    displayMessage(`Delete Gallery`, `Delete failed`, [data.message]);
+                                } else {
+                                    displayMessage(`Delete Gallery`, `Failed to delete gallery`);
+                                }
+                            })
+                            .fail((xhr, error) => {
+                                displayMessage(`Delete Gallery`, `Delete failed`, [error]);
+                            });
                     }
-                })
-                .fail((xhr, error) => {
-                    hideLoader();
-                    displayMessage(`Create`, `Create failed`, [error]);
-                });
-        });
-
-        $(document).off('click', '#edit-gallery-modal .btnUpdate').on('click', '#edit-gallery-modal .btnUpdate', function (e) {
-            preventDefaults(e);
-
-            hidePopup('edit-gallery-modal');
-            displayLoader('Loading...');
-
-            let id = $('#edit-gallery-modal #gallery-id').val();
-            let name = $('#edit-gallery-modal #gallery-name').val();
-            let key = $('#edit-gallery-modal #gallery-key').val();
-
-            $.ajax({
-                url: '/Admin/EditGallery',
-                method: 'PUT',
-                data: { Id: id, Name: name, SecretKey: key }
-            })
-                .done(data => {
-                    hideLoader();
-
-                    if (data.success === true) {
-                        $(`tr[data-gallery-id=${id}] .gallery-name`).text(name);
-                        displayMessage(`Update`, `Successfully updated gallery`);
-                    } else if (data.message) {
-                        displayMessage(`Update`, `Update failed`, [data.message]);
-                    } else {
-                        displayMessage(`Update`, `Failed to update gallery`);
-                    }
-                })
-                .fail((xhr, error) => {
-                    hideLoader();
-                    displayMessage(`Update`, `Update failed`, [error]);
-                });
-        });
-
-        $(document).off('click', '#delete-gallery-modal .btnDelete').on('click', '#delete-gallery-modal .btnDelete', function (e) {
-            preventDefaults(e);
-
-            hidePopup('delete-gallery-modal');
-            displayLoader('Loading...');
-
-            let id = $('#delete-gallery-modal #gallery-id').val();
-
-            $.ajax({
-                url: '/Admin/DeleteGallery',
-                method: 'DELETE',
-                data: { id }
-            })
-                .done(data => {
-                    hideLoader();
-
-                    if (data.success === true) {
-                        $(`tr[data-gallery-id=${id}]`).remove();
-                        displayMessage(`Delete`, `Successfully deleted gallery`);
-                    } else if (data.message) {
-                        displayMessage(`Delete`, `Delete failed`, [data.message]);
-                    } else {
-                        displayMessage(`Delete`, `Failed to delete gallery`);
-                    }
-                })
-                .fail((xhr, error) => {
-                    hideLoader();
-                    displayMessage(`Delete`, `Delete failed`, [error]);
-                });
+                }, {
+                    Text: 'Close'
+                }]
+            });
         });
 
     });

@@ -148,5 +148,60 @@
             imageUpload(dataRefs);
         }
 
+        $(document).off('click', 'button.btnDeletePhoto').on('click', 'button.btnDeletePhoto', function (e) {
+            preventDefaults(e);
+
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
+            var id = $(this).data('photo-id');
+            var name = $(this).data('photo-name');
+
+            displayPopup({
+                Title: 'Delete Photo',
+                Message: `Are you sure you want to delete photo '${name}'?`,
+                Fields: [{
+                    Id: 'photo-id',
+                    Value: id,
+                    Type: 'hidden'
+                }],
+                Buttons: [{
+                    Text: 'Delete',
+                    Class: 'btn-danger',
+                    Callback: function () {
+                        displayLoader('Loading...');
+
+                        let id = $('#popup-modal-field-photo-id').val();
+                        if (id == undefined || id.length == 0) {
+                            displayMessage(`Delete Photo`, `Photo id cannot be empty`);
+                            return;
+                        }
+
+                        $.ajax({
+                            url: '/Admin/DeletePhoto',
+                            method: 'DELETE',
+                            data: { id }
+                        })
+                            .done(data => {
+                                if (data.success === true) {
+                                    $(`tr[data-gallery-id=${id}]`).remove();
+                                    displayMessage(`Delete Photo`, `Successfully deleted photo`);
+                                } else if (data.message) {
+                                    displayMessage(`Delete Photo`, `Delete failed`, [data.message]);
+                                } else {
+                                    displayMessage(`Delete Photo`, `Failed to delete photo`);
+                                }
+                            })
+                            .fail((xhr, error) => {
+                                displayMessage(`Delete Photo`, `Delete failed`, [error]);
+                            });
+                    }
+                }, {
+                    Text: 'Close'
+                }]
+            });
+        });
+
     });
 })();

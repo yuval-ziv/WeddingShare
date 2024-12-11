@@ -33,9 +33,15 @@
                     var index = columnIndex;
                     while (index < Model.Images.Count())
                     {
-                        <a href="@Model.GalleryPath/@Model.Images[index]" data-lightbox="@Model.GalleryId">
-                            <img src="@Model.ThumbnailsPath/@(System.IO.Path.GetFileNameWithoutExtension(Model.Images[index].TrimStart('/'))).webp" class="w-100 shadow-1-strong rounded mb-4" loading="lazy" />
-                        </a>
+                        <div class="rounded mb-4 image-tile">
+                            <a href="@Model.GalleryPath/@Model.Images[index]?.Name?.TrimStart('/')" data-lightbox="@Model.GalleryId">
+                                <img src="@Model.ThumbnailsPath/@(System.IO.Path.GetFileNameWithoutExtension(Model.Images[index]?.Name?.TrimStart('/'))).webp" class="w-100 shadow-1-strong" loading="lazy" />
+                            </a>
+                            @if (User?.Identity != null && User.Identity.IsAuthenticated)
+                            {
+                                <button type="button" class="btn btn-danger btnDeletePhoto w-100 m-0" data-photo-id="@Model.Images[index]?.Id" data-photo-name="@Model.Images[index]?.Name">@_localizer["Delete"].Value</button>
+                            }
+                        </div>
                         index += columnCount;
                     }
                 }

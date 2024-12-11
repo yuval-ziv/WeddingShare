@@ -1,4 +1,5 @@
 ﻿@using System.Text
+@using WeddingShare.Enums
 @using WeddingShare.Views.Gallery
 @inject Microsoft.Extensions.Localization.IStringLocalizer<IndexModel> _localizer
 @inject WeddingShare.Helpers.IConfigHelper _config
@@ -7,21 +8,21 @@
 @{
     var ctx = Context.Request;
 
-    var qrCodeLink = $"{(_config.GetOrDefault("Settings", "Force_Https", false) ? "https" : ctx.Scheme)}://{ctx.Host}{ctx.Path}";
-    if (_config.GetOrDefault("Settings", "Hide_Key_From_QR_Code", false))
+    var baseLink = $"{(_config.GetOrDefault("Settings", "Force_Https", false) ? "https" : ctx.Scheme)}://{ctx.Host}{ctx.Path}";
+
+    var queryString = new StringBuilder();
+    foreach (var q in ctx.Query.Where(x => !string.Equals("order", x.Key, StringComparison.OrdinalIgnoreCase)))
     {
-        var queryString = new StringBuilder();
-        foreach (var q in ctx.Query.Where(x => !string.Equals("key", x.Key, StringComparison.OrdinalIgnoreCase)))
+        if (string.Equals("key", q.Key, StringComparison.OrdinalIgnoreCase) && _config.GetOrDefault("Settings", "Hide_Key_From_QR_Code", false))
         {
-            queryString.Append($"&{q.Key}={q.Value}");
+            continue;
         }
 
-        qrCodeLink = $"{qrCodeLink}?{queryString.ToString().TrimStart('&')}";
+        queryString.Append($"&{q.Key}={q.Value}");
     }
-    else
-    {
-        qrCodeLink = $"{qrCodeLink}?{ctx.QueryString.ToString().TrimStart('?')}";
-    }
+
+    baseLink = $"{baseLink}?{queryString.ToString().TrimStart('&')}".TrimEnd(new char[] { '?', '&' });
+    var qrCodeLink = $"{baseLink}{(ctx.Query.ContainsKey("order") ? $"&order={ctx.Query["order"]}" : string.Empty)}";
 }
 
 @if (Model?.FileUploader != null)
@@ -53,6 +54,20 @@
         @if (!_config.GetOrDefault("Settings", "Disable_QR_Code", false))
         {
             <div class="qrcode-container d-none d-lg-block">
+                <div class="btn-group w-100 mb-5">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sort
+                    </button>
+                    <div class="dropdown-menu">
+                        @foreach (GalleryOrder order in Enum.GetValues(typeof(GalleryOrder)))
+                        {
+                            if (order != GalleryOrder.None)
+                            {
+                                <a class="dropdown-item" href="@($"{baseLink}&order={(int)order}")">@order</a>
+                            }
+                        }
+                    </div>
+                </div>
                 <div id="qrcode"></div>
                 <span>@_localizer["Share_Code"].Value</span>
             </div>
