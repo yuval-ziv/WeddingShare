@@ -8,11 +8,11 @@
         }
 
         public PhotoGallery(int columnCount)
-            : this("default", columnCount, string.Empty, string.Empty, new List<string>())
+            : this("default", columnCount, string.Empty, string.Empty, new List<PhotoGalleryImage>())
         {
         }
 
-        public PhotoGallery(string id, int columnCount, string galleryPath, string thumbnailPath, List<string> images)
+        public PhotoGallery(string id, int columnCount, string galleryPath, string thumbnailPath, List<PhotoGalleryImage> images)
         {
             this.GalleryId = id;
             this.GalleryPath = galleryPath;
@@ -42,7 +42,18 @@
                 return this.ApprovedCount + this.PendingCount;
             }
         }
-        public List<string>? Images { get; set; }
+        public List<PhotoGalleryImage>? Images { get; set; }
         public FileUploader? FileUploader { get; set; }
+    }
+
+    public class PhotoGalleryImage
+    {
+        public PhotoGalleryImage()
+        { 
+        }
+
+        public int Id { get; set; }
+        public string? Path { get; set; }
+        public string? Name { get; set; }
     }
 }

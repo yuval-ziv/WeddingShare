@@ -129,11 +129,23 @@
   <data name="Failed_Edit_Gallery" xml:space="preserve">
     <value>Échec de la mise à jour de la galerie</value>
   </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Échec de l'exportation des données</value>
+  </data>
   <data name="Failed_Finding_File" xml:space="preserve">
     <value>Impossible de trouver le fichier</value>
   </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Échec de l'importation des données</value>
+  </data>
   <data name="Failed_Reviewing_Photo" xml:space="preserve">
     <value>Impossible de vérifier la photo</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Impossible d'effacer la galerie</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Impossible d'effacer la galerie</value>
   </data>
   <data name="Gallery_Name_Already_Exists" xml:space="preserve">
     <value>Le nom de la galerie existe déjà</value>

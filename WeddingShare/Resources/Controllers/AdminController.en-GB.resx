@@ -129,11 +129,23 @@
   <data name="Failed_Edit_Gallery" xml:space="preserve">
     <value>Failed to update gallery</value>
   </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Failed to export data</value>
+  </data>
   <data name="Failed_Finding_File" xml:space="preserve">
     <value>Failed to find file</value>
   </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Failed to import data</value>
+  </data>
   <data name="Failed_Reviewing_Photo" xml:space="preserve">
     <value>Failed to review photo</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Failed to wipe galleries</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Failed to wipe gallery</value>
   </data>
   <data name="Gallery_Name_Already_Exists" xml:space="preserve">
     <value>Gallery name already exists</value>

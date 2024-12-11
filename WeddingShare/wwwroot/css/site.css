@@ -91,3 +91,16 @@ tr td i {
 .pending-approval .btn-group .btn:last-child {
     border-radius: 0px 0px 5px 0px;
 }
+
+.image-tile {
+    overflow: hidden;
+}
+
+    .image-tile .btn {
+        border-radius: 0px;
+        display: none;
+    }
+
+    .image-tile:hover .btn {
+        display: block;
+    }

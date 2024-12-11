@@ -16,21 +16,6 @@ function hideLoader() {
     $('body').loading('stop');
 }
 
-function displayPopup(id) {
-    $('body').loading({
-        theme: 'dark',
-        message: '',
-        stoppable: false,
-        start: true
-    });
-    $(`#${id}`).show();
-}
-
-function hidePopup(id) {
-    $('body').loading('stop');
-    $(`#${id}`).hide();
-}
-
 function uuidv4() {
     return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
         (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
@@ -38,6 +23,8 @@ function uuidv4() {
 }
 
 function displayMessage(title, message, errors) {
+    hideLoader();
+
     $('#alert-message-modal .modal-title').text(title);
     $('#alert-message-modal .modal-message').html(message);
 

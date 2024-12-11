@@ -141,6 +141,63 @@ namespace WeddingShare.Helpers.Database
             return result;
         }
 
+        public async Task<bool> WipeGallery(GalleryModel model)
+        {
+            bool result = false;
+
+            using (var conn = new SqliteConnection(_connString))
+            {
+                var cmd = new SqliteCommand($"DELETE FROM `gallery_items` WHERE `gallery_id`=@Id;", conn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("Id", model.Id);
+
+                await conn.OpenAsync();
+                var tran = await conn.BeginTransactionAsync();
+                try
+                {
+                    cmd.Transaction = (SqliteTransaction)tran;
+                    result = (await cmd.ExecuteNonQueryAsync()) > 0;
+                    await tran.CommitAsync();
+                }
+                catch
+                {
+                    await tran.RollbackAsync();
+                }
+
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<bool> WipeAllGalleries()
+        {
+            bool result = false;
+
+            using (var conn = new SqliteConnection(_connString))
+            {
+                var cmd = new SqliteCommand($"DELETE FROM `gallery_items`; DELETE FROM `galleries` WHERE `id` > 1;", conn);
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+                var tran = await conn.BeginTransactionAsync();
+                try
+                {
+                    cmd.Transaction = (SqliteTransaction)tran;
+                    result = (await cmd.ExecuteNonQueryAsync()) > 0;
+                    await tran.CommitAsync();
+                }
+                catch
+                {
+                    await tran.RollbackAsync();
+                }
+
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
         public async Task<bool> DeleteGallery(GalleryModel model)
         {
             bool result = false;
@@ -353,6 +410,62 @@ namespace WeddingShare.Helpers.Database
 
                 await conn.CloseAsync();
             }
+
+            return result;
+        }
+        #endregion
+
+        #region Backups
+        public async Task<bool> Import(string path)
+        {
+            bool result = false;
+
+            try
+            {
+                using (var backup = new SqliteConnection(path))
+                using (var conn = new SqliteConnection(_connString))
+                {
+                    await backup.OpenAsync();
+                    await conn.OpenAsync();
+
+                    backup.BackupDatabase(conn);
+
+                    await conn.CloseAsync();
+                    await backup.CloseAsync();
+
+                    SqliteConnection.ClearPool(backup);
+                }
+
+                result = true;
+            }
+            catch { }
+
+            return result;
+        }
+
+        public async Task<bool> Export(string path)
+        {
+            bool result = false;
+
+            try
+            {
+                using (var conn = new SqliteConnection(_connString))
+                using (var backup = new SqliteConnection(path))
+                {
+                    await conn.OpenAsync();
+                    await backup.OpenAsync();
+
+                    conn.BackupDatabase(backup);
+
+                    await backup.CloseAsync();
+                    await conn.CloseAsync();
+                
+                    SqliteConnection.ClearPool(backup);
+                }
+
+                result = true;
+            }
+            catch { }
 
             return result;
         }
