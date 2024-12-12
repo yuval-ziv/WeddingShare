@@ -3795,6 +3795,16 @@ textarea.form-control-lg {
     display: inline-block;
   }
 
+  @media only screen and (max-width: 600px) {
+      a.navbar-brand .navbar-logo {
+        padding: 0px 5px 0px 0px !important;
+      }
+
+      a.navbar-brand .navbar-title {
+        font-size: 1.05rem;
+      }
+  }
+
 .navbar-nav {
   --bs-nav-link-padding-x: 0;
   --bs-nav-link-padding-y: 0.5rem;
