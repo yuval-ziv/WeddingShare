@@ -55,49 +55,51 @@
             </div>
         }
 
-        @if (!_config.GetOrDefault("Settings", "Disable_QR_Code", false))
-        {
-            <div class="qrcode-container d-none d-lg-block">
+        <div class="gallery-sidebar d-none d-lg-block">
+            @if (!_config.GetOrDefault("Settings", "Disable_QR_Code", false))
+            {
                 <div id="qrcode"></div>
                 <span>@_localizer["Share_Code"].Value</span>
-                <div class="presentation-hidden mt-4">
-                    <div class="btn-group w-100 mb-2">
-                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            View
-                        </button>
-                        <div class="dropdown-menu">
-                            @foreach (ViewMode mode in Enum.GetValues(typeof(ViewMode)))
-                            {
-                                <a class="dropdown-item" href="@($"{qrCodeLink}{(qrCodeLink.Contains("?") ? "&" : "?")}mode={(int)mode}")">@mode</a>
-                            }
-                        </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        if ($('#qrcode').length > 0 && $('#qrcode').is(':visible')) {
+                            $(function () {
+                                $('#qrcode').qrcode({ width: 150, height: 150, text: '@Html.Raw(qrCodeLink)' });
+                            });
+                        }
+                    }, false);
+                </script>
+            }
+
+            <div class="presentation-hidden mt-4">
+                <div class="btn-group w-100 mb-2">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        View
+                    </button>
+                    <div class="dropdown-menu">
+                        @foreach (ViewMode mode in Enum.GetValues(typeof(ViewMode)))
+                        {
+                            <a class="dropdown-item" href="@($"{qrCodeLink}{(qrCodeLink.Contains("?") ? "&" : "?")}mode={(int)mode}")">@mode</a>
+                        }
                     </div>
-                    <div class="btn-group w-100 mb-2">
-                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Sort
-                        </button>
-                        <div class="dropdown-menu">
-                            @foreach (GalleryOrder order in Enum.GetValues(typeof(GalleryOrder)))
+                </div>
+                <div class="btn-group w-100 mb-2">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sort
+                    </button>
+                    <div class="dropdown-menu">
+                        @foreach (GalleryOrder order in Enum.GetValues(typeof(GalleryOrder)))
+                        {
+                            if (order != GalleryOrder.None)
                             {
-                                if (order != GalleryOrder.None)
-                                {
-                                    <a class="dropdown-item" href="@($"{baseLink}{(baseLink.Contains("?") ? "&" : "?")}order={(int)order}")">@order</a>
-                                }
+                                <a class="dropdown-item" href="@($"{baseLink}{(baseLink.Contains("?") ? "&" : "?")}order={(int)order}")">@order</a>
                             }
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    if ($('#qrcode').length > 0 && $('#qrcode').is(':visible')) {
-                        $(function () {
-                            $('#qrcode').qrcode({ width: 150, height: 150, text: '@Html.Raw(qrCodeLink)' });
-                        });
-                    }
-                }, false);
-            </script>
-        }
+        </div>
+
         <partial name="~/Views/Shared/_PhotoGallery.cshtml" model="Model" />
     </div>
 </section>
