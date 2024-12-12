@@ -17,7 +17,7 @@
         {
             continue;
         }
-        else if (string.Equals("order", q.Key, StringComparison.OrdinalIgnoreCase))
+        else if (string.Equals("order", q.Key, StringComparison.OrdinalIgnoreCase) || string.Equals("mode", q.Key, StringComparison.OrdinalIgnoreCase))
         {
             continue;
         }
@@ -29,7 +29,7 @@
     var qrCodeLink = $"{baseLink}{(ctx.Query.ContainsKey("order") ? $"{(baseLink.Contains("?") ? "&" : "?")}order={ctx.Query["order"]}" : string.Empty)}";
 }
 
-@if (Model?.FileUploader != null)
+@if (Model?.FileUploader != null && Model.ViewMode != ViewMode.Presentation)
 {
     <header class="bg-dark py-1 py-lg-5">
         <div class="container px-0 px-lg-2">
@@ -58,22 +58,35 @@
         @if (!_config.GetOrDefault("Settings", "Disable_QR_Code", false))
         {
             <div class="qrcode-container d-none d-lg-block">
-                <div class="btn-group w-100 mb-5">
-                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Sort
-                    </button>
-                    <div class="dropdown-menu">
-                        @foreach (GalleryOrder order in Enum.GetValues(typeof(GalleryOrder)))
-                        {
-                            if (order != GalleryOrder.None)
-                            {
-                                <a class="dropdown-item" href="@($"{baseLink}{(baseLink.Contains("?") ? "&" : "?")}order={(int)order}")">@order</a>
-                            }
-                        }
-                    </div>
-                </div>
                 <div id="qrcode"></div>
                 <span>@_localizer["Share_Code"].Value</span>
+                <div class="presentation-hidden mt-4">
+                    <div class="btn-group w-100 mb-2">
+                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            View
+                        </button>
+                        <div class="dropdown-menu">
+                            @foreach (ViewMode mode in Enum.GetValues(typeof(ViewMode)))
+                            {
+                                <a class="dropdown-item" href="@($"{qrCodeLink}{(qrCodeLink.Contains("?") ? "&" : "?")}mode={(int)mode}")">@mode</a>
+                            }
+                        </div>
+                    </div>
+                    <div class="btn-group w-100 mb-2">
+                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Sort
+                        </button>
+                        <div class="dropdown-menu">
+                            @foreach (GalleryOrder order in Enum.GetValues(typeof(GalleryOrder)))
+                            {
+                                if (order != GalleryOrder.None)
+                                {
+                                    <a class="dropdown-item" href="@($"{baseLink}{(baseLink.Contains("?") ? "&" : "?")}order={(int)order}")">@order</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
             <script>
                 document.addEventListener('DOMContentLoaded', function () {

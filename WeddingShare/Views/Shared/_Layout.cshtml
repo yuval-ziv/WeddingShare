@@ -1,3 +1,4 @@
+@using WeddingShare.Enums
 @inject WeddingShare.Helpers.IConfigHelper _config
 @{
     var title = _config.GetOrDefault("Settings", "Title", "WeddingShare");
@@ -47,17 +48,45 @@
                 
                 @if (!string.IsNullOrWhiteSpace(Context?.Request?.Path.Value))
                 {
-                    if (Context.Request.Path.Value.Contains("/Admin", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/Login", StringComparison.OrdinalIgnoreCase))
+                    var viewMode = Context.Request.Query["mode"].ToString();
+                    var isPresentationMode = int.Parse(!string.IsNullOrWhiteSpace(viewMode) ? viewMode : ((int)ViewMode.Default).ToString()) == (int)ViewMode.Presentation;
+                    if (!isPresentationMode)
                     {
-                        <a href="@Url.Action("Logout", "Admin")">
-                            <i class="fa-solid fa-door-open fa-2x float-end text-danger"></i>
-                        </a>
+                        <div class="presentation-hidden">
+                            @if (Context.Request.Path.Value.Contains("/Admin", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/Login", StringComparison.OrdinalIgnoreCase))
+                            {
+                                <a href="@Url.Action("Logout", "Admin")">
+                                    <i class="fa-solid fa-door-open fa-2x float-end text-danger"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Login", "Admin")">
+                                    <i class="fa-solid fa-circle-user fa-2x float-end text-secondary"></i>
+                                </a>
+                            }
+                        </div>
                     }
                     else
                     {
-                        <a href="@Url.Action("Login", "Admin")">
-                            <i class="fa-solid fa-circle-user fa-2x float-end text-secondary"></i>
-                        </a>
+                        <script>
+                            (function () {
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var presentationTimeout = setTimeout(function () {
+                                        $('.presentation-hidden').fadeOut(500);
+                                    }, 1000);
+
+                                    $(document).off('mousemove').on('mousemove', function () {
+                                        $('.presentation-hidden').fadeIn(200);
+
+                                        clearTimeout(presentationTimeout);
+                                        presentationTimeout = setTimeout(function () {
+                                            $('.presentation-hidden').fadeOut(500);
+                                        }, 1000);
+                                    });
+                                });
+                            })();
+                        </script>
                     }
                 }
             </div>
@@ -71,14 +100,14 @@
                     var errorMessage = ViewBag.ErrorMessage;
                     if (!string.IsNullOrWhiteSpace(errorMessage))
                     {
-                        <div class="alert alert-danger d-flex align-items-center" role="alert">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
-                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                            </svg>
-                            <div>
-                                @errorMessage
-                            </div>
-                        </div>
+                                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                            </svg>
+                                            <div>
+                                                @errorMessage
+                                            </div>
+                                        </div>
                     }
                 }
                 catch { }

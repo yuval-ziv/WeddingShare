@@ -44,7 +44,7 @@ namespace WeddingShare.Controllers
         [HttpGet]
         [RequiresSecretKey]
         [AllowGuestCreate]
-        public async Task<IActionResult> Index(string id = "default", string? key = null, GalleryOrder order = GalleryOrder.None)
+        public async Task<IActionResult> Index(string id = "default", string? key = null, GalleryOrder order = GalleryOrder.None, ViewMode mode = ViewMode.Default)
         {
             id = id.ToLower();
             if (string.IsNullOrWhiteSpace(id) || _config.GetOrDefault("Settings", "Single_Gallery_Mode", false))
@@ -102,7 +102,7 @@ namespace WeddingShare.Controllers
                         break;
                 }
 
-                var model = new PhotoGallery(_config.GetOrDefault("Settings", "Gallery_Columns", 4))
+                var model = new PhotoGallery(_config.GetOrDefault("Settings", "Gallery_Columns", 4), mode)
                 {
                     GalleryId = id,
                     GalleryPath = $"/{galleryPath.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
