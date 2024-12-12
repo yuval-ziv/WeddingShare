@@ -44,6 +44,22 @@
                     <img class="navbar-logo" src="@logo" />
                     <span class="navbar-title">@title</span>
                 </a>
+                
+                @if (!string.IsNullOrWhiteSpace(Context?.Request?.Path.Value))
+                {
+                    if (Context.Request.Path.Value.Contains("/Admin", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/Login", StringComparison.OrdinalIgnoreCase))
+                    {
+                        <a href="@Url.Action("Logout", "Admin")">
+                            <i class="fa-solid fa-door-open fa-2x float-end text-danger"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Login", "Admin")">
+                            <i class="fa-solid fa-circle-user fa-2x float-end text-secondary"></i>
+                        </a>
+                    }
+                }
             </div>
         </nav>
         
