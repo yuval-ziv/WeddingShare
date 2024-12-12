@@ -1,0 +1,26 @@
+﻿@using WeddingShare.Views.Admin
+@inject Microsoft.Extensions.Localization.IStringLocalizer<LoginViewModel> _localizer
+@inject WeddingShare.Helpers.IConfigHelper _config
+
+<section class="py-1 py-lg-5">
+    <div class="container px-3 px-lg-1 my-3 mt-lg-1">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="display-6">@_localizer["Admin_Login"].Value</h1>
+            </div>
+            <div class="card-body m-1 m-lg-5">
+                <form id="frmAdminLogin">
+                    <div class="input-group">
+                        <input type="password" id="admin-password" class="form-control" aria-describedby="admin-password-help" placeholder="@_localizer["Admin_Login_Placeholder"].Value" aria-label="@_localizer["Admin_Login"].Value" />
+                    </div>
+                    <div id="admin-password-help" class="form-text">
+                        @_localizer["Admin_Login_Help"].Value
+                    </div>
+                    <div class="d-grid gap-2 mt-4 mt-lg-5">
+                        <button id="btnAdminLogin" class="btn btn-primary" type="submit">@_localizer["Login"].Value</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

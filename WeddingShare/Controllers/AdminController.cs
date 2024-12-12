@@ -44,6 +44,18 @@ namespace WeddingShare.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Login()
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            return View();
+        }
+
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
         {

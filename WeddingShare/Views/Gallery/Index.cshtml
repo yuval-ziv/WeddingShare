@@ -17,12 +17,16 @@
         {
             continue;
         }
+        else if (string.Equals("order", q.Key, StringComparison.OrdinalIgnoreCase))
+        {
+            continue;
+        }
 
         queryString.Append($"&{q.Key}={q.Value}");
     }
 
     baseLink = $"{baseLink}?{queryString.ToString().TrimStart('&')}".TrimEnd(new char[] { '?', '&' });
-    var qrCodeLink = $"{baseLink}{(ctx.Query.ContainsKey("order") ? $"&order={ctx.Query["order"]}" : string.Empty)}";
+    var qrCodeLink = $"{baseLink}{(ctx.Query.ContainsKey("order") ? $"{(baseLink.Contains("?") ? "&" : "?")}order={ctx.Query["order"]}" : string.Empty)}";
 }
 
 @if (Model?.FileUploader != null)
@@ -63,7 +67,7 @@
                         {
                             if (order != GalleryOrder.None)
                             {
-                                <a class="dropdown-item" href="@($"{baseLink}&order={(int)order}")">@order</a>
+                                <a class="dropdown-item" href="@($"{baseLink}{(baseLink.Contains("?") ? "&" : "?")}order={(int)order}")">@order</a>
                             }
                         }
                     </div>
