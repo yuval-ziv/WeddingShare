@@ -44,12 +44,21 @@ namespace WeddingShare.Controllers
         [HttpGet]
         [RequiresSecretKey]
         [AllowGuestCreate]
-        public async Task<IActionResult> Index(string id = "default", string? key = null, GalleryOrder order = GalleryOrder.None, ViewMode mode = ViewMode.Default)
+        public async Task<IActionResult> Index(string id = "default", string? key = null, ViewMode? mode = null, GalleryOrder order = GalleryOrder.None)
         {
             id = id.ToLower();
             if (string.IsNullOrWhiteSpace(id) || _config.GetOrDefault("Settings", "Single_Gallery_Mode", false))
             {
                 id = "default";
+            }
+
+            try
+            {
+                ViewBag.ViewMode = mode ?? (ViewMode)_config.GetOrDefault("Settings", "Default_Gallery_View", (int)ViewMode.Default);
+            }
+            catch
+            {
+                ViewBag.ViewMode = ViewMode.Default;
             }
 
             var deviceType = HttpContext.Session.GetString("DeviceType");
@@ -102,7 +111,7 @@ namespace WeddingShare.Controllers
                         break;
                 }
 
-                var model = new PhotoGallery(_config.GetOrDefault("Settings", "Gallery_Columns", 4), mode)
+                var model = new PhotoGallery(_config.GetOrDefault("Settings", "Gallery_Columns", 4), (ViewMode)ViewBag.ViewMode)
                 {
                     GalleryId = id,
                     GalleryPath = $"/{galleryPath.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
@@ -116,7 +125,6 @@ namespace WeddingShare.Controllers
             }
 
             return View(new PhotoGallery());
-
         }
 
         [HttpPost]
