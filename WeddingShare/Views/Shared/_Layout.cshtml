@@ -46,14 +46,12 @@
                     <span class="navbar-title">@title</span>
                 </a>
                 
-                @if (!string.IsNullOrWhiteSpace(Context?.Request?.Path.Value))
-                {
-                    var viewMode = Context.Request.Query["mode"].ToString();
-                    var isPresentationMode = int.Parse(!string.IsNullOrWhiteSpace(viewMode) ? viewMode : ((int)ViewMode.Default).ToString()) == (int)ViewMode.Presentation;
-                    if (!isPresentationMode)
+                @{
+                    var viewMode = ViewBag.ViewMode != null ? ViewBag.ViewMode : ViewMode.Default;
+                    if (viewMode != ViewMode.Presentation)
                     {
                         <div class="presentation-hidden">
-                            @if (Context.Request.Path.Value.Contains("/Admin", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/Login", StringComparison.OrdinalIgnoreCase))
+                            @if (!string.IsNullOrWhiteSpace(Context.Request.Path.Value) && Context.Request.Path.Value.Contains("/Admin", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/Login", StringComparison.OrdinalIgnoreCase))
                             {
                                 <a href="@Url.Action("Logout", "Admin")">
                                     <i class="fa-solid fa-door-open fa-2x float-end text-danger"></i>

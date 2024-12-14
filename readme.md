@@ -24,6 +24,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | LOGO                           | https://someurl/someimage.png |
 | FORCE_HTTPS                    | false                         |
 | GALLERY_COLUMNS                | 4                             |
+| DEFAULT_GALLERY_VIEW           | 0 (Default), 1 (Presentation) |
 | ALLOWED_FILE_TYPES             | .jpg,.jpeg,.png               |
 | MAX_FILE_SIZE_MB               | 10                            |
 | THUMBNAIL_SIZE                 | 720                           |
@@ -37,6 +38,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | DISABLE_UPLOAD                 | false                         |
 | DISABLE_QR_CODE                | false                         |
 | DISABLE_GUEST_GALLERY_CREATION | true                          |
+| FULL_WIDTH_GALLERY             | false                         |
 | HIDE_KEY_FROM_QR_CODE          | false                         |
 | IDLE_GALLERY_REFRESH_MINS      | 5 (0 = disable)               |
 | DIRECTORY_SCANNER_INTERVAL     | */30 * * * * (cron)           |
