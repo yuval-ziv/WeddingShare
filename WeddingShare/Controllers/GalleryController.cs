@@ -44,6 +44,7 @@ namespace WeddingShare.Controllers
         [HttpGet]
         [RequiresSecretKey]
         [AllowGuestCreate]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Index(string id = "default", string? key = null, ViewMode? mode = null, GalleryOrder order = GalleryOrder.None)
         {
             id = id.ToLower();
