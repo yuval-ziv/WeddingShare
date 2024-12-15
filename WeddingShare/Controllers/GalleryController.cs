@@ -69,7 +69,6 @@ namespace WeddingShare.Controllers
             }
 
             ViewBag.IsMobile = !string.Equals("Desktop", deviceType, StringComparison.OrdinalIgnoreCase);
-            ViewBag.SecretKey = key;
 
             var galleryPath = Path.Combine(UploadsDirectory, id);
             if (!Directory.Exists(galleryPath))
@@ -90,8 +89,9 @@ namespace WeddingShare.Controllers
 
             if (gallery != null)
             { 
-                var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                ViewBag.SecretKey = gallery.SecretKey;
 
+                var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                 var images = (await _database.GetAllGalleryItems(gallery.Id, GalleryItemState.Approved))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
                 switch (order) 
                 {
@@ -142,7 +142,7 @@ namespace WeddingShare.Controllers
                 if (gallery != null)
                 {
                     var secretKey = await _secretKey.GetGallerySecretKey(galleryId);
-                    string key = (Request?.Form?.FirstOrDefault(x => string.Equals("SecretKey", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString()?.ToLower() ?? string.Empty;
+                    string key = (Request?.Form?.FirstOrDefault(x => string.Equals("SecretKey", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString() ?? string.Empty;
                     if (!string.IsNullOrWhiteSpace(secretKey) && !string.Equals(secretKey, key))
                     {
                         return Json(new { success = true, uploaded = 0, errors = new List<string>() { _localizer["Invalid_Secret_Key_Warning"].Value } });
