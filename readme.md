@@ -42,6 +42,9 @@ Not all image formats are supported in browsers so although you may be able to a
 | HIDE_KEY_FROM_QR_CODE          | false                         |
 | IDLE_GALLERY_REFRESH_MINS      | 5 (0 = disable)               |
 | DIRECTORY_SCANNER_INTERVAL     | */30 * * * * (cron)           |
+| SLIDESHOW_INTERVAL             | 10 (seconds)                  |
+| SLIDESHOW_FADE                 | 500 (milliseconds)            |
+| SLIDESHOW_LIMIT                | (optional)                    |
 
 ## Docker Run
 

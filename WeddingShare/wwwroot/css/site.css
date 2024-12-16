@@ -104,3 +104,11 @@ tr td i {
     .image-tile:hover .btn {
         display: block;
     }
+
+.slideshow {
+    text-align: center;
+}
+
+    .slideshow-slide {
+        display: none;
+    }

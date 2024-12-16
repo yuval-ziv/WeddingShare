@@ -3,6 +3,7 @@
     public enum ViewMode
     {
         Default,
-        Presentation
+        Presentation,
+        Slideshow
     }
 }
