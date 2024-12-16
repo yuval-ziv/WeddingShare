@@ -1,0 +1,71 @@
+﻿@using WeddingShare.Enums
+@using WeddingShare.Views.Gallery
+@inject WeddingShare.Helpers.IConfigHelper _config
+@inject Microsoft.Extensions.Localization.IStringLocalizer<DefaultGalleryModel> _localizer
+@model WeddingShare.Models.PhotoGallery
+@{
+    var columnCount = Model.ColumnCount;
+
+    try
+    {
+        if (ViewBag.IsMobile ?? false)
+        {
+            columnCount = 1;
+        }
+        else
+        {
+            while (12 % columnCount != 0)
+            {
+                columnCount--;
+            }
+        }
+    }
+    catch { }
+}
+
+@for (var columnIndex = 0; columnIndex < columnCount; columnIndex++)
+{
+    <div class="@(ViewBag.IsMobile ? "col-12" : $"col-lg-{12 / columnCount} col-md-6 col-sm-12 mb-4 mb-lg-0")">
+        @if (Model?.Images != null)
+        {
+            var index = columnIndex;
+            while (index < Model.Images.Count())
+            {
+                <div class="rounded mb-4 image-tile">
+                    <a href="@Model.GalleryPath/@Model.Images[index]?.Name?.TrimStart('/')" data-lightbox="@Model.GalleryId">
+                        <img src="@Model.ThumbnailsPath/@(System.IO.Path.GetFileNameWithoutExtension(Model.Images[index]?.Name?.TrimStart('/'))).webp" class="w-100 shadow-1-strong" loading="lazy" />
+                    </a>
+                    @if (User?.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <button type="button" class="btn btn-danger btnDeletePhoto w-100 m-0" data-photo-id="@Model.Images[index]?.Id" data-photo-name="@Model.Images[index]?.Name">@_localizer["Delete"].Value</button>
+                    }
+                </div>
+                index += columnCount;
+            }
+        }
+    </div>
+}
+
+@{
+    var idleTimeout = _config.GetOrDefault("Settings", "Idle_Gallery_Refresh_Mins", 0);
+    if (idleTimeout > 0)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () { 
+                $(function () { 
+                    var idleTimeout;
+
+                    onIdle();
+                    $(document).on('mousemove keydown scroll click', onIdle);
+
+                    function onIdle() {
+                        clearTimeout(idleTimeout);
+                        idleTimeout = setTimeout(function () {
+                            window.location.reload();
+                        }, @TimeSpan.FromMinutes(idleTimeout).TotalMilliseconds);
+                    }
+                });
+            }, false);
+        </script>
+    }
+}

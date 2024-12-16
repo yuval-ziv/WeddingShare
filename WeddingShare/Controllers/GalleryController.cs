@@ -90,7 +90,8 @@ namespace WeddingShare.Controllers
 
             if (gallery != null)
             { 
-                ViewBag.SecretKey = gallery.SecretKey;
+                var secretKey = await _secretKey.GetGallerySecretKey(gallery.Name);
+                ViewBag.SecretKey = secretKey;
 
                 var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                 var images = (await _database.GetAllGalleryItems(gallery.Id, GalleryItemState.Approved))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
@@ -109,6 +110,7 @@ namespace WeddingShare.Controllers
                         images = images?.OrderBy(x => x.Title);
                         break;
                     default: 
+                        images = images?.OrderByDescending(x => x.Id);
                         break;
                 }
 
@@ -119,7 +121,7 @@ namespace WeddingShare.Controllers
                     ThumbnailsPath = $"/{ThumbnailsDirectory.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
                     Images = images?.Select(x => new PhotoGalleryImage() { Id = x.Id, Name = Path.GetFileName(x.Title), Path = x.Title })?.ToList(),
                     PendingCount = gallery?.PendingItems ?? 0,
-                    FileUploader = !_config.GetOrDefault("Settings", "Disable_Upload", false) || (User?.Identity != null && User.Identity.IsAuthenticated) ? new FileUploader(id, "/Gallery/UploadImage") : null
+                    FileUploader = !_config.GetOrDefault("Settings", "Disable_Upload", false) || (User?.Identity != null && User.Identity.IsAuthenticated) ? new FileUploader(id, secretKey, "/Gallery/UploadImage") : null
                 };
             
                 return View(model);

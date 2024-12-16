@@ -10,11 +10,11 @@ namespace WeddingShare.Models
         }
 
         public PhotoGallery(int columnCount, ViewMode viewMode)
-            : this("default", columnCount, string.Empty, string.Empty, viewMode, new List<PhotoGalleryImage>())
+            : this("default", string.Empty, columnCount, string.Empty, string.Empty, viewMode, new List<PhotoGalleryImage>())
         {
         }
 
-        public PhotoGallery(string id, int columnCount, string galleryPath, string thumbnailPath, ViewMode viewMode, List<PhotoGalleryImage> images)
+        public PhotoGallery(string id, string secretKey, int columnCount, string galleryPath, string thumbnailPath, ViewMode viewMode, List<PhotoGalleryImage> images)
         {
             this.GalleryId = id;
             this.GalleryPath = galleryPath;
@@ -23,7 +23,7 @@ namespace WeddingShare.Models
             this.ColumnCount = columnCount;
             this.PendingCount = 0;
             this.Images = images;
-            this.FileUploader = new FileUploader(id, "/Gallery/UploadImage");
+            this.FileUploader = new FileUploader(id, secretKey, "/Gallery/UploadImage");
         }
 
         public string? GalleryId { get; set; }

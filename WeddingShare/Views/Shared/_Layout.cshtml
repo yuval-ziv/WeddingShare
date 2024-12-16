@@ -48,7 +48,7 @@
                 
                 @{
                     var viewMode = ViewBag.ViewMode != null ? ViewBag.ViewMode : ViewMode.Default;
-                    if (viewMode != ViewMode.Presentation)
+                if (viewMode != ViewMode.Presentation && viewMode != ViewMode.Slideshow)
                     {
                         <div class="presentation-hidden">
                             @if (!string.IsNullOrWhiteSpace(Context.Request.Path.Value) && Context.Request.Path.Value.Contains("/Admin", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/Login", StringComparison.OrdinalIgnoreCase))

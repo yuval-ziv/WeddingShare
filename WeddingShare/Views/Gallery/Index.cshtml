@@ -31,7 +31,7 @@
     var fullWidthGallery = _config.GetOrDefault("Settings", "Full_Width_Gallery", false);
 }
 
-@if (Model?.FileUploader != null && Model.ViewMode != ViewMode.Presentation)
+@if (Model?.FileUploader != null && Model.ViewMode != ViewMode.Presentation && Model.ViewMode != ViewMode.Slideshow)
 {
     <header class="bg-dark py-1 py-lg-5">
         <div class="container px-0 px-lg-2">
@@ -40,11 +40,11 @@
     </header>
 }
 
-<section class="py-1 py-lg-5">
-    <div class="@(!fullWidthGallery ? "container px-3 px-lg-1" : "px-3 px-lg-3") my-3 mt-lg-1 gallery-container">
-        @if (!_config.GetOrDefault("Settings", "Disable_Review_Counter", false))
-        {
-            <div class="row mb-4 mb-lg-5">
+@if (!_config.GetOrDefault("Settings", "Disable_Review_Counter", false))
+{
+    <section class="review-counter pt-1 pt-lg-5">
+        <div class="px-3 px-lg-3 mt-3 mt-lg-1">
+            <div class="row mb-0">
                 <div class="col-4">
                     <h6 class="my-0 text-center">Total<br/>@(Model?.TotalCount ?? 0)</h6>
                 </div>
@@ -55,7 +55,12 @@
                     <h6 class="my-0 text-center">Pending<br/>@(Model?.PendingCount ?? 0)</h6>
                 </div>
             </div>
-        }
+        </div>
+    </section>
+}
+
+<section class="py-1 py-lg-5">
+    <div class="@(!fullWidthGallery ? "container px-3 px-lg-1" : "px-3 px-lg-3") my-3 mt-lg-1 gallery-container">
 
         @if (!fullWidthGallery)
         {
@@ -105,7 +110,27 @@
             </div>
         }
 
-        <partial name="~/Views/Shared/_PhotoGallery.cshtml" model="Model" />
+        @if (Model?.Images != null && Model.Images.Any())
+        {
+            <div class="row">
+                @if (Model.ViewMode == ViewMode.Slideshow)
+                {
+                    <partial name="~/Views/Gallery/Modes/Slideshow.cshtml" model="Model" />
+                }
+                else
+                {
+                    <partial name="~/Views/Gallery/Modes/Default.cshtml" model="Model" />
+                }
+            </div>
+        }
+        else
+        {
+            <div class="row mt-5 pt-5">
+                <div class="col-12 text-center">
+                    <h3 class="display-6">@_localizer["Gallery_Empty"].Value</h3>
+                </div>
+            </div>
+        }
     </div>
 </section>
 
