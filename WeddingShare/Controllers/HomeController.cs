@@ -23,20 +23,27 @@ namespace WeddingShare.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var deviceType = HttpContext.Session.GetString("DeviceType");
-            if (string.IsNullOrWhiteSpace(deviceType))
+            try
             {
-                deviceType = (await _deviceDetector.ParseDeviceType(Request.Headers["User-Agent"].ToString())).ToString();
-                HttpContext.Session.SetString("DeviceType", deviceType ?? "Desktop");
-            }
-
-            if (_config.GetOrDefault("Settings", "Single_Gallery_Mode", false))
-            { 
-                var key = await _secretKey.GetGallerySecretKey("default");
-                if (string.IsNullOrEmpty(key))
+                var deviceType = HttpContext.Session.GetString("DeviceType");
+                if (string.IsNullOrWhiteSpace(deviceType))
                 {
-                    return RedirectToAction("Index", "Gallery");
+                    deviceType = (await _deviceDetector.ParseDeviceType(Request.Headers["User-Agent"].ToString())).ToString();
+                    HttpContext.Session.SetString("DeviceType", deviceType ?? "Desktop");
                 }
+
+                if (_config.GetOrDefault("Settings", "Single_Gallery_Mode", false))
+                {
+                    var key = await _secretKey.GetGallerySecretKey("default");
+                    if (string.IsNullOrEmpty(key))
+                    {
+                        return RedirectToAction("Index", "Gallery");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred loading the homepage - {ex?.Message}");
             }
 
             return View();

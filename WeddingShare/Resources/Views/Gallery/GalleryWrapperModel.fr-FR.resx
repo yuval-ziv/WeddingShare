@@ -117,4 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Il n'y a actuellement aucun souvenir partagé, pourquoi ne pas télécharger le vôtre ci-dessus!</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Totale</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Approuvée</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>En attente</value>
+  </data>
 </root>

@@ -14,7 +14,7 @@
         <div class="slideshow col-12">
             @foreach (var image in Model.Images.Take(slideLimit))
             {
-                <img src="@Model.GalleryPath/@image?.Name?.TrimStart('/')" class="slideshow-slide rounded h-100 shadow-1-strong" loading="lazy" />
+                <img src="@Model.GalleryPath/@image?.Name?.TrimStart('/')" class="slideshow-slide shadow-1-strong" loading="lazy" />
             }
         </div>
     }
@@ -26,8 +26,8 @@
             var windowHeight = $(window).outerHeight();
             var headerHeight = $('.navbar').outerHeight();
             var footerHeight = $('footer').outerHeight();
-            var reviewCounterHeight = $('.review-counter').outerHeight();
-            var slideHeight = windowHeight - (headerHeight + footerHeight + reviewCounterHeight + 100);
+            var reviewCounterHeight = $('.review-counter').length > 0 ? $('.review-counter').outerHeight() + 75 : 50;
+            var slideHeight = windowHeight - (headerHeight + footerHeight + reviewCounterHeight);
 
             $('.slideshow').height(slideHeight);
             $('.slideshow .slideshow-slide').each(function (index) {

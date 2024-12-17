@@ -3,10 +3,6 @@
   top: 75px;
 }
 
-.gallery-container {
-    position: relative;
-}
-
 .pointer {
     cursor: pointer;
 }
@@ -67,19 +63,6 @@ tr td i {
         background-color: #ff7563;
     }
 
-.gallery-sidebar {
-    position: absolute;
-    top: 0px;
-    right: -225px;
-}
-
-    .gallery-sidebar span {
-        display: block;
-        text-align: center;
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
 .pending-approval .btn-group .btn {
     height: 50px;
 }
@@ -110,5 +93,9 @@ tr td i {
 }
 
     .slideshow-slide {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        overflow: hidden;
         display: none;
     }
