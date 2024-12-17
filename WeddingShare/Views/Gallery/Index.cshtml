@@ -1,134 +1,34 @@
-﻿@using System.Text
-@using WeddingShare.Enums
+﻿@using WeddingShare.Enums
 @using WeddingShare.Views.Gallery
 @inject Microsoft.Extensions.Localization.IStringLocalizer<IndexModel> _localizer
 @inject WeddingShare.Helpers.IConfigHelper _config
 @model WeddingShare.Models.PhotoGallery
 
-@{
-    var ctx = Context.Request;
-
-    var baseLink = $"{(_config.GetOrDefault("Settings", "Force_Https", false) ? "https" : ctx.Scheme)}://{ctx.Host}{ctx.Path}";
-
-    var queryString = new StringBuilder();
-    foreach (var q in ctx.Query.Where(x => !string.Equals("order", x.Key, StringComparison.OrdinalIgnoreCase)))
-    {
-        if (string.Equals("key", q.Key, StringComparison.OrdinalIgnoreCase) && _config.GetOrDefault("Settings", "Hide_Key_From_QR_Code", false))
-        {
-            continue;
-        }
-        else if (string.Equals("order", q.Key, StringComparison.OrdinalIgnoreCase) || string.Equals("mode", q.Key, StringComparison.OrdinalIgnoreCase))
-        {
-            continue;
-        }
-
-        queryString.Append($"&{q.Key}={q.Value}");
-    }
-
-    baseLink = $"{baseLink}?{queryString.ToString().TrimStart('&')}".TrimEnd(new char[] { '?', '&' });
-    var qrCodeLink = $"{baseLink}{(ctx.Query.ContainsKey("order") ? $"{(baseLink.Contains("?") ? "&" : "?")}order={ctx.Query["order"]}" : string.Empty)}";
-
-    var fullWidthGallery = _config.GetOrDefault("Settings", "Full_Width_Gallery", false);
-}
-
 @if (Model?.FileUploader != null && Model.ViewMode != ViewMode.Presentation && Model.ViewMode != ViewMode.Slideshow)
 {
-    <header class="bg-dark py-1 py-lg-5">
+    <header class="bg-dark py-1 py-lg-4">
         <div class="container px-0 px-lg-2">
             <partial name="~/Views/Shared/_FileUpload.cshtml" model="Model.FileUploader" />
         </div>
     </header>
 }
 
-@if (!_config.GetOrDefault("Settings", "Disable_Review_Counter", false))
-{
-    <section class="review-counter pt-1 pt-lg-5">
-        <div class="px-3 px-lg-3 mt-3 mt-lg-1">
-            <div class="row mb-0">
-                <div class="col-4">
-                    <h6 class="my-0 text-center">Total<br/>@(Model?.TotalCount ?? 0)</h6>
-                </div>
-                <div class="col-4">
-                    <h6 class="my-0 text-center">Approved<br/>@(Model?.ApprovedCount ?? 0)</h6>
-                </div>
-                <div class="col-4">
-                    <h6 class="my-0 text-center">Pending<br/>@(Model?.PendingCount ?? 0)</h6>
-                </div>
-            </div>
-        </div>
-    </section>
-}
-
-<section class="py-1 py-lg-5">
-    <div class="@(!fullWidthGallery ? "container px-3 px-lg-1" : "px-3 px-lg-3") my-3 mt-lg-1 gallery-container">
-
-        @if (!fullWidthGallery)
+<section class="py-1 py-lg-4 gallery-container">
+    <div class="row mt-3 mt-lg-0">
+        @if (_config.GetOrDefault("Settings", "Full_Width_Gallery", false))
         {
-            <div class="gallery-sidebar d-none d-lg-block">
-                @if (!_config.GetOrDefault("Settings", "Disable_QR_Code", false))
-                {
-                    <div id="qrcode"></div>
-                    <span>@_localizer["Share_Code"].Value</span>
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            if ($('#qrcode').length > 0 && $('#qrcode').is(':visible')) {
-                                $(function () {
-                                    $('#qrcode').qrcode({ width: 150, height: 150, text: '@Html.Raw(qrCodeLink)' });
-                                });
-                            }
-                        }, false);
-                    </script>
-                }
-
-                <div class="presentation-hidden mt-4">
-                    <div class="btn-group w-100 mb-2">
-                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            View
-                        </button>
-                        <div class="dropdown-menu">
-                            @foreach (ViewMode mode in Enum.GetValues(typeof(ViewMode)))
-                            {
-                                <a class="dropdown-item" href="@($"{qrCodeLink}{(qrCodeLink.Contains("?") ? "&" : "?")}mode={(int)mode}")">@mode</a>
-                            }
-                        </div>
-                    </div>
-                    <div class="btn-group w-100 mb-2">
-                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Sort
-                        </button>
-                        <div class="dropdown-menu">
-                            @foreach (GalleryOrder order in Enum.GetValues(typeof(GalleryOrder)))
-                            {
-                                if (order != GalleryOrder.None)
-                                {
-                                    <a class="dropdown-item" href="@($"{baseLink}{(baseLink.Contains("?") ? "&" : "?")}order={(int)order}")">@order</a>
-                                }
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-
-        @if (Model?.Images != null && Model.Images.Any())
-        {
-            <div class="row">
-                @if (Model.ViewMode == ViewMode.Slideshow)
-                {
-                    <partial name="~/Views/Gallery/Modes/Slideshow.cshtml" model="Model" />
-                }
-                else
-                {
-                    <partial name="~/Views/Gallery/Modes/Default.cshtml" model="Model" />
-                }
+            <div class="col-12 px-3 px-lg-5">
+                <partial name="~/Views/Gallery/GalleryWrapper.cshtml" model="Model" />
             </div>
         }
         else
         {
-            <div class="row mt-5 pt-5">
-                <div class="col-12 text-center">
-                    <h3 class="display-6">@_localizer["Gallery_Empty"].Value</h3>
-                </div>
+            <div class="col-2 d-none d-lg-block"></div>
+            <div class="col-12 col-lg-8 px-3 px-lg-1">
+                <partial name="~/Views/Gallery/GalleryWrapper.cshtml" model="Model" />
+            </div>
+            <div class="col-2 d-none d-lg-block pt-3">
+                <partial name="~/Views/Gallery/GalleryOptions.cshtml" model="Model" />
             </div>
         }
     </div>

@@ -1,0 +1,79 @@
+﻿@using System.Text
+@using WeddingShare.Enums
+@using WeddingShare.Views.Gallery
+@inject Microsoft.Extensions.Localization.IStringLocalizer<GalleryOptionsModel> _localizer
+@inject WeddingShare.Helpers.IConfigHelper _config
+@model WeddingShare.Models.PhotoGallery
+
+@{
+    var ctx = Context.Request;
+
+    var baseLink = $"{(_config.GetOrDefault("Settings", "Force_Https", false) ? "https" : ctx.Scheme)}://{ctx.Host}{ctx.Path}";
+
+    var queryString = new StringBuilder();
+    foreach (var q in ctx.Query.Where(x => !string.Equals("order", x.Key, StringComparison.OrdinalIgnoreCase)))
+    {
+        if (string.Equals("key", q.Key, StringComparison.OrdinalIgnoreCase) && _config.GetOrDefault("Settings", "Hide_Key_From_QR_Code", false))
+        {
+            continue;
+        }
+        else if (string.Equals("order", q.Key, StringComparison.OrdinalIgnoreCase) || string.Equals("mode", q.Key, StringComparison.OrdinalIgnoreCase))
+        {
+            continue;
+        }
+
+        queryString.Append($"&{q.Key}={q.Value}");
+    }
+
+    baseLink = $"{baseLink}?{queryString.ToString().TrimStart('&')}".TrimEnd(new char[] { '?', '&' });
+    var qrCodeLink = $"{baseLink}{(ctx.Query.ContainsKey("order") ? $"{(baseLink.Contains("?") ? "&" : "?")}order={ctx.Query["order"]}" : string.Empty)}";
+}
+
+@if (!_config.GetOrDefault("Settings", "Disable_QR_Code", false))
+{
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <div id="qrcode"></div>
+            <h6>@_localizer["Share_Code"].Value</h6>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    if ($('#qrcode').length > 0 && $('#qrcode').is(':visible')) {
+                        $(function () {
+                            $('#qrcode').qrcode({ width: 150, height: 150, text: '@Html.Raw(qrCodeLink)' });
+                        });
+                    }
+                }, false);
+            </script>
+        </div>
+    </div>
+}
+
+<div class="row px-4 mb-4 presentation-hidden">
+    <div class="col-12 px-5">
+        <div class="btn-group w-100 mb-2">
+            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @_localizer["View"].Value
+            </button>
+            <div class="dropdown-menu">
+                @foreach (ViewMode mode in Enum.GetValues(typeof(ViewMode)))
+                {
+                    <a class="dropdown-item" href="@($"{qrCodeLink}{(qrCodeLink.Contains("?") ? "&" : "?")}mode={(int)mode}")">@mode</a>
+                }
+            </div>
+        </div>
+        <div class="btn-group w-100 mb-2">
+            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @_localizer["Sort"].Value
+            </button>
+            <div class="dropdown-menu">
+                @foreach (GalleryOrder order in Enum.GetValues(typeof(GalleryOrder)))
+                {
+                    if (order != GalleryOrder.None)
+                    {
+                        <a class="dropdown-item" href="@($"{baseLink}{(baseLink.Contains("?") ? "&" : "?")}order={(int)order}")">@order</a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
