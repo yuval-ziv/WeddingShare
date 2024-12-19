@@ -5,7 +5,7 @@ using WeddingShare.Enums;
 
 namespace WeddingShare.Helpers.Dbup
 {
-    public sealed class DbupMigrator(IEnvironmentWrapper environment, IConfiguration configuration, ILoggerFactory loggerFactory) : BackgroundService
+    public sealed class DbupMigrator(IEnvironmentWrapper environment, IConfiguration configuration, IFileHelper fileHelper, ILoggerFactory loggerFactory) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -13,10 +13,7 @@ namespace WeddingShare.Helpers.Dbup
             {
                 var logger = loggerFactory.CreateLogger<DbupMigrator>();
 
-                if (!Directory.Exists("config"))
-                { 
-                    Directory.CreateDirectory("config");
-                }
+                fileHelper.CreateDirectoryIfNotExists("config");
 
                 var config = new ConfigHelper(environment, configuration, loggerFactory.CreateLogger<ConfigHelper>());
                 var connString = config.GetOrDefault("Database", "Connection_String", "Data Source=./config/wedding-share.db");

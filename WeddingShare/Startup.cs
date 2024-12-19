@@ -29,6 +29,7 @@ namespace WeddingShare
             services.AddSingleton<ISecretKeyHelper, SecretKeyHelper>();
             services.AddSingleton<IImageHelper, ImageHelper>();
             services.AddSingleton<IDeviceDetector, DeviceDetector>();
+            services.AddSingleton<IFileHelper, FileHelper>();
 
             var config = new ConfigHelper(new EnvironmentWrapper(), Configuration, _loggerFactory.CreateLogger<ConfigHelper>());
             switch (config.GetOrDefault("Database", "Database_Type", "sqlite")?.ToLower())

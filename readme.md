@@ -38,6 +38,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | DISABLE_UPLOAD                 | false                         |
 | DISABLE_QR_CODE                | false                         |
 | DISABLE_GUEST_GALLERY_CREATION | true                          |
+| DISABLE_DARK_MODE              | false                         |
 | FULL_WIDTH_GALLERY             | false                         |
 | HIDE_KEY_FROM_QR_CODE          | false                         |
 | IDLE_GALLERY_REFRESH_MINS      | 5 (0 = disable)               |
@@ -45,6 +46,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | SLIDESHOW_INTERVAL             | 10 (seconds)                  |
 | SLIDESHOW_FADE                 | 500 (milliseconds)            |
 | SLIDESHOW_LIMIT                | (optional)                    |
+| SHOW_IDENTITY_REQUEST          | false                         |
 
 ## Docker Run
 

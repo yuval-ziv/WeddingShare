@@ -2,7 +2,7 @@
 {
     public class FileUploader
     {
-        public FileUploader(string id, string key, string url)
+        public FileUploader(string id, string? key, string url)
         {
             this.GalleryId = id;
             this.SecretKey = key;

@@ -14,7 +14,7 @@ namespace WeddingShare.Helpers
         {
             return await Task.Run(() => 
             {
-                if (string.IsNullOrEmpty(userAgent))
+                if (string.IsNullOrWhiteSpace(userAgent))
                 { 
                     return DeviceType.Unknown;
                 }

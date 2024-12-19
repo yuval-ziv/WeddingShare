@@ -6,11 +6,7 @@
 
 @if (Model?.FileUploader != null && Model.ViewMode != ViewMode.Presentation && Model.ViewMode != ViewMode.Slideshow)
 {
-    <header class="bg-dark py-1 py-lg-4">
-        <div class="container px-0 px-lg-2">
-            <partial name="~/Views/Shared/_FileUpload.cshtml" model="Model.FileUploader" />
-        </div>
-    </header>
+    <partial name="~/Views/Shared/_FileUpload.cshtml" model="Model.FileUploader" />
 }
 
 <section class="py-1 py-lg-4 gallery-container">

@@ -12,16 +12,18 @@ namespace WeddingShare.Helpers
 
     public class ImageHelper : IImageHelper
     {
+        private readonly IFileHelper _fileHelper;
         private readonly ILogger _logger;
 
-        public ImageHelper(ILogger<ImageHelper> logger)
+        public ImageHelper(IFileHelper fileHelper, ILogger<ImageHelper> logger)
         {
+            _fileHelper = fileHelper;
             _logger = logger;
         }
 
         public async Task<bool> GenerateThumbnail(string imagePath, string savePath, int size = 720)
         {
-            if (File.Exists(imagePath))
+            if (_fileHelper.FileExists(imagePath))
             { 
                 try
                 {

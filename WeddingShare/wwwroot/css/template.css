@@ -1987,20 +1987,23 @@ progress {
 }
 
 .form-text {
+  --bs-form-text-color: #6c757d;
   margin-top: 0.25rem;
   font-size: 0.875em;
-  color: #6c757d;
+  color: var(--bs-form-text-color);
 }
 
 .form-control {
+  --bs-form-control-color: #212529;
+  --bs-form-control-bg-color: #FFF;
   display: block;
   width: 100%;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #212529;
-  background-color: #fff;
+  color: var(--bs-form-control-color);
+  background-color: var(--bs-form-control-bg-color);
   background-clip: padding-box;
   border: 1px solid #ced4da;
   -webkit-appearance: none;
@@ -3748,6 +3751,10 @@ textarea.form-control-lg {
   --bs-navbar-toggler-border-radius: 0.375rem;
   --bs-navbar-toggler-focus-width: 0.25rem;
   --bs-navbar-toggler-transition: box-shadow 0.15s ease-in-out;
+  --bs-navbar-bg-color: 248, 249, 250;
+  --bs-navbar-bg-opacity: 1;
+  --bs-navbar-border-color: #EFEFEF;
+  background-color: rgba(var(--bs-navbar-bg-color), var(--bs-navbar-bg-opacity)) !important;
   position: fixed;
   width: 100%;
   display: flex;
@@ -3755,7 +3762,7 @@ textarea.form-control-lg {
   align-items: center;
   justify-content: space-between;
   padding: var(--bs-navbar-padding-y) var(--bs-navbar-padding-x);
-  border-bottom: 1px solid #EFEFEF;
+  border-bottom: 1px solid var(--bs-navbar-border-color);
   z-index: 1;
 }
 .navbar > .container,
@@ -10852,10 +10859,22 @@ textarea.form-control-lg {
   }
 }
 
+.file-uploader {
+  --bs-file-uploader-bg-color: 33, 37, 41;
+  --bs-file-uploader-bg-opacity: 1;
+  background-color: rgba(var(--bs-file-uploader-bg-color), var(--bs-file-uploader-bg-opacity)) !important;
+}
+
 footer {
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
-    font-size: 0.7rem;
+  --bs-footer-color: rgba(255, 255, 255, 0.9);
+  --bs-footer-bg-color: rgba(25, 25, 25, 1);
+  --bs-footer-border-color: #333333;
+  color: var(--bs-footer-color);
+  background-color: var(--bs-footer-bg-color);
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  font-size: 0.7rem;
+  border-top: 1px solid var(--bs-footer-border-color);
 }

@@ -32,7 +32,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase(DeviceType.Desktop, false, "Abc123!", false)]
         [TestCase(DeviceType.Mobile, true, "abc123!", false)]
         [TestCase(DeviceType.Mobile, false, "adsbsds", false)]
-        public async Task HomeController_Index_ViewResult(DeviceType deviceType, bool singleGalleryMode, string secretKey, bool isRedirect)
+        public async Task HomeController_Index(DeviceType deviceType, bool singleGalleryMode, string secretKey, bool isRedirect)
         {
             _deviceDetector.ParseDeviceType(Arg.Any<string>()).Returns(deviceType);
             _config.GetOrDefault("Settings", "Single_Gallery_Mode", Arg.Any<bool>()).Returns(singleGalleryMode);
@@ -44,15 +44,20 @@ namespace WeddingShare.UnitTests.Tests.Helpers
                 Session = new MockSession()
             };
 
-            var actual = await controller.Index();
-
             if (!isRedirect)
             {
+                ViewResult actual = (ViewResult)await controller.Index();
                 Assert.That(actual, Is.TypeOf<ViewResult>());
             }
             else
             { 
+                RedirectToActionResult actual = (RedirectToActionResult)await controller.Index();
                 Assert.That(actual, Is.TypeOf<RedirectToActionResult>());
+                Assert.That(actual.Permanent, Is.EqualTo(false));
+                Assert.That(actual.ControllerName, Is.EqualTo("Gallery"));
+                Assert.That(actual.ActionName, Is.EqualTo("Index"));
+                Assert.That(actual.RouteValues, Is.Null);
+                Assert.That(actual.Fragment, Is.Null);
             }
         }
     }

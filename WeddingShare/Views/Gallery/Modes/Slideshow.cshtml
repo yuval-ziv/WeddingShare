@@ -8,13 +8,20 @@
     var slideshowInterval = TimeSpan.FromSeconds(_config.GetOrDefault("Settings", "Slideshow_Interval", 10)).TotalMilliseconds;
     var slideshowFade = _config.GetOrDefault("Settings", "Slideshow_Fade", 500);
     var slideLimit = _config.GetOrDefault("Settings", "Slideshow_Limit", int.MaxValue);
+    var identityEnabled = _config.GetOrDefault("Settings", "Show_Identity_Request", false);
 
     if (Model?.Images != null)
     {
         <div class="slideshow col-12">
             @foreach (var image in Model.Images.Take(slideLimit))
             {
-                <img src="@Model.GalleryPath/@image?.Name?.TrimStart('/')" class="slideshow-slide shadow-1-strong" loading="lazy" />
+                <div class="slideshow-slide">
+                    <img src="@Model.GalleryPath/@image?.Name?.TrimStart('/')" class="shadow-1-strong" loading="lazy" />
+                    @if (identityEnabled)
+                    {                    
+                        <h6 class="credits">Uploaded By: @(!string.IsNullOrWhiteSpace(image?.UploadedBy) ? image.UploadedBy : "Anonymous")</h6>
+                    }
+                </div>
             }
         </div>
     }
@@ -26,8 +33,9 @@
             var windowHeight = $(window).outerHeight();
             var headerHeight = $('.navbar').outerHeight();
             var footerHeight = $('footer').outerHeight();
-            var reviewCounterHeight = $('.review-counter').length > 0 ? $('.review-counter').outerHeight() + 75 : 50;
-            var slideHeight = windowHeight - (headerHeight + footerHeight + reviewCounterHeight);
+            var creditsHeight = $('.credits').length > 0 ? 20 : 0;
+            var reviewCounterHeight = $('.review-counter').length > 0 ? $('.review-counter').outerHeight() + 70 : 50;
+            var slideHeight = windowHeight - (headerHeight + footerHeight + reviewCounterHeight + creditsHeight);
 
             $('.slideshow').height(slideHeight);
             $('.slideshow .slideshow-slide').each(function (index) {

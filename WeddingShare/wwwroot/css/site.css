@@ -35,6 +35,10 @@ tr td i {
     padding: 5px !important;
 }
 
+.card {
+    overflow: hidden;
+}
+
 /* File Upload */
 .upload_drop {
     color: #FFFFFF;
@@ -92,10 +96,22 @@ tr td i {
     text-align: center;
 }
 
-    .slideshow-slide {
+    .slideshow .slideshow-slide {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: none;
+    }
+
+    .slideshow .slideshow-slide img {
         width: 100%;
         height: 100%;
         object-fit: contain;
         overflow: hidden;
-        display: none;
+    }
+
+    .slideshow .slideshow-slide .credits {
+        font-size: 8pt;
+        font-style: italic;
+        margin-top: 15px;
     }

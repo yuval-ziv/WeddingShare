@@ -4,7 +4,8 @@
 @inject Microsoft.Extensions.Localization.IStringLocalizer<DefaultGalleryModel> _localizer
 @model WeddingShare.Models.PhotoGallery
 @{
-    var columnCount = Model.ColumnCount;
+    var columnCount = _config.GetOrDefault("Settings", "Gallery_Columns", 4);
+    var identityEnabled = _config.GetOrDefault("Settings", "Show_Identity_Request", false);
 
     try
     {
@@ -32,7 +33,7 @@
             while (index < Model.Images.Count())
             {
                 <div class="rounded mb-4 image-tile">
-                    <a href="@Model.GalleryPath/@Model.Images[index]?.Name?.TrimStart('/')" data-lightbox="@Model.GalleryId">
+                    <a href="@Model.GalleryPath/@Model.Images[index]?.Name?.TrimStart('/')" data-lightbox="@Model.GalleryId" data-title="@(identityEnabled ? $"Uploaded By: {(!string.IsNullOrWhiteSpace(Model.Images[index]?.UploadedBy) ? Model.Images[index]?.UploadedBy : "Anonymous")}" : string.Empty)">
                         <img src="@Model.ThumbnailsPath/@(System.IO.Path.GetFileNameWithoutExtension(Model.Images[index]?.Name?.TrimStart('/'))).webp" class="w-100 shadow-1-strong" loading="lazy" />
                     </a>
                     @if (User?.Identity != null && User.Identity.IsAuthenticated)
