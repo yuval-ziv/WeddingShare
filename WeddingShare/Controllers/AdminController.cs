@@ -22,6 +22,7 @@ namespace WeddingShare.Controllers
         private readonly IConfigHelper _config;
         private readonly IDatabaseHelper _database;
         private readonly IDeviceDetector _deviceDetector;
+        private readonly IFileHelper _fileHelper;
         private readonly IImageHelper _imageHelper;
         private readonly ILogger _logger;
         private readonly IStringLocalizer<AdminController> _localizer;
@@ -29,12 +30,13 @@ namespace WeddingShare.Controllers
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IDeviceDetector deviceDetector, IImageHelper imageHelper, ILogger<AdminController> logger, IStringLocalizer<AdminController> localizer)
+        public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IImageHelper imageHelper, ILogger<AdminController> logger, IStringLocalizer<AdminController> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
             _database = database;
             _deviceDetector = deviceDetector;
+            _fileHelper = fileHelper;
             _imageHelper = imageHelper;
             _logger = logger;
             _localizer = localizer;
@@ -148,28 +150,18 @@ namespace WeddingShare.Controllers
                         var reviewFile = Path.Combine(galleryDir, "Pending", review.Title);
                         if (action == ReviewAction.APPROVED)
                         {
-                            if (!Directory.Exists(ThumbnailsDirectory))
-                            {
-                                Directory.CreateDirectory(ThumbnailsDirectory);
-                            }
+                            _fileHelper.CreateDirectoryIfNotExists(ThumbnailsDirectory);
 
                             await _imageHelper.GenerateThumbnail(reviewFile, Path.Combine(ThumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(reviewFile)}.webp"), _config.GetOrDefault("Settings", "Thumbnail_Size", 720));
 
-                            if (System.IO.File.Exists(reviewFile))
-                            {
-                                System.IO.File.Move(reviewFile, Path.Combine(galleryDir, review.Title));
-                            }
+                            _fileHelper.MoveFileIfExists(reviewFile, Path.Combine(galleryDir, review.Title));
 
                             review.State = GalleryItemState.Approved;
                             await _database.EditGalleryItem(review);
                         }
                         else if (action == ReviewAction.REJECTED)
                         {
-                            if (System.IO.File.Exists(reviewFile))
-                            {
-                                System.IO.File.Delete(reviewFile);
-                            }
-
+                            _fileHelper.DeleteFileIfExists(reviewFile);
                             await _database.DeleteGalleryItem(review);
                         }
                         else if (action == ReviewAction.UNKNOWN)
@@ -281,19 +273,16 @@ namespace WeddingShare.Controllers
                     if (gallery != null)
                     {
                         var galleryDir = Path.Combine(UploadsDirectory, gallery.Name);
-                        if (Directory.Exists(galleryDir))
+                        if (_fileHelper.DirectoryExists(galleryDir))
                         {
-                            foreach (var photo in Directory.GetFiles(galleryDir, "*.*", SearchOption.AllDirectories))
+                            foreach (var photo in _fileHelper.GetFiles(galleryDir, "*.*", SearchOption.AllDirectories))
                             {
                                 var thumbnail = Path.Combine(ThumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(photo)}.webp");
-                                if (System.IO.File.Exists(thumbnail))
-                                {
-                                    System.IO.File.Delete(thumbnail);
-                                }
+                                _fileHelper.DeleteFileIfExists(thumbnail);
                             }
 
-                            Directory.Delete(galleryDir, true);
-                            Directory.CreateDirectory(galleryDir);
+                            _fileHelper.DeleteDirectoryIfExists(galleryDir);
+                            _fileHelper.CreateDirectoryIfNotExists(galleryDir);
                         }
 
                         return Json(new { success = await _database.WipeGallery(gallery) });
@@ -319,19 +308,19 @@ namespace WeddingShare.Controllers
             {
                 try
                 {
-                    if (Directory.Exists(UploadsDirectory))
+                    if (_fileHelper.DirectoryExists(UploadsDirectory))
                     {
-                        foreach (var gallery in Directory.GetDirectories(UploadsDirectory, "*", SearchOption.TopDirectoryOnly))
+                        foreach (var gallery in _fileHelper.GetDirectories(UploadsDirectory, "*", SearchOption.TopDirectoryOnly))
                         {
-                            Directory.Delete(gallery, true);
+                            _fileHelper.DeleteDirectoryIfExists(gallery);
                         }
 
-                        foreach (var thumbnail in Directory.GetFiles(ThumbnailsDirectory, "*.*", SearchOption.AllDirectories))
+                        foreach (var thumbnail in _fileHelper.GetFiles(ThumbnailsDirectory, "*.*", SearchOption.AllDirectories))
                         {
-                            System.IO.File.Delete(thumbnail);
+                            _fileHelper.DeleteFileIfExists(thumbnail);
                         }
 
-                        Directory.CreateDirectory(Path.Combine(UploadsDirectory, "default"));
+                        _fileHelper.CreateDirectoryIfNotExists(Path.Combine(UploadsDirectory, "default"));
                     }
 
                     return Json(new { success = await _database.WipeAllGalleries() });
@@ -356,10 +345,7 @@ namespace WeddingShare.Controllers
                     if (gallery != null)
                     {
                         var galleryDir = Path.Combine(UploadsDirectory, gallery.Name);
-                        if (Directory.Exists(galleryDir))
-                        {
-                            Directory.Delete(galleryDir, true);
-                        }
+                        _fileHelper.DeleteDirectoryIfExists(galleryDir);
 
                         return Json(new { success = await _database.DeleteGallery(gallery) });
                     }
@@ -391,10 +377,7 @@ namespace WeddingShare.Controllers
                         if (gallery != null)
                         { 
                             var photoPath = Path.Combine(UploadsDirectory, gallery.Name, photo.Title);
-                            if (System.IO.File.Exists(photoPath))
-                            {
-                                System.IO.File.Delete(photoPath);
-                            }
+                            _fileHelper.DeleteFileIfExists(photoPath);
 
                             return Json(new { success = await _database.DeleteGalleryItem(photo) });
                         }
@@ -424,19 +407,16 @@ namespace WeddingShare.Controllers
                     if (gallery != null)
                     {
                         var galleryDir = Path.Combine(UploadsDirectory, gallery.Name);
-                        if (Directory.Exists(galleryDir))
+                        if (_fileHelper.DirectoryExists(galleryDir))
                         {
                             var tempZipDir = $"Temp";
-                            if (!Directory.Exists(tempZipDir))
-                            { 
-                                Directory.CreateDirectory(tempZipDir);
-                            }
+                            _fileHelper.CreateDirectoryIfNotExists(tempZipDir);
 
                             var tempZipFile = Path.Combine(tempZipDir, $"{gallery.Name}-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.zip");
                             ZipFile.CreateFromDirectory(galleryDir, tempZipFile, CompressionLevel.Optimal, false);
 
-                            byte[] bytes = System.IO.File.ReadAllBytes(tempZipFile);
-                            System.IO.File.Delete(tempZipFile);
+                            byte[] bytes = await _fileHelper.ReadAllBytes(tempZipFile);
+                            _fileHelper.DeleteFileIfExists(tempZipFile);
 
                             return Json(new { success = true, filename = Path.GetFileName(tempZipFile), content = Convert.ToBase64String(bytes, 0, bytes.Length) });
                         }
@@ -465,19 +445,11 @@ namespace WeddingShare.Controllers
 
                 try
                 {
-                    if (Directory.Exists(UploadsDirectory))
+                    if (_fileHelper.DirectoryExists(UploadsDirectory))
                     {
-                        if (!Directory.Exists(tempDir))
-                        {
-                            Directory.CreateDirectory(tempDir);
-                        }
-
-                        if (Directory.Exists(exportDir))
-                        {
-                            Directory.Delete(exportDir, true);
-                        }
-                            
-                        Directory.CreateDirectory(exportDir);
+                        _fileHelper.CreateDirectoryIfNotExists(tempDir);
+                        _fileHelper.DeleteDirectoryIfExists(exportDir);
+                        _fileHelper.CreateDirectoryIfNotExists(exportDir);
 
                         var dbExport = Path.Combine(exportDir, $"WeddingShare.bak");
                         var exported = await _database.Export($"Data Source={dbExport}");
@@ -490,18 +462,15 @@ namespace WeddingShare.Controllers
                             ZipFile.CreateFromDirectory(ThumbnailsDirectory, thumbnailsZip, CompressionLevel.Optimal, false);
 
                             var exportZipFile = Path.Combine(tempDir, $"WeddingShare-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.zip");
-                            if (System.IO.File.Exists(exportZipFile))
-                            {
-                                System.IO.File.Delete(exportZipFile);
-                            }
+                            _fileHelper.DeleteFileIfExists(exportZipFile);
 
                             ZipFile.CreateFromDirectory(exportDir, exportZipFile, CompressionLevel.Optimal, false);
-                            System.IO.File.Delete(dbExport);
-                            System.IO.File.Delete(uploadsZip);
-                            System.IO.File.Delete(thumbnailsZip);
+                            _fileHelper.DeleteFileIfExists(dbExport);
+                            _fileHelper.DeleteFileIfExists(uploadsZip);
+                            _fileHelper.DeleteFileIfExists(thumbnailsZip);
 
-                            byte[] bytes = System.IO.File.ReadAllBytes(exportZipFile);
-                            System.IO.File.Delete(exportZipFile);
+                            byte[] bytes = await _fileHelper.ReadAllBytes(exportZipFile);
+                            _fileHelper.DeleteFileIfExists(exportZipFile);
 
                             return Json(new { success = true, filename = Path.GetFileName(exportZipFile), content = Convert.ToBase64String(bytes, 0, bytes.Length) });
                         }
@@ -513,7 +482,7 @@ namespace WeddingShare.Controllers
                 }
                 finally
                 {
-                    Directory.Delete(exportDir, true);
+                    _fileHelper.DeleteDirectoryIfExists(exportDir);
                 }
             }
 
@@ -538,28 +507,18 @@ namespace WeddingShare.Controllers
                             var extension = Path.GetExtension(file.FileName)?.Trim('.');
                             if (string.Equals("zip", extension, StringComparison.OrdinalIgnoreCase))
                             {
-                                if (!Directory.Exists(tempDir))
-                                {
-                                    Directory.CreateDirectory(tempDir);
-                                }
+                                _fileHelper.CreateDirectoryIfNotExists(tempDir);
 
                                 var filePath = Path.Combine(tempDir, "Import.zip");
                                 if (!string.IsNullOrWhiteSpace(filePath))
                                 {
-                                    using (var fs = new FileStream(filePath, FileMode.Create))
-                                    {
-                                        await file.CopyToAsync(fs);
-                                    }
+									await _fileHelper.SaveFile(file, filePath, FileMode.Create);
 
-                                    if (Directory.Exists(importDir))
-                                    {
-                                        Directory.Delete(importDir, true);
-                                    }
-
-                                    Directory.CreateDirectory(importDir);
+									_fileHelper.DeleteDirectoryIfExists(importDir);
+                                    _fileHelper.CreateDirectoryIfNotExists(importDir);
 
                                     ZipFile.ExtractToDirectory(filePath, importDir, true);
-                                    System.IO.File.Delete(filePath);
+                                    _fileHelper.DeleteFileIfExists(filePath);
 
                                     var uploadsZip = Path.Combine(importDir, "Uploads.bak");
                                     ZipFile.ExtractToDirectory(uploadsZip, UploadsDirectory, true);
@@ -582,7 +541,7 @@ namespace WeddingShare.Controllers
                 }
                 finally
                 {
-                    Directory.Delete(importDir, true);
+                    _fileHelper.DeleteDirectoryIfExists(importDir);
                 }
             }
 

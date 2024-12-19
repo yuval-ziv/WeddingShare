@@ -240,7 +240,6 @@ namespace WeddingShare.Helpers.Database
                 cmd.Parameters.AddWithValue("Id", galleryId);
                 cmd.Parameters.AddWithValue("State", state);
 
-
                 await conn.OpenAsync();
                 result = await ReadGalleryItems(await cmd.ExecuteReaderAsync());
                 await conn.CloseAsync();
@@ -329,11 +328,12 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = new SqliteConnection(_connString))
             {
-                var cmd = new SqliteCommand($"INSERT INTO `gallery_items` (`gallery_id`, `title`, `state`) VALUES (@GalleryId, @Title, @State); SELECT * FROM `gallery_items` WHERE `id`=last_insert_rowid();", conn);
+                var cmd = new SqliteCommand($"INSERT INTO `gallery_items` (`gallery_id`, `title`, `state`, `uploaded_by`) VALUES (@GalleryId, @Title, @State, @UploadedBy); SELECT * FROM `gallery_items` WHERE `id`=last_insert_rowid();", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("GalleryId", model.GalleryId);
                 cmd.Parameters.AddWithValue("Title", model.Title);
                 cmd.Parameters.AddWithValue("State", (int)model.State);
+                cmd.Parameters.AddWithValue("UploadedBy", !string.IsNullOrWhiteSpace(model.UploadedBy) ? model.UploadedBy : DBNull.Value);
 
                 await conn.OpenAsync();
                 var tran = await conn.BeginTransactionAsync();
@@ -360,11 +360,12 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = new SqliteConnection(_connString))
             {
-                var cmd = new SqliteCommand($"UPDATE `gallery_items` SET `title`=@Title, `state`=@State WHERE `id`=@Id; SELECT * FROM `gallery_items` WHERE `id`=@Id;", conn);
+                var cmd = new SqliteCommand($"UPDATE `gallery_items` SET `title`=@Title, `state`=@State, `uploaded_by`=@UploadedBy WHERE `id`=@Id; SELECT * FROM `gallery_items` WHERE `id`=@Id;", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", model.Id);
                 cmd.Parameters.AddWithValue("Title", model.Title);
                 cmd.Parameters.AddWithValue("State", (int)model.State);
+                cmd.Parameters.AddWithValue("UploadedBy", !string.IsNullOrWhiteSpace(model.UploadedBy) ? model.UploadedBy : DBNull.Value);
 
                 await conn.OpenAsync();
                 var tran = await conn.BeginTransactionAsync();

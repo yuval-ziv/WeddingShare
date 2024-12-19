@@ -8,7 +8,7 @@ using WeddingShare.Models.Database;
 
 namespace WeddingShare.BackgroundWorkers
 {
-    public sealed class DirectoryScanner(IWebHostEnvironment hostingEnvironment, IConfigHelper configHelper, IDatabaseHelper databaseHelper, IImageHelper imageHelper, ILogger<DirectoryScanner> logger) : BackgroundService
+    public sealed class DirectoryScanner(IWebHostEnvironment hostingEnvironment, IConfigHelper configHelper, IDatabaseHelper databaseHelper, IFileHelper fileHelper, IImageHelper imageHelper, ILogger<DirectoryScanner> logger) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -36,16 +36,13 @@ namespace WeddingShare.BackgroundWorkers
                 var allowedFileTypes = configHelper.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
                 var thumbnailsDirectory = Path.Combine(hostingEnvironment.WebRootPath, "thumbnails");
-                if (!Directory.Exists(thumbnailsDirectory))
-                {
-                    Directory.CreateDirectory(thumbnailsDirectory);
-                }
+                fileHelper.CreateDirectoryIfNotExists(thumbnailsDirectory);
 
                 var uploadsDirectory = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
-                if (Directory.Exists(uploadsDirectory))
+                if (fileHelper.DirectoryExists(uploadsDirectory))
                 {
                     var searchPattern = !configHelper.GetOrDefault("Settings", "Single_Gallery_Mode", false) ? "*" : "default";
-                    var galleries = Directory.GetDirectories(uploadsDirectory, searchPattern, SearchOption.TopDirectoryOnly)?.Where(x => !Path.GetFileName(x).StartsWith("."));
+                    var galleries = fileHelper.GetDirectories(uploadsDirectory, searchPattern, SearchOption.TopDirectoryOnly)?.Where(x => !Path.GetFileName(x).StartsWith("."));
                     if (galleries != null)
                     {
                         foreach (var gallery in galleries)
@@ -68,7 +65,7 @@ namespace WeddingShare.BackgroundWorkers
 
                                     if (Path.Exists(gallery))
                                     {
-                                        var approvedFiles = Directory.GetFiles(gallery, "*.*", SearchOption.TopDirectoryOnly).Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
+                                        var approvedFiles = fileHelper.GetFiles(gallery, "*.*", SearchOption.TopDirectoryOnly).Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
                                         if (approvedFiles != null)
                                         {
                                             foreach (var file in approvedFiles)
@@ -87,7 +84,7 @@ namespace WeddingShare.BackgroundWorkers
                                                     }
 
                                                     var thumbnailPath = Path.Combine(thumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(file)}.webp");
-                                                    if (!File.Exists(thumbnailPath))
+                                                    if (!fileHelper.FileExists(thumbnailPath))
                                                     {
                                                         await imageHelper.GenerateThumbnail(file, thumbnailPath, configHelper.GetOrDefault("Settings", "Thumbnail_Size", 720));
                                                     }
@@ -115,7 +112,7 @@ namespace WeddingShare.BackgroundWorkers
 
                                         if (Path.Exists(Path.Combine(gallery, "Pending")))
                                         {
-                                            var pendingFiles = Directory.GetFiles(Path.Combine(gallery, "Pending"), "*.*", SearchOption.TopDirectoryOnly).Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
+                                            var pendingFiles = fileHelper.GetFiles(Path.Combine(gallery, "Pending"), "*.*", SearchOption.TopDirectoryOnly).Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
                                             if (pendingFiles != null)
                                             {
                                                 foreach (var file in pendingFiles)

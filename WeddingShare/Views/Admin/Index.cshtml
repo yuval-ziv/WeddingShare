@@ -4,6 +4,10 @@
 @inject WeddingShare.Helpers.IConfigHelper _config
 @inject WeddingShare.Helpers.ISecretKeyHelper _secretKey
 
+@{
+    var identityEnabled = _config.GetOrDefault("Settings", "Show_Identity_Request", false);
+}
+
 <section class="py-1 pt-lg-5">
     <div class="container px-3 px-lg-1 my-3 mt-lg-1">
         @if (Model?.Galleries != null && Model.Galleries.Any())
@@ -93,12 +97,26 @@
                 {
                     <div class="col-12 mb-4 mb-lg-0 mb-1 mb-lg-5">
                         <div class="card pending-approval">
-                            <div class="card-header">
-                                <h5 class="card-title m-0 text-capitalize">
-                                    @review.Title.Split('.', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).FirstOrDefault()
-                                </h5>
-                            </div>
                             <img src="/uploads/@review.GalleryName/Pending/@review.Title" loading="lazy" />
+                            <div class="card-header my-0 py-0">
+                                <div class="row card-title text-capitalize py-0 pt-2">
+                                    @if (identityEnabled)
+                                    {
+                                        <div class="col-12 col-lg-6 text-lg-center">
+                                            <b>Gallery:</b> @review.GalleryName
+                                        </div>
+                                        <div class="col-12 col-lg-6 text-lg-center">
+                                            <b>Uploader:</b> @(!string.IsNullOrWhiteSpace(review.UploadedBy) ? review.UploadedBy : "Anonymous")
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-12">
+                                            <b>Gallery:</b> @review.GalleryName
+                                        </div>
+                                    }
+                                </div>
+                            </div>
                             <div class="card-body m-0 p-0">
                                 <div class="btn-group w-100" role="group" data-id="@review.Id">
                                     <button type="button" class="btn btn-success btnReviewApprove">@_localizer["Approve"].Value</button>

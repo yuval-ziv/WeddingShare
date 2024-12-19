@@ -35,7 +35,7 @@ namespace WeddingShare.Controllers
                 if (_config.GetOrDefault("Settings", "Single_Gallery_Mode", false))
                 {
                     var key = await _secretKey.GetGallerySecretKey("default");
-                    if (string.IsNullOrEmpty(key))
+                    if (string.IsNullOrWhiteSpace(key))
                     {
                         return RedirectToAction("Index", "Gallery");
                     }

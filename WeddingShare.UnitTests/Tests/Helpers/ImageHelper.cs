@@ -8,6 +8,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 {
     public class ImageHelperTests
     {
+        private readonly IFileHelper _fileHelper = Substitute.For<IFileHelper>();
         private readonly ILogger<ImageHelper> _logger = Substitute.For<ILogger<ImageHelper>>();
         private readonly IDictionary<ImageOrientation, Image?> _imageCollection;
 
@@ -34,7 +35,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             var image = _imageCollection[orientation];
             Assert.IsNotNull(image);
 
-            var actual = new ImageHelper(_logger).GetOrientation(image);
+            var actual = new ImageHelper(_fileHelper, _logger).GetOrientation(image);
             Assert.That(actual, Is.EqualTo(orientation));
         }
     }

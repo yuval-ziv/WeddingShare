@@ -93,10 +93,12 @@
             }
 
             const secretKey = dataRefs.input.getAttribute('data-post-key');
+            const uploadedBy = getCookie('ViewerIdentity');
 
             const formData = new FormData();
             formData.append('Id', galleryId);
             formData.append('SecretKey', secretKey);
+            formData.append('UploadedBy', uploadedBy);
             for (var i = 0; i < dataRefs.files.length; i++) {
                 formData.append(dataRefs.files[i].name, dataRefs.files[i]);
             }

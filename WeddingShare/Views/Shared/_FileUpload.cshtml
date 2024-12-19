@@ -6,19 +6,23 @@
     var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png")?.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)?.Select(x => $".{x.Trim('.')}")?.OrderBy(x => x)?.ToList() ?? new List<string>();
 }
 
-<form>
-    <fieldset class="upload_drop text-center p-4 text-center text-white">
-        <svg class="upload_svg" width="60" height="60" aria-hidden="true">
-            <use href="#icon-image-upload"></use>
-        </svg>
+<header class="file-uploader bg-dark py-1 py-lg-4">
+    <div class="container px-0 px-lg-2">
+        <form>
+            <fieldset class="upload_drop text-center p-4 text-center text-white">
+                <svg class="upload_svg" width="60" height="60" aria-hidden="true">
+                    <use href="#icon-image-upload"></use>
+                </svg>
 
-        <h2 class="strong my-2">@_localizer["Upload_Photos"].Value</h2>
-        <p class="small my-2">@(ViewBag.IsMobile ?? false ? _localizer["Click_To_Upload"].Value : _localizer["Drag_And_Drop"].Value)</p>
-        <p class="small my-2">(@string.Join(", ", allowedFileTypes).ToLower())</p>
+                <h2 class="strong my-2">@_localizer["Upload_Photos"].Value</h2>
+                <p class="small my-2">@(ViewBag.IsMobile ?? false ? _localizer["Click_To_Upload"].Value : _localizer["Drag_And_Drop"].Value)</p>
+                <p class="small my-2">(@string.Join(", ", allowedFileTypes).ToLower())</p>
 
-        <input data-post-gallery-id="@Model.GalleryId" data-post-url="@Model.UploadUrl" data-post-key="@Model.SecretKey" class="position-absolute invisible" type="file" multiple accept="image/*" />
-    </fieldset>
-</form>
+                <input data-post-gallery-id="@Model.GalleryId" data-post-url="@Model.UploadUrl" data-post-key="@Model.SecretKey" class="position-absolute invisible" type="file" multiple accept="image/*" />
+            </fieldset>
+        </form>
+    </div>
+</header>
 
 <svg style="display:none">
     <defs>
