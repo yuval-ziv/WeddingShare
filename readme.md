@@ -31,8 +31,6 @@ Not all image formats are supported in browsers so although you may be able to a
 | THUMBNAIL_SIZE                 | 720                           |
 | SECRET_KEY                     | (optional)                    |
 | SECRET_KEY_{GalleryId}         | (optional)                    |
-| ADMIN_USERNAME                 | admin                         |
-| ADMIN_PASSWORD                 | admin                         |
 | SINGLE_GALLERY_MODE            | false                         |
 | REQUIRE_REVIEW                 | true                          |
 | DISABLE_HOME_LINK              | false                         |
@@ -51,10 +49,17 @@ Not all image formats are supported in browsers so although you may be able to a
 | SHOW_IDENTITY_REQUEST          | true                          |
 | RETAIN_REJECTED_ITEMS          | false                         |
 | EMAIL_REPORT                   | true                          |
-| ACCOUNT_SHOW_PROFILE_ICON      | true                          |
-| ACCOUNT_LOCKOUT_ATTEMPTS       | 5                             |
-| ACCOUNT_LOCKOUT_MINS           | 60                            |
 | LINKS_OPEN_NEW_TAB             | true                          |
+
+## Admin Account
+
+| Name                       | Value     |
+| -------------------------- | ----------|
+| ADMIN_USERNAME             | admin     |
+| ADMIN_PASSWORD             | admin     |
+| ACCOUNT_SHOW_PROFILE_ICON  | true      |
+| ACCOUNT_LOCKOUT_ATTEMPTS   | 5         |
+| ACCOUNT_LOCKOUT_MINS       | 60        |
 
 ## Background Services
 
