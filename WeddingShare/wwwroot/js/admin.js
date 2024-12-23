@@ -269,7 +269,7 @@
                 return;
             }
 
-            window.open($(this).data('url'), '_blank');
+            window.open($(this).data('url'), $(this).data('target'));
         });
 
         $(document).off('click', 'i.btnDownloadGallery').on('click', 'i.btnDownloadGallery', function (e) {

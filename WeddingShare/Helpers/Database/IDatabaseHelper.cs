@@ -21,6 +21,17 @@ namespace WeddingShare.Helpers.Database
         Task<GalleryItemModel?> AddGalleryItem(GalleryItemModel model);
         Task<GalleryItemModel?> EditGalleryItem(GalleryItemModel model);
         Task<bool> DeleteGalleryItem(GalleryItemModel model);
+        Task<bool> InitAdminAccount(UserModel model);
+        Task<bool> ValidateCredentials(string username, string password);
+        Task<UserModel?> GetUser(int id);
+        Task<UserModel?> GetUser(string name);
+        Task<UserModel?> AddUser(UserModel model);
+        Task<UserModel?> EditUser(UserModel model);
+        Task<bool> DeleteUser(UserModel model);
+        Task<bool> ChangePassword(UserModel model);
+        Task<int> IncrementLockoutCount(int id);
+        Task<bool> SetLockout(int id, DateTime? datetime);
+        Task<bool> ResetLockoutCount(int id);
         Task<bool> Import(string path);
         Task<bool> Export(string path);
     }

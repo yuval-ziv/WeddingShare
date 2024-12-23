@@ -1,5 +1,6 @@
 ﻿@using System.Text
 @using WeddingShare.Enums
+@using WeddingShare.Helpers
 @using WeddingShare.Views.Gallery
 @inject Microsoft.Extensions.Localization.IStringLocalizer<GalleryOptionsModel> _localizer
 @inject WeddingShare.Helpers.IConfigHelper _config
@@ -7,8 +8,7 @@
 
 @{
     var ctx = Context.Request;
-
-    var baseLink = $"{(_config.GetOrDefault("Settings", "Force_Https", false) ? "https" : ctx.Scheme)}://{ctx.Host}{ctx.Path}";
+    var baseLink = UrlHelper.Generate(ctx, _config, ctx.Path);
 
     var queryString = new StringBuilder();
     foreach (var q in ctx.Query.Where(x => !string.Equals("order", x.Key, StringComparison.OrdinalIgnoreCase)))

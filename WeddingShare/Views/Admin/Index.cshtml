@@ -1,19 +1,19 @@
 ﻿@model IndexModel
+@using WeddingShare.Helpers
 @using WeddingShare.Views.Admin
 @inject Microsoft.Extensions.Localization.IStringLocalizer<IndexModel> _localizer
 @inject WeddingShare.Helpers.IConfigHelper _config
 @inject WeddingShare.Helpers.ISecretKeyHelper _secretKey
 
 @{
-    var identityEnabled = _config.GetOrDefault("Settings", "Show_Identity_Request", false);
+    var identityEnabled = _config.GetOrDefault("Settings", "Show_Identity_Request", true);
 }
 
 <section class="py-1 pt-lg-5">
     <div class="container px-3 px-lg-1 my-3 mt-lg-1">
         @if (Model?.Galleries != null && Model.Galleries.Any())
         {
-            var ctx = Context.Request;
-            var link = $"{(_config.GetOrDefault("Settings", "Force_Https", false) ? "https" : ctx.Scheme)}://{ctx.Host}/Gallery";
+            var link = UrlHelper.Generate(Context, _config, "/Gallery");
 
             <div class="row pb-2 pb-lg-4">
                 <div class="col-12 text-center">
@@ -66,7 +66,7 @@
                             <i class="fa-solid @(!string.IsNullOrWhiteSpace(secretKey) ? "fa-lock" : "fa-lock-open") m-0"></i>
                         </td>
                         <td>
-                            <i class="btnOpenGallery btn btn-outline-primary fa-solid fa-up-right-from-square" data-url="@galleryLink" alt="Open"></i>
+                            <i class="btnOpenGallery btn btn-outline-primary fa-solid fa-up-right-from-square" data-url="@galleryLink" data-target="@(_config.GetOrDefault("Settings", "Links_Open_New_Tab", true) ? "_blank" : "_self")" alt="Open"></i>
                             <i class="btnDownloadGallery btn @(gallery.TotalItems > 0 ? "btn-outline-primary" : "btn-outline-disabled") fa-solid fa-download" alt="Download" @(gallery.TotalItems == 0 ? "disabled=disabled" : string.Empty)></i>
                             <i class="btn @(gallery.Id > 1 ? "btnEditGallery btn-outline-success" : "btn-outline-disabled") fa-solid fa-pen-to-square" alt="Edit"></i>
                             <i class="btn @(gallery.TotalItems > 0 ? "btnWipeGallery btn-outline-danger" : "btn-outline-disabled") fa-solid fa-broom" alt="Wipe" @(gallery.TotalItems == 0 ? "disabled=disabled" : string.Empty)></i>

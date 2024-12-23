@@ -120,15 +120,6 @@
   <data name="Actions" xml:space="preserve">
     <value>Actes</value>
   </data>
-  <data name="Admin_Login" xml:space="preserve">
-    <value>Connexion administrateur</value>
-  </data>
-  <data name="Admin_Login_Help" xml:space="preserve">
-    <value>Veuillez entrer le mot de passe de la zone d'administration.</value>
-  </data>
-  <data name="Admin_Login_Placeholder" xml:space="preserve">
-    <value>Mot de passe</value>
-  </data>
   <data name="Approve" xml:space="preserve">
     <value>Approuver</value>
   </data>

@@ -6,18 +6,26 @@
     <div class="container px-3 px-lg-1 my-3 mt-lg-1">
         <div class="card">
             <div class="card-header">
-                <h1 class="display-6">@_localizer["Admin_Login"].Value</h1>
+                <h1 class="display-6">@_localizer["Login"].Value</h1>
             </div>
             <div class="card-body m-1 m-lg-5">
                 <form id="frmAdminLogin">
-                    <div class="input-group">
-                        <input type="password" id="admin-password" class="form-control" aria-describedby="admin-password-help" placeholder="@_localizer["Admin_Login_Placeholder"].Value" aria-label="@_localizer["Admin_Login"].Value" />
+                    <div class="row mb-4 mb-lg-5">
+                        <div class="col-12">
+                            <input type="text" class="input-username form-control" aria-describedby="admin-username-help" placeholder="@_localizer["Login_Username_Placeholder"].Value" aria-label="@_localizer["Login_Username"].Value" />
+                            <div class="form-text">@_localizer["Login_Username_Help"].Value</div>
+                        </div>
                     </div>
-                    <div id="admin-password-help" class="form-text">
-                        @_localizer["Admin_Login_Help"].Value
+                    <div class="row mb-4 mb-lg-5">
+                        <div class="col-12">
+                            <input type="password" class="input-password form-control" aria-describedby="admin-password-help" placeholder="@_localizer["Login_Password_Placeholder"].Value" aria-label="@_localizer["Login_Password"].Value" />
+                            <div class="form-text">@_localizer["Login_Password_Help"].Value</div>
+                        </div>
                     </div>
-                    <div class="d-grid gap-2 mt-4 mt-lg-5">
-                        <button id="btnAdminLogin" class="btn btn-primary" type="submit">@_localizer["Login"].Value</button>
+                    <div class="row mt-4 mt-lg-5">
+                        <div class="col-12">
+                            <button id="btnAdminLogin" class="btn btn-primary w-100" type="submit">@_localizer["Login"].Value</button>
+                        </div>
                     </div>
                 </form>
             </div>

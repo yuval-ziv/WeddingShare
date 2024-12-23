@@ -21,6 +21,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             _configuration = ConfigurationHelper.MockConfiguration(new Dictionary<string, string?>()
             {
                 { "Release:Version", "v1.0.0" },
+                { "Release:Plugin:Version", "v3.0.0" },
 
                 { "String1:Key1", "Value1" },
                 { "String1:Key2", "Value2" },
@@ -68,14 +69,14 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             Assert.That(actual, Is.EqualTo(expected));
         }
 
-        [TestCase("String1", "Key1", "Value1")]
-        [TestCase("String1", "Key2", "Value2")]
-        [TestCase("String2", "Key1", "Value3")]
-        [TestCase("String2", "Key2", null)]
-        [TestCase("Release", "Version", "v1.0.0")]
-        public void ConfigHelper_GetConfigValue(string section, string key, string? expected)
+        [TestCase("String1", null, "Key1", "Value1")]
+        [TestCase("String1", null, "Key2", "Value2")]
+        [TestCase("String2", null, "Key1", "Value3")]
+        [TestCase("String2", null, "Key2", null)]
+        [TestCase("Release", null, "Version", "v1.0.0")]
+        public void ConfigHelper_GetConfigValue(string section, string? subsection, string key, string? expected)
         {
-            var actual = new ConfigHelper(_environment, _configuration, _logger).GetConfigValue(section, key);
+            var actual = new ConfigHelper(_environment, _configuration, _logger).GetConfigValue(section, subsection, key);
             Assert.That(actual, Is.EqualTo(expected));
         }
 
@@ -98,6 +99,18 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         public void ConfigHelper_GetOrDefault(string section, string key, string defaultValue, string expected)
         {
             var actual = new ConfigHelper(_environment, _configuration, _logger).GetOrDefault(section, key, defaultValue);
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
+        [TestCase("String1", null, "Key1", "Default", "Value1")]
+        [TestCase("String1", null, "Key2", "Default", "Value2")]
+        [TestCase("String2", null, "Key1", "Default", "Value3")]
+        [TestCase("String2", null, "Key2", "Default", "Default")]
+        [TestCase("Release", null, "Version", "v0.0.0", "v1.0.0")]
+        [TestCase("Release", "Plugin", "Version", "v0.0.0", "v3.0.0")]
+        public void ConfigHelper_GetOrDefault(string section, string? subsection, string key, string defaultValue, string expected)
+        {
+            var actual = new ConfigHelper(_environment, _configuration, _logger).GetOrDefault(section, subsection, key, defaultValue);
             Assert.That(actual, Is.EqualTo(expected));
         }
 

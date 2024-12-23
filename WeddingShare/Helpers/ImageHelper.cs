@@ -65,7 +65,7 @@ namespace WeddingShare.Helpers
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogWarning(ex, $"Failed to generate thumbnail");
+                    _logger.LogWarning(ex, $"Failed to generate thumbnail - '{imagePath}'");
                 }
             }
 

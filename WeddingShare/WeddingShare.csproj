@@ -10,9 +10,11 @@
 
   <ItemGroup>
     <None Remove="SqlScripts\000 - Initialize Database.sql" />
+    <None Remove="SqlScripts\SQLite\001 - Add Failed Login Tracking.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\SQLite\001 - Add Failed Login Tracking.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\000 - Initialize Database.sql" />
   </ItemGroup>
 

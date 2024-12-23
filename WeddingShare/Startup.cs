@@ -4,43 +4,37 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using WeddingShare.BackgroundWorkers;
+using WeddingShare.Configurations;
 using WeddingShare.Helpers;
 using WeddingShare.Helpers.Database;
-using WeddingShare.Helpers.Dbup;
+using WeddingShare.Models.Database;
 
 namespace WeddingShare
 {
     public class Startup
     {
         private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger _logger;
 
         public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             Configuration = configuration;
             _loggerFactory = loggerFactory;
+            _logger = loggerFactory.CreateLogger<Startup>();
         }
 
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IConfigHelper, ConfigHelper>();
-            services.AddSingleton<IEnvironmentWrapper, EnvironmentWrapper>();
-            services.AddSingleton<ISecretKeyHelper, SecretKeyHelper>();
-            services.AddSingleton<IImageHelper, ImageHelper>();
-            services.AddSingleton<IDeviceDetector, DeviceDetector>();
-            services.AddSingleton<IFileHelper, FileHelper>();
-
             var config = new ConfigHelper(new EnvironmentWrapper(), Configuration, _loggerFactory.CreateLogger<ConfigHelper>());
-            switch (config.GetOrDefault("Database", "Database_Type", "sqlite")?.ToLower())
-            {
-                case "sqlite":
-                    services.AddSingleton<IDatabaseHelper, SQLiteDatabaseHelper>();
-                    break;
-            }
+            
+            services.AddDependencyInjectionConfiguration();
+            services.AddDatabaseConfiguration(config);
+            services.AddNotificationConfiguration(config);
 
-            services.AddHostedService<DbupMigrator>();
             services.AddHostedService<DirectoryScanner>();
+            services.AddHostedService<NotificationReport>();
 
             services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
