@@ -7,6 +7,7 @@ using WeddingShare.Enums;
 using WeddingShare.Extensions;
 using WeddingShare.Helpers;
 using WeddingShare.Helpers.Database;
+using WeddingShare.Helpers.Notifications;
 using WeddingShare.Models;
 using WeddingShare.Models.Database;
 
@@ -22,13 +23,14 @@ namespace WeddingShare.Controllers
         private readonly ISecretKeyHelper _secretKey;
         private readonly IDeviceDetector _deviceDetector;
         private readonly IImageHelper _imageHelper;
+        private readonly INotificationHelper _notificationHelper;
         private readonly ILogger _logger;
         private readonly IStringLocalizer<GalleryController> _localizer;
 
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IFileHelper fileHelper, ISecretKeyHelper secretKey, IDeviceDetector deviceDetector, IImageHelper imageHelper, ILogger<GalleryController> logger, IStringLocalizer<GalleryController> localizer)
+        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IFileHelper fileHelper, ISecretKeyHelper secretKey, IDeviceDetector deviceDetector, IImageHelper imageHelper, INotificationHelper notificationHelper, ILogger<GalleryController> logger, IStringLocalizer<GalleryController> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
@@ -37,6 +39,7 @@ namespace WeddingShare.Controllers
             _secretKey = secretKey;
             _deviceDetector = deviceDetector;
             _imageHelper = imageHelper;
+            _notificationHelper = notificationHelper;
             _logger = logger;
             _localizer = localizer;
 
@@ -216,7 +219,13 @@ namespace WeddingShare.Controllers
 
 						Response.StatusCode = (int)HttpStatusCode.OK;
 
-						return Json(new { success = uploaded > 0, uploaded, uploadedBy, requiresReview, errors });
+                        var filesUploaded = uploaded > 0;
+                        if (filesUploaded && requiresReview && _config.GetOrDefault("Notifications", "Alerts", "Pending_Review", true))
+                        {
+                            await _notificationHelper.Send("New Items Pending Review", $"{uploaded} new item(s) have been uploaded to gallery '{gallery.Name}' by '{(!string.IsNullOrWhiteSpace(uploadedBy) ? uploadedBy : "Anonymous")}' and are awaiting your review.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                        }
+
+						return Json(new { success = filesUploaded, uploaded, uploadedBy, requiresReview, errors });
                     }
                     else
                     {

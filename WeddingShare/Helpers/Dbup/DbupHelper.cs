@@ -2,10 +2,12 @@
 using DbUp;
 using DbUp.Engine;
 using WeddingShare.Enums;
+using WeddingShare.Helpers.Database;
+using WeddingShare.Models.Database;
 
 namespace WeddingShare.Helpers.Dbup
 {
-    public sealed class DbupMigrator(IEnvironmentWrapper environment, IConfiguration configuration, IFileHelper fileHelper, ILoggerFactory loggerFactory) : BackgroundService
+    public sealed class DbupMigrator(IEnvironmentWrapper environment, IConfiguration configuration, IDatabaseHelper database, IFileHelper fileHelper, ILoggerFactory loggerFactory) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -37,6 +39,10 @@ namespace WeddingShare.Helpers.Dbup
                     {
                         logger.LogWarning($"DBUP failed with error: '{dbupResult?.Error?.Message}' - '{dbupResult?.Error?.ToString()}'");
                     }
+
+                    var adminAccount = new UserModel() { Username = config.GetOrDefault("Settings", "Admin", "Username", "admin"), Password = config.GetOrDefault("Settings", "Admin", "Password", "admin") };
+                    database.InitAdminAccount(adminAccount);
+                    logger.LogInformation($"Password: {adminAccount.Password}");
                 }
                 else
                 {

@@ -176,7 +176,13 @@ lightbox.option({
         $(document).off('submit', '#frmAdminLogin').on('submit', '#frmAdminLogin', function (e) {
             preventDefaults(e);
 
-            var password = $('input#admin-password').val();
+            var username = $('#frmAdminLogin input.input-username').val();
+            if (username === undefined || username.length === 0) {
+                displayMessage(`Login`, `Please enter a valid username`);
+                return;
+            }
+
+            var password = $('#frmAdminLogin input.input-password').val();
             if (password === undefined || password.length === 0) {
                 displayMessage(`Login`, `Please enter a valid password`);
                 return;
@@ -187,7 +193,7 @@ lightbox.option({
             $.ajax({
                 url: '/Admin/Login',
                 method: 'POST',
-                data: { Password: password }
+                data: { Username: username, Password: password }
             })
                 .done(data => {
                     hideLoader();

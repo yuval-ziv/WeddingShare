@@ -14,6 +14,8 @@ namespace WeddingShare.Helpers.Database
         {
             _connString = config.GetOrDefault("Database", "Connection_String", "Data Source=./config/wedding-share.db");
             _logger = logger;
+
+            _logger.LogInformation($"Using SQLite connection string: '{_connString}'");
         }
 
         #region Gallery
@@ -416,6 +418,289 @@ namespace WeddingShare.Helpers.Database
         }
         #endregion
 
+        #region Users
+        public async Task<bool> InitAdminAccount(UserModel model)
+        {
+            bool result = false;
+
+            using (var conn = new SqliteConnection(_connString))
+            {
+                var cmd = new SqliteCommand($"UPDATE `users` SET `username`=@Username, `password`=@Password WHERE `id`=@Id;", conn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("Id", 1);
+                cmd.Parameters.AddWithValue("Username", model.Username.ToLower());
+                cmd.Parameters.AddWithValue("Password", model.Password);
+
+                await conn.OpenAsync();
+                result = await cmd.ExecuteNonQueryAsync() > 0;
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<bool> ValidateCredentials(string username, string password)
+        {
+            bool result = false;
+
+            using (var conn = new SqliteConnection(_connString))
+            {
+                var cmd = new SqliteCommand($"SELECT COUNT(`id`) FROM `users` WHERE `username`=@Username AND `password`=@Password;", conn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("Id", 1);
+                cmd.Parameters.AddWithValue("Username", username.ToLower());
+                cmd.Parameters.AddWithValue("Password", password);
+
+                await conn.OpenAsync();
+                result = (long)(await cmd.ExecuteScalarAsync() ?? 0) > 0;
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<UserModel?> GetUser(int id)
+        {
+            UserModel? result;
+
+            using (var conn = new SqliteConnection(_connString))
+            {
+                var cmd = new SqliteCommand($"SELECT * FROM `users` WHERE `id`=@Id;", conn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("Id", id);
+
+                await conn.OpenAsync();
+                result = (await ReadUsers(await cmd.ExecuteReaderAsync()))?.FirstOrDefault();
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<UserModel?> GetUser(string username)
+        {
+            UserModel? result;
+
+            using (var conn = new SqliteConnection(_connString))
+            {
+                var cmd = new SqliteCommand($"SELECT * FROM `users` WHERE `username`=@Username;", conn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("Username", username.ToLower());
+
+                await conn.OpenAsync();
+                result = (await ReadUsers(await cmd.ExecuteReaderAsync()))?.FirstOrDefault();
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<UserModel?> AddUser(UserModel model)
+        {
+            UserModel? result = null;
+
+            using (var conn = new SqliteConnection(_connString))
+            {
+                var cmd = new SqliteCommand($"INSERT INTO `users` (`username`, `email`, `password`) VALUES (@Username, @Email, @Password); SELECT SELECT * FROM `users` WHERE `id`=last_insert_rowid();", conn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("Username", model.Username.ToLower());
+                cmd.Parameters.AddWithValue("Email", model.Email);
+                cmd.Parameters.AddWithValue("Password", model.Password);
+
+                await conn.OpenAsync();
+                var tran = await conn.BeginTransactionAsync();
+                try
+                {
+                    cmd.Transaction = (SqliteTransaction)tran;
+                    result = (await ReadUsers(await cmd.ExecuteReaderAsync()))?.FirstOrDefault();
+                    await tran.CommitAsync();
+                }
+                catch
+                {
+                    await tran.RollbackAsync();
+                }
+
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<UserModel?> EditUser(UserModel model)
+        {
+            UserModel? result = null;
+
+            using (var conn = new SqliteConnection(_connString))
+            {
+                var cmd = new SqliteCommand($"UPDATE `users` SET `username`=@Username, `email`=@Email, `failed_logins`=@FailedLogins, `lockout_until`=@LockoutUntil WHERE `id`=@Id; SELECT * FROM `users` WHERE `id`=@Id;", conn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("Id", model.Id);
+                cmd.Parameters.AddWithValue("Username", model.Username.ToLower());
+                cmd.Parameters.AddWithValue("Email", !string.IsNullOrEmpty(model.Email) ? model.Email : DBNull.Value);
+                cmd.Parameters.AddWithValue("FailedLogins", model.FailedLogins);
+                cmd.Parameters.AddWithValue("LockoutUntil", model.LockoutUntil != null ? ((DateTime)model.LockoutUntil - new DateTime(1970, 1, 1)).TotalSeconds : DBNull.Value);
+
+                await conn.OpenAsync();
+                var tran = await conn.BeginTransactionAsync();
+                try
+                {
+                    cmd.Transaction = (SqliteTransaction)tran;
+                    result = (await ReadUsers(await cmd.ExecuteReaderAsync()))?.FirstOrDefault();
+                    await tran.CommitAsync();
+                }
+                catch
+                {
+                    await tran.RollbackAsync();
+                }
+
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<bool> DeleteUser(UserModel model)
+        {
+            bool result = false;
+
+            if (model.Id > 1 && !string.Equals("Admin", model.Username, StringComparison.OrdinalIgnoreCase))
+            { 
+                using (var conn = new SqliteConnection(_connString))
+                {
+                    var cmd = new SqliteCommand($"DELETE FROM `users` WHERE `id`=@Id;", conn);
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("Id", model.Id);
+
+                    await conn.OpenAsync();
+                    var tran = await conn.BeginTransactionAsync();
+                    try
+                    {
+                        cmd.Transaction = (SqliteTransaction)tran;
+                        result = (await cmd.ExecuteNonQueryAsync()) > 0;
+                        await tran.CommitAsync();
+                    }
+                    catch
+                    {
+                        await tran.RollbackAsync();
+                    }
+
+                    await conn.CloseAsync();
+                }
+            }
+
+            return result;
+        }
+
+        public async Task<bool> ChangePassword(UserModel model)
+        {
+            bool result = false;
+
+            using (var conn = new SqliteConnection(_connString))
+            {
+                var cmd = new SqliteCommand($"UPDATE `users` SET `password`=@Password WHERE `id`=@Id;", conn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("Id", model.Id);
+                cmd.Parameters.AddWithValue("Password", model.Password);
+
+                await conn.OpenAsync();
+                var tran = await conn.BeginTransactionAsync();
+                try
+                {
+                    cmd.Transaction = (SqliteTransaction)tran;
+                    result = (int)(await cmd.ExecuteScalarAsync() ?? 0) > 0;
+                    await tran.CommitAsync();
+                }
+                catch
+                {
+                    await tran.RollbackAsync();
+                }
+
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<int> IncrementLockoutCount(int id)
+        {
+            int result = 0;
+
+            var user = await this.GetUser(id);
+            if (user != null)
+            {
+                user.FailedLogins++;
+                result = (await this.EditUser(user))?.FailedLogins ?? 0;
+            }
+
+            return result;
+        }
+
+        public async Task<bool> SetLockout(int id, DateTime? datetime) 
+        {
+            bool result = false;
+
+            using (var conn = new SqliteConnection(_connString))
+            {
+                if (datetime != null)
+                {
+                    var lockout = (DateTime)datetime;
+                    datetime = new DateTime(lockout.Year, lockout.Month, lockout.Day, lockout.Hour, lockout.Minute, 0, DateTimeKind.Utc);
+                }
+
+                var cmd = new SqliteCommand($"UPDATE `users` SET `lockout_until`=@LockoutUntil WHERE `id`=@Id; SELECT `lockout_until` FROM `users` WHERE `id`=@Id;", conn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("Id", id);
+                cmd.Parameters.AddWithValue("LockoutUntil", datetime != null ? ((DateTime)datetime - new DateTime(1970, 1, 1)).TotalSeconds : DBNull.Value);
+
+                await conn.OpenAsync();
+                var tran = await conn.BeginTransactionAsync();
+
+                try
+                {
+                    cmd.Transaction = (SqliteTransaction)tran;
+                    var reader = await cmd.ExecuteReaderAsync();
+                    if (reader != null && reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            try
+                            {
+                                result = (!await reader.IsDBNullAsync("lockout_until") ? DateTime.UnixEpoch.AddSeconds(reader.GetInt32("lockout_until")) : null) == datetime;
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogWarning(ex, $"Failed to parse user lockout from database - {ex?.Message}");
+                            }
+                        }
+                    }
+                    await tran.CommitAsync();
+                }
+                catch
+                {
+                    await tran.RollbackAsync();
+                }
+
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<bool> ResetLockoutCount(int id)
+        {
+            bool result = false;
+
+            var user = await this.GetUser(id);
+            if (user != null)
+            {
+                user.FailedLogins = 0;
+                result = ((await this.EditUser(user))?.FailedLogins ?? 0) == 0;
+            }
+
+            return result;
+        }
+        #endregion
+
         #region Backups
         public async Task<bool> Import(string path)
         {
@@ -591,9 +876,11 @@ namespace WeddingShare.Helpers.Database
                             items.Add(new UserModel()
                             {
                                 Id = id,
-                                Name = !await reader.IsDBNullAsync("name") ? reader.GetString("name") : null,
+                                Username = !await reader.IsDBNullAsync("failed_logins") ? reader.GetString("username").ToLower() : string.Empty,
                                 Email = !await reader.IsDBNullAsync("email") ? reader.GetString("email") : null,
-                                Password = !await reader.IsDBNullAsync("password") ? reader.GetString("password") : null
+                                Password = null,
+                                FailedLogins = !await reader.IsDBNullAsync("failed_logins") ? reader.GetInt32("failed_logins") : 0,
+                                LockoutUntil = !await reader.IsDBNullAsync("lockout_until") ? DateTime.UnixEpoch.AddSeconds(reader.GetInt32("lockout_until")) : null
                             });
                         }
                     }

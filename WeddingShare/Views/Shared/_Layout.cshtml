@@ -3,30 +3,22 @@
 @{
     var title = _config.GetOrDefault("Settings", "Title", "WeddingShare");
     var logo = _config.GetOrDefault("Settings", "Logo", "/images/logo.png");
-    var disableDarkMode = _config.GetOrDefault("Settings", "Disable_Dark_Mode", false);
     var viewMode = ViewBag.ViewMode != null ? ViewBag.ViewMode : ViewMode.Default;
 
     string theme;
-    if (!disableDarkMode)
+    try
     {
-        try
+        switch (Context?.Request?.Cookies["Theme"]?.Trim()?.ToLower() ?? _config.GetOrDefault("Settings", "Default_Theme", "default"))
         {
-            switch (Context?.Request?.Cookies["Theme"]?.Trim()?.ToLower() ?? "default")
-            {
-                case "dark":
-                    theme = "dark";
-                    break;
-                default:
-                    theme = "default";
-                    break;
-            }
-        }
-        catch
-        {
-            theme = "default";
+            case "dark":
+                theme = "dark";
+                break;
+            default:
+                theme = "default";
+                break;
         }
     }
-    else
+    catch
     {
         theme = "default";
     }
@@ -71,7 +63,7 @@
     <body>
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg">
-            <div class="container px-4 px-lg-5 @(viewMode == ViewMode.Presentation || viewMode == ViewMode.Slideshow ? "justify-content-center" : string.Empty)">
+            <div class="container px-3 px-lg-5 @(viewMode == ViewMode.Presentation || viewMode == ViewMode.Slideshow ? "justify-content-center" : string.Empty)">
                 <a class="navbar-brand" href="@(!_config.GetOrDefault("Settings", "Disable_Home_link", false) ? "/" : "#")">
                     <img class="navbar-logo" src="@logo" />
                     <span class="navbar-title">@title</span>
@@ -80,29 +72,33 @@
                 @if (viewMode != ViewMode.Presentation && viewMode != ViewMode.Slideshow)
                 {
                     <div class="presentation-hidden">
-                        <div class="mx-3 mx-lg-4 my-1 float-start">
-                            @if (!disableDarkMode)
+                        <div class="mx-0 mx-lg-4 my-1 float-start">
+                            @if (!_config.GetOrDefault("Settings", "Disable_Themes", false))
                             {
                                 <i class="change-theme fa-solid @(string.Equals("default", theme, StringComparison.OrdinalIgnoreCase) ? "fa-moon" : "fa-sun") fa-1x text-secondary pointer mx-2"></i>
                             }
-                            @if (_config.GetOrDefault("Settings", "Show_Identity_Request", false) && Context.Request.Cookies.ContainsKey("ViewerIdentity"))
+                            @if (_config.GetOrDefault("Settings", "Show_Identity_Request", true) && Context.Request.Cookies.ContainsKey("ViewerIdentity"))
                             {
                                 <i class="change-identity fa-solid fa-id-card fa-1x text-secondary pointer mx-2"></i>
                             }
                         </div>
-
-                        @if (!string.IsNullOrWhiteSpace(Context.Request.Path.Value) && Context.Request.Path.Value.Contains("/Admin", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/Login", StringComparison.OrdinalIgnoreCase))
-                        {
-                            <a href="@Url.Action("Logout", "Admin")">
-                                <i class="fa-solid fa-door-open fa-2x float-end text-danger"></i>
-                            </a>
-                        }
-                        else
-                        {
-                            <a href="@Url.Action("Login", "Admin")">
-                                <i class="fa-solid fa-circle-user fa-2x float-end text-secondary"></i>
-                            </a>
-                        }
+                        <div class="profile-icon float-end">
+                            @if (_config.GetOrDefault("Settings", "Account", "Show_Profile_Icon", true))
+                            {
+                                if (!string.IsNullOrWhiteSpace(Context.Request.Path.Value) && Context.Request.Path.Value.Contains("/Admin", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/Login", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    <a href="@Url.Action("Logout", "Admin")">
+                                        <i class="fa-solid fa-door-open fa-2x text-danger"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Login", "Admin")">
+                                        <i class="fa-solid fa-circle-user fa-2x text-secondary"></i>
+                                    </a>
+                                }
+                            }
+                        </div>
                     </div>
                 }
                 else
@@ -112,14 +108,17 @@
                             document.addEventListener('DOMContentLoaded', function () {
                                 var presentationTimeout = setTimeout(function () {
                                     $('.presentation-hidden').fadeOut(500);
+                                    $('body').css('cursor', 'none');
                                 }, 1000);
 
                                 $(document).off('mousemove').on('mousemove', function () {
                                     $('.presentation-hidden').fadeIn(200);
+                                    $('body').css('cursor', 'default');
 
                                     clearTimeout(presentationTimeout);
                                     presentationTimeout = setTimeout(function () {
                                         $('.presentation-hidden').fadeOut(500);
+                                        $('body').css('cursor', 'none');
                                     }, 1000);
                                 });
                             });
@@ -155,7 +154,7 @@
 
         <partial name="~/Views/Shared/_Modals.cshtml" model="null" />
 
-        @if (_config.GetOrDefault("Settings", "Show_Identity_Request", false) && !Context.Request.Cookies.ContainsKey("ViewerIdentity"))
+        @if (_config.GetOrDefault("Settings", "Show_Identity_Request", true) && !Context.Request.Cookies.ContainsKey("ViewerIdentity"))
         {
             <script>
                 displayIdentityCheck();

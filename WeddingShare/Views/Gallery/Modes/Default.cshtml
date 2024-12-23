@@ -5,7 +5,7 @@
 @model WeddingShare.Models.PhotoGallery
 @{
     var columnCount = _config.GetOrDefault("Settings", "Gallery_Columns", 4);
-    var identityEnabled = _config.GetOrDefault("Settings", "Show_Identity_Request", false);
+    var identityEnabled = _config.GetOrDefault("Settings", "Show_Identity_Request", true);
 
     try
     {

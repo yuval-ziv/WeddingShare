@@ -1,4 +1,3 @@
-using System.Composition;
 using System.IO.Compression;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
@@ -9,6 +8,7 @@ using Microsoft.Extensions.Localization;
 using WeddingShare.Enums;
 using WeddingShare.Helpers;
 using WeddingShare.Helpers.Database;
+using WeddingShare.Helpers.Notifications;
 using WeddingShare.Models;
 using WeddingShare.Models.Database;
 using WeddingShare.Views.Admin;
@@ -24,13 +24,14 @@ namespace WeddingShare.Controllers
         private readonly IDeviceDetector _deviceDetector;
         private readonly IFileHelper _fileHelper;
         private readonly IImageHelper _imageHelper;
+        private readonly INotificationHelper _notificationHelper;
         private readonly ILogger _logger;
         private readonly IStringLocalizer<AdminController> _localizer;
 
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IImageHelper imageHelper, ILogger<AdminController> logger, IStringLocalizer<AdminController> localizer)
+        public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IImageHelper imageHelper, INotificationHelper notificationHelper, ILogger<AdminController> logger, IStringLocalizer<AdminController> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
@@ -38,6 +39,7 @@ namespace WeddingShare.Controllers
             _deviceDetector = deviceDetector;
             _fileHelper = fileHelper;
             _imageHelper = imageHelper;
+            _notificationHelper = notificationHelper;
             _logger = logger;
             _localizer = localizer;
 
@@ -63,19 +65,46 @@ namespace WeddingShare.Controllers
         {
             try
             {
-                var passkey = _config.Get("Settings", "Admin_Password");
-                if (string.IsNullOrWhiteSpace(passkey) || string.Equals(passkey, model?.Password))
+                var user = await _database.GetUser(model.Username);
+                if (user != null && !user.IsLockedOut)
                 {
-                    var claims = new List<Claim>
+                    if (await _database.ValidateCredentials(user.Username, model.Password))
                     {
-                        new Claim(ClaimTypes.Name, "Admin")
-                    };
+                        if (user.FailedLogins > 0)
+                        {
+                            await _database.ResetLockoutCount(user.Id);
+                        }
 
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Name, user.Username.ToLower())
+                        };
 
-                    await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    return Json(new { success = true });
+                        await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+                        return Json(new { success = true });
+                    }
+                    else
+                    {
+                        if (_config.GetOrDefault("Notifications", "Alerts", "Failed_Login", true))
+                        { 
+                            await _notificationHelper.Send("Invalid Login Detected", $"An invalid login attempt was made for account '{model?.Username}'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                        }
+
+                        var failedAttempts = await _database.IncrementLockoutCount(user.Id);
+                        if (failedAttempts >= _config.GetOrDefault("Settings", "Account", "Lockout_Attempts", 5))
+                        {
+                            var timeout = _config.GetOrDefault("Settings", "Account", "Lockout_Mins", 60);
+                            await _database.SetLockout(user.Id, DateTime.UtcNow.AddMinutes(timeout));
+
+                            if (_config.GetOrDefault("Notifications", "Alerts", "Account_Lockout", true))
+                            { 
+                                await _notificationHelper.Send("Account Lockout", $"Account '{model?.Username}' has been locked out for {timeout} minutes due to too many failed login attempts.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -161,7 +190,18 @@ namespace WeddingShare.Controllers
                         }
                         else if (action == ReviewAction.REJECTED)
                         {
-                            _fileHelper.DeleteFileIfExists(reviewFile);
+                            var retain = _config.GetOrDefault("Settings", "Retain_Rejected_Items", false);
+                            if (retain)
+                            {
+                                var rejectedDir = Path.Combine(galleryDir, "Rejected");
+                                _fileHelper.CreateDirectoryIfNotExists(rejectedDir);
+                                _fileHelper.MoveFileIfExists(reviewFile, Path.Combine(rejectedDir, review.Title));
+                            }
+                            else
+                            {
+                                _fileHelper.DeleteFileIfExists(reviewFile);
+                            }
+
                             await _database.DeleteGalleryItem(review);
                         }
                         else if (action == ReviewAction.UNKNOWN)
@@ -283,6 +323,11 @@ namespace WeddingShare.Controllers
 
                             _fileHelper.DeleteDirectoryIfExists(galleryDir);
                             _fileHelper.CreateDirectoryIfNotExists(galleryDir);
+
+                            if (_config.GetOrDefault("Notifications", "Alerts", "Destructive_Action", true))
+                            { 
+                                await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Wipe' was performed on gallery '{gallery.Name}'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                            }
                         }
 
                         return Json(new { success = await _database.WipeGallery(gallery) });
@@ -321,6 +366,11 @@ namespace WeddingShare.Controllers
                         }
 
                         _fileHelper.CreateDirectoryIfNotExists(Path.Combine(UploadsDirectory, "default"));
+
+                        if (_config.GetOrDefault("Notifications", "Alerts", "Destructive_Action", true))
+                        {
+                            await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Wipe' was performed on all galleries'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                        }
                     }
 
                     return Json(new { success = await _database.WipeAllGalleries() });
@@ -346,6 +396,11 @@ namespace WeddingShare.Controllers
                     {
                         var galleryDir = Path.Combine(UploadsDirectory, gallery.Name);
                         _fileHelper.DeleteDirectoryIfExists(galleryDir);
+
+                        if (_config.GetOrDefault("Notifications", "Alerts", "Destructive_Action", true))
+                        {
+                            await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Delete' was performed on gallery '{gallery.Name}'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                        }
 
                         return Json(new { success = await _database.DeleteGallery(gallery) });
                     }

@@ -117,15 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Admin_Login" xml:space="preserve">
-    <value>Admin Login</value>
-  </data>
-  <data name="Admin_Login_Help" xml:space="preserve">
-    <value>Please enter the admin area password.</value>
-  </data>
-  <data name="Admin_Login_Placeholder" xml:space="preserve">
-    <value>Password</value>
-  </data>
   <data name="Gallery_Key" xml:space="preserve">
     <value>Gallery Key</value>
   </data>
