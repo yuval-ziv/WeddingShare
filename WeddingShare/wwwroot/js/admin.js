@@ -104,7 +104,7 @@
             });
         });
 
-        $(document).off('click', 'i.btnApproveAll').on('click', 'i.btnApproveAll', function (e) {
+        $(document).off('click', 'i.btnBulkReview').on('click', 'i.btnBulkReview', function (e) {
             preventDefaults(e);
 
             if ($(this).attr('disabled') == 'disabled') {
@@ -112,8 +112,8 @@
             }
 
             displayPopup({
-                Title: 'Approve All',
-                Message: 'Are you sure you want to approve all pending items?',
+                Title: 'Bulk Review',
+                Message: 'Would you like to approve or reject all pending items?',
                 Buttons: [{
                     Text: 'Approve',
                     Class: 'btn-success',
@@ -132,16 +132,43 @@
                                     $('#no-review-msg').removeClass('visually-hidden');
                                     hideLoader();
                                 } else if (data.message) {
-                                    displayMessage(`Approve Items`, `Approve failed`, [data.message]);
+                                    displayMessage(`Bulk Review`, `Approve failed`, [data.message]);
                                 } else {
-                                    displayMessage(`Approve Items`, `Failed to approve all items`);
+                                    displayMessage(`Bulk Review`, `Failed to approve all items`);
                                 }
                             })
                             .fail((xhr, error) => {
-                                displayMessage(`Approve Items`, `Approve failed`, [error]);
+                                displayMessage(`Bulk Review`, `Approve failed`, [error]);
                             });
                     }
                 }, {
+                        Text: 'Reject',
+                        Class: 'btn-danger',
+                        Callback: function () {
+                            displayLoader('Loading...');
+
+                            $.ajax({
+                                url: '/Admin/BulkReview',
+                                method: 'POST',
+                                data: { action: 2 }
+                            })
+                                .done(data => {
+                                    if (data.success === true) {
+                                        $('.pending-approval').remove();
+                                        $('#gallery-review').addClass('visually-hidden');
+                                        $('#no-review-msg').removeClass('visually-hidden');
+                                        hideLoader();
+                                    } else if (data.message) {
+                                        displayMessage(`Bulk Review`, `Reject failed`, [data.message]);
+                                    } else {
+                                        displayMessage(`Bulk Review`, `Failed to reject all items`);
+                                    }
+                                })
+                                .fail((xhr, error) => {
+                                    displayMessage(`Bulk Review`, `Reject failed`, [error]);
+                                });
+                        }
+                    }, {
                     Text: 'Close'
                 }]
             });
