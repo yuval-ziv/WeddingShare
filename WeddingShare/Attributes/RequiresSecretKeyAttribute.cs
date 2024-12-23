@@ -12,11 +12,11 @@ namespace WeddingShare.Attributes
             {
                 var request = filterContext.HttpContext.Request;
 
-                var secretKeyHelper = filterContext.HttpContext.RequestServices.GetService<ISecretKeyHelper>();
-                if (secretKeyHelper != null)
+                var galleryHelper = filterContext.HttpContext.RequestServices.GetService<IGalleryHelper>();
+                if (galleryHelper != null)
                 {
                     var galleryId = (request.Query.ContainsKey("id") && !string.IsNullOrWhiteSpace(request.Query["id"])) ? request.Query["id"].ToString().ToLower() : "default";
-                    var secretKey = secretKeyHelper.GetGallerySecretKey(galleryId).Result;
+                    var secretKey = galleryHelper.GetSecretKey(galleryId).Result;
 
                     var key = request.Query.ContainsKey("key") ? request.Query["key"].ToString() : string.Empty;
                     if (!string.IsNullOrWhiteSpace(secretKey) && !string.Equals(secretKey, key))

@@ -11,7 +11,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
     public class HomeControllerTests
     {
         private readonly IConfigHelper _config = Substitute.For<IConfigHelper>();
-        private readonly ISecretKeyHelper _secretKey = Substitute.For<ISecretKeyHelper>();
+        private readonly IGalleryHelper _gallery = Substitute.For<IGalleryHelper>();
         private readonly IDeviceDetector _deviceDetector = Substitute.For<IDeviceDetector>();
         private readonly ILogger<HomeController> _logger = Substitute.For<ILogger<HomeController>>();
         
@@ -36,9 +36,9 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         {
             _deviceDetector.ParseDeviceType(Arg.Any<string>()).Returns(deviceType);
             _config.GetOrDefault("Settings", "Single_Gallery_Mode", Arg.Any<bool>()).Returns(singleGalleryMode);
-            _secretKey.GetGallerySecretKey(Arg.Any<string>()).Returns(secretKey);
+            _gallery.GetSecretKey(Arg.Any<string>()).Returns(secretKey);
 
-            var controller = new HomeController(_config, _secretKey, _deviceDetector, _logger);
+            var controller = new HomeController(_config, _gallery, _deviceDetector, _logger);
             controller.ControllerContext.HttpContext = new DefaultHttpContext()
             {
                 Session = new MockSession()

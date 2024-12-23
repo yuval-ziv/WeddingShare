@@ -3,6 +3,16 @@
   top: 75px;
 }
 
+@media (max-width: 700px) {
+    .fa-2x {
+        font-size: 1.5em !important;
+    }
+
+    #main-wrapper {
+        top: 60px;
+    }
+}
+
 .pointer {
     cursor: pointer;
 }
@@ -37,6 +47,21 @@ tr td i {
 
 .card {
     overflow: hidden;
+}
+
+.quote {
+    color: var(--bs-quote-color);
+    background-color: var(--bs-quote-bg-color);
+    font-family: "cursive";
+    font-style: oblique;
+    font-weight: 400;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 700px) {
+    .quote {
+        font-size: 0.8rem;
+    }
 }
 
 /* File Upload */
@@ -79,6 +104,12 @@ tr td i {
     border-radius: 0px 0px 5px 0px;
 }
 
+.review-tile {
+    height: 200px;
+    width: 100%;
+    object-fit: contain;
+}
+
 .image-tile {
     overflow: hidden;
 }
@@ -103,15 +134,15 @@ tr td i {
         display: none;
     }
 
-    .slideshow .slideshow-slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        overflow: hidden;
-    }
+        .slideshow .slideshow-slide .slideshow-slide-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            overflow: hidden;
+        }
 
-    .slideshow .slideshow-slide .credits {
-        font-size: 8pt;
-        font-style: italic;
-        margin-top: 15px;
-    }
+        .slideshow .slideshow-slide .credits {
+            font-size: 8pt;
+            font-style: italic;
+            margin-top: 15px;
+        }

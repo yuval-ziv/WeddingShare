@@ -8,14 +8,14 @@ namespace WeddingShare.Controllers
     public class HomeController : Controller
     {
         private readonly IConfigHelper _config;
-        private readonly ISecretKeyHelper _secretKey;
+        private readonly IGalleryHelper _gallery;
         private readonly IDeviceDetector _deviceDetector;
         private readonly ILogger _logger;
 
-        public HomeController(IConfigHelper config, ISecretKeyHelper secretKey, IDeviceDetector deviceDetector, ILogger<HomeController> logger)
+        public HomeController(IConfigHelper config, IGalleryHelper gallery, IDeviceDetector deviceDetector, ILogger<HomeController> logger)
         {
             _config = config;
-            _secretKey = secretKey;
+            _gallery = gallery;
             _deviceDetector = deviceDetector;
             _logger = logger;
         }
@@ -34,7 +34,7 @@ namespace WeddingShare.Controllers
 
                 if (_config.GetOrDefault("Settings", "Single_Gallery_Mode", false))
                 {
-                    var key = await _secretKey.GetGallerySecretKey("default");
+                    var key = await _gallery.GetSecretKey("default");
                     if (string.IsNullOrWhiteSpace(key))
                     {
                         return RedirectToAction("Index", "Gallery");
