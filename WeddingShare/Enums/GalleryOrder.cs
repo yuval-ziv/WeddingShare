@@ -6,6 +6,7 @@
         UploadedAsc,
         UploadedDesc,
         NameAsc,
-        NameDesc
+        NameDesc,
+        Random
     }
 }

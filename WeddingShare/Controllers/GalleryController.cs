@@ -20,7 +20,7 @@ namespace WeddingShare.Controllers
         private readonly IConfigHelper _config;
         private readonly IDatabaseHelper _database;
         private readonly IFileHelper _fileHelper;
-        private readonly ISecretKeyHelper _secretKey;
+        private readonly IGalleryHelper _gallery;
         private readonly IDeviceDetector _deviceDetector;
         private readonly IImageHelper _imageHelper;
         private readonly INotificationHelper _notificationHelper;
@@ -30,13 +30,13 @@ namespace WeddingShare.Controllers
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IFileHelper fileHelper, ISecretKeyHelper secretKey, IDeviceDetector deviceDetector, IImageHelper imageHelper, INotificationHelper notificationHelper, ILogger<GalleryController> logger, IStringLocalizer<GalleryController> localizer)
+        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IFileHelper fileHelper, IGalleryHelper galleryHelper, IDeviceDetector deviceDetector, IImageHelper imageHelper, INotificationHelper notificationHelper, ILogger<GalleryController> logger, IStringLocalizer<GalleryController> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
             _database = database;
             _fileHelper = fileHelper;
-            _secretKey = secretKey;
+            _gallery = galleryHelper;
             _deviceDetector = deviceDetector;
             _imageHelper = imageHelper;
             _notificationHelper = notificationHelper;
@@ -89,7 +89,7 @@ namespace WeddingShare.Controllers
 
             if (gallery != null)
             { 
-                var secretKey = await _secretKey.GetGallerySecretKey(gallery.Name);
+                var secretKey = await _gallery.GetSecretKey(gallery.Name);
                 ViewBag.SecretKey = secretKey;
 
                 var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
@@ -107,6 +107,9 @@ namespace WeddingShare.Controllers
                         break;
                     case GalleryOrder.NameDesc:
                         images = images?.OrderBy(x => x.Title);
+                        break;
+                    case GalleryOrder.Random:
+                        images = images?.OrderBy(x => Guid.NewGuid());
                         break;
                     default: 
                         images = images?.OrderByDescending(x => x.Id);
@@ -146,7 +149,7 @@ namespace WeddingShare.Controllers
                 var gallery = await _database.GetGallery(galleryId);
                 if (gallery != null)
                 {
-                    var secretKey = await _secretKey.GetGallerySecretKey(galleryId);
+                    var secretKey = await _gallery.GetSecretKey(galleryId);
                     string key = (Request?.Form?.FirstOrDefault(x => string.Equals("SecretKey", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString() ?? string.Empty;
                     if (!string.IsNullOrWhiteSpace(secretKey) && !string.Equals(secretKey, key))
                     {

@@ -226,6 +226,65 @@ namespace WeddingShare.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> BulkReview(ReviewAction action)
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                try
+                {
+                    var items = await _database.GetPendingGalleryItems();
+                    if (items != null && items.Any())
+                    {
+                        foreach (var review in items)
+                        { 
+                            var galleryDir = Path.Combine(UploadsDirectory, review.GalleryName);
+                            var reviewFile = Path.Combine(galleryDir, "Pending", review.Title);
+                            if (action == ReviewAction.APPROVED)
+                            {
+                                _fileHelper.CreateDirectoryIfNotExists(ThumbnailsDirectory);
+
+                                await _imageHelper.GenerateThumbnail(reviewFile, Path.Combine(ThumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(reviewFile)}.webp"), _config.GetOrDefault("Settings", "Thumbnail_Size", 720));
+
+                                _fileHelper.MoveFileIfExists(reviewFile, Path.Combine(galleryDir, review.Title));
+
+                                review.State = GalleryItemState.Approved;
+                                await _database.EditGalleryItem(review);
+                            }
+                            else if (action == ReviewAction.REJECTED)
+                            {
+                                var retain = _config.GetOrDefault("Settings", "Retain_Rejected_Items", false);
+                                if (retain)
+                                {
+                                    var rejectedDir = Path.Combine(galleryDir, "Rejected");
+                                    _fileHelper.CreateDirectoryIfNotExists(rejectedDir);
+                                    _fileHelper.MoveFileIfExists(reviewFile, Path.Combine(rejectedDir, review.Title));
+                                }
+                                else
+                                {
+                                    _fileHelper.DeleteFileIfExists(reviewFile);
+                                }
+
+                                await _database.DeleteGalleryItem(review);
+                            }
+                            else if (action == ReviewAction.UNKNOWN)
+                            {
+                                throw new Exception(_localizer["Unknown_Review_Action"].Value);
+                            }
+                        }
+                    }
+                     
+                    return Json(new { success = true, action });
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"{_localizer["Failed_Reviewing_Photo"].Value} - {ex?.Message}");
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpPost]
         public async Task<IActionResult> AddGallery(GalleryModel model)
         {
             if (User?.Identity != null && User.Identity.IsAuthenticated)

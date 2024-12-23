@@ -82,7 +82,7 @@
                                 <i class="change-identity fa-solid fa-id-card fa-1x text-secondary pointer mx-2"></i>
                             }
                         </div>
-                        <div class="profile-icon float-end">
+                        <div class="profile-icon my-1 m-lg-0 float-end">
                             @if (_config.GetOrDefault("Settings", "Account", "Show_Profile_Icon", true))
                             {
                                 if (!string.IsNullOrWhiteSpace(Context.Request.Path.Value) && Context.Request.Path.Value.Contains("/Admin", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/Login", StringComparison.OrdinalIgnoreCase))

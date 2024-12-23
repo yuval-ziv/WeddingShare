@@ -18,97 +18,105 @@ Not all image formats are supported in browsers so although you may be able to a
 
 ## Settings
 
-| Name                           | Value                         |
-| ------------------------------ | ----------------------------- |
-| TITLE                          | WeddingShare                  |
-| LOGO                           | https://someurl/someimage.png |
-| BASE_URL                       | www.wedding-share.com         |
-| FORCE_HTTPS                    | false                         |
-| GALLERY_COLUMNS                | 4 (1, 2, 3, 4, 6, 12)         |
+| Name                           | Value                                        |
+| ------------------------------ | -------------------------------------------- |
+| TITLE                          | WeddingShare                                 |
+| LOGO                           | https://someurl/someimage.png                |
+| BASE_URL                       | www.wedding-share.com                        |
+| FORCE_HTTPS                    | false                                        |
+| GALLERY_COLUMNS                | 4 (1, 2, 3, 4, 6, 12)                        |
+| GALLERY_QUOTE                  | (optional)                                   |
+| GALLERY_QUOTE_{GalleryId}      | (optional)                                   |
 | DEFAULT_GALLERY_VIEW           | 0 (Default), 1 (Presentation), 2 (Slideshow) |
-| ALLOWED_FILE_TYPES             | .jpg,.jpeg,.png               |
-| MAX_FILE_SIZE_MB               | 10                            |
-| THUMBNAIL_SIZE                 | 720                           |
-| SECRET_KEY                     | (optional)                    |
-| SECRET_KEY_{GalleryId}         | (optional)                    |
-| SINGLE_GALLERY_MODE            | false                         |
-| REQUIRE_REVIEW                 | true                          |
-| DISABLE_HOME_LINK              | false                         |
-| DISABLE_REVIEW_COUNTER         | false                         |
-| DISABLE_UPLOAD                 | false                         |
-| DISABLE_QR_CODE                | false                         |
-| DISABLE_GUEST_GALLERY_CREATION | true                          |
-| DISABLE_DARK_MODE              | false                         |
-| DEFAULT_THEME                  | default (default, dark)       |
-| FULL_WIDTH_GALLERY             | false                         |
-| HIDE_KEY_FROM_QR_CODE          | false                         |
-| IDLE_GALLERY_REFRESH_MINS      | 5 (0 = disable)               |
-| SLIDESHOW_INTERVAL             | 10 (seconds)                  |
-| SLIDESHOW_FADE                 | 500 (milliseconds)            |
-| SLIDESHOW_LIMIT                | (optional)                    |
-| SHOW_IDENTITY_REQUEST          | true                          |
-| RETAIN_REJECTED_ITEMS          | false                         |
-| EMAIL_REPORT                   | true                          |
-| LINKS_OPEN_NEW_TAB             | true                          |
+| ALLOWED_FILE_TYPES             | .jpg,.jpeg,.png                              |
+| MAX_FILE_SIZE_MB               | 10                                           |
+| THUMBNAIL_SIZE                 | 720                                          |
+| SECRET_KEY                     | (optional)                                   |
+| SECRET_KEY_{GalleryId}         | (optional)                                   |
+| SINGLE_GALLERY_MODE            | false                                        |
+| REQUIRE_REVIEW                 | true                                         |
+| DISABLE_HOME_LINK              | false                                        |
+| DISABLE_REVIEW_COUNTER         | false                                        |
+| DISABLE_UPLOAD                 | false                                        |
+| DISABLE_QR_CODE                | false                                        |
+| DISABLE_GUEST_GALLERY_CREATION | true                                         |
+| DISABLE_DARK_MODE              | false                                        |
+| DEFAULT_THEME                  | default (default, dark)                      |
+| FULL_WIDTH_GALLERY             | false                                        |
+| HIDE_KEY_FROM_QR_CODE          | false                                        |
+| IDLE_GALLERY_REFRESH_MINS      | 5 (0 = disable)                              |
+| SHOW_IDENTITY_REQUEST          | true                                         |
+| RETAIN_REJECTED_ITEMS          | false                                        |
+| EMAIL_REPORT                   | true                                         |
+| LINKS_OPEN_NEW_TAB             | true                                         |
+
+## Slideshow
+
+| Name                           | Value                                        |
+| ------------------------------ | -------------------------------------------- |
+| SLIDESHOW_INTERVAL             | 10 (seconds)                                 |
+| SLIDESHOW_FADE                 | 500 (milliseconds)                           |
+| SLIDESHOW_LIMIT                | (optional)                                   |
+| SLIDESHOW_INCLUDE_SHARE_SLIDE  | true                                         |
 
 ## Admin Account
 
-| Name                       | Value     |
-| -------------------------- | ----------|
-| ADMIN_USERNAME             | admin     |
-| ADMIN_PASSWORD             | admin     |
-| ACCOUNT_SHOW_PROFILE_ICON  | true      |
-| ACCOUNT_LOCKOUT_ATTEMPTS   | 5         |
-| ACCOUNT_LOCKOUT_MINS       | 60        |
+| Name                           | Value                                        |
+| ------------------------------ | -------------------------------------------- |
+| ADMIN_USERNAME                 | admin                                        |
+| ADMIN_PASSWORD                 | admin                                        |
+| ACCOUNT_SHOW_PROFILE_ICON      | true                                         |
+| ACCOUNT_LOCKOUT_ATTEMPTS       | 5                                            |
+| ACCOUNT_LOCKOUT_MINS           | 60                                           |
 
 ## Background Services
 
-| Name                       | Value               |
-| -------------------------- | ------------------- |
-| DIRECTORY_SCANNER_INTERVAL | */30 * * * * (cron) |
-| EMAIL_REPORT_INTERVAL      | 0 0 * * * (cron)    |
+| Name                           | Value                                        |
+| ------------------------------ | -------------------------------------------- |
+| DIRECTORY_SCANNER_INTERVAL     | */30 * * * * (cron)                          |
+| EMAIL_REPORT_INTERVAL          | 0 0 * * * (cron)                             |
 
 ## Notifications (Alerts)
 
-| Name                      | Value |
-| ------------------------- | ----- |
-| ALERTS_FAILED_LOGIN       | true  |
-| ALERTS_ACCOUNT_LOCKOUT    | true  |
-| ALERTS_DESTRUCTIVE_ACTION | true  |
-| ALERTS_PENDING_REVIEW     | true  |
+| Name                           | Value                                        |
+| ------------------------------ | -------------------------------------------- |
+| ALERTS_FAILED_LOGIN            | true                                         |
+| ALERTS_ACCOUNT_LOCKOUT         | true                                         |
+| ALERTS_DESTRUCTIVE_ACTION      | true                                         |
+| ALERTS_PENDING_REVIEW          | true                                         |
 
 ## Notifications (SMTP)
 
-| Name             | Value        |
-| ---------------- | ------------ |
-| SMTP_ENABLED     | false        |
-| SMTP_RECIPIENT   | (required)   |
-| SMTP_HOST        | (required)   |
-| SMTP_PORT        | 587          |
-| SMTP_USERNAME    | (required)   |
-| SMTP_PASSWORD    | (required)   |
-| SMTP_FROM        | (required)   |
-| SMTP_DISPLAYNAME | WeddingShare |
-| SMTP_USE_SSL     | true         |
+| Name                           | Value                                        |
+| ------------------------------ | -------------------------------------------- |
+| SMTP_ENABLED                   | false                                        |
+| SMTP_RECIPIENT                 | (required)                                   |
+| SMTP_HOST                      | (required)                                   |
+| SMTP_PORT                      | 587                                          |
+| SMTP_USERNAME                  | (required)                                   |
+| SMTP_PASSWORD                  | (required)                                   |
+| SMTP_FROM                      | (required)                                   |
+| SMTP_DISPLAYNAME               | WeddingShare                                 |
+| SMTP_USE_SSL                   | true                                         |
 
 ## Notifications (Ntfy)
 
-| Name          | Value        |
-| ------------- | ------------ |
-| NTFY_ENABLED  | false        |
-| NTFY_ENDPOINT | (required)   |
-| NTFY_TOKEN    | (required)   |
-| NTFY_TOPIC    | WeddingShare |
-| NTFY_PRIORITY |  4           |
+| Name                           | Value                                        |
+| ------------------------------ | -------------------------------------------- |
+| NTFY_ENABLED                   | false                                        |
+| NTFY_ENDPOINT                  | (required)                                   |
+| NTFY_TOKEN                     | (required)                                   |
+| NTFY_TOPIC                     | WeddingShare                                 |
+| NTFY_PRIORITY                  |  4                                           |
 
 ## Notifications (Gotify)
 
-| Name            | Value      |
-| --------------- | ---------- |
-| GOTIFY_ENABLED  | false      |
-| GOTIFY_ENDPOINT | (required) |
-| GOTIFY_TOKEN    | (required) |
-| GOTIFY_PRIORITY | 4          |
+| Name                           | Value                                        |
+| ------------------------------ | -------------------------------------------- |
+| GOTIFY_ENABLED                 | false                                        |
+| GOTIFY_ENDPOINT                | (required)                                   |
+| GOTIFY_TOKEN                   | (required)                                   |
+| GOTIFY_PRIORITY                | 4                                            |
 
 ## Docker Run
 

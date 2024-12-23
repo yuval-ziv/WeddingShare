@@ -6,29 +6,6 @@
 @inject WeddingShare.Helpers.IConfigHelper _config
 @model WeddingShare.Models.PhotoGallery
 
-@{
-    var ctx = Context.Request;
-    var baseLink = UrlHelper.Generate(ctx, _config, ctx.Path);
-
-    var queryString = new StringBuilder();
-    foreach (var q in ctx.Query.Where(x => !string.Equals("order", x.Key, StringComparison.OrdinalIgnoreCase)))
-    {
-        if (string.Equals("key", q.Key, StringComparison.OrdinalIgnoreCase) && _config.GetOrDefault("Settings", "Hide_Key_From_QR_Code", false))
-        {
-            continue;
-        }
-        else if (string.Equals("order", q.Key, StringComparison.OrdinalIgnoreCase) || string.Equals("mode", q.Key, StringComparison.OrdinalIgnoreCase))
-        {
-            continue;
-        }
-
-        queryString.Append($"&{q.Key}={q.Value}");
-    }
-
-    baseLink = $"{baseLink}?{queryString.ToString().TrimStart('&')}".TrimEnd(new char[] { '?', '&' });
-    var qrCodeLink = $"{baseLink}{(ctx.Query.ContainsKey("order") ? $"{(baseLink.Contains("?") ? "&" : "?")}order={ctx.Query["order"]}" : string.Empty)}";
-}
-
 @if (!_config.GetOrDefault("Settings", "Disable_QR_Code", false))
 {
     <div class="row mb-4">
@@ -39,7 +16,7 @@
                 document.addEventListener('DOMContentLoaded', function () {
                     if ($('#qrcode').length > 0 && $('#qrcode').is(':visible')) {
                         $(function () {
-                            $('#qrcode').qrcode({ width: 150, height: 150, text: '@Html.Raw(qrCodeLink)' });
+                            $('#qrcode').qrcode({ width: 150, height: 150, text: '@Html.Raw(ViewBag.QRCodeLink)' });
                         });
                     }
                 }, false);
@@ -57,7 +34,7 @@
             <div class="dropdown-menu">
                 @foreach (ViewMode mode in Enum.GetValues(typeof(ViewMode)))
                 {
-                    <a class="dropdown-item" href="@($"{qrCodeLink}{(qrCodeLink.Contains("?") ? "&" : "?")}mode={(int)mode}")">@mode</a>
+                    <a class="dropdown-item" href="@($"{ViewBag.QRCodeLink}{(ViewBag.QRCodeLink.Contains("?") ? "&" : "?")}mode={(int)mode}")">@mode</a>
                 }
             </div>
         </div>
@@ -70,7 +47,7 @@
                 {
                     if (order != GalleryOrder.None)
                     {
-                        <a class="dropdown-item" href="@($"{baseLink}{(baseLink.Contains("?") ? "&" : "?")}order={(int)order}")">@order</a>
+                        <a class="dropdown-item" href="@($"{ViewBag.BaseLink}{(ViewBag.BaseLink.Contains("?") ? "&" : "?")}order={(int)order}")">@order</a>
                     }
                 }
             </div>

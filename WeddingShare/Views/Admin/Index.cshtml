@@ -3,7 +3,7 @@
 @using WeddingShare.Views.Admin
 @inject Microsoft.Extensions.Localization.IStringLocalizer<IndexModel> _localizer
 @inject WeddingShare.Helpers.IConfigHelper _config
-@inject WeddingShare.Helpers.ISecretKeyHelper _secretKey
+@inject WeddingShare.Helpers.IGalleryHelper _gallery
 
 @{
     var identityEnabled = _config.GetOrDefault("Settings", "Show_Identity_Request", true);
@@ -24,6 +24,10 @@
                             <h6>Create</h6>
                         </div>
                     }
+                    <div class="mx-0 mx-sm-5 px-2 px-xl-5 text-warning d-inline-block">
+                        <i class="btnApproveAll fa-solid fa-thumbs-up fa-2x pointer" alt="Approve All"></i>
+                        <h6>Approve</h6>
+                    </div>
                     <div class="mx-0 mx-sm-5 px-2 px-xl-5 text-primary d-inline-block">
                         <i class="btnImport fa-solid fa-upload fa-2x pointer" alt="Import"></i>
                         <h6>Import</h6>
@@ -45,16 +49,16 @@
             </div>
             <table class="table table-bordered">
                 <tr>
-                    <th class="col-6 col-md-4">@_localizer["Name"].Value</th>
+                    <th class="col-5 col-md-4">@_localizer["Name"].Value</th>
                     <th class="col-1 d-none d-md-table-cell">@_localizer["Total"].Value</th>
                     <th class="col-1 d-none d-md-table-cell">@_localizer["Approved"].Value</th>
                     <th class="col-1 d-none d-md-table-cell">@_localizer["Pending"].Value</th>
                     <th class="col-1 d-none d-md-table-cell">@_localizer["Key"].Value</th>
-                    <th class="col-6 col-md-4">@_localizer["Actions"].Value</th>
+                    <th class="col-7 col-md-4">@_localizer["Actions"].Value</th>
                 </tr>
                 @foreach (var gallery in Model.Galleries.OrderBy(x => string.Equals("default", x.Name, StringComparison.OrdinalIgnoreCase) ? 0 : 1))
                 {
-                    var secretKey = await _secretKey.GetGallerySecretKey(gallery.Name);
+                    var secretKey = await _gallery.GetSecretKey(gallery.Name);
                     var galleryLink = $"{link}?id={gallery.Name}{(!string.IsNullOrWhiteSpace(secretKey) ? $"&key={secretKey}" : string.Empty)}";
 
                     <tr data-gallery-id="@gallery.Id" data-gallery-name="@gallery.Name" data-gallery-key="@secretKey">
@@ -95,11 +99,13 @@
             {
                 foreach (var review in Model.PendingRequests)
                 {
-                    <div class="col-12 mb-4 mb-lg-0 mb-1 mb-lg-5">
-                        <div class="card pending-approval">
-                            <img src="/uploads/@review.GalleryName/Pending/@review.Title" loading="lazy" />
+                    <div class="pending-approval col-12 col-lg-4 mb-4 mb-lg-0 mb-1 mb-lg-4">
+                        <div class="card">
+                            <a href="/uploads/@review.GalleryName/Pending/@review.Title" data-lightbox="@review.Id">
+                                <img src="/uploads/@review.GalleryName/Pending/@review.Title" class="review-tile" loading="lazy" />
+                            </a>
                             <div class="card-header my-0 py-0">
-                                <div class="row card-title text-capitalize py-0 pt-2">
+                                <div class="row card-title text-capitalize border-top py-0 pt-2">
                                     @if (identityEnabled)
                                     {
                                         <div class="col-12 col-lg-6 text-lg-center">

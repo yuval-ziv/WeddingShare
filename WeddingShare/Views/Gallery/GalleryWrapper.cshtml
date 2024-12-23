@@ -1,22 +1,36 @@
 @using WeddingShare.Enums
 @using WeddingShare.Views.Gallery
 @inject WeddingShare.Helpers.IConfigHelper _config
+@inject WeddingShare.Helpers.IGalleryHelper _gallery
 @inject Microsoft.Extensions.Localization.IStringLocalizer<GalleryWrapperModel> _localizer
 @model WeddingShare.Models.PhotoGallery
 
-@if (!_config.GetOrDefault("Settings", "Disable_Review_Counter", false))
+@if (Model.ViewMode != ViewMode.Slideshow)
 {
-    <div class="row mb-3 mb-lg-4 review-counter">
-        <div class="col-4">
-            <h6 class="my-0 text-center">@_localizer["Total"].Value<br/>@(Model?.TotalCount ?? 0)</h6>
+    var quote = _gallery.GetConfig(Model?.GalleryId, "Gallery_Quote");
+    if (!string.IsNullOrWhiteSpace(quote))
+    {
+        <div class="row mb-3 mb-lg-4 border rounded">
+            <div class="col-12 quote">
+                <p class="my-4 mx-4 mx-lg-0 text-center">@quote</p>
+            </div>
         </div>
-        <div class="col-4">
-            <h6 class="my-0 text-center">@_localizer["Approved"].Value<br/>@(Model?.ApprovedCount ?? 0)</h6>
+    }
+
+    if (!_config.GetOrDefault("Settings", "Disable_Review_Counter", false))
+    {
+        <div class="row mb-3 mb-lg-4 review-counter">
+            <div class="col-4">
+                <h6 class="my-0 text-center">@_localizer["Total"].Value<br/>@(Model?.TotalCount ?? 0)</h6>
+            </div>
+            <div class="col-4">
+                <h6 class="my-0 text-center">@_localizer["Approved"].Value<br/>@(Model?.ApprovedCount ?? 0)</h6>
+            </div>
+            <div class="col-4">
+                <h6 class="my-0 text-center">@_localizer["Pending"].Value<br/>@(Model?.PendingCount ?? 0)</h6>
+            </div>
         </div>
-        <div class="col-4">
-            <h6 class="my-0 text-center">@_localizer["Pending"].Value<br/>@(Model?.PendingCount ?? 0)</h6>
-        </div>
-    </div>
+    }
 }
 
 @if (Model?.Images != null && Model.Images.Any())

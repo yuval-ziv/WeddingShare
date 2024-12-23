@@ -43,6 +43,8 @@
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
     --bs-body-color: #FFF;
     --bs-body-bg: #222222;
+    --bs-quote-color: #EFEFEF;
+    --bs-quote-bg-color: #777777;
 }
 
 .navbar {
