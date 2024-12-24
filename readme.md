@@ -2,6 +2,12 @@
  
  <br />![Banner](https://github.com/Cirx08/WeddingShare/blob/main/banner.png?raw=true)
 
+## Support
+
+Thank you to everyone that supports this project. For anyone that hasn't yet I would be greatful if you would show some support by "buying me a coffee" throught the link below. Weddings are expensive and all proceeds from this project will be going towards paying off my wedding bills.
+
+- BuyMeACoffee - https://buymeacoffee.com/cirx08
+
 ## About
 
 WeddingShare is a very basic site with only one goal. It provides you and your guests a way to share memories of and leading up to the big day. Simply provide your guests with a link to a gallery either via a Url or even better by printing out the provided QR code and dropping it on your guests dinner tables. Doing so will allow them to view your journey up to this point such as dress/suit shopping, viewing the venue, doing the food tasting or cake shopping, etc. 
