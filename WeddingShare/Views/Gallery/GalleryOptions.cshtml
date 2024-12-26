@@ -3,10 +3,10 @@
 @using WeddingShare.Helpers
 @using WeddingShare.Views.Gallery
 @inject Microsoft.Extensions.Localization.IStringLocalizer<GalleryOptionsModel> _localizer
-@inject WeddingShare.Helpers.IConfigHelper _config
+@inject WeddingShare.Helpers.IGalleryHelper _gallery
 @model WeddingShare.Models.PhotoGallery
 
-@if (!_config.GetOrDefault("Settings", "Disable_QR_Code", false))
+@if (!_gallery.GetConfig(Model?.GalleryId, "Disable_QR_Code", false))
 {
     <div class="row mb-4">
         <div class="col-12 text-center">

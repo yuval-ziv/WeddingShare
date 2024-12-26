@@ -24,37 +24,43 @@ Not all image formats are supported in browsers so although you may be able to a
 
 ## Settings
 
-| Name                           | Value                                        |
-| ------------------------------ | -------------------------------------------- |
-| TITLE                          | WeddingShare                                 |
-| LOGO                           | https://someurl/someimage.png                |
-| BASE_URL                       | www.wedding-share.com                        |
-| FORCE_HTTPS                    | false                                        |
-| GALLERY_COLUMNS                | 4 (1, 2, 3, 4, 6, 12)                        |
-| GALLERY_QUOTE                  | (optional)                                   |
-| GALLERY_QUOTE_{GalleryId}      | (optional)                                   |
-| DEFAULT_GALLERY_VIEW           | 0 (Default), 1 (Presentation), 2 (Slideshow) |
-| ALLOWED_FILE_TYPES             | .jpg,.jpeg,.png                              |
-| MAX_FILE_SIZE_MB               | 10                                           |
-| THUMBNAIL_SIZE                 | 720                                          |
-| SECRET_KEY                     | (optional)                                   |
-| SECRET_KEY_{GalleryId}         | (optional)                                   |
-| SINGLE_GALLERY_MODE            | false                                        |
-| REQUIRE_REVIEW                 | true                                         |
-| DISABLE_HOME_LINK              | false                                        |
-| DISABLE_REVIEW_COUNTER         | false                                        |
-| DISABLE_UPLOAD                 | false                                        |
-| DISABLE_QR_CODE                | false                                        |
-| DISABLE_GUEST_GALLERY_CREATION | true                                         |
-| DISABLE_DARK_MODE              | false                                        |
-| DEFAULT_THEME                  | default (default, dark)                      |
-| FULL_WIDTH_GALLERY             | false                                        |
-| HIDE_KEY_FROM_QR_CODE          | false                                        |
-| IDLE_GALLERY_REFRESH_MINS      | 5 (0 = disable)                              |
-| SHOW_IDENTITY_REQUEST          | true                                         |
-| RETAIN_REJECTED_ITEMS          | false                                        |
-| EMAIL_REPORT                   | true                                         |
-| LINKS_OPEN_NEW_TAB             | true                                         |
+| Name                               | Value                                        |
+| ---------------------------------- | -------------------------------------------- |
+| TITLE                              | WeddingShare                                 |
+| LOGO                               | https://someurl/someimage.png                |
+| BASE_URL                           | www.wedding-share.com                        |
+| FORCE_HTTPS                        | false                                        |
+| DEFAULT_THEME                      | default (default, dark)                      |
+| DISABLE_HOME_LINK                  | false                                        |
+| DISABLE_DARK_MODE                  | false                                        |
+| SHOW_IDENTITY_REQUEST              | true                                         |
+| DISABLE_GUEST_GALLERY_CREATION     | true                                         |
+| ALLOWED_FILE_TYPES                 | .jpg,.jpeg,.png                              |
+| MAX_FILE_SIZE_MB                   | 10                                           |
+| THUMBNAIL_SIZE                     | 720                                          |
+| DEFAULT_GALLERY_VIEW               | 0 (Default), 1 (Presentation), 2 (Slideshow) |
+| SINGLE_GALLERY_MODE                | false                                        |
+| HIDE_KEY_FROM_QR_CODE              | false                                        |
+| IDLE_GALLERY_REFRESH_MINS          | 5 (0 = disable)                              |
+| REQUIRE_REVIEW                     | true                                         |
+| LINKS_OPEN_NEW_TAB                 | true                                         |
+| EMAIL_REPORT                       | true                                         |
+| SECRET_KEY                         | (optional)                                   |
+| SECRET_KEY_{GalleryId}             | (optional)                                   |
+| GALLERY_COLUMNS                    | 4 (1, 2, 3, 4, 6, 12)                        |
+| GALLERY_COLUMNS_{GalleryId}        | 4 (1, 2, 3, 4, 6, 12)                        |
+| GALLERY_QUOTE                      | (optional)                                   |
+| GALLERY_QUOTE_{GalleryId}          | (optional)                                   |
+| DISABLE_REVIEW_COUNTER             | false                                        |
+| DISABLE_REVIEW_COUNTER_{GalleryId} | false                                        |
+| DISABLE_UPLOAD                     | false                                        |
+| DISABLE_UPLOAD_{GalleryId}         | false                                        |
+| DISABLE_QR_CODE                    | false                                        |
+| DISABLE_QR_CODE_{GalleryId}        | false                                        |
+| FULL_WIDTH_GALLERY                 | false                                        |
+| FULL_WIDTH_GALLERY_{GalleryId}     | false                                        |
+| RETAIN_REJECTED_ITEMS              | false                                        |
+| RETAIN_REJECTED_ITEMS_{GalleryId}  | false                                        |
 
 ## Slideshow
 

@@ -123,7 +123,7 @@ namespace WeddingShare.Controllers
                     ThumbnailsPath = $"/{ThumbnailsDirectory.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}",
                     Images = images?.Select(x => new PhotoGalleryImage() { Id = x.Id, Name = Path.GetFileName(x.Title), Path = x.Title, UploadedBy = x.UploadedBy })?.ToList(),
                     PendingCount = gallery?.PendingItems ?? 0,
-                    FileUploader = !_config.GetOrDefault("Settings", "Disable_Upload", false) || (User?.Identity != null && User.Identity.IsAuthenticated) ? new FileUploader(id, secretKey, "/Gallery/UploadImage") : null,
+                    FileUploader = !_gallery.GetConfig(id, "Disable_Upload", false) || (User?.Identity != null && User.Identity.IsAuthenticated) ? new FileUploader(id, secretKey, "/Gallery/UploadImage") : null,
                     ViewMode = (ViewMode)ViewBag.ViewMode
                 };
             

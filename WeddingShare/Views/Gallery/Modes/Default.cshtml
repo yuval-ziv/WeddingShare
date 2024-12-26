@@ -1,10 +1,11 @@
 ﻿@using WeddingShare.Enums
 @using WeddingShare.Views.Gallery
 @inject WeddingShare.Helpers.IConfigHelper _config
+@inject WeddingShare.Helpers.IGalleryHelper _gallery
 @inject Microsoft.Extensions.Localization.IStringLocalizer<DefaultGalleryModel> _localizer
 @model WeddingShare.Models.PhotoGallery
 @{
-    var columnCount = _config.GetOrDefault("Settings", "Gallery_Columns", 4);
+    var columnCount = _gallery.GetConfig(Model?.GalleryId, "Gallery_Columns", 4);
     var identityEnabled = _config.GetOrDefault("Settings", "Show_Identity_Request", true);
 
     try
