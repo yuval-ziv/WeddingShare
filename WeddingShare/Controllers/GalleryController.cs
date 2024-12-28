@@ -222,13 +222,7 @@ namespace WeddingShare.Controllers
 
 						Response.StatusCode = (int)HttpStatusCode.OK;
 
-                        var filesUploaded = uploaded > 0;
-                        if (filesUploaded && requiresReview && _config.GetOrDefault("Notifications", "Alerts", "Pending_Review", true))
-                        {
-                            await _notificationHelper.Send("New Items Pending Review", $"{uploaded} new item(s) have been uploaded to gallery '{gallery.Name}' by '{(!string.IsNullOrWhiteSpace(uploadedBy) ? uploadedBy : "Anonymous")}' and are awaiting your review.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
-                        }
-
-						return Json(new { success = filesUploaded, uploaded, uploadedBy, requiresReview, errors });
+						return Json(new { success = uploaded > 0, uploaded, uploadedBy, requiresReview, errors });
                     }
                     else
                     {
@@ -246,6 +240,56 @@ namespace WeddingShare.Controllers
             }
 
             return Json(new { success = false, uploaded = 0 });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadCompleted(int count)
+        {
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+            try
+            {
+                string galleryId = (Request?.Form?.FirstOrDefault(x => string.Equals("Id", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString()?.ToLower() ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(galleryId))
+                {
+                    return Json(new { success = false, uploaded = 0, errors = new List<string>() { _localizer["Invalid_Gallery_Id"].Value } });
+                }
+
+                var gallery = await _database.GetGallery(galleryId);
+                if (gallery != null)
+                {
+                    var secretKey = await _gallery.GetSecretKey(galleryId);
+                    string key = (Request?.Form?.FirstOrDefault(x => string.Equals("SecretKey", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString() ?? string.Empty;
+                    if (!string.IsNullOrWhiteSpace(secretKey) && !string.Equals(secretKey, key))
+                    {
+                        return Json(new { success = false, uploaded = 0, errors = new List<string>() { _localizer["Invalid_Secret_Key_Warning"].Value } });
+                    }
+
+                    string uploadedBy = (Request?.Form?.FirstOrDefault(x => string.Equals("UploadedBy", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString() ?? string.Empty;
+                        
+                    var requiresReview = _config.GetOrDefault("Settings", "Require_Review", true);
+
+                    int uploaded = int.Parse((Request?.Form?.FirstOrDefault(x => string.Equals("Count", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString() ?? "0");
+                    if (uploaded > 0 && requiresReview && _config.GetOrDefault("Notifications", "Alerts", "Pending_Review", true))
+                    {
+                        await _notificationHelper.Send("New Items Pending Review", $"{uploaded} new item(s) have been uploaded to gallery '{gallery.Name}' by '{(!string.IsNullOrWhiteSpace(uploadedBy) ? uploadedBy : "Anonymous")}' and are awaiting your review.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                    }
+
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+
+                    return Json(new { success = true, uploaded, uploadedBy, requiresReview });
+                }
+                else
+                {
+                    return Json(new { success = false, uploaded = 0, errors = new List<string>() { _localizer["Gallery_Does_Not_Exist"].Value } });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{_localizer["Image_Upload_Failed"].Value} - {ex?.Message}");
+            }
+
+            return Json(new { success = false });
         }
     }
 }
