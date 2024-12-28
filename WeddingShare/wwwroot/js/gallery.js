@@ -72,7 +72,7 @@
         const isImageFile = file => file.type.toLowerCase().startsWith('image/');
 
         // Based on: https://flaviocopes.com/how-to-upload-files-fetch/
-        const imageUpload = dataRefs => {
+        const imageUpload = async dataRefs => {
 
             // Multiple source routes, so double check validity
             if (!dataRefs.files || !dataRefs.input) {
@@ -95,42 +95,55 @@
             const secretKey = dataRefs.input.getAttribute('data-post-key');
             const uploadedBy = getCookie('ViewerIdentity');
 
-            const formData = new FormData();
-            formData.append('Id', galleryId);
-            formData.append('SecretKey', secretKey);
-            formData.append('UploadedBy', uploadedBy);
+            let uploadedCount = 0;
+            let requiresReview = true;
+
             for (var i = 0; i < dataRefs.files.length; i++) {
+                const formData = new FormData();
+                formData.append('Id', galleryId);
+                formData.append('SecretKey', secretKey);
+                formData.append('UploadedBy', uploadedBy);
                 formData.append(dataRefs.files[i].name, dataRefs.files[i]);
+
+                displayLoader(`Uploading photo ${i + 1} of ${dataRefs.files.length}...`);
+
+                let response = await postData({ url, formData });
+                if (response !== undefined && response.success === true) {
+                    uploadedCount++;
+                    requiresReview = response.requiresReview;
+                }
             }
 
-            displayLoader('Uploading...');
+            hideLoader();
 
-            fetch(url, {
+            if (requiresReview) {
+                displayMessage(`Upload`, `Successfully uploaded ${uploadedCount} photo(s) pending review`);
+
+                const formData = new FormData();
+                formData.append('Id', galleryId);
+                formData.append('SecretKey', secretKey);
+                formData.append('UploadedBy', uploadedBy);
+                formData.append('Count', uploadedCount);
+
+                postData({ url: '/Gallery/UploadCompleted', formData });
+            } else {
+                displayMessage(`Upload`, `Successfully uploaded ${uploadedCount} photo(s)`);
+            }
+        }
+
+        const postData = async request => {
+            return fetch(request.url, {
                 method: 'POST',
-                body: formData
+                body: request.formData
             })
                 .then(response => response.json())
                 .then(data => {
-                    hideLoader();
-
-                    if (data.success === true) {
-                        if (data.requiresReview === true) {
-                            displayMessage(`Upload`, `Successfully uploaded ${data.uploaded} photo(s) pending review`, data.errors);
-                        } else {
-                            displayMessage(`Upload`, `Successfully uploaded ${data.uploaded} photo(s)`, data.errors);
-                        }
-                    } else if (data.message) {
-                        displayMessage(`Upload`, `Upload failed`, [data.message]);
-                    }
-                })
-                .catch(error => {
-                    hideLoader();
-                    displayMessage(`Upload`, `Upload failed`, [error]);
+                    return data;
                 });
         }
 
         // Handle both selected and dropped files
-        const handleFiles = dataRefs => {
+        const handleFiles = async dataRefs => {
 
             let files = [...dataRefs.files];
 
@@ -147,7 +160,7 @@
             if (!files.length) return;
             dataRefs.files = files;
 
-            imageUpload(dataRefs);
+            await imageUpload(dataRefs);
         }
 
         $(document).off('click', 'button.btnDeletePhoto').on('click', 'button.btnDeletePhoto', function (e) {
