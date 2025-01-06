@@ -2,7 +2,7 @@
 @inject WeddingShare.Helpers.IConfigHelper _config
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
 @{
-    var galleryId = (!string.IsNullOrWhiteSpace(ViewBag.GalleryId) ? ViewBag.GalleryId : "Default").Trim().ToUpper();
+    var galleryId = (!string.IsNullOrWhiteSpace(ViewBag.GalleryId) ? ViewBag.GalleryId : "_").Trim().ToUpper();
     var title = _gallery.GetConfig(galleryId, "Title", "WeddingShare");
     var logo = _gallery.GetConfig(galleryId, "Logo", "/images/logo.png");
     var viewMode = ViewBag.ViewMode != null ? ViewBag.ViewMode : ViewMode.Default;
