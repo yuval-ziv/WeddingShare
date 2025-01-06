@@ -5,8 +5,8 @@
 @inject Microsoft.Extensions.Localization.IStringLocalizer<DefaultGalleryModel> _localizer
 @model WeddingShare.Models.PhotoGallery
 @{
-    var columnCount = _gallery.GetConfig(Model?.GalleryId, "Gallery_Columns", 4);
-    var identityEnabled = _config.GetOrDefault("Settings", "Show_Identity_Request", true);
+    var columnCount = _gallery.GetConfig(Model?.GalleryName, "Gallery_Columns", 4);
+    var identityEnabled = _config.GetOrDefault("Settings:Show_Identity_Request", true);
 
     try
     {
@@ -33,13 +33,19 @@
             var index = columnIndex;
             while (index < Model.Images.Count())
             {
-                <div class="rounded mb-4 image-tile">
-                    <a href="@Model.GalleryPath/@Model.Images[index]?.Name?.TrimStart('/')" data-lightbox="@Model.GalleryId" data-title="@(identityEnabled ? $"Uploaded By: {(!string.IsNullOrWhiteSpace(Model.Images[index]?.UploadedBy) ? Model.Images[index]?.UploadedBy : "Anonymous")}" : string.Empty)">
-                        <img src="@Model.ThumbnailsPath/@(System.IO.Path.GetFileNameWithoutExtension(Model.Images[index]?.Name?.TrimStart('/'))).webp" class="w-100 shadow-1-strong" loading="lazy" />
+                var image = Model.Images[index];
+
+                <div class="image-tile mb-4">
+                    <a href="@image.ImagePath" class="media-viewer-item" data-media-viewer-type="@image.MediaType.ToString().ToLower()" data-media-viewer-collection="@image.GalleryName" data-media-viewer-author="@(identityEnabled ? $"Uploaded By: {(!string.IsNullOrWhiteSpace(image?.UploadedBy) ? image?.UploadedBy : "Anonymous")}" : string.Empty)">
+                        <img src="@image.ThumbnailPath" class="w-100 shadow-1-strong" loading="lazy" />
+                        @if (image.MediaType == MediaType.Video)
+                        {
+                            <img src="/images/play-button.svg" class="media-viewer-play" loading="lazy" />
+                        }
                     </a>
                     @if (User?.Identity != null && User.Identity.IsAuthenticated)
                     {
-                        <button type="button" class="btn btn-danger btnDeletePhoto w-100 m-0" data-photo-id="@Model.Images[index]?.Id" data-photo-name="@Model.Images[index]?.Name">@_localizer["Delete"].Value</button>
+                        <button type="button" class="btn btn-danger btnDeletePhoto w-100" data-photo-id="@image?.Id" data-photo-name="@image?.Name">@_localizer["Delete"].Value</button>
                     }
                 </div>
                 index += columnCount;
@@ -49,7 +55,7 @@
 }
 
 @{
-    var idleTimeout = _config.GetOrDefault("Settings", "Idle_Gallery_Refresh_Mins", 0);
+    var idleTimeout = _config.GetOrDefault("Settings:Idle_Gallery_Refresh_Mins", 0);
     if (idleTimeout > 0)
     {
         <script>

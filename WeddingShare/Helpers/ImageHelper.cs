@@ -1,13 +1,18 @@
-﻿using SixLabors.ImageSharp;
+﻿using Microsoft.AspNetCore.StaticFiles;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using WeddingShare.Enums;
+using Xabe.FFmpeg;
+using Xabe.FFmpeg.Downloader;
 
 namespace WeddingShare.Helpers
 {
     public interface IImageHelper
     {
-        Task<bool> GenerateThumbnail(string imagePath, string savePath, int size = 720);
+        Task<bool> GenerateThumbnail(string filePath, string savePath, int size = 720);
         ImageOrientation GetOrientation(Image img);
+        MediaType GetMediaType(string filePath);
+        Task<bool> DownloadFFMPEG(string path);
     }
 
     public class ImageHelper : IImageHelper
@@ -21,55 +26,89 @@ namespace WeddingShare.Helpers
             _logger = logger;
         }
 
-        public async Task<bool> GenerateThumbnail(string imagePath, string savePath, int size = 720)
+        public async Task<bool> GenerateThumbnail(string filePath, string savePath, int size = 720)
         {
-            if (_fileHelper.FileExists(imagePath))
+            if (_fileHelper.FileExists(filePath))
             { 
                 try
                 {
-                    var filename = Path.GetFileName(imagePath);
-                    using (var img = await Image.LoadAsync(imagePath))
+                    var mediaType = GetMediaType(filePath);
+                    if (mediaType == MediaType.Image || mediaType == MediaType.Video)
                     {
-                        var width = 0;
-                        var height = 0;
+                        var filename = Path.GetFileName(filePath);
 
-                        var orientation = this.GetOrientation(img);
-                        if (orientation == ImageOrientation.Square)
+                        if (mediaType == MediaType.Video)
                         {
-                            width = size;
-                            height = size;
-                        }
-                        else if (orientation == ImageOrientation.Landscape)
-                        {
-                            var scale = (decimal)size / (decimal)img.Width;
-                            width = (int)((decimal)img.Width * scale);
-                            height = (int)((decimal)img.Height * scale);
-                        }
-                        else if (orientation == ImageOrientation.Portrait)
-                        {
-                            var scale = (decimal)size / (decimal)img.Height;
-                            width = (int)((decimal)img.Width * scale);
-                            height = (int)((decimal)img.Height * scale);
+                            var conversion = await FFmpeg.Conversions.FromSnippet.Snapshot(filePath, savePath, TimeSpan.FromSeconds(0));
+                            await conversion.Start();
+                            filePath = savePath;
                         }
 
-                        img.Mutate(x =>
+                        using (var img = await Image.LoadAsync(filePath))
                         {
-                            x.Resize(width, height);
-                            x.AutoOrient();
-                        });
+                            var width = 0;
+                            var height = 0;
 
-                        await img.SaveAsWebpAsync(savePath);
+                            var orientation = this.GetOrientation(img);
+                            if (orientation == ImageOrientation.Square)
+                            {
+                                width = size;
+                                height = size;
+                            }
+                            else if (orientation == ImageOrientation.Landscape)
+                            {
+                                var scale = (decimal)size / (decimal)img.Width;
+                                width = (int)((decimal)img.Width * scale);
+                                height = (int)((decimal)img.Height * scale);
+                            }
+                            else if (orientation == ImageOrientation.Portrait)
+                            {
+                                var scale = (decimal)size / (decimal)img.Height;
+                                width = (int)((decimal)img.Width * scale);
+                                height = (int)((decimal)img.Height * scale);
+                            }
+
+                            img.Mutate(x =>
+                            {
+                                x.Resize(width, height);
+                                x.AutoOrient();
+                            });
+
+                            await img.SaveAsWebpAsync(savePath);
+                        }
                     }
 
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogWarning(ex, $"Failed to generate thumbnail - '{imagePath}'");
+                    _logger.LogWarning(ex, $"Failed to generate thumbnail - '{filePath}'");
                 }
             }
 
             return false;
+        }
+
+        public MediaType GetMediaType(string path)
+        {
+            try
+            {
+                var provider = new FileExtensionContentTypeProvider();
+                if (provider.TryGetContentType(path, out string? contentType))
+                {
+                    if (contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return MediaType.Image;
+                    }
+                    else if (contentType.StartsWith("video/", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return MediaType.Video;
+                    }
+                }
+            }
+            catch { }
+                
+            return MediaType.Unknown;
         }
 
         public ImageOrientation GetOrientation(Image img)
@@ -91,6 +130,26 @@ namespace WeddingShare.Helpers
             }
 
             return ImageOrientation.None;
+        }
+
+        public async Task<bool> DownloadFFMPEG(string path)
+        {
+            try
+            {
+                if (!_fileHelper.DirectoryExists(path))
+                {
+                    _fileHelper.CreateDirectoryIfNotExists(path);
+                    await FFmpegDownloader.GetLatestVersion(FFmpegVersion.Official, path);
+                }
+
+                FFmpeg.SetExecutablesPath(path);
+
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
         }
     }
 }

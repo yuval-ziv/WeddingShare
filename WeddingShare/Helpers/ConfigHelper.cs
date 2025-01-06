@@ -1,25 +1,19 @@
-﻿namespace WeddingShare.Helpers
+﻿using WeddingShare.Helpers.Migrators;
+
+namespace WeddingShare.Helpers
 {
     public interface IConfigHelper
     {
         string? GetEnvironmentVariable(string key);
-        string? GetConfigValue(string section, string? subsection, string key);
-        string? Get(string section, string key);
-        string? Get(string section, string? subsection, string key);
-        string GetOrDefault(string section, string key, string defaultValue);
-        string GetOrDefault(string section, string? subsection, string key, string defaultValue);
-        int GetOrDefault(string section, string key, int defaultValue);
-        int GetOrDefault(string section, string? subsection, string key, int defaultValue);
-        long GetOrDefault(string section, string key, long defaultValue);
-        long GetOrDefault(string section, string? subsection, string key, long defaultValue);
-        decimal GetOrDefault(string section, string key, decimal defaultValue);
-        decimal GetOrDefault(string section, string? subsection, string key, decimal defaultValue);
-        double GetOrDefault(string section, string key, double defaultValue);
-        double GetOrDefault(string section, string? subsection, string key, double defaultValue);
-        bool GetOrDefault(string section, string key, bool defaultValue);
-        bool GetOrDefault(string section, string? subsection, string key, bool defaultValue);
-        DateTime? GetOrDefault(string section, string key, DateTime? defaultValue);
-        DateTime? GetOrDefault(string section, string? subsection, string key, DateTime? defaultValue);
+        string? GetConfigValue(string key);
+        string? Get(string key);
+        string GetOrDefault(string key, string defaultValue);
+        int GetOrDefault(string key, int defaultValue);
+        long GetOrDefault(string key, long defaultValue);
+        decimal GetOrDefault(string key, decimal defaultValue);
+        double GetOrDefault(string key, double defaultValue);
+        bool GetOrDefault(string key, bool defaultValue);
+        DateTime? GetOrDefault(string key, DateTime? defaultValue);
     }
 
     public class ConfigHelper : IConfigHelper
@@ -39,10 +33,18 @@
         {
             try
             {
-                var value = _environment.GetEnvironmentVariable(key.Replace(":", "_").Trim('_').ToUpper());
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    return value;
+                foreach (var envKey in KeyHelper.GetAlternateVersions(key))
+                { 
+                    if (!this.IsProtectedVariable(envKey))
+                    {
+                        var keyName = string.Join('_', envKey.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Skip(1)).Trim('_').ToUpper();
+
+                        var value = _environment.GetEnvironmentVariable(keyName);
+                        if (!string.IsNullOrWhiteSpace(value))
+                        {
+                            return value;
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -53,14 +55,11 @@
             return null;
         }
 
-        public string? GetConfigValue(string section, string? subsection, string key)
+        public string? GetConfigValue(string key)
         {
             try
             {
-                section = !string.IsNullOrWhiteSpace(subsection) ? $"{section}:{subsection}" : section;
-
-                var configKey = !string.IsNullOrWhiteSpace(section) ? $"{section}:{key}" : key;
-                var value = _configuration.GetValue<string>(configKey);
+                var value = _configuration.GetValue<string>(key);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     return value;
@@ -74,22 +73,17 @@
             return null;
         }
 
-        public string? Get(string section, string key)
-        {
-            return this.Get(section, null, key);
-        }
-
-        public string? Get(string section, string? subsection, string key)
+        public string? Get(string key)
         {
             try
             {
-                var value = !IsProtectedVariable($"{CombineSections(section, subsection)}_{key}") ? this.GetEnvironmentVariable($"{subsection}_{key}") : string.Empty;
+                var value = this.GetEnvironmentVariable(key);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     return value;
                 }
 
-                value = this.GetConfigValue(section, subsection, key);
+                value = this.GetConfigValue(key);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     return value;
@@ -103,16 +97,11 @@
             return null;
         }
 
-        public string GetOrDefault(string section, string key, string defaultValue)
-        {
-            return this.GetOrDefault(section, null, key, defaultValue);
-        }
-
-        public string GetOrDefault(string section, string? subsection, string key, string defaultValue)
+        public string GetOrDefault(string key, string defaultValue)
         {
             try
             {
-                var value = this.Get(section, subsection, key);
+                var value = this.Get(key);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     return value;
@@ -123,16 +112,11 @@
             return defaultValue;
         }
 
-        public int GetOrDefault(string section, string key, int defaultValue)
-        {
-            return this.GetOrDefault(section, null, key, defaultValue);
-        }
-
-        public int GetOrDefault(string section, string? subsection, string key, int defaultValue)
+        public int GetOrDefault(string key, int defaultValue)
         {
             try
             {
-                var value = this.GetOrDefault(section, subsection, key, string.Empty);
+                var value = this.GetOrDefault(key, string.Empty);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     return Convert.ToInt32(value);
@@ -143,16 +127,11 @@
             return defaultValue;
         }
 
-        public long GetOrDefault(string section, string key, long defaultValue)
-        {
-            return this.GetOrDefault(section, null, key, defaultValue);
-        }
-
-        public long GetOrDefault(string section, string? subsection, string key, long defaultValue)
+        public long GetOrDefault(string key, long defaultValue)
         {
             try
             {
-                var value = this.GetOrDefault(section, subsection, key, string.Empty);
+                var value = this.GetOrDefault(key, string.Empty);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     return Convert.ToInt64(value);
@@ -163,16 +142,11 @@
             return defaultValue;
         }
 
-        public decimal GetOrDefault(string section, string key, decimal defaultValue)
-        {
-            return this.GetOrDefault(section, null, key, defaultValue);
-        }
-
-        public decimal GetOrDefault(string section, string? subsection, string key, decimal defaultValue)
+        public decimal GetOrDefault(string key, decimal defaultValue)
         {
             try
             {
-                var value = this.GetOrDefault(section, subsection, key, string.Empty);
+                var value = this.GetOrDefault(key, string.Empty);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     return Convert.ToDecimal(value);
@@ -183,16 +157,11 @@
             return defaultValue;
         }
 
-        public double GetOrDefault(string section, string key, double defaultValue)
-        {
-            return this.GetOrDefault(section, null, key, defaultValue);
-        }
-
-        public double GetOrDefault(string section, string? subsection, string key, double defaultValue)
+        public double GetOrDefault(string key, double defaultValue)
         {
             try
             {
-                var value = this.GetOrDefault(section, subsection, key, string.Empty);
+                var value = this.GetOrDefault(key, string.Empty);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     return Convert.ToDouble(value);
@@ -203,16 +172,11 @@
             return defaultValue;
         }
 
-        public bool GetOrDefault(string section, string key, bool defaultValue)
-        {
-            return this.GetOrDefault(section, null, key, defaultValue);
-        }
-
-        public bool GetOrDefault(string section, string? subsection, string key, bool defaultValue)
+        public bool GetOrDefault(string key, bool defaultValue)
         {
             try
             {
-                var value = this.GetOrDefault(section, subsection, key, string.Empty);
+                var value = this.GetOrDefault(key, string.Empty);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     return Convert.ToBoolean(value);
@@ -223,16 +187,11 @@
             return defaultValue;
         }
 
-        public DateTime? GetOrDefault(string section, string key, DateTime? defaultValue)
-        {
-            return this.GetOrDefault(section, null, key, defaultValue);
-        }
-
-        public DateTime? GetOrDefault(string section, string? subsection, string key, DateTime? defaultValue)
+        public DateTime? GetOrDefault(string key, DateTime? defaultValue)
         {
             try
             {
-                var value = this.GetOrDefault(section, subsection, key, string.Empty);
+                var value = this.GetOrDefault(key, string.Empty);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     return Convert.ToDateTime(value);
@@ -241,11 +200,6 @@
             catch { }
 
             return defaultValue;
-        }
-
-        private string CombineSections(string section, string? subsection)
-        {
-            return $"{section}_{subsection}".Trim('_');
         }
 
         private bool IsProtectedVariable(string key)

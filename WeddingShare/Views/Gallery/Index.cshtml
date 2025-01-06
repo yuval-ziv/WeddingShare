@@ -13,7 +13,7 @@
     var queryString = new System.Text.StringBuilder();
     foreach (var q in ctx.Query.Where(x => !string.Equals("order", x.Key, StringComparison.OrdinalIgnoreCase)))
     {
-        if (string.Equals("key", q.Key, StringComparison.OrdinalIgnoreCase) && _gallery.GetConfig(Model?.GalleryId, "Hide_Key_From_QR_Code", false))
+        if (string.Equals("key", q.Key, StringComparison.OrdinalIgnoreCase) && _gallery.GetConfig(Model?.GalleryName, "Hide_Key_From_QR_Code", false))
         {
             continue;
         }
@@ -36,7 +36,7 @@
 
 <section class="py-1 py-lg-4 gallery-container">
     <div class="row mt-3 mt-lg-0">
-        @if (_gallery.GetConfig(Model?.GalleryId, "Full_Width_Gallery", false))
+        @if (_gallery.GetConfig(Model?.GalleryName, "Full_Width_Gallery", false))
         {
             <div class="col-12 px-3 px-lg-5">
                 <partial name="~/Views/Gallery/GalleryWrapper.cshtml" model="Model" />

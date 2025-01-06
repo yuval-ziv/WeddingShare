@@ -138,8 +138,8 @@
   <data name="Failed_Import" xml:space="preserve">
     <value>Failed to import data</value>
   </data>
-  <data name="Failed_Reviewing_Photo" xml:space="preserve">
-    <value>Failed to review photo</value>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Failed to review item</value>
   </data>
   <data name="Failed_Wipe_Galleries" xml:space="preserve">
     <value>Failed to wipe galleries</value>

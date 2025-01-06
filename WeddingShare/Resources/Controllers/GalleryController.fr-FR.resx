@@ -144,6 +144,12 @@
   <data name="Max_File_Size" xml:space="preserve">
     <value>La taille maximale du fichier est</value>
   </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>La galerie est pleine et a dépassé la taille maximale de</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Nouveaux articles en attente d'examen</value>
+  </data>
   <data name="No_Files_For_Upload" xml:space="preserve">
     <value>Aucun fichier n'a été détecté pour le téléchargement</value>
   </data>

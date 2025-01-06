@@ -4,7 +4,7 @@
 @model WeddingShare.Models.PhotoGallery
 
 @{
-    var singleGalleryMode = _config.GetOrDefault("Settings", "Single_Gallery_Mode", false);
+    var singleGalleryMode = _config.GetOrDefault("Settings:Single_Gallery_Mode", false);
 }
 <section class="py-1 py-lg-5">
     <div class="container px-3 px-lg-1 my-3 mt-lg-1">
@@ -18,7 +18,7 @@
                     {
                         <div class="input-group">
                             <input type="text" id="gallery-id" class="form-control" aria-describedby="gallery-id-help" placeholder="@_localizer["Gallery_Name_Placeholder"].Value" aria-label="@_localizer["Gallery_Name"].Value" />
-                            @if ((User?.Identity != null && User.Identity.IsAuthenticated) || !_config.GetOrDefault("Settings", "Disable_Guest_Gallery_Creation", true))
+                            @if ((User?.Identity != null && User.Identity.IsAuthenticated) || !_config.GetOrDefault("Settings:Disable_Guest_Gallery_Creation", true))
                             {
                                 <input type="button" id="btnGenerateGalleryName" class="btn btn-outline-success" value="@_localizer["Generate"].Value" />
                             }

@@ -123,7 +123,7 @@
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Faites glisser et déposez les images ici pour les télécharger dans la galerie</value>
   </data>
-  <data name="Upload_Photos" xml:space="preserve">
-    <value>Télécharger des photos</value>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Télécharger des médias</value>
   </data>
 </root>

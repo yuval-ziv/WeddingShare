@@ -21,17 +21,17 @@
             var ntfySent = true;
             var gotifySent = true;
 
-            if (_config.GetOrDefault("Notifications", "Smtp", "Enabled", false))
+            if (_config.GetOrDefault("Notifications:Smtp:Enabled", false))
             {
                 emailSent = await new EmailHelper(_config, _smtp, _logger.CreateLogger<EmailHelper>()).Send(title, message, actionLink);
             }
 
-            if (_config.GetOrDefault("Notifications", "Ntfy", "Enabled", false))
+            if (_config.GetOrDefault("Notifications:Ntfy:Enabled", false))
             {
                 ntfySent = await new NtfyHelper(_config, _clientFactory, _logger.CreateLogger<NtfyHelper>()).Send(title, message, actionLink);
             }
 
-            if (_config.GetOrDefault("Notifications", "Gotify", "Enabled", false))
+            if (_config.GetOrDefault("Notifications:Gotify:Enabled", false))
             {
                 gotifySent = await new GotifyHelper(_config, _clientFactory, _logger.CreateLogger<GotifyHelper>()).Send(title, message, actionLink);
             }

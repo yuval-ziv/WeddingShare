@@ -127,7 +127,7 @@
     <value>Veuillez entrer le nom d'utilisateur du compte.</value>
   </data>
   <data name="Login_Username_Placeholder" xml:space="preserve">
-    <value>admin</value>
+    <value>Admin</value>
   </data>
   <data name="Login_Password_Help" xml:space="preserve">
     <value>Veuillez entrer le mot de passe du compte.</value>

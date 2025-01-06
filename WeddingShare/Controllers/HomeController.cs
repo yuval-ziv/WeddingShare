@@ -32,7 +32,7 @@ namespace WeddingShare.Controllers
                     HttpContext.Session.SetString("DeviceType", deviceType ?? "Desktop");
                 }
 
-                if (_config.GetOrDefault("Settings", "Single_Gallery_Mode", false))
+                if (_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
                 {
                     var key = await _gallery.GetSecretKey("default");
                     if (string.IsNullOrWhiteSpace(key))

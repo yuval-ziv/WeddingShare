@@ -35,7 +35,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         public async Task HomeController_Index(DeviceType deviceType, bool singleGalleryMode, string secretKey, bool isRedirect)
         {
             _deviceDetector.ParseDeviceType(Arg.Any<string>()).Returns(deviceType);
-            _config.GetOrDefault("Settings", "Single_Gallery_Mode", Arg.Any<bool>()).Returns(singleGalleryMode);
+            _config.GetOrDefault("Settings:Single_Gallery_Mode", Arg.Any<bool>()).Returns(singleGalleryMode);
             _gallery.GetSecretKey(Arg.Any<string>()).Returns(secretKey);
 
             var controller = new HomeController(_config, _gallery, _deviceDetector, _logger);

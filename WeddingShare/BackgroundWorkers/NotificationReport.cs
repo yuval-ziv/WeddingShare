@@ -10,9 +10,9 @@ namespace WeddingShare.BackgroundWorkers
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if (configHelper.GetOrDefault("Settings", "Email_Report", true) && configHelper.GetOrDefault("Notifications", "Smtp", "Enabled", false))
+            if (configHelper.GetOrDefault("Settings:Email_Report", true) && configHelper.GetOrDefault("Notifications:Smtp:Enabled", false))
             { 
-                var cron = configHelper.GetOrDefault("BackgroundServices", "Email_Report_Interval", "0 0 * * *");
+                var cron = configHelper.GetOrDefault("BackgroundServices:Email_Report_Interval", "0 0 * * *");
                 var schedule = CrontabSchedule.Parse(cron, new CrontabSchedule.ParseOptions() { IncludingSeconds = cron.Split(new[] { ' ' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Length == 6 });
 
                 while (!stoppingToken.IsCancellationRequested)

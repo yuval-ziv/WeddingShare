@@ -13,8 +13,8 @@ namespace WeddingShare.Helpers
         {
             if (ctx != null)
             {
-                var scheme = config.GetOrDefault("Settings", "Force_Https", false) ? "https" : ctx.Scheme;
-                var host = Regex.Replace(config.GetOrDefault("Settings", "Base_Url", ctx.Host.Value), "http[s]*\\:\\/\\/", string.Empty).TrimEnd('/');
+                var scheme = config.GetOrDefault("Settings:Force_Https", false) ? "https" : ctx.Scheme;
+                var host = Regex.Replace(config.GetOrDefault("Settings:Base_Url", ctx.Host.Value), "http[s]*\\:\\/\\/", string.Empty).TrimEnd('/');
 
                 return $"{scheme}://{host}/{append?.TrimStart('/')}";
             }

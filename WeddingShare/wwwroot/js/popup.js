@@ -18,9 +18,9 @@
     }
 
     let buttons = '';
-    (options?.Buttons ?? [{ Text: 'Close' }])?.forEach((button, index) => {
+    (options?.Buttons ?? [{ Text: localization.translate('Close') }])?.forEach((button, index) => {
         buttons += `<div class="col-${12 / options?.Buttons?.length ?? 1}">
-            <button type="button" id="popup-modal-button-${index}" class="btn ${button?.Class ?? "btn-secondary"} col-12">${button?.Text ?? "Close"}</button>
+            <button type="button" id="popup-modal-button-${index}" class="btn ${button?.Class ?? "btn-secondary"} col-12">${button?.Text ?? localization.translate('Close')}</button>
         </div>`;
 
         $(document).off('click', `#popup-modal-button-${index}`).on('click', `#popup-modal-button-${index}`, function () {

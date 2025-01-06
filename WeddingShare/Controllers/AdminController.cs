@@ -28,6 +28,7 @@ namespace WeddingShare.Controllers
         private readonly ILogger _logger;
         private readonly IStringLocalizer<AdminController> _localizer;
 
+        private readonly string TempDirectory;
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
@@ -43,6 +44,7 @@ namespace WeddingShare.Controllers
             _logger = logger;
             _localizer = localizer;
 
+            TempDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "temp");
             UploadsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
             ThumbnailsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "thumbnails");
         }
@@ -88,18 +90,18 @@ namespace WeddingShare.Controllers
                     }
                     else
                     {
-                        if (_config.GetOrDefault("Notifications", "Alerts", "Failed_Login", true))
+                        if (_config.GetOrDefault("Notifications:Alerts:Failed_Login", true))
                         { 
                             await _notificationHelper.Send("Invalid Login Detected", $"An invalid login attempt was made for account '{model?.Username}'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
                         }
 
                         var failedAttempts = await _database.IncrementLockoutCount(user.Id);
-                        if (failedAttempts >= _config.GetOrDefault("Settings", "Account", "Lockout_Attempts", 5))
+                        if (failedAttempts >= _config.GetOrDefault("Settings:Account:Lockout_Attempts", 5))
                         {
-                            var timeout = _config.GetOrDefault("Settings", "Account", "Lockout_Mins", 60);
+                            var timeout = _config.GetOrDefault("Settings:Account:Lockout_Mins", 60);
                             await _database.SetLockout(user.Id, DateTime.UtcNow.AddMinutes(timeout));
 
-                            if (_config.GetOrDefault("Notifications", "Alerts", "Account_Lockout", true))
+                            if (_config.GetOrDefault("Notifications:Alerts:Account_Lockout", true))
                             { 
                                 await _notificationHelper.Send("Account Lockout", $"Account '{model?.Username}' has been locked out for {timeout} minutes due to too many failed login attempts.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
                             }
@@ -142,9 +144,18 @@ namespace WeddingShare.Controllers
 
             try
             {
-                if (!_config.GetOrDefault("Settings", "Single_Gallery_Mode", false))
+                if (!_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
                 {
                     model.Galleries = await _database.GetAllGalleries();
+                    if (model.Galleries != null)
+                    { 
+                        var all = await _database.GetGallery(0);
+                        if (all != null)
+                        { 
+                            model.Galleries.Add(all);
+                        }
+                    }
+
                     model.PendingRequests = await _database.GetPendingGalleryItems();
                 }
                 else
@@ -179,10 +190,6 @@ namespace WeddingShare.Controllers
                         var reviewFile = Path.Combine(galleryDir, "Pending", review.Title);
                         if (action == ReviewAction.APPROVED)
                         {
-                            _fileHelper.CreateDirectoryIfNotExists(ThumbnailsDirectory);
-
-                            await _imageHelper.GenerateThumbnail(reviewFile, Path.Combine(ThumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(reviewFile)}.webp"), _config.GetOrDefault("Settings", "Thumbnail_Size", 720));
-
                             _fileHelper.MoveFileIfExists(reviewFile, Path.Combine(galleryDir, review.Title));
 
                             review.State = GalleryItemState.Approved;
@@ -190,7 +197,7 @@ namespace WeddingShare.Controllers
                         }
                         else if (action == ReviewAction.REJECTED)
                         {
-                            var retain = _config.GetOrDefault("Settings", "Retain_Rejected_Items", false);
+                            var retain = _config.GetOrDefault("Settings:Retain_Rejected_Items", false);
                             if (retain)
                             {
                                 var rejectedDir = Path.Combine(galleryDir, "Rejected");
@@ -218,7 +225,7 @@ namespace WeddingShare.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, $"{_localizer["Failed_Reviewing_Photo"].Value} - {ex?.Message}");
+                    _logger.LogError(ex, $"{_localizer["Failed_Reviewing_Media"].Value} - {ex?.Message}");
                 }
             }
 
@@ -241,10 +248,6 @@ namespace WeddingShare.Controllers
                             var reviewFile = Path.Combine(galleryDir, "Pending", review.Title);
                             if (action == ReviewAction.APPROVED)
                             {
-                                _fileHelper.CreateDirectoryIfNotExists(ThumbnailsDirectory);
-
-                                await _imageHelper.GenerateThumbnail(reviewFile, Path.Combine(ThumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(reviewFile)}.webp"), _config.GetOrDefault("Settings", "Thumbnail_Size", 720));
-
                                 _fileHelper.MoveFileIfExists(reviewFile, Path.Combine(galleryDir, review.Title));
 
                                 review.State = GalleryItemState.Approved;
@@ -252,7 +255,7 @@ namespace WeddingShare.Controllers
                             }
                             else if (action == ReviewAction.REJECTED)
                             {
-                                var retain = _config.GetOrDefault("Settings", "Retain_Rejected_Items", false);
+                                var retain = _config.GetOrDefault("Settings:Retain_Rejected_Items", false);
                                 if (retain)
                                 {
                                     var rejectedDir = Path.Combine(galleryDir, "Rejected");
@@ -277,7 +280,7 @@ namespace WeddingShare.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, $"{_localizer["Failed_Reviewing_Photo"].Value} - {ex?.Message}");
+                    _logger.LogError(ex, $"{_localizer["Failed_Reviewing_Media"].Value} - {ex?.Message}");
                 }
             }
 
@@ -383,7 +386,7 @@ namespace WeddingShare.Controllers
                             _fileHelper.DeleteDirectoryIfExists(galleryDir);
                             _fileHelper.CreateDirectoryIfNotExists(galleryDir);
 
-                            if (_config.GetOrDefault("Notifications", "Alerts", "Destructive_Action", true))
+                            if (_config.GetOrDefault("Notifications:Alerts:Destructive_Action", true))
                             { 
                                 await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Wipe' was performed on gallery '{gallery.Name}'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
                             }
@@ -426,7 +429,7 @@ namespace WeddingShare.Controllers
 
                         _fileHelper.CreateDirectoryIfNotExists(Path.Combine(UploadsDirectory, "default"));
 
-                        if (_config.GetOrDefault("Notifications", "Alerts", "Destructive_Action", true))
+                        if (_config.GetOrDefault("Notifications:Alerts:Destructive_Action", true))
                         {
                             await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Wipe' was performed on all galleries'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
                         }
@@ -456,7 +459,7 @@ namespace WeddingShare.Controllers
                         var galleryDir = Path.Combine(UploadsDirectory, gallery.Name);
                         _fileHelper.DeleteDirectoryIfExists(galleryDir);
 
-                        if (_config.GetOrDefault("Notifications", "Alerts", "Destructive_Action", true))
+                        if (_config.GetOrDefault("Notifications:Alerts:Destructive_Action", true))
                         {
                             await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Delete' was performed on gallery '{gallery.Name}'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
                         }
@@ -520,19 +523,15 @@ namespace WeddingShare.Controllers
                     var gallery = await _database.GetGallery(id);
                     if (gallery != null)
                     {
-                        var galleryDir = Path.Combine(UploadsDirectory, gallery.Name);
+                        var galleryDir = id > 0 ? Path.Combine(UploadsDirectory, gallery.Name) : UploadsDirectory;
                         if (_fileHelper.DirectoryExists(galleryDir))
                         {
-                            var tempZipDir = $"Temp";
-                            _fileHelper.CreateDirectoryIfNotExists(tempZipDir);
+                            _fileHelper.CreateDirectoryIfNotExists(TempDirectory);
 
-                            var tempZipFile = Path.Combine(tempZipDir, $"{gallery.Name}-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.zip");
+                            var tempZipFile = Path.Combine(TempDirectory, $"{gallery.Name}-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.zip");
                             ZipFile.CreateFromDirectory(galleryDir, tempZipFile, CompressionLevel.Optimal, false);
 
-                            byte[] bytes = await _fileHelper.ReadAllBytes(tempZipFile);
-                            _fileHelper.DeleteFileIfExists(tempZipFile);
-
-                            return Json(new { success = true, filename = Path.GetFileName(tempZipFile), content = Convert.ToBase64String(bytes, 0, bytes.Length) });
+                            return Json(new { success = true, filename = $"/temp/{Path.GetFileName(tempZipFile)}" });
                         }
                     }
                     else
@@ -554,14 +553,13 @@ namespace WeddingShare.Controllers
         {
             if (User?.Identity != null && User.Identity.IsAuthenticated)
             {
-                var tempDir = $"Temp";
-                var exportDir = Path.Combine(tempDir, "Export");
+                var exportDir = Path.Combine(TempDirectory, "Export");
 
                 try
                 {
                     if (_fileHelper.DirectoryExists(UploadsDirectory))
                     {
-                        _fileHelper.CreateDirectoryIfNotExists(tempDir);
+                        _fileHelper.CreateDirectoryIfNotExists(TempDirectory);
                         _fileHelper.DeleteDirectoryIfExists(exportDir);
                         _fileHelper.CreateDirectoryIfNotExists(exportDir);
 
@@ -575,7 +573,7 @@ namespace WeddingShare.Controllers
                             var thumbnailsZip = Path.Combine(exportDir, $"Thumbnails.bak");
                             ZipFile.CreateFromDirectory(ThumbnailsDirectory, thumbnailsZip, CompressionLevel.Optimal, false);
 
-                            var exportZipFile = Path.Combine(tempDir, $"WeddingShare-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.zip");
+                            var exportZipFile = Path.Combine(TempDirectory, $"WeddingShare-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.zip");
                             _fileHelper.DeleteFileIfExists(exportZipFile);
 
                             ZipFile.CreateFromDirectory(exportDir, exportZipFile, CompressionLevel.Optimal, false);
@@ -583,10 +581,7 @@ namespace WeddingShare.Controllers
                             _fileHelper.DeleteFileIfExists(uploadsZip);
                             _fileHelper.DeleteFileIfExists(thumbnailsZip);
 
-                            byte[] bytes = await _fileHelper.ReadAllBytes(exportZipFile);
-                            _fileHelper.DeleteFileIfExists(exportZipFile);
-
-                            return Json(new { success = true, filename = Path.GetFileName(exportZipFile), content = Convert.ToBase64String(bytes, 0, bytes.Length) });
+                            return Json(new { success = true, filename = $"/temp/{Path.GetFileName(exportZipFile)}" });
                         }
                     }
                 }
@@ -608,8 +603,7 @@ namespace WeddingShare.Controllers
         {
             if (User?.Identity != null && User.Identity.IsAuthenticated)
             {
-                var tempDir = $"Temp";
-                var importDir = Path.Combine(tempDir, "Import");
+                var importDir = Path.Combine(TempDirectory, "Import");
 
                 try
                 {
@@ -621,9 +615,9 @@ namespace WeddingShare.Controllers
                             var extension = Path.GetExtension(file.FileName)?.Trim('.');
                             if (string.Equals("zip", extension, StringComparison.OrdinalIgnoreCase))
                             {
-                                _fileHelper.CreateDirectoryIfNotExists(tempDir);
+                                _fileHelper.CreateDirectoryIfNotExists(TempDirectory);
 
-                                var filePath = Path.Combine(tempDir, "Import.zip");
+                                var filePath = Path.Combine(TempDirectory, "Import.zip");
                                 if (!string.IsNullOrWhiteSpace(filePath))
                                 {
 									await _fileHelper.SaveFile(file, filePath, FileMode.Create);

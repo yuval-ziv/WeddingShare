@@ -12,7 +12,7 @@ namespace WeddingShare.BackgroundWorkers
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var cron = configHelper.GetOrDefault("BackgroundServices", "Directory_Scanner_Interval", "*/30 * * * *");
+            var cron = configHelper.GetOrDefault("BackgroundServices:Directory_Scanner_Interval", "*/30 * * * *");
             var schedule = CrontabSchedule.Parse(cron, new CrontabSchedule.ParseOptions() { IncludingSeconds = cron.Split(new[] { ' ' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Length == 6 });
 
             await Task.Delay((int)TimeSpan.FromSeconds(10).TotalMilliseconds, stoppingToken);
@@ -33,7 +33,7 @@ namespace WeddingShare.BackgroundWorkers
         {
             await Task.Run(async () =>
             {
-                var allowedFileTypes = configHelper.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                var allowedFileTypes = configHelper.GetOrDefault("Settings:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
                 var thumbnailsDirectory = Path.Combine(hostingEnvironment.WebRootPath, "thumbnails");
                 fileHelper.CreateDirectoryIfNotExists(thumbnailsDirectory);
@@ -41,7 +41,7 @@ namespace WeddingShare.BackgroundWorkers
                 var uploadsDirectory = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
                 if (fileHelper.DirectoryExists(uploadsDirectory))
                 {
-                    var searchPattern = !configHelper.GetOrDefault("Settings", "Single_Gallery_Mode", false) ? "*" : "default";
+                    var searchPattern = !configHelper.GetOrDefault("Settings:Single_Gallery_Mode", false) ? "*" : "default";
                     var galleries = fileHelper.GetDirectories(uploadsDirectory, searchPattern, SearchOption.TopDirectoryOnly)?.Where(x => !Path.GetFileName(x).StartsWith("."));
                     if (galleries != null)
                     {
@@ -79,6 +79,7 @@ namespace WeddingShare.BackgroundWorkers
                                                         {
                                                             GalleryId = galleryItem.Id,
                                                             Title = filename,
+                                                            MediaType = imageHelper.GetMediaType(file),
                                                             State = GalleryItemState.Approved
                                                         });
                                                     }
@@ -86,7 +87,7 @@ namespace WeddingShare.BackgroundWorkers
                                                     var thumbnailPath = Path.Combine(thumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(file)}.webp");
                                                     if (!fileHelper.FileExists(thumbnailPath))
                                                     {
-                                                        await imageHelper.GenerateThumbnail(file, thumbnailPath, configHelper.GetOrDefault("Settings", "Thumbnail_Size", 720));
+                                                        await imageHelper.GenerateThumbnail(file, thumbnailPath, configHelper.GetOrDefault("Settings:Thumbnail_Size", 720));
                                                     }
                                                     else
                                                     {
@@ -126,6 +127,7 @@ namespace WeddingShare.BackgroundWorkers
                                                             {
                                                                 GalleryId = galleryItem.Id,
                                                                 Title = filename,
+                                                                MediaType = imageHelper.GetMediaType(file),
                                                                 State = GalleryItemState.Pending
                                                             });
                                                         }

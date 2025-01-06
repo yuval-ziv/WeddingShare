@@ -12,7 +12,7 @@ namespace WeddingShare.Helpers.Database
 
         public SQLiteDatabaseHelper(IConfigHelper config, ILogger<SQLiteDatabaseHelper> logger)
         {
-            _connString = config.GetOrDefault("Database", "Connection_String", "Data Source=./config/wedding-share.db");
+            _connString = config.GetOrDefault("Database:Connection_String", "Data Source=./config/wedding-share.db");
             _logger = logger;
 
             _logger.LogInformation($"Using SQLite connection string: '{_connString}'");
@@ -44,14 +44,30 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = new SqliteConnection(_connString))
             {
-                var cmd = new SqliteCommand($"SELECT g.*, COUNT(gi.`id`) AS `total`, SUM(CASE WHEN gi.`state`=@ApprovedState THEN 1 ELSE 0 END) AS `approved`, SUM(CASE WHEN gi.`state`=@PendingState THEN 1 ELSE 0 END) AS `pending` FROM `galleries` AS g LEFT JOIN `gallery_items` AS gi ON g.`id` = gi.`gallery_id` WHERE g.`id`=@Id;", conn);
+                var cmd = new SqliteCommand($"SELECT g.*, COUNT(gi.`id`) AS `total`, SUM(CASE WHEN gi.`state`=@ApprovedState THEN 1 ELSE 0 END) AS `approved`, SUM(CASE WHEN gi.`state`=@PendingState THEN 1 ELSE 0 END) AS `pending` FROM `galleries` AS g LEFT JOIN `gallery_items` AS gi ON g.`id` = gi.`gallery_id` {(id > 0 ? "WHERE g.`id`=@Id;" : string.Empty)}", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", id);
                 cmd.Parameters.AddWithValue("PendingState", (int)GalleryItemState.Pending);
                 cmd.Parameters.AddWithValue("ApprovedState", (int)GalleryItemState.Approved);
 
                 await conn.OpenAsync();
-                result = (await ReadGalleries(await cmd.ExecuteReaderAsync()))?.FirstOrDefault();
+                if (id > 0)
+                {
+                    result = (await ReadGalleries(await cmd.ExecuteReaderAsync()))?.FirstOrDefault();
+                }
+                else
+                { 
+                    var galleries = await ReadGalleries(await cmd.ExecuteReaderAsync());
+                    result = new GalleryModel()
+                    {
+                        Id = 0,
+                        Name = "all",
+                        SecretKey = null,
+                        TotalItems = galleries?.Sum(x => x.TotalItems) ?? 0,
+                        ApprovedItems = galleries?.Sum(x => x.ApprovedItems) ?? 0,
+                        PendingItems = galleries?.Sum(x => x.PendingItems) ?? 0
+                    };
+                }
                 await conn.CloseAsync();
             }
 
@@ -60,19 +76,30 @@ namespace WeddingShare.Helpers.Database
 
         public async Task<GalleryModel?> GetGallery(string name)
         {
-            GalleryModel? result;
+            GalleryModel? result = null;
 
-            using (var conn = new SqliteConnection(_connString))
+            if (string.Equals("All", name, StringComparison.OrdinalIgnoreCase))
             {
-                var cmd = new SqliteCommand($"SELECT g.*, COUNT(gi.`id`) AS `total`, SUM(CASE WHEN gi.`state`=@ApprovedState THEN 1 ELSE 0 END) AS `approved`, SUM(CASE WHEN gi.`state`=@PendingState THEN 1 ELSE 0 END) AS `pending` FROM `galleries` AS g LEFT JOIN `gallery_items` AS gi ON g.`id` = gi.`gallery_id` WHERE g.`name`=@Name;", conn);
-                cmd.CommandType = CommandType.Text;
-                cmd.Parameters.AddWithValue("Name", name?.ToLower());
-                cmd.Parameters.AddWithValue("ApprovedState", (int)GalleryItemState.Approved);
-                cmd.Parameters.AddWithValue("PendingState", (int)GalleryItemState.Pending);
+                result = await GetGallery(0);
+            }
+            else
+            {
+                long? galleryId = 0;
+                using (var conn = new SqliteConnection(_connString))
+                {
+                    var cmd = new SqliteCommand($"SELECT `id` FROM `galleries` WHERE `name`=@Name;", conn);
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("Name", name?.ToLower());
 
-                await conn.OpenAsync();
-                result = (await ReadGalleries(await cmd.ExecuteReaderAsync()))?.FirstOrDefault();
-                await conn.CloseAsync();
+                    await conn.OpenAsync();
+                    galleryId = (long?)await cmd.ExecuteScalarAsync();
+                    await conn.CloseAsync();
+                }
+
+                if (galleryId != null && galleryId > 0)
+                {
+                    result = await GetGallery((int)galleryId);
+                }
             }
 
             return result;
@@ -231,13 +258,13 @@ namespace WeddingShare.Helpers.Database
         #endregion
 
         #region Gallery Items
-        public async Task<List<GalleryItemModel>> GetAllGalleryItems(int galleryId, GalleryItemState state = GalleryItemState.All)
+        public async Task<List<GalleryItemModel>> GetAllGalleryItems(int? galleryId, GalleryItemState state = GalleryItemState.All)
         {
             List<GalleryItemModel> result;
 
             using (var conn = new SqliteConnection(_connString))
             {
-                var cmd = new SqliteCommand($"SELECT * FROM `gallery_items` WHERE `gallery_id`=@Id {(state != GalleryItemState.All ? "AND `state`=@State" : string.Empty)} ORDER BY `id` ASC;", conn);
+                var cmd = new SqliteCommand($"SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE {(galleryId != null && galleryId > 0 ? "gi.`gallery_id`=@Id" : "gi.`gallery_id` > 0")} {(state != GalleryItemState.All ? "AND gi.`state`=@State" : string.Empty)} ORDER BY gi.`id` ASC;", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", galleryId);
                 cmd.Parameters.AddWithValue("State", state);
@@ -253,10 +280,10 @@ namespace WeddingShare.Helpers.Database
         public async Task<List<PendingGalleryItemModel>> GetPendingGalleryItems(int? galleryId = null)
         {
             List<PendingGalleryItemModel> result;
-
+          
             using (var conn = new SqliteConnection(_connString))
             {
-                var cmd = new SqliteCommand($"SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON g.`id` = gi.`gallery_id` WHERE gi.`state`=@State {(galleryId != null ? "AND gi.`gallery_id`=@GalleryId" : string.Empty)};", conn);
+                var cmd = new SqliteCommand($"SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON g.`id` = gi.`gallery_id` WHERE gi.`state`=@State {(galleryId != null && galleryId > 0 ? "AND gi.`gallery_id`=@GalleryId" : string.Empty)};", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("GalleryId", galleryId);
                 cmd.Parameters.AddWithValue("State", (int)GalleryItemState.Pending);
@@ -293,7 +320,7 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = new SqliteConnection(_connString))
             {
-                var cmd = new SqliteCommand($"SELECT COUNT(`id`) FROM `gallery_items` {(galleryId != null ? "WHERE `gallery_id`=@GalleryId" : string.Empty)};", conn);
+                var cmd = new SqliteCommand($"SELECT COUNT(`id`) FROM `gallery_items` {(galleryId != null && galleryId > 0 ? "WHERE `gallery_id`=@GalleryId" : string.Empty)};", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("GalleryId", galleryId);
 
@@ -312,7 +339,7 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = new SqliteConnection(_connString))
             {
-                var cmd = new SqliteCommand($"SELECT * FROM `gallery_items` WHERE `id`=@Id;", conn);
+                var cmd = new SqliteCommand($"SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id`  WHERE gi.`id`=@Id;", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", id);
 
@@ -328,29 +355,33 @@ namespace WeddingShare.Helpers.Database
         {
             GalleryItemModel? result = null;
 
-            using (var conn = new SqliteConnection(_connString))
-            {
-                var cmd = new SqliteCommand($"INSERT INTO `gallery_items` (`gallery_id`, `title`, `state`, `uploaded_by`) VALUES (@GalleryId, @Title, @State, @UploadedBy); SELECT * FROM `gallery_items` WHERE `id`=last_insert_rowid();", conn);
-                cmd.CommandType = CommandType.Text;
-                cmd.Parameters.AddWithValue("GalleryId", model.GalleryId);
-                cmd.Parameters.AddWithValue("Title", model.Title);
-                cmd.Parameters.AddWithValue("State", (int)model.State);
-                cmd.Parameters.AddWithValue("UploadedBy", !string.IsNullOrWhiteSpace(model.UploadedBy) ? model.UploadedBy : DBNull.Value);
-
-                await conn.OpenAsync();
-                var tran = await conn.BeginTransactionAsync();
-                try
+            if (model.GalleryId > 0)
+            { 
+                using (var conn = new SqliteConnection(_connString))
                 {
-                    cmd.Transaction = (SqliteTransaction)tran;
-                    result = (await ReadGalleryItems(await cmd.ExecuteReaderAsync()))?.FirstOrDefault();
-                    await tran.CommitAsync();
-                }
-                catch
-                {
-                    await tran.RollbackAsync();
-                }
+                    var cmd = new SqliteCommand($"INSERT INTO `gallery_items` (`gallery_id`, `title`, `state`, `uploaded_by`, `media_type`) VALUES (@GalleryId, @Title, @State, @UploadedBy, @MediaType); SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE gi.`id`=last_insert_rowid();", conn);
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("GalleryId", model.GalleryId);
+                    cmd.Parameters.AddWithValue("Title", model.Title);
+                    cmd.Parameters.AddWithValue("State", (int)model.State);
+                    cmd.Parameters.AddWithValue("UploadedBy", !string.IsNullOrWhiteSpace(model.UploadedBy) ? model.UploadedBy : DBNull.Value);
+                    cmd.Parameters.AddWithValue("MediaType", (int)model.MediaType);
 
-                await conn.CloseAsync();
+                    await conn.OpenAsync();
+                    var tran = await conn.BeginTransactionAsync();
+                    try
+                    {
+                        cmd.Transaction = (SqliteTransaction)tran;
+                        result = (await ReadGalleryItems(await cmd.ExecuteReaderAsync()))?.FirstOrDefault();
+                        await tran.CommitAsync();
+                    }
+                    catch
+                    {
+                        await tran.RollbackAsync();
+                    }
+
+                    await conn.CloseAsync();
+                }
             }
 
             return result;
@@ -362,7 +393,7 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = new SqliteConnection(_connString))
             {
-                var cmd = new SqliteCommand($"UPDATE `gallery_items` SET `title`=@Title, `state`=@State, `uploaded_by`=@UploadedBy WHERE `id`=@Id; SELECT * FROM `gallery_items` WHERE `id`=@Id;", conn);
+                var cmd = new SqliteCommand($"UPDATE `gallery_items` SET `title`=@Title, `state`=@State, `uploaded_by`=@UploadedBy WHERE `id`=@Id; SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE gi.`id`=@Id;", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", model.Id);
                 cmd.Parameters.AddWithValue("Title", model.Title);
@@ -774,7 +805,7 @@ namespace WeddingShare.Helpers.Database
                             items.Add(new GalleryModel()
                             {
                                 Id = id,
-                                Name = !await reader.IsDBNullAsync("name") ? reader.GetString("name") : null,
+                                Name = !await reader.IsDBNullAsync("name") ? reader.GetString("name") : "Unknown",
                                 SecretKey = !await reader.IsDBNullAsync("secret_key") ? reader.GetString("secret_key") : null,
                                 TotalItems = !await reader.IsDBNullAsync("total") ? reader.GetInt32("total") : 0,
                                 ApprovedItems = !await reader.IsDBNullAsync("approved") ? reader.GetInt32("approved") : 0,
@@ -809,8 +840,10 @@ namespace WeddingShare.Helpers.Database
                             {
                                 Id = id,
                                 GalleryId = !await reader.IsDBNullAsync("gallery_id") ? reader.GetInt32("gallery_id") : 0,
+                                GalleryName = !await reader.IsDBNullAsync("gallery_name") ? reader.GetString("gallery_name") : string.Empty,
                                 Title = !await reader.IsDBNullAsync("title") ? reader.GetString("title") : string.Empty,
                                 UploadedBy = !await reader.IsDBNullAsync("uploaded_by") ? reader.GetString("uploaded_by") : null,
+                                MediaType = !await reader.IsDBNullAsync("media_type") ? (MediaType)reader.GetInt32("media_type") : MediaType.Unknown,
                                 State = !await reader.IsDBNullAsync("state") ? (GalleryItemState)reader.GetInt32("state") : GalleryItemState.Pending
                             });
                         }
@@ -846,6 +879,7 @@ namespace WeddingShare.Helpers.Database
                                 GalleryName = !await reader.IsDBNullAsync("gallery_name") ? reader.GetString("gallery_name") : "default",
                                 Title = !await reader.IsDBNullAsync("title") ? reader.GetString("title") : string.Empty,
                                 UploadedBy = !await reader.IsDBNullAsync("uploaded_by") ? reader.GetString("uploaded_by") : null,
+                                MediaType = !await reader.IsDBNullAsync("media_type") ? (MediaType)reader.GetInt32("media_type") : MediaType.Unknown,
                                 State = !await reader.IsDBNullAsync("state") ? (GalleryItemState)reader.GetInt32("state") : GalleryItemState.Pending
                             });
                         }

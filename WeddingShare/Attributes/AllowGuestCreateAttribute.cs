@@ -23,7 +23,7 @@ namespace WeddingShare.Attributes
                         var configHelper = filterContext.HttpContext.RequestServices.GetService<IConfigHelper>();
                         if (configHelper != null)
                         { 
-                            if (configHelper.GetOrDefault("Settings", "Disable_Guest_Gallery_Creation", true))
+                            if (configHelper.GetOrDefault("Settings:Disable_Guest_Gallery_Creation", true))
                             {
                                 var databaseHelper = filterContext.HttpContext.RequestServices.GetService<IDatabaseHelper>();
                                 if (databaseHelper != null)

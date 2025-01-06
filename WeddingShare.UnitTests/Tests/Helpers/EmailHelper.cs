@@ -21,15 +21,15 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         {
             _smtp.SendMailAsync(Arg.Any<SmtpClient>(), Arg.Any<MailMessage>()).Returns(Task.FromResult(true));
 
-            _config.GetOrDefault("Notifications", "Smtp", "Enabled", Arg.Any<bool>()).Returns(true);
-            _config.GetOrDefault("Notifications", "Smtp", "Recipient", Arg.Any<string>()).Returns("unit@test.com");
-            _config.GetOrDefault("Notifications", "Smtp", "Host", Arg.Any<string>()).Returns("https://unit.test.com/");
-            _config.GetOrDefault("Notifications", "Smtp", "Port", Arg.Any<int>()).Returns(999);
-            _config.GetOrDefault("Notifications", "Smtp", "Username", Arg.Any<string>()).Returns("Unit");
-            _config.GetOrDefault("Notifications", "Smtp", "Password", Arg.Any<string>()).Returns("Test");
-            _config.GetOrDefault("Notifications", "Smtp", "From", Arg.Any<string>()).Returns("unittest@test.com");
-            _config.GetOrDefault("Notifications", "Smtp", "DisplayName", Arg.Any<string>()).Returns("UnitTest");
-            _config.GetOrDefault("Notifications", "Smtp", "UseSSL", Arg.Any<bool>()).Returns(true);
+            _config.GetOrDefault("Notifications:Smtp:Enabled", Arg.Any<bool>()).Returns(true);
+            _config.GetOrDefault("Notifications:Smtp:Recipient", Arg.Any<string>()).Returns("unit@test.com");
+            _config.GetOrDefault("Notifications:Smtp:Host", Arg.Any<string>()).Returns("https://unit.test.com/");
+            _config.GetOrDefault("Notifications:Smtp:Port", Arg.Any<int>()).Returns(999);
+            _config.GetOrDefault("Notifications:Smtp:Username", Arg.Any<string>()).Returns("Unit");
+            _config.GetOrDefault("Notifications:Smtp:Password", Arg.Any<string>()).Returns("Test");
+            _config.GetOrDefault("Notifications:Smtp:From", Arg.Any<string>()).Returns("unittest@test.com");
+            _config.GetOrDefault("Notifications:Smtp:DisplayName", Arg.Any<string>()).Returns("UnitTest");
+            _config.GetOrDefault("Notifications:Smtp:UseSSL", Arg.Any<bool>()).Returns(true);
         }
 
         [TestCase("unit", "test")]
@@ -43,7 +43,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase(false, false)]
         public async Task EmailHelper_Enabled(bool enabled, bool expected)
         {
-            _config.GetOrDefault("Notifications", "Smtp", "Enabled", Arg.Any<bool>()).Returns(enabled);
+            _config.GetOrDefault("Notifications:Smtp:Enabled", Arg.Any<bool>()).Returns(enabled);
 
             var actual = await new EmailHelper(_config, _smtp, _logger).Send("unit", "test");
             Assert.That(actual, Is.EqualTo(expected));
@@ -54,7 +54,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase("blaa@blaa.com", true)]
         public async Task EmailHelper_Recipient(string recipient, bool expected)
         {
-            _config.GetOrDefault("Notifications", "Smtp", "Recipient", Arg.Any<string>()).Returns(recipient);
+            _config.GetOrDefault("Notifications:Smtp:Recipient", Arg.Any<string>()).Returns(recipient);
 
             var actual = await new EmailHelper(_config, _smtp, _logger).Send("unit", "test");
             Assert.That(actual, Is.EqualTo(expected));
@@ -65,7 +65,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase("https://unit.test.com/", true)]
         public async Task EmailHelper_Host(string host, bool expected)
         {
-            _config.GetOrDefault("Notifications", "Smtp", "Host", Arg.Any<string>()).Returns(host);
+            _config.GetOrDefault("Notifications:Smtp:Host", Arg.Any<string>()).Returns(host);
 
             var actual = await new EmailHelper(_config, _smtp, _logger).Send("unit", "test");
             Assert.That(actual, Is.EqualTo(expected));
@@ -77,7 +77,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase(1, true)]
         public async Task EmailHelper_Port(int port, bool expected)
         {
-            _config.GetOrDefault("Notifications", "Smtp", "Port", Arg.Any<int>()).Returns(port);
+            _config.GetOrDefault("Notifications:Smtp:Port", Arg.Any<int>()).Returns(port);
 
             var actual = await new EmailHelper(_config, _smtp, _logger).Send("unit", "test");
             Assert.That(actual, Is.EqualTo(expected));
@@ -88,7 +88,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase("blaa@blaa.com", true)]
         public async Task EmailHelper_From(string from, bool expected)
         {
-            _config.GetOrDefault("Notifications", "Smtp", "From", Arg.Any<string>()).Returns(from);
+            _config.GetOrDefault("Notifications:Smtp:From", Arg.Any<string>()).Returns(from);
 
             var actual = await new EmailHelper(_config, _smtp, _logger).Send("unit", "test");
             Assert.That(actual, Is.EqualTo(expected));
@@ -99,7 +99,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase("UnitTest", true)]
         public async Task EmailHelper_DisplayName(string displayName, bool expected)
         {
-            _config.GetOrDefault("Notifications", "Smtp", "DisplayName", Arg.Any<string>()).Returns(displayName);
+            _config.GetOrDefault("Notifications:Smtp:DisplayName", Arg.Any<string>()).Returns(displayName);
 
             var actual = await new EmailHelper(_config, _smtp, _logger).Send("unit", "test");
             Assert.That(actual, Is.EqualTo(expected));
