@@ -123,7 +123,7 @@
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Drag &amp; Drop image(s) here to upload them to the gallery</value>
   </data>
-  <data name="Upload_Photos" xml:space="preserve">
-    <value>Upload Photos</value>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Upload Media</value>
   </data>
 </root>

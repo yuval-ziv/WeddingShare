@@ -15,30 +15,30 @@
 
         public async Task<bool> Send(string title, string message, string? actionLink = null)
         {
-            if (string.IsNullOrWhiteSpace(_config.GetOrDefault("Notifications", "Ntfy", "Endpoint", string.Empty)))
+            if (string.IsNullOrWhiteSpace(_config.GetOrDefault("Notifications:Ntfy:Endpoint", string.Empty)))
             {
                 _logger.LogWarning($"Invalid Ntfy endpoint specified");
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(_config.GetOrDefault("Notifications", "Ntfy", "Token", string.Empty)))
+            if (string.IsNullOrWhiteSpace(_config.GetOrDefault("Notifications:Ntfy:Token", string.Empty)))
             {
                 _logger.LogWarning($"Invalid Ntfy token specified");
                 return false;
             }
 
-            if (_config.GetOrDefault("Notifications", "Ntfy", "Enabled", false))
+            if (_config.GetOrDefault("Notifications:Ntfy:Enabled", false))
             { 
                 try
                 {
-                    var topic = _config.GetOrDefault("Notifications", "Ntfy", "Topic", "WeddingShare");
+                    var topic = _config.GetOrDefault("Notifications:Ntfy:Topic", "WeddingShare");
                     if (!string.IsNullOrWhiteSpace(topic))
                     {
-                        var priority = _config.GetOrDefault("Notifications", "Ntfy", "Priority", 4);
+                        var priority = _config.GetOrDefault("Notifications:Ntfy:Priority", 4);
                         if (priority > 0)
                         {
                             var defaultIcon = "https://github.com/Cirx08/WeddingShare/blob/main/WeddingShare/wwwroot/images/logo.png?raw=true";
-                            var icon = _config.GetOrDefault("Settings", "Logo", defaultIcon);
+                            var icon = _config.GetOrDefault("Settings:Logo", defaultIcon);
                             icon = !icon.StartsWith('.') && !icon.StartsWith('/') ? icon : defaultIcon;
 
                             var client = _clientFactory.CreateClient("NtfyClient");

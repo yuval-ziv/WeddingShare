@@ -16,7 +16,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [SetUp]
         public void Setup()
         {
-            _config.GetOrDefault("Settings", "Force_Https", Arg.Any<bool>()).Returns(false);
+            _config.GetOrDefault("Settings:Force_Https", Arg.Any<bool>()).Returns(false);
         }
 
         [TestCase("http", "unittest.com", null, "http://unittest.com/")]
@@ -33,7 +33,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase("https", "mobile.unittest.org", "/unittest?unit=test&blaa=test", "https://mobile.unittest.org/unittest?unit=test&blaa=test")]
         public async Task UrlHelper_Success(string scheme, string host, string? querystring, string expected)
         {
-            _config.GetOrDefault("Settings", "Base_Url", Arg.Any<string>()).Returns(host);
+            _config.GetOrDefault("Settings:Base_Url", Arg.Any<string>()).Returns(host);
 
             var mockContext = MockData.MockHttpContext();
             mockContext.Request.Scheme = scheme;

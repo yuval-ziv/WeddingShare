@@ -32,17 +32,14 @@ namespace WeddingShare
             services.AddDependencyInjectionConfiguration();
             services.AddDatabaseConfiguration(config);
             services.AddNotificationConfiguration(config);
+            services.AddLocalizationConfiguration(config);
 
             services.AddHostedService<DirectoryScanner>();
             services.AddHostedService<NotificationReport>();
+            services.AddHostedService<CleanupService>();
 
             services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-
-            services.AddLocalization(options =>
-            {
-                options.ResourcesPath = "Resources";
-            });
 
             services.Configure<KestrelServerOptions>(options =>
             {
@@ -59,18 +56,6 @@ namespace WeddingShare
                 x.MemoryBufferThreshold = Int32.MaxValue;
             });
 
-            services.Configure<RequestLocalizationOptions>(options => {
-                var supportedCultures = new[]
-                {
-                    new CultureInfo("en-GB"),
-                    new CultureInfo("fr-FR")
-                };
-
-                options.DefaultRequestCulture = new RequestCulture("en-GB");
-                options.SupportedCultures = supportedCultures;
-                options.SupportedUICultures = supportedCultures;
-            });
-
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
             {
@@ -82,6 +67,14 @@ namespace WeddingShare
                 options.SlidingExpiration = true;
             });
             services.AddSession();
+
+            var ffmpegPath = config.GetOrDefault("FFMPEG:InstallPath", "/ffmpeg");
+            var imageHelper = new ImageHelper(new FileHelper(), _loggerFactory.CreateLogger<ImageHelper>());
+            var downloaded = imageHelper.DownloadFFMPEG(ffmpegPath).Result;
+            if (!downloaded)
+            {
+                _logger.LogWarning($"Failed to download FFMPEG to path '{ffmpegPath}'");
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -93,7 +86,7 @@ namespace WeddingShare
             }
 
             var config = new ConfigHelper(new EnvironmentWrapper(), Configuration, _loggerFactory.CreateLogger<ConfigHelper>());
-            if (config.GetOrDefault("Settings", "Force_Https", false))
+            if (config.GetOrDefault("Settings:Force_Https", false))
             { 
                 app.UseHttpsRedirection();
             }

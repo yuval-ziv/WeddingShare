@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using WeddingShare.Helpers.Database;
-using static System.Collections.Specialized.BitVector32;
+﻿using WeddingShare.Helpers.Database;
 
 namespace WeddingShare.Helpers
 {
@@ -27,16 +25,16 @@ namespace WeddingShare.Helpers
             _database = database;
         }
 
-        public string GetConfig(string? galleryId, string key, string defaultValue = null)
+        public string GetConfig(string? galleryId, string key, string defaultValue = "")
         {
             string? value = null;
 
             try
             {
-                value = _config.Get("Settings", $"{key}_{galleryId ?? "default"}");
+                value = _config.Get($"Settings:{key}_{galleryId ?? "default"}");
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    value = _config.Get("Settings", key);
+                    value = _config.Get($"Settings:{key}");
                     if (string.IsNullOrWhiteSpace(value))
                     {
                         value = defaultValue;
@@ -144,13 +142,13 @@ namespace WeddingShare.Helpers
         {
             try
             {
-                var secretKey = _config.Get("Settings", $"Secret_Key_{galleryId}");
+                var secretKey = _config.Get($"Settings:Secret_Key_{galleryId}");
                 if (string.IsNullOrWhiteSpace(secretKey))
                 {
                     secretKey = (await _database.GetGallery(galleryId))?.SecretKey;
                     if (string.IsNullOrWhiteSpace(secretKey))
                     {
-                        secretKey = _config.Get("Settings", "Secret_Key");
+                        secretKey = _config.Get("Settings:Secret_Key");
                     }
                 }
 

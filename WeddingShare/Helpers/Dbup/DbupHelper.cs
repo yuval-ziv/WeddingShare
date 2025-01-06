@@ -18,12 +18,12 @@ namespace WeddingShare.Helpers.Dbup
                 fileHelper.CreateDirectoryIfNotExists("config");
 
                 var config = new ConfigHelper(environment, configuration, loggerFactory.CreateLogger<ConfigHelper>());
-                var connString = config.GetOrDefault("Database", "Connection_String", "Data Source=./config/wedding-share.db");
+                var connString = config.GetOrDefault("Database:Connection_String", "Data Source=./config/wedding-share.db");
                 if (!string.IsNullOrWhiteSpace(connString))
                 {
                     DatabaseUpgradeResult? dbupResult;
 
-                    var dbType = config.GetOrDefault("Database", "Database_Type", "sqlite")?.ToLower();
+                    var dbType = config.GetOrDefault("Database:Database_Type", "sqlite")?.ToLower();
                     switch (dbType)
                     {
                         case "sqlite":
@@ -40,7 +40,7 @@ namespace WeddingShare.Helpers.Dbup
                         logger.LogWarning($"DBUP failed with error: '{dbupResult?.Error?.Message}' - '{dbupResult?.Error?.ToString()}'");
                     }
 
-                    var adminAccount = new UserModel() { Username = config.GetOrDefault("Settings", "Admin", "Username", "admin"), Password = config.GetOrDefault("Settings", "Admin", "Password", "admin") };
+                    var adminAccount = new UserModel() { Username = config.GetOrDefault("Settings:Account:Admin:Username", "admin"), Password = config.GetOrDefault("Settings:Account:Admin:Password", "admin") };
                     database.InitAdminAccount(adminAccount);
                     logger.LogInformation($"Password: {adminAccount.Password}");
                 }

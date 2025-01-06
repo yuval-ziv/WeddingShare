@@ -144,6 +144,12 @@
   <data name="Max_File_Size" xml:space="preserve">
     <value>Max file size is</value>
   </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Gallery is full and has exceeded the max size of</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>New Items Pending Review</value>
+  </data>
   <data name="No_Files_For_Upload" xml:space="preserve">
     <value>No files were detected for upload</value>
   </data>

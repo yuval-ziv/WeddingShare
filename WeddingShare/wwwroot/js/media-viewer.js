@@ -1,0 +1,178 @@
+﻿let mediaViewerTimeout = null;
+let playButtonTimeout = null;
+
+function openMediaViewer(e) {
+    let thumbnail = $($(e).find('img')[0]).attr('src');
+    let source = $(e).attr('href');
+    let index = $(e).data('media-viewer-index');
+    let type = $(e).data('media-viewer-type');
+    let title = $(e).data('media-viewer-title');
+    let collection = $(e).data('media-viewer-collection');
+    let author = $(e).data('media-viewer-author');
+    let description = $(e).data('media-viewer-description');
+
+    displayMediaViewer(index, thumbnail, source, type, title, collection, author, description);
+}
+
+function displayMediaViewer(index, thumbnail, source, type, title, collection, author, description) {
+    hideMediaViewer();
+
+    $('body').append(`
+        <div id="media-viewer-popup" style="opacity: 0;">
+            <div class="media-viewer" data-media-viewer-index="${index}" data-media-viewer-collection="${collection}">
+                <div class="media-viewer-title ${title === undefined || title.length === 0 ? 'd-none' : ''}">${title}</div>
+                <div class="media-viewer-content"><img class="media-viewer-image" src="${type.toLowerCase() === 'image' ? source : thumbnail}" /></div>
+                <div class="media-viewer-author ${author === undefined || author.length === 0 ? 'd-none' : ''}">${author}</div>
+                <div class="media-viewer-description ${description === undefined || description.length === 0 ? 'd-none' : ''}">${description}</div>
+            </div>
+        </div>
+    `);
+
+    clearTimeout(mediaViewerTimeout);
+    mediaViewerTimeout = setTimeout(function () {
+        let margin = window.innerWidth > 900 ? 50 : 20;
+
+        let popup = $('#media-viewer-popup');
+        let container = popup.find('.media-viewer');
+        let mediaContainer = container.find('.media-viewer-content');
+        let media = mediaContainer.find('img');
+
+        let targetWidth = popup.innerWidth() - (margin * 2);
+        let targetHeight = popup.innerHeight() - (margin * 2);
+
+        media.width(container.innerWidth());
+
+        let step = 1000;
+        for (let i = 0; i < 5; i++) {
+            let breaker = 0;
+            while (breaker < 100 && container.outerWidth() < targetWidth && container.outerHeight() < targetHeight) {
+                media.width(media.width() + 10);
+                breaker++;
+            }
+
+            step /= 10;
+
+            if (step < 1) {
+                break;
+            }
+        }
+
+        container.css({
+            'top': `${(popup.innerHeight() - container.outerHeight()) / 2}px`,
+            'left': `${(popup.innerWidth() - container.outerWidth()) / 2}px`
+        });
+
+        if (type === 'video') {
+            let width = $('.media-viewer-content img').innerWidth();
+            let height = $('.media-viewer-content img').innerHeight();
+            $('.media-viewer-content').html(`
+                <video width="${width}" height="${height}" controls autoplay>
+                    <source src="${source}" type="video/mp4">
+                    ${localization.translate('Browser_Does_Not_Support')}
+                </video>
+            `);
+        }
+
+        popup.fadeTo(500, 1.0);
+    }, 100);
+}
+
+function hideMediaViewer() {
+    $('div#media-viewer-popup').hide();
+    $('div#media-viewer-popup').remove();
+}
+
+function getOrientation(item) {
+    let width = item.width();
+    let height = item.height();
+
+    let orientation = 'unkown';
+    if (width > height) {
+        orientation = 'horizontal';
+    } else if (width < height) {
+        orientation = 'vertical';
+    } else {
+        orientation = 'square';
+    }
+
+    return orientation;
+}
+
+(function () {
+    document.addEventListener('DOMContentLoaded', function () {
+
+        clearTimeout(playButtonTimeout);
+        playButtonTimeout = setTimeout(function () {
+            let collections = [];
+            $('.media-viewer-item').each(function () {
+                let name = $(this).data('media-viewer-collection');
+                if (!collections.includes(name)) {
+                    collections.push(name);
+                    $(`*[data-media-viewer-collection='${name}']`).each(function (i) {
+                        $(this).attr('data-media-viewer-index', i);
+                    });
+                }
+            });
+
+            $('.media-viewer-item .media-viewer-play').each(function () {
+                let preview = $(this).parent();
+                let thumbnail = $(preview.find('img')[0]);
+                let size = $(this).height();
+
+                preview.css('height', `${thumbnail.outerHeight()}px`);
+
+                $(this).css({
+                    'top': `-${(thumbnail.outerHeight() / 2)}px`,
+                    'left': `${(thumbnail.outerWidth() / 2)}px`,
+                    'margin-top': `-${size / 2}px`,
+                    'margin-left': `-${size / 2}px`
+                });
+                $(this).fadeTo(200, 1.0);
+            });
+        }, 200);
+
+        $(document).off('click', '.media-viewer-item').on('click', '.media-viewer-item', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            openMediaViewer(this);
+        });
+
+        $(document).off('click', '.media-viewer .media-viewer-content').on('click', '.media-viewer .media-viewer-content', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            let viewer = $(this).closest('.media-viewer');
+            let index = viewer.data('media-viewer-index');
+            let collection = viewer.data('media-viewer-collection');
+            let items = $(`a[data-media-viewer-collection='${collection}']`);
+
+            let position = e.pageX - $(this).offset().left;
+            if (position <= ($(this).width() / 2)) {
+                index--;
+                if (index < 0) {
+                    index = items.length - 1;
+                }
+            } else {
+                index++;
+                if (index >= items.length) {
+                    index = 0;
+                }
+            }
+
+            openMediaViewer(items[index]);
+        });
+
+        $(document).off('click', 'div#media-viewer-popup').on('click', 'div#media-viewer-popup', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            hideMediaViewer();
+        });
+
+        $(document).off('click', 'div.media-viewer').on('click', 'div.media-viewer', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+
+    });
+})();

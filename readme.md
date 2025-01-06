@@ -24,43 +24,40 @@ Not all image formats are supported in browsers so although you may be able to a
 
 ## Settings
 
-| Name                               | Value                                        |
-| ---------------------------------- | -------------------------------------------- |
-| TITLE                              | WeddingShare                                 |
-| LOGO                               | https://someurl/someimage.png                |
-| BASE_URL                           | www.wedding-share.com                        |
-| FORCE_HTTPS                        | false                                        |
-| DEFAULT_THEME                      | default (default, dark)                      |
-| DISABLE_HOME_LINK                  | false                                        |
-| DISABLE_DARK_MODE                  | false                                        |
-| SHOW_IDENTITY_REQUEST              | true                                         |
-| DISABLE_GUEST_GALLERY_CREATION     | true                                         |
-| ALLOWED_FILE_TYPES                 | .jpg,.jpeg,.png                              |
-| MAX_FILE_SIZE_MB                   | 10                                           |
-| THUMBNAIL_SIZE                     | 720                                          |
-| DEFAULT_GALLERY_VIEW               | 0 (Default), 1 (Presentation), 2 (Slideshow) |
-| SINGLE_GALLERY_MODE                | false                                        |
-| HIDE_KEY_FROM_QR_CODE              | false                                        |
-| IDLE_GALLERY_REFRESH_MINS          | 5 (0 = disable)                              |
-| REQUIRE_REVIEW                     | true                                         |
-| LINKS_OPEN_NEW_TAB                 | true                                         |
-| EMAIL_REPORT                       | true                                         |
-| SECRET_KEY                         | (optional)                                   |
-| SECRET_KEY_{GalleryId}             | (optional)                                   |
-| GALLERY_COLUMNS                    | 4 (1, 2, 3, 4, 6, 12)                        |
-| GALLERY_COLUMNS_{GalleryId}        | 4 (1, 2, 3, 4, 6, 12)                        |
-| GALLERY_QUOTE                      | (optional)                                   |
-| GALLERY_QUOTE_{GalleryId}          | (optional)                                   |
-| DISABLE_REVIEW_COUNTER             | false                                        |
-| DISABLE_REVIEW_COUNTER_{GalleryId} | false                                        |
-| DISABLE_UPLOAD                     | false                                        |
-| DISABLE_UPLOAD_{GalleryId}         | false                                        |
-| DISABLE_QR_CODE                    | false                                        |
-| DISABLE_QR_CODE_{GalleryId}        | false                                        |
-| FULL_WIDTH_GALLERY                 | false                                        |
-| FULL_WIDTH_GALLERY_{GalleryId}     | false                                        |
-| RETAIN_REJECTED_ITEMS              | false                                        |
-| RETAIN_REJECTED_ITEMS_{GalleryId}  | false                                        |
+| Name                               | Value                                        | Gallery Override |
+| ---------------------------------- | -------------------------------------------- | ---------------- |
+| TITLE                              | WeddingShare                                 | Yes              |
+| LOGO                               | https://someurl/someimage.png                | Yes              |
+| BASE_URL                           | www.wedding-share.com                        | No               |
+| LANGUAGE                           | en-GB                                        | No               |
+| FORCE_HTTPS                        | false                                        | No               |
+| DEFAULT_THEME                      | default (default, dark)                      | No               |
+| LINKS_OPEN_NEW_TAB                 | true                                         | No               |
+| SHOW_IDENTITY_REQUEST              | true                                         | No               |
+| DISABLE_HOME_LINK                  | false                                        | No               |
+| DISABLE_DARK_MODE                  | false                                        | No               |
+| DISABLE_GUEST_GALLERY_CREATION     | true                                         | No               |
+| SINGLE_GALLERY_MODE                | false                                        | No               |
+| DEFAULT_GALLERY_VIEW               | 0 (Default), 1 (Presentation), 2 (Slideshow) | No               |
+| ALLOWED_FILE_TYPES                 | .jpg,.jpeg,.png                              | No               |
+| MAX_GALLERY_SIZE_MB                | 1024                                         | Yes              |
+| MAX_FILE_SIZE_MB                   | 10                                           | No               |
+| THUMBNAIL_SIZE                     | 720                                          | No               |
+| HIDE_KEY_FROM_QR_CODE              | false                                        | No               |
+| IDLE_GALLERY_REFRESH_MINS          | 5 (0 = disable)                              | No               |
+| EMAIL_REPORT                       | true                                         | No               |
+| REQUIRE_REVIEW                     | true                                         | Yes              |
+| SECRET_KEY                         | (optional)                                   | Yes              |
+| GALLERY_COLUMNS                    | 4 (1, 2, 3, 4, 6, 12)                        | Yes              |
+| GALLERY_QUOTE                      | (optional)                                   | Yes              |
+| DISABLE_REVIEW_COUNTER             | false                                        | Yes              |
+| DISABLE_UPLOAD                     | false                                        | Yes              |
+| DISABLE_QR_CODE                    | false                                        | Yes              |
+| FULL_WIDTH_GALLERY                 | false                                        | Yes              |
+| RETAIN_REJECTED_ITEMS              | false                                        | Yes              |
+
+> **Gallery Overrides:**<br/>
+> Gallery overrides can be added by appending the gallery name to the end of the environment variable key. For example if the DISABLE_UPLOAD key is set to true but the DISABLE_UPLOAD_PUBLIC key is also present and set to false, the default gallery behavior will be to hide the upload section for all galleries *<ins>except</ins>* the "Public" gallery.
 
 ## Slideshow
 
@@ -75,8 +72,8 @@ Not all image formats are supported in browsers so although you may be able to a
 
 | Name                           | Value                                        |
 | ------------------------------ | -------------------------------------------- |
-| ADMIN_USERNAME                 | admin                                        |
-| ADMIN_PASSWORD                 | admin                                        |
+| ACCOUNT_ADMIN_USERNAME         | admin                                        |
+| ACCOUNT_ADMIN_PASSWORD         | admin                                        |
 | ACCOUNT_SHOW_PROFILE_ICON      | true                                         |
 | ACCOUNT_LOCKOUT_ATTEMPTS       | 5                                            |
 | ACCOUNT_LOCKOUT_MINS           | 60                                           |
@@ -87,6 +84,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | ------------------------------ | -------------------------------------------- |
 | DIRECTORY_SCANNER_INTERVAL     | */30 * * * * (cron)                          |
 | EMAIL_REPORT_INTERVAL          | 0 0 * * * (cron)                             |
+| CLEANUP_INTERVAL               | 0 4 * * * (cron)                             |
 
 ## Notifications (Alerts)
 
@@ -170,6 +168,7 @@ volumes:
 ```
 
 ## Links
+- Documentation - https://docs.wedding-share.org
 - GitHub - https://github.com/Cirx08/WeddingShare
 - DockerHub - https://hub.docker.com/r/cirx08/wedding_share
 - BuyMeACoffee - https://buymeacoffee.com/cirx08

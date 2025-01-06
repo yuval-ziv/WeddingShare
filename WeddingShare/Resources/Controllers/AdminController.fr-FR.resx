@@ -138,8 +138,8 @@
   <data name="Failed_Import" xml:space="preserve">
     <value>Échec de l'importation des données</value>
   </data>
-  <data name="Failed_Reviewing_Photo" xml:space="preserve">
-    <value>Impossible de vérifier la photo</value>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Impossible de réviser l'article</value>
   </data>
   <data name="Failed_Wipe_Galleries" xml:space="preserve">
     <value>Impossible d'effacer la galerie</value>

@@ -70,25 +70,26 @@
         // No 'image/gif' or PDF or webp allowed here, but it's up to your use case.
         // Double checks the input "accept" attribute
         const isImageFile = file => file.type.toLowerCase().startsWith('image/');
+        const isVideoFile = file => file.type.toLowerCase().startsWith('video/');
 
         // Based on: https://flaviocopes.com/how-to-upload-files-fetch/
         const imageUpload = async dataRefs => {
 
             // Multiple source routes, so double check validity
             if (!dataRefs.files || !dataRefs.input) {
-                displayMessage(`Upload`, `No files were detected to upload`);
+                displayMessage(localization.translate('Upload'), localization.translate('Upload_No_Files_Detected'));
                 return;
             }
 
             const galleryId = dataRefs.input.getAttribute('data-post-gallery-id');
             if (!galleryId) {
-                displayMessage(`Upload`, `Invalid gallery Id detected`);
+                displayMessage(localization.translate('Upload'), localization.translate('Upload_Invalid_Gallery_Detected'));
                 return;
             }
 
             const url = dataRefs.input.getAttribute('data-post-url');
             if (!url) {
-                displayMessage(`Upload`, `Could not find upload Url`);
+                displayMessage(localization.translate('Upload'), localization.translate('Upload_Invalid_Upload_Url'));
                 return;
             }
 
@@ -97,6 +98,7 @@
 
             let uploadedCount = 0;
             let requiresReview = true;
+            let errors = [];
 
             for (var i = 0; i < dataRefs.files.length; i++) {
                 const formData = new FormData();
@@ -105,19 +107,21 @@
                 formData.append('UploadedBy', uploadedBy);
                 formData.append(dataRefs.files[i].name, dataRefs.files[i]);
 
-                displayLoader(`Uploading photo ${i + 1} of ${dataRefs.files.length}...`);
+                displayLoader(localization.translate('Upload_Progress', { index: i + 1, count: dataRefs.files.length }));
 
                 let response = await postData({ url, formData });
                 if (response !== undefined && response.success === true) {
                     uploadedCount++;
                     requiresReview = response.requiresReview;
+                } else if (response.errors !== undefined && response.errors.length > 0) {
+                    errors.push(response.errors);
                 }
             }
 
             hideLoader();
 
             if (requiresReview) {
-                displayMessage(`Upload`, `Successfully uploaded ${uploadedCount} photo(s) pending review`);
+                displayMessage(localization.translate('Upload'), localization.translate('Upload_Success_Pending_Review', { count: uploadedCount }), errors);
 
                 const formData = new FormData();
                 formData.append('Id', galleryId);
@@ -127,7 +131,7 @@
 
                 postData({ url: '/Gallery/UploadCompleted', formData });
             } else {
-                displayMessage(`Upload`, `Successfully uploaded ${uploadedCount} photo(s)`);
+                displayMessage(localization.translate('Upload'), localization.translate('Upload_Success', { count: uploadedCount }), errors);
             }
         }
 
@@ -149,12 +153,12 @@
 
             // Remove unaccepted file types
             files = files.filter(item => {
-                var isImage = isImageFile(item);
-                if (!isImage) {
-                    console.log('Not an image, ', item.type);
+                var isAllowed = isImageFile(item) || isVideoFile(item);
+                if (!isAllowed) {
+                    console.log(`File type '${item.type}' is not allowed. Filename: '${item.name}'`);
                 }
 
-                return isImage ? item : null;
+                return isAllowed ? item : null;
             });
 
             if (!files.length) return;
@@ -174,22 +178,22 @@
             var name = $(this).data('photo-name');
 
             displayPopup({
-                Title: 'Delete Photo',
-                Message: `Are you sure you want to delete photo '${name}'?`,
+                Title: localization.translate('Delete_Item'),
+                Message: localization.translate('Delete_Item_Message', { name }),
                 Fields: [{
                     Id: 'photo-id',
                     Value: id,
                     Type: 'hidden'
                 }],
                 Buttons: [{
-                    Text: 'Delete',
+                    Text: localization.translate('Delete'),
                     Class: 'btn-danger',
                     Callback: function () {
-                        displayLoader('Loading...');
+                        displayLoader(localization.translate('Loading'));
 
                         let id = $('#popup-modal-field-photo-id').val();
                         if (id == undefined || id.length == 0) {
-                            displayMessage(`Delete Photo`, `Photo id cannot be empty`);
+                            displayMessage(localization.translate('Delete_Item'), localization.translate('Delete_Item_Id_Missing'));
                             return;
                         }
 
@@ -201,19 +205,19 @@
                             .done(data => {
                                 if (data.success === true) {
                                     $(`tr[data-gallery-id=${id}]`).remove();
-                                    displayMessage(`Delete Photo`, `Successfully deleted photo`);
+                                    displayMessage(localization.translate('Delete_Item'), localization.translate('Delete_Item_Success'));
                                 } else if (data.message) {
-                                    displayMessage(`Delete Photo`, `Delete failed`, [data.message]);
+                                    displayMessage(localization.translate('Delete_Item'), localization.translate('Delete_Item_Failed'), [data.message]);
                                 } else {
-                                    displayMessage(`Delete Photo`, `Failed to delete photo`);
+                                    displayMessage(localization.translate('Delete_Item'), localization.translate('Delete_Item_Failed'));
                                 }
                             })
                             .fail((xhr, error) => {
-                                displayMessage(`Delete Photo`, `Delete failed`, [error]);
+                                displayMessage(localization.translate('Delete_Item'), localization.translate('Delete_Item_Failed'), [error]);
                             });
                     }
                 }, {
-                    Text: 'Close'
+                    Text: localization.translate('Close')
                 }]
             });
         });

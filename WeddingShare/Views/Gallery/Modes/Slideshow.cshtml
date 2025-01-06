@@ -5,10 +5,10 @@
 @model WeddingShare.Models.PhotoGallery
 
 @{
-    var slideshowInterval = TimeSpan.FromSeconds(_config.GetOrDefault("Settings", "Slideshow", "Interval", 10)).TotalMilliseconds;
-    var slideshowFade = _config.GetOrDefault("Settings", "Slideshow", "Fade", 500);
-    var slideLimit = _config.GetOrDefault("Settings", "Slideshow", "Limit", int.MaxValue);
-    var identityEnabled = _config.GetOrDefault("Settings", "Show_Identity_Request", true);
+    var slideshowInterval = TimeSpan.FromSeconds(_config.GetOrDefault("Settings:Slideshow:Interval", 10)).TotalMilliseconds;
+    var slideshowFade = _config.GetOrDefault("Settings:Slideshow:Fade", 500);
+    var slideLimit = _config.GetOrDefault("Settings:Slideshow:Limit", int.MaxValue);
+    var identityEnabled = _config.GetOrDefault("Settings:Show_Identity_Request", true);
 
     if (Model?.Images != null)
     {
@@ -16,7 +16,7 @@
             @foreach (var image in Model.Images.Take(slideLimit))
             {
                 <div class="slideshow-slide">
-                    <img src="@Model.GalleryPath/@image?.Name?.TrimStart('/')" class="slideshow-slide-img shadow-1-strong" loading="lazy" />
+                    <img src="@image.ImagePath" class="slideshow-slide-img shadow-1-strong" loading="lazy" />
                     @if (identityEnabled)
                     {                    
                         <h6 class="credits">Uploaded By: @(!string.IsNullOrWhiteSpace(image?.UploadedBy) ? image.UploadedBy : "Anonymous")</h6>
@@ -24,7 +24,7 @@
                 </div>
             }
 
-            @if (_config.GetOrDefault("Settings", "Slideshow", "Include_Share_Slide", true))
+            @if (_config.GetOrDefault("Settings:Slideshow:Include_Share_Slide", true))
             {
                 <div class="slideshow-slide">
                     <span class="slideshow-slide-img share-slide"></span>

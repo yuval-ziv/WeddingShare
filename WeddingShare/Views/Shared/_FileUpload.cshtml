@@ -3,7 +3,7 @@
 @inject WeddingShare.Helpers.IConfigHelper _config
 @model WeddingShare.Models.FileUploader
 @{
-    var allowedFileTypes = _config.GetOrDefault("Settings", "Allowed_File_Types", ".jpg,.jpeg,.png")?.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)?.Select(x => $".{x.Trim('.')}")?.OrderBy(x => x)?.ToList() ?? new List<string>();
+    var allowedFileTypes = _config.GetOrDefault("Settings:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov")?.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)?.Select(x => $".{x.Trim('.')}")?.OrderBy(x => x)?.ToList() ?? new List<string>();
 }
 
 <header class="file-uploader bg-dark py-1 py-lg-4">
@@ -14,11 +14,11 @@
                     <use href="#icon-image-upload"></use>
                 </svg>
 
-                <h2 class="strong my-2">@_localizer["Upload_Photos"].Value</h2>
+                <h2 class="strong my-2">@_localizer["Upload_Media"].Value</h2>
                 <p class="small my-2">@(ViewBag.IsMobile ?? false ? _localizer["Click_To_Upload"].Value : _localizer["Drag_And_Drop"].Value)</p>
                 <p class="small my-2">(@string.Join(", ", allowedFileTypes).ToLower())</p>
 
-                <input data-post-gallery-id="@Model.GalleryId" data-post-url="@Model.UploadUrl" data-post-key="@Model.SecretKey" class="position-absolute invisible" type="file" multiple accept="image/*" />
+                <input data-post-gallery-id="@Model?.GalleryId" data-post-url="@Model?.UploadUrl" data-post-key="@Model?.SecretKey" class="position-absolute invisible" type="file" multiple accept="image/*,video/*" />
             </fieldset>
         </form>
     </div>

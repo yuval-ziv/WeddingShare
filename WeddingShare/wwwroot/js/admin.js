@@ -1,11 +1,11 @@
 ﻿function reviewPhoto(element, action) {
     var id = element.parent('.btn-group').data('id');
     if (!id) {
-        displayMessage(`Review`, `Could not find item Id`);
+        displayMessage(localization.translate('Review'), localization.translate('Review_Id_Missing'));
         return;
     }
 
-    displayLoader('Loading...');
+    displayLoader(localization.translate('Loading'));
 
     $.ajax({
         url: '/Admin/ReviewPhoto',
@@ -26,12 +26,12 @@
                     $('#gallery-review').removeClass('visually-hidden');
                 }
             } else if (data.message) {
-                displayMessage(`Review`, `Review failed`, [data.message]);
+                displayMessage(localization.translate('Review'), localization.translate('Review_Failed'), [data.message]);
             }
         })
         .fail((xhr, error) => {
             hideLoader();
-            displayMessage(`Review`, `Review failed`, [error]);
+            displayMessage(localization.translate('Review'), localization.translate('Review_Failed'), [error]);
         });
 }
 
@@ -56,25 +56,25 @@
             }
 
             displayPopup({
-                Title: 'Create Gallery',
+                Title: localization.translate('Gallery_Create'),
                 Fields: [{
                     Id: 'gallery-name',
-                    Name: 'Gallery Name',
-                    Hint: 'Please enter a new gallery name'
+                    Name: localization.translate('Gallery_Name'),
+                    Hint: localization.translate('Gallery_Name_Hint')
                 }, {
                     Id: 'gallery-key',
-                    Name: 'Secret Key',
-                    Hint: 'Please enter a new secret key'
+                    Name: localization.translate('Gallery_Secret_Key'),
+                    Hint: localization.translate('Gallery_Secret_Key_Hint')
                 }],
                 Buttons: [{
-                    Text: 'Create',
+                    Text: localization.translate('Create'),
                     Class: 'btn-success',
                     Callback: function () {
-                        displayLoader('Loading...');
+                        displayLoader(localization.translate('Loading'));
 
                         let name = $('#popup-modal-field-gallery-name').val();
                         if (name == undefined || name.length == 0) {
-                            displayMessage(`Create Gallery`, `Gallery name cannot be empty`);
+                            displayMessage(localization.translate('Gallery_Create'), localization.translate('Gallery_Missing_Name'));
                             return;
                         }
 
@@ -87,19 +87,19 @@
                         })
                             .done(data => {
                                 if (data.success === true) {
-                                    displayMessage(`Create Gallery`, `Successfully created gallery`);
+                                    displayMessage(localization.translate('Gallery_Create'), localization.translate('Gallery_Create_Success'));
                                 } else if (data.message) {
-                                    displayMessage(`Create Gallery`, `Create failed`, [data.message]);
+                                    displayMessage(localization.translate('Gallery_Create'), localization.translate('Gallery_Create_Failed'), [data.message]);
                                 } else {
-                                    displayMessage(`Create Gallery`, `Failed to create gallery`);
+                                    displayMessage(localization.translate('Gallery_Create'), localization.translate('Gallery_Create_Failed'));
                                 }
                             })
                             .fail((xhr, error) => {
-                                displayMessage(`Create Gallery`, `Create failed`, [error]);
+                                displayMessage(localization.translate('Gallery_Create'), localization.translate('Gallery_Create_Failed'), [error]);
                             });
                     }
                 }, {
-                    Text: 'Close'
+                    Text: localization.translate('Close')
                 }]
             });
         });
@@ -112,13 +112,13 @@
             }
 
             displayPopup({
-                Title: 'Bulk Review',
-                Message: 'Would you like to approve or reject all pending items?',
+                Title: localization.translate('Bulk_Review'),
+                Message: localization.translate('Bulk_Review_Message'),
                 Buttons: [{
-                    Text: 'Approve',
+                    Text: localization.translate('Approve'),
                     Class: 'btn-success',
                     Callback: function () {
-                        displayLoader('Loading...');
+                        displayLoader(localization.translate('Loading'));
 
                         $.ajax({
                             url: '/Admin/BulkReview',
@@ -132,20 +132,20 @@
                                     $('#no-review-msg').removeClass('visually-hidden');
                                     hideLoader();
                                 } else if (data.message) {
-                                    displayMessage(`Bulk Review`, `Approve failed`, [data.message]);
+                                    displayMessage(localization.translate('Bulk_Review'), localization.translate('Bulk_Review_Approve_Failed'), [data.message]);
                                 } else {
-                                    displayMessage(`Bulk Review`, `Failed to approve all items`);
+                                    displayMessage(localization.translate('Bulk_Review'), localization.translate('Bulk_Review_Approve_Failed'));
                                 }
                             })
                             .fail((xhr, error) => {
-                                displayMessage(`Bulk Review`, `Approve failed`, [error]);
+                                displayMessage(localization.translate('Bulk_Review'), localization.translate('Bulk_Review_Approve_Failed'), [error]);
                             });
                     }
                 }, {
-                        Text: 'Reject',
+                    Text: localization.translate('Reject'),
                         Class: 'btn-danger',
                         Callback: function () {
-                            displayLoader('Loading...');
+                            displayLoader(localization.translate('Loading'));
 
                             $.ajax({
                                 url: '/Admin/BulkReview',
@@ -159,17 +159,17 @@
                                         $('#no-review-msg').removeClass('visually-hidden');
                                         hideLoader();
                                     } else if (data.message) {
-                                        displayMessage(`Bulk Review`, `Reject failed`, [data.message]);
+                                        displayMessage(localization.translate('Bulk_Review'), localization.translate('Bulk_Review_Reject_Failed'), [data.message]);
                                     } else {
-                                        displayMessage(`Bulk Review`, `Failed to reject all items`);
+                                        displayMessage(localization.translate('Bulk_Review'), localization.translate('Bulk_Review_Reject_Failed'));
                                     }
                                 })
                                 .fail((xhr, error) => {
-                                    displayMessage(`Bulk Review`, `Reject failed`, [error]);
+                                    displayMessage(localization.translate('Bulk_Review'), localization.translate('Bulk_Review_Reject_Failed'), [error]);
                                 });
                         }
                     }, {
-                    Text: 'Close'
+                    Text: localization.translate('Close')
                 }]
             });
         });
@@ -182,23 +182,23 @@
             }
 
             displayPopup({
-                Title: 'Import Data',
+                Title: localization.translate('Import_Data'),
                 Fields: [{
                     Id: 'import-file',
-                    Name: 'Backup File',
+                    Name: localization.translate('Import_Data_Backup_File'),
                     Type: 'File',
-                    Hint: 'Please select a WeddingShare backup archive',
+                    Hint: localization.translate('Import_Data_Backup_Hint'),
                     Accept: '.zip'
                 }],
                 Buttons: [{
-                    Text: 'Import',
+                    Text: localization.translate('Import'),
                     Class: 'btn-success',
                     Callback: function () {
-                        displayLoader('Loading...');
+                        displayLoader(localization.translate('Loading'));
 
                         var files = $('#popup-modal-field-import-file')[0].files;
                         if (files == undefined || files.length == 0) {
-                            displayMessage(`Import Data`, `Please select an import file`);
+                            displayMessage(localization.translate('Import_Data'), localization.translate('Import_Data_Select_File'));
                             return;
                         }
 
@@ -214,20 +214,20 @@
                         })
                             .done(data => {
                                 if (data.success === true) {
-                                    displayMessage(`Import Data`, `Successfully imported data`);
+                                    displayMessage(localization.translate('Import_Data'), localization.translate('Import_Data_Success'));
                                     window.location.reload();
                                 } else if (data.message) {
-                                    displayMessage(`Import Data`, `Import failed`, [data.message]);
+                                    displayMessage(localization.translate('Import_Data'), localization.translate('Import_Data_Failed'), [data.message]);
                                 } else {
-                                    displayMessage(`Import Data`, `Failed to import data`);
+                                    displayMessage(localization.translate('Import_Data'), localization.translate('Import_Data_Failed'));
                                 }
                             })
                             .fail((xhr, error) => {
-                                displayMessage(`Import Data`, `Import failed`, [error]);
+                                displayMessage(localization.translate('Import_Data'), localization.translate('Import_Data_Failed'), [error]);
                             });
                     }
                 }, {
-                    Text: 'Close'
+                    Text: localization.translate('Close')
                 }]
             });
         });
@@ -240,13 +240,13 @@
             }
 
             displayPopup({
-                Title: 'Export Data',
-                Message: 'Are you sure you want to continue?',
+                Title: localization.translate('Export_Data'),
+                Message: localization.translate('Export_Data_Message'),
                 Buttons: [{
-                    Text: 'Export',
+                    Text: localization.translate('Export'),
                     Class: 'btn-success',
                     Callback: function () {
-                        displayLoader('Loading...');
+                        displayLoader(localization.translate('Loading'));
 
                         $.ajax({
                             url: '/Admin/ExportBackup',
@@ -255,40 +255,20 @@
                             .done(data => {
                                 hideLoader();
 
-                                if (data.success === true) {
-                                    var s = window.atob(data.content);
-                                    var bytes = new Uint8Array(s.length);
-                                    for (var i = 0; i < s.length; i++) {
-                                        bytes[i] = s.charCodeAt(i);
-                                    }
-
-                                    var blob = new Blob([bytes], { type: "application/octetstream" });
-
-                                    var isIE = false || !!document.documentMode;
-                                    if (isIE) {
-                                        window.navigator.msSaveBlob(blob, data.filename);
-                                    } else {
-                                        var url = window.URL || window.webkitURL;
-                                        link = url.createObjectURL(blob);
-                                        var a = $("<a />");
-                                        a.attr("download", data.filename);
-                                        a.attr("href", link);
-                                        $("body").append(a);
-                                        a[0].click();
-                                        $("body").remove(a);
-                                    }
+                                if (data.success === true && data.filename) {
+                                    window.location.href = data.filename;
                                 } else if (data.message) {
-                                    displayMessage(`Export Data`, `Export failed`, [data.message]);
+                                    displayMessage(localization.translate('Export_Data'), localization.translate('Export_Failed'), [data.message]);
                                 } else {
-                                    displayMessage(`Export Data`, `Failed to export data`);
+                                    displayMessage(localization.translate('Export_Data'), localization.translate('Export_Failed'));
                                 }
                             })
                             .fail((xhr, error) => {
-                                displayMessage(`Export Data`, `Export failed`, [error]);
+                                displayMessage(localization.translate('Export_Data'), localization.translate('Export_Failed'), [error]);
                             });
                     }
                 }, {
-                    Text: 'Close'
+                    Text: localization.translate('Close')
                 }]
             });
         });
@@ -301,13 +281,13 @@
             }
 
             displayPopup({
-                Title: 'Wipe Data',
-                Message: 'Are you sure you want to wipe all data?',
+                Title: localization.translate('Wipe_Data'),
+                Message: localization.translate('Wipe_Data_Message'),
                 Buttons: [{
-                    Text: 'Wipe',
+                    Text: localization.translate('Wipe'),
                     Class: 'btn-danger',
                     Callback: function () {
-                        displayLoader('Loading...');
+                        displayLoader(localization.translate('Loading'));
 
                         $.ajax({
                             url: '/Admin/WipeAllGalleries',
@@ -315,19 +295,19 @@
                         })
                             .done(data => {
                                 if (data.success === true) {
-                                    displayMessage(`Wipe Data`, `Successfully wiped data`);
+                                    displayMessage(localization.translate('Wipe_Data'), localization.translate('Wipe_Data_Success'));
                                 } else if (data.message) {
-                                    displayMessage(`Wipe Data`, `Wipe failed`, [data.message]);
+                                    displayMessage(localization.translate('Wipe_Data'), localization.translate('Wipe_Data_Failed'), [data.message]);
                                 } else {
-                                    displayMessage(`Wipe Data`, `Failed to wipe data`);
+                                    displayMessage(localization.translate('Wipe_Data'), localization.translate('Wipe_Data_Failed'));
                                 }
                             })
                             .fail((xhr, error) => {
-                                displayMessage(`Wipe Data`, `Wipe failed`, [error]);
+                                displayMessage(localization.translate('Wipe_Data'), localization.translate('Wipe_Data_Failed'), [error]);
                             });
                     }
                 }, {
-                    Text: 'Close'
+                    Text: localization.translate('Close')
                 }]
             });
         });
@@ -349,7 +329,7 @@
                 return;
             }
 
-            displayLoader('Loading...');
+            displayLoader(localization.translate('Loading'));
 
             let row = $(this).closest('tr');
             let id = row.data('gallery-id');
@@ -362,37 +342,17 @@
                 .done(data => {
                     hideLoader();
 
-                    if (data.success === true) {
-                        var s = window.atob(data.content);
-                        var bytes = new Uint8Array(s.length);
-                        for (var i = 0; i < s.length; i++) {
-                            bytes[i] = s.charCodeAt(i);
-                        }
-
-                        var blob = new Blob([bytes], { type: "application/octetstream" });
-
-                        var isIE = false || !!document.documentMode;
-                        if (isIE) {
-                            window.navigator.msSaveBlob(blob, data.filename);
-                        } else {
-                            var url = window.URL || window.webkitURL;
-                            link = url.createObjectURL(blob);
-                            var a = $("<a />");
-                            a.attr("download", data.filename);
-                            a.attr("href", link);
-                            $("body").append(a);
-                            a[0].click();
-                            $("body").remove(a);
-                        }
+                    if (data.success === true && data.filename) {
+                        window.location.href = data.filename;
                     } else if (data.message) {
-                        displayMessage(`Download`, `Download failed`, [data.message]);
+                        displayMessage(localization.translate('Download'), localization.translate('Download_Failed'), [data.message]);
                     } else {
-                        displayMessage(`Download`, `Failed to download gallery`);
+                        displayMessage(localization.translate('Download'), localization.translate('Download_Failed'));
                     }
                 })
                 .fail((xhr, error) => {
                     hideLoader();
-                    displayMessage(`Download`, `Download failed`, [error]);
+                    displayMessage(localization.translate('Download'), localization.translate('Download_Failed'), [error]);
                 });
         });
 
@@ -405,37 +365,37 @@
 
             let row = $(this).closest('tr');
             displayPopup({
-                Title: 'Edit Gallery',
+                Title: localization.translate('Gallery_Edit'),
                 Fields: [{
                     Id: 'gallery-id',
                     Value: row.data('gallery-id'),
                     Type: 'hidden'
                 }, {
                     Id: 'gallery-name',
-                    Name: 'Gallery Name',
+                    Name: localization.translate('Gallery_Name'),
                     Value: row.data('gallery-name'),
-                    Hint: 'Please enter a new gallery name'
+                    Hint: localization.translate('Gallery_Name_Hint')
                 }, {
                     Id: 'gallery-key',
-                    Name: 'Secret Key',
+                    Name: localization.translate('Gallery_Secret_Key'),
                     Value: row.data('gallery-key'),
-                    Hint: 'Please enter a new secret key'
+                    Hint: localization.translate('Gallery_Secret_Key_Hint')
                 }],
                 Buttons: [{
-                    Text: 'Update',
+                    Text: localization.translate('Update'),
                     Class: 'btn-success',
                     Callback: function () {
-                        displayLoader('Loading...');
+                        displayLoader(localization.translate('Loading'));
 
                         let id = $('#popup-modal-field-gallery-id').val();
                         if (id == undefined || id.length == 0) {
-                            displayMessage(`Edit Gallery`, `Gallery id cannot be empty`);
+                            displayMessage(localization.translate('Gallery_Edit'), localization.translate('Gallery_Missing_Id'));
                             return;
                         }
 
                         let name = $('#popup-modal-field-gallery-name').val();
                         if (name == undefined || name.length == 0) {
-                            displayMessage(`Edit Gallery`, `Gallery name cannot be empty`);
+                            displayMessage(localization.translate('Gallery_Edit'), localization.translate('Gallery_Missing_Name'));
                             return;
                         }
 
@@ -449,19 +409,19 @@
                             .done(data => {
                                 if (data.success === true) {
                                     $(`tr[data-gallery-id=${id}] .gallery-name`).text(name);
-                                    displayMessage(`Edit Gallery`, `Successfully updated gallery`);
+                                    displayMessage(localization.translate('Gallery_Edit'), localization.translate('Gallery_Edit_Success'));
                                 } else if (data.message) {
-                                    displayMessage(`Edit Gallery`, `Update failed`, [data.message]);
+                                    displayMessage(localization.translate('Gallery_Edit'), localization.translate('Gallery_Edit_Failed'), [data.message]);
                                 } else {
-                                    displayMessage(`Edit Gallery`, `Failed to update gallery`);
+                                    displayMessage(localization.translate('Gallery_Edit'), localization.translate('Gallery_Edit_Failed'));
                                 }
                             })
                             .fail((xhr, error) => {
-                                displayMessage(`Edit Gallery`, `Update failed`, [error]);
+                                displayMessage(localization.translate('Gallery_Edit'), localization.translate('Gallery_Edit_Failed'), [error]);
                             });
                     }
                 }, {
-                    Text: 'Close'
+                    Text: localization.translate('Close')
                 }]
             });
         });
@@ -475,22 +435,22 @@
 
             let row = $(this).closest('tr');
             displayPopup({
-                Title: 'Wipe Gallery',
-                Message: `Are you sure you want to wipe gallery '${row.data('gallery-name') }'?`,
+                Title: localization.translate('Gallery_Wipe'),
+                Message: localization.translate('Gallery_Wipe_Message', { name: row.data('gallery-name') }),
                 Fields: [{
                     Id: 'gallery-id',
                     Value: row.data('gallery-id'),
                     Type: 'hidden'
                 }],
                 Buttons: [{
-                    Text: 'Wipe',
+                    Text: localization.translate('Wipe'),
                     Class: 'btn-danger',
                     Callback: function () {
-                        displayLoader('Loading...');
+                        displayLoader(localization.translate('Loading'));
 
                         let id = $('#popup-modal-field-gallery-id').val();
                         if (id == undefined || id.length == 0) {
-                            displayMessage(`Wipe Gallery`, `Gallery id cannot be empty`);
+                            displayMessage(localization.translate('Gallery_Wipe'), localization.translate('Gallery_Missing_Id'));
                             return;
                         }
 
@@ -502,19 +462,19 @@
                             .done(data => {
                                 if (data.success === true) {
                                     $(`tr[data-gallery-id=${id}] .gallery-name`).text(name);
-                                    displayMessage(`Wipe Gallery`, `Successfully wiped gallery`);
+                                    displayMessage(localization.translate('Gallery_Wipe'), localization.translate('Gallery_Wipe_Success'));
                                 } else if (data.message) {
-                                    displayMessage(`Wipe Gallery`, `Wipe failed`, [data.message]);
+                                    displayMessage(localization.translate('Gallery_Wipe'), localization.translate('Gallery_Wipe_Failed'), [data.message]);
                                 } else {
-                                    displayMessage(`Wipe Gallery`, `Failed to wipe gallery`);
+                                    displayMessage(localization.translate('Gallery_Wipe'), localization.translate('Gallery_Wipe_Failed'));
                                 }
                             })
                             .fail((xhr, error) => {
-                                displayMessage(`Wipe Gallery`, `Wipe failed`, [error]);
+                                displayMessage(localization.translate('Gallery_Wipe'), localization.translate('Gallery_Wipe_Failed'), [error]);
                             });
                     }
                 }, {
-                    Text: 'Close'
+                    Text: localization.translate('Close')
                 }]
             });
         });
@@ -528,22 +488,22 @@
 
             let row = $(this).closest('tr');
             displayPopup({
-                Title: 'Delete Gallery',
-                Message: `Are you sure you want to delete gallery '${row.data('gallery-name')}'?`,
+                Title: localization.translate('Gallery_Delete'),
+                Message: localization.translate('Gallery_Delete_Message', { name: row.data('gallery-name') }),
                 Fields: [{
                     Id: 'gallery-id',
                     Value: row.data('gallery-id'),
                     Type: 'hidden'
                 }],
                 Buttons: [{
-                    Text: 'Delete',
+                    Text: localization.translate('Delete'),
                     Class: 'btn-danger',
                     Callback: function () {
-                        displayLoader('Loading...');
+                        displayLoader(localization.translate('Loading'));
 
                         let id = $('#popup-modal-field-gallery-id').val();
                         if (id == undefined || id.length == 0) {
-                            displayMessage(`Delete Gallery`, `Gallery id cannot be empty`);
+                            displayMessage(localization.translate('Gallery_Delete'), localization.translate('Gallery_Missing_Id'));
                             return;
                         }
 
@@ -555,19 +515,19 @@
                             .done(data => {
                                 if (data.success === true) {
                                     $(`tr[data-gallery-id=${id}]`).remove();
-                                    displayMessage(`Delete Gallery`, `Successfully deleted gallery`);
+                                    displayMessage(localization.translate('Gallery_Delete'), localization.translate('Gallery_Delete_Success'));
                                 } else if (data.message) {
-                                    displayMessage(`Delete Gallery`, `Delete failed`, [data.message]);
+                                    displayMessage(localization.translate('Gallery_Delete'), localization.translate('Gallery_Delete_Failed'), [data.message]);
                                 } else {
-                                    displayMessage(`Delete Gallery`, `Failed to delete gallery`);
+                                    displayMessage(localization.translate('Gallery_Delete'), localization.translate('Gallery_Delete_Failed'));
                                 }
                             })
                             .fail((xhr, error) => {
-                                displayMessage(`Delete Gallery`, `Delete failed`, [error]);
+                                displayMessage(localization.translate('Gallery_Delete'), localization.translate('Gallery_Delete_Failed'), [error]);
                             });
                     }
                 }, {
-                    Text: 'Close'
+                    Text: localization.translate('Close')
                 }]
             });
         });

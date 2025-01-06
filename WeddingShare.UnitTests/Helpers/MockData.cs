@@ -41,8 +41,9 @@ namespace WeddingShare.UnitTests.Helpers
 				GalleryId = galleryId != null ? (int)galleryId : rand.Next(),
 				Title = $"{Guid.NewGuid()}.{MockFileExtension()}",
 				UploadedBy = rand.Next(2) % 2 == 0 ? Guid.NewGuid().ToString() : null,
-				State = state == GalleryItemState.All ? (GalleryItemState)rand.Next(2) : state,
-			};
+				MediaType = (MediaType)rand.Next(3),
+				State = state == GalleryItemState.All ? (GalleryItemState)rand.Next(2) : state
+            };
 		}
 
 		public static string MockFileExtension()

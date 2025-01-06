@@ -1,4 +1,5 @@
 ﻿@model IndexModel
+@using WeddingShare.Enums
 @using WeddingShare.Helpers
 @using WeddingShare.Views.Admin
 @inject Microsoft.Extensions.Localization.IStringLocalizer<IndexModel> _localizer
@@ -6,7 +7,7 @@
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
 
 @{
-    var identityEnabled = _config.GetOrDefault("Settings", "Show_Identity_Request", true);
+    var identityEnabled = _config.GetOrDefault("Settings:Show_Identity_Request", true);
 }
 
 <section class="py-1 pt-lg-5">
@@ -17,7 +18,7 @@
 
             <div class="row pb-2 pb-lg-4">
                 <div class="col-12 text-center">
-                    @if (!_config.GetOrDefault("Settings", "Single_Gallery_Mode", false))
+                    @if (!_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
                     {
                         <div class="mx-0 mx-sm-5 px-2 px-xl-5 text-success d-inline-block">
                             <i class="btnAddGallery fa-solid fa-calendar-plus fa-2x pointer" alt="Create"></i>
@@ -56,7 +57,7 @@
                     <th class="col-1 d-none d-md-table-cell">@_localizer["Key"].Value</th>
                     <th class="col-7 col-md-4">@_localizer["Actions"].Value</th>
                 </tr>
-                @foreach (var gallery in Model.Galleries.OrderBy(x => string.Equals("default", x.Name, StringComparison.OrdinalIgnoreCase) ? 0 : 1))
+                @foreach (var gallery in Model.Galleries.OrderBy(x => string.Equals("All", x.Name, StringComparison.OrdinalIgnoreCase) ? 0 : string.Equals("default", x.Name, StringComparison.OrdinalIgnoreCase) ? 1 : 2))
                 {
                     var secretKey = await _gallery.GetSecretKey(gallery.Name);
                     var galleryLink = $"{link}?id={gallery.Name}{(!string.IsNullOrWhiteSpace(secretKey) ? $"&key={secretKey}" : string.Empty)}";
@@ -70,10 +71,10 @@
                             <i class="fa-solid @(!string.IsNullOrWhiteSpace(secretKey) ? "fa-lock" : "fa-lock-open") m-0"></i>
                         </td>
                         <td>
-                            <i class="btnOpenGallery btn btn-outline-primary fa-solid fa-up-right-from-square" data-url="@galleryLink" data-target="@(_config.GetOrDefault("Settings", "Links_Open_New_Tab", true) ? "_blank" : "_self")" alt="Open"></i>
+                            <i class="btnOpenGallery btn btn-outline-primary fa-solid fa-up-right-from-square" data-url="@galleryLink" data-target="@(_config.GetOrDefault("Settings:Links_Open_New_Tab", true) ? "_blank" : "_self")" alt="Open"></i>
                             <i class="btnDownloadGallery btn @(gallery.TotalItems > 0 ? "btn-outline-primary" : "btn-outline-disabled") fa-solid fa-download" alt="Download" @(gallery.TotalItems == 0 ? "disabled=disabled" : string.Empty)></i>
                             <i class="btn @(gallery.Id > 1 ? "btnEditGallery btn-outline-success" : "btn-outline-disabled") fa-solid fa-pen-to-square" alt="Edit"></i>
-                            <i class="btn @(gallery.TotalItems > 0 ? "btnWipeGallery btn-outline-danger" : "btn-outline-disabled") fa-solid fa-broom" alt="Wipe" @(gallery.TotalItems == 0 ? "disabled=disabled" : string.Empty)></i>
+                            <i class="btn @(gallery.Id > 0 && gallery.TotalItems > 0 ? "btnWipeGallery btn-outline-danger" : "btn-outline-disabled") fa-solid fa-broom" alt="Wipe" @(gallery.TotalItems == 0 ? "disabled=disabled" : string.Empty)></i>
                             <i class="btn @(gallery.Id > 1 ? "btnDeleteGallery btn-outline-danger" : "btn-outline-disabled") fa-solid fa-trash-can" alt="Delete"></i>
                         </td>
                     </tr>
@@ -101,8 +102,12 @@
                 {
                     <div class="pending-approval col-12 col-lg-4 mb-4 mb-lg-0 mb-1 mb-lg-4">
                         <div class="card">
-                            <a href="/uploads/@review.GalleryName/Pending/@review.Title" data-lightbox="@review.Id">
-                                <img src="/uploads/@review.GalleryName/Pending/@review.Title" class="review-tile" loading="lazy" />
+                            <a href="/uploads/@review.GalleryName/Pending/@review.Title" class="media-viewer-item" data-media-viewer-type="@review.MediaType.ToString().ToLower()" data-media-viewer-collection="@review.GalleryName" data-media-viewer-author="@(identityEnabled ? $"Uploaded By: {(!string.IsNullOrWhiteSpace(review?.UploadedBy) ? review?.UploadedBy : "Anonymous")}" : string.Empty)">
+                                <img src="/thumbnails/@($"{System.IO.Path.GetFileNameWithoutExtension(review.Title)}.webp")" class="review-tile" loading="lazy" />
+                                @if (review.MediaType == MediaType.Video)
+                                {
+                                    <img src="/images/play-button.svg" class="media-viewer-play" loading="lazy" />
+                                }
                             </a>
                             <div class="card-header my-0 py-0">
                                 <div class="row card-title text-capitalize border-top py-0 pt-2">

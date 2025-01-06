@@ -130,7 +130,7 @@
     <value>Please enter account username.</value>
   </data>
   <data name="Login_Username_Placeholder" xml:space="preserve">
-    <value>admin</value>
+    <value>Admin</value>
   </data>
   <data name="Login_Password_Help" xml:space="preserve">
     <value>Please enter account password.</value>

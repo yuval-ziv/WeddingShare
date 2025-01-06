@@ -15,26 +15,26 @@
 
         public async Task<bool> Send(string title, string message, string? actionLink = null)
         {
-            if (string.IsNullOrWhiteSpace(_config.GetOrDefault("Notifications", "Gotify", "Endpoint", string.Empty)))
+            if (string.IsNullOrWhiteSpace(_config.GetOrDefault("Notifications:Gotify:Endpoint", string.Empty)))
             {
                 _logger.LogWarning($"Invalid Gotify endpoint specified");
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(_config.GetOrDefault("Notifications", "Gotify", "Token", string.Empty)))
+            if (string.IsNullOrWhiteSpace(_config.GetOrDefault("Notifications:Gotify:Token", string.Empty)))
             {
                 _logger.LogWarning($"Invalid Gotify token specified");
                 return false;
             }
 
-            if (_config.GetOrDefault("Notifications", "Gotify", "Enabled", false))
+            if (_config.GetOrDefault("Notifications:Gotify:Enabled", false))
             { 
                 try
                 {
-                    var token = _config.GetOrDefault("Notifications", "Gotify", "Token", string.Empty);
+                    var token = _config.GetOrDefault("Notifications:Gotify:Token", string.Empty);
                     if (!string.IsNullOrWhiteSpace(token))
                     { 
-                        var priority = _config.GetOrDefault("Notifications", "Gotify", "Priority", 4);
+                        var priority = _config.GetOrDefault("Notifications:Gotify:Priority", 4);
                         if (priority > 0)
                         {
                             message = !string.IsNullOrWhiteSpace(actionLink) ? $"{message} - Visit - {actionLink}" : message;

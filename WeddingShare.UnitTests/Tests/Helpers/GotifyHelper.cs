@@ -24,10 +24,10 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 
             _clientFactory.CreateClient(Arg.Any<string>()).Returns(client);
 
-            _config.GetOrDefault("Notifications", "Gotify", "Enabled", Arg.Any<bool>()).Returns(true);
-            _config.GetOrDefault("Notifications", "Gotify", "Endpoint", Arg.Any<string>()).Returns("https://unit.test.com/");
-            _config.GetOrDefault("Notifications", "Gotify", "Token", Arg.Any<string>()).Returns("UnitTest");
-            _config.GetOrDefault("Notifications", "Gotify", "Priority", Arg.Any<int>()).Returns(4);
+            _config.GetOrDefault("Notifications:Gotify:Enabled", Arg.Any<bool>()).Returns(true);
+            _config.GetOrDefault("Notifications:Gotify:Endpoint", Arg.Any<string>()).Returns("https://unit.test.com/");
+            _config.GetOrDefault("Notifications:Gotify:Token", Arg.Any<string>()).Returns("UnitTest");
+            _config.GetOrDefault("Notifications:Gotify:Priority", Arg.Any<int>()).Returns(4);
         }
 
         [TestCase("unit", "test")]
@@ -41,7 +41,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase(false, false)]
         public async Task GotifyHelper_Enabled(bool enabled, bool expected)
         {
-            _config.GetOrDefault("Notifications", "Gotify", "Enabled", Arg.Any<bool>()).Returns(enabled);
+            _config.GetOrDefault("Notifications:Gotify:Enabled", Arg.Any<bool>()).Returns(enabled);
 
             var actual = await new GotifyHelper(_config, _clientFactory, _logger).Send("unit", "test");
             Assert.That(actual, Is.EqualTo(expected));
@@ -66,7 +66,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase("UnitTest", true)]
         public async Task GotifyHelper_Token(string? token, bool expected)
         {
-            _config.GetOrDefault("Notifications", "Gotify", "Token", Arg.Any<string>()).Returns(token);
+            _config.GetOrDefault("Notifications:Gotify:Token", Arg.Any<string>()).Returns(token);
 
             var actual = await new GotifyHelper(_config, _clientFactory, _logger).Send("unit", "test");
             Assert.That(actual, Is.EqualTo(expected));
@@ -79,7 +79,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase(100, true)]
         public async Task GotifyHelper_Priority(int priority, bool expected)
         {
-            _config.GetOrDefault("Notifications", "Gotify", "Priority", Arg.Any<int>()).Returns(priority);
+            _config.GetOrDefault("Notifications:Gotify:Priority", Arg.Any<int>()).Returns(priority);
 
             var actual = await new GotifyHelper(_config, _clientFactory, _logger).Send("unit", "test");
             Assert.That(actual, Is.EqualTo(expected));

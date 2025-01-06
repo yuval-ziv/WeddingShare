@@ -6,7 +6,7 @@
 
 @if (Model.ViewMode != ViewMode.Slideshow)
 {
-    var quote = _gallery.GetConfig(Model?.GalleryId, "Gallery_Quote", string.Empty);
+    var quote = _gallery.GetConfig(Model?.GalleryName, "Gallery_Quote", string.Empty);
     if (!string.IsNullOrWhiteSpace(quote))
     {
         <div class="row mb-3 mb-lg-4 border rounded">
@@ -16,7 +16,7 @@
         </div>
     }
 
-    if (!_gallery.GetConfig(Model?.GalleryId, "Disable_Review_Counter", false))
+    if (!_gallery.GetConfig(Model?.GalleryName, "Disable_Review_Counter", false))
     {
         <div class="row mb-3 mb-lg-4 review-counter">
             <div class="col-4">

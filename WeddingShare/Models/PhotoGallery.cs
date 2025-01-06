@@ -10,24 +10,22 @@ namespace WeddingShare.Models
         }
 
         public PhotoGallery(ViewMode viewMode)
-            : this("default", string.Empty, string.Empty, string.Empty, viewMode, new List<PhotoGalleryImage>())
+            : this(1, "default", string.Empty, viewMode, new List<PhotoGalleryImage>())
         {
         }
 
-        public PhotoGallery(string id, string secretKey, string galleryPath, string thumbnailPath, ViewMode viewMode, List<PhotoGalleryImage> images)
+        public PhotoGallery(int id, string name, string secretKey, ViewMode viewMode, List<PhotoGalleryImage> images)
         {
             this.GalleryId = id;
-            this.GalleryPath = galleryPath;
-            this.ThumbnailsPath = thumbnailPath;
+            this.GalleryName = name;
             this.ViewMode = viewMode;
             this.PendingCount = 0;
             this.Images = images;
-            this.FileUploader = new FileUploader(id, secretKey, "/Gallery/UploadImage");
+            this.FileUploader = new FileUploader(name, secretKey, "/Gallery/UploadImage");
         }
 
-        public string? GalleryId { get; set; }
-        public string? GalleryPath { get; set; }
-        public string? ThumbnailsPath { get; set; }
+        public int? GalleryId { get; set; }
+        public string? GalleryName { get; set; }
         public ViewMode ViewMode { get; set; }
         public int PendingCount { get; set; }
         public int ApprovedCount
@@ -55,8 +53,12 @@ namespace WeddingShare.Models
         }
 
         public int Id { get; set; }
-        public string? Path { get; set; }
+        public int? GalleryId { get; set; }
+        public string? GalleryName { get; set; }
         public string? Name { get; set; }
         public string? UploadedBy { get; set; }
+        public string? ImagePath { get; set; }
+        public string? ThumbnailPath { get; set; }
+        public MediaType MediaType { get; set; }
     }
 }

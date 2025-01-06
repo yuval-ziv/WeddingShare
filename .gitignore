@@ -19,3 +19,5 @@
 /WeddingShare/wedding-share.db
 /WeddingShare/config/wedding-share.db
 /WeddingShare/wwwroot/thumbnails
+/WeddingShare/wwwroot/temp
+/WeddingShare/ffmpeg

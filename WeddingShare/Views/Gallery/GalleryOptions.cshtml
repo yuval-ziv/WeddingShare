@@ -6,7 +6,7 @@
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
 @model WeddingShare.Models.PhotoGallery
 
-@if (!_gallery.GetConfig(Model?.GalleryId, "Disable_QR_Code", false))
+@if (!_gallery.GetConfig(Model?.GalleryName, "Disable_QR_Code", false))
 {
     <div class="row mb-4">
         <div class="col-12 text-center">

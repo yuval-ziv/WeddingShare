@@ -12,6 +12,7 @@ namespace WeddingShare.Helpers
         bool FileExists(string path);
         bool DeleteFileIfExists(string path);
         bool MoveFileIfExists(string source, string destination);
+        long GetDirectorySize(string path);
         Task<byte[]> ReadAllBytes(string path);
         Task SaveFile(IFormFile file, string path, FileMode mode);
 	}
@@ -88,6 +89,28 @@ namespace WeddingShare.Helpers
             }
 
             return false;
+        }
+
+        public long GetDirectorySize(string path)
+        {
+            long size = 0;
+
+            if (DirectoryExists(path))
+            {
+                var info = new DirectoryInfo(path);
+                
+                foreach (var file in info.GetFiles())
+                {      
+                    size += file.Length;    
+                }
+                
+                foreach (var dir in info.GetDirectories())
+                {
+                    size += GetDirectorySize(dir.FullName);
+                }
+            }
+
+            return size;
         }
 
         public async Task<byte[]> ReadAllBytes(string path)

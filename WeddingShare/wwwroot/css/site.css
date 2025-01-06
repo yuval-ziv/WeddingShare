@@ -111,10 +111,26 @@ tr td i {
 }
 
 .image-tile {
+    position: relative;
+    display: block;
+    border-radius: 5px;
     overflow: hidden;
 }
 
+    .image-tile a {
+        display: block;
+        overflow: hidden;
+    }
+
+        .image-tile a img {
+            display: inline-block;
+        }
+
     .image-tile .btn {
+        height: 40px;
+        position: relative;
+        top: -40px;
+        margin-bottom: -40px;
         border-radius: 0px;
         display: none;
     }

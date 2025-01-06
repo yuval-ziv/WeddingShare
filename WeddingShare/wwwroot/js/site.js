@@ -55,7 +55,7 @@ function displayMessage(title, message, errors) {
 
     $('#alert-message-modal .modal-error').hide();
     if (errors && errors.length > 0) {
-        var errorMessage = `<b>Errors:</b>`;
+        var errorMessage = `<b>${localization.translate('Errors')}:</b>`;
         errorMessage += `<ul>`;
         errors.forEach((error) => {
             errorMessage += `<li>${error}</li>`;
@@ -77,16 +77,16 @@ function displayIdentityCheck() {
     }
 
     displayPopup({
-        Title: 'Identity Check',
+        Title: localization.translate('Identity_Check'),
         Fields: [{
             Id: 'identity-name',
-            Name: 'Name',
+            Name: localization.translate('Identity_Check_Name'),
             Value: '',
-            Hint: 'Tell us who you are so we know who uploaded memories.',
-            Placeholder: 'E.g., Jane Doe, Jimmy, Uncle Bob'
+            Hint: localization.translate('Identity_Check_Hint'),
+            Placeholder: localization.translate('Identity_Check_Placeholder')
         }],
         Buttons: [{
-            Text: 'Tell Us',
+            Text: localization.translate('Identity_Check_Tell_Us'),
             Class: 'btn-success',
             Callback: function () {
                 let name = $('#popup-modal-field-identity-name').val().trim();
@@ -96,17 +96,13 @@ function displayIdentityCheck() {
                 }
             }
         }, {
-            Text: 'Stay Anonymous',
+            Text: localization.translate('Identity_Check_Stay_Anonymous'),
             Callback: function () {
                 setCookie('ViewerIdentity', 'Anonymous', 1);
             }
         }]
     });
 }
-
-lightbox.option({
-    'disableScrolling': true
-});
 
 (function () {
     document.addEventListener('DOMContentLoaded', function () {
@@ -124,16 +120,16 @@ lightbox.option({
         $(document).off('click', '.change-identity').on('click', '.change-identity', function (e) {
             preventDefaults(e);
             displayPopup({
-                Title: 'Change Identity',
+                Title: localization.translate('Identity_Check_Change_Identity'),
                 Fields: [{
                     Id: 'identity-name',
-                    Name: 'Name',
+                    Name: localization.translate('Identity_Check_Name'),
                     Value: getCookie('ViewerIdentity'),
-                    Hint: 'Tell us who you are so we know who uploaded memories.',
-                    Placeholder: 'E.g., Jane Doe, Jimmy, Uncle Bob'
+                    Hint: localization.translate('Identity_Check_Hint'),
+                    Placeholder: localization.translate('Identity_Check_Placeholder')
                 }],
                 Buttons: [{
-                    Text: 'Change',
+                    Text: localization.translate('Identity_Check_Change'),
                     Class: 'btn-success',
                     Callback: function () {
                         let name = $('#popup-modal-field-identity-name').val().trim();
@@ -142,7 +138,7 @@ lightbox.option({
                         }
                     }
                 }, {
-                    Text: 'Cancel'
+                    Text: localization.translate('Cancel')
                 }]
             });
         });
@@ -169,7 +165,7 @@ lightbox.option({
 
                 window.location = url;
             } else {
-                displayMessage(`Gallery`, `Please select a valid gallery name`);
+                displayMessage(localization.translate('Gallery'), localization.translate('Gallery_Invalid_Name'));
             }
         });
 
@@ -178,17 +174,17 @@ lightbox.option({
 
             var username = $('#frmAdminLogin input.input-username').val();
             if (username === undefined || username.length === 0) {
-                displayMessage(`Login`, `Please enter a valid username`);
+                displayMessage(localization.translate('Login'), localization.translate('Login_Invalid_Username'));
                 return;
             }
 
             var password = $('#frmAdminLogin input.input-password').val();
             if (password === undefined || password.length === 0) {
-                displayMessage(`Login`, `Please enter a valid password`);
+                displayMessage(localization.translate('Login'), localization.translate('Login_Invalid_Password'));
                 return;
             }
 
-            displayLoader('Loading...');
+            displayLoader(localization.translate('Loading'));
 
             $.ajax({
                 url: '/Admin/Login',
@@ -201,14 +197,14 @@ lightbox.option({
                     if (data.success === true) {
                         window.location = `/Admin`;
                     } else if (data.message) {
-                        displayMessage(`Login`, `Login failed`, [data.message]);
+                        displayMessage(localization.translate('Login'), localization.translate('Login_Failed'), [data.message]);
                     } else {
-                        displayMessage(`Login`, `Invalid username or password specified`);
+                        displayMessage(localization.translate('Login'), localization.translate('Login_Invalid_Details'));
                     }
                 })
                 .fail((xhr, error) => {
                     hideLoader();
-                    displayMessage(`Login`, `Login failed`, [error]);
+                    displayMessage(localization.translate('Login'), localization.translate('Login_Failed'), [error]);
                 });
         });
 
