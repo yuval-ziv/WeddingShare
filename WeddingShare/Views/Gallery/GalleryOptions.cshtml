@@ -52,5 +52,13 @@
                 }
             </div>
         </div>
+        @if (!_gallery.GetConfig(Model?.GalleryName, "Disable_Download", false) || (User?.Identity != null && User.Identity.IsAuthenticated))
+        {
+            <div class="btn-group w-100 mb-2">
+                <button class="btnDownloadGallery btn btn-primary btn-sm" type="button" data-gallery-id="@Model?.GalleryId">
+                    @_localizer["Download"].Value
+                </button>
+            </div>
+        }
     </div>
 </div>

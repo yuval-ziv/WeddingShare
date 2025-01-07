@@ -513,41 +513,6 @@ namespace WeddingShare.Controllers
             return Json(new { success = false });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DownloadGallery(int id)
-        {
-            if (User?.Identity != null && User.Identity.IsAuthenticated)
-            {
-                try
-                {
-                    var gallery = await _database.GetGallery(id);
-                    if (gallery != null)
-                    {
-                        var galleryDir = id > 0 ? Path.Combine(UploadsDirectory, gallery.Name) : UploadsDirectory;
-                        if (_fileHelper.DirectoryExists(galleryDir))
-                        {
-                            _fileHelper.CreateDirectoryIfNotExists(TempDirectory);
-
-                            var tempZipFile = Path.Combine(TempDirectory, $"{gallery.Name}-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.zip");
-                            ZipFile.CreateFromDirectory(galleryDir, tempZipFile, CompressionLevel.Optimal, false);
-
-                            return Json(new { success = true, filename = $"/temp/{Path.GetFileName(tempZipFile)}" });
-                        }
-                    }
-                    else
-                    {
-                        return Json(new { success = false, message = _localizer["Failed_Download_Gallery"].Value });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, $"{_localizer["Failed_Download_Gallery"].Value} - {ex?.Message}");
-                }
-            }
-
-            return Json(new { success = false });
-        }
-
         [HttpGet]
         public async Task<IActionResult> ExportBackup()
         {

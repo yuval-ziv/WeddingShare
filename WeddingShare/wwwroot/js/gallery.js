@@ -167,6 +167,39 @@
             await imageUpload(dataRefs);
         }
 
+        $(document).off('click', 'i.btnDownloadGallery').on('click', 'button.btnDownloadGallery', function (e) {
+            preventDefaults(e);
+
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
+            displayLoader(localization.translate('Loading'));
+
+            let id = $(this).data('gallery-id');
+
+            $.ajax({
+                url: '/Gallery/DownloadGallery',
+                method: 'POST',
+                data: { Id: id }
+            })
+                .done(data => {
+                    hideLoader();
+
+                    if (data.success === true && data.filename) {
+                        window.location.href = data.filename;
+                    } else if (data.message) {
+                        displayMessage(localization.translate('Download'), localization.translate('Download_Failed'), [data.message]);
+                    } else {
+                        displayMessage(localization.translate('Download'), localization.translate('Download_Failed'));
+                    }
+                })
+                .fail((xhr, error) => {
+                    hideLoader();
+                    displayMessage(localization.translate('Download'), localization.translate('Download_Failed'), [error]);
+                });
+        });
+        
         $(document).off('click', 'button.btnDeletePhoto').on('click', 'button.btnDeletePhoto', function (e) {
             preventDefaults(e);
 
