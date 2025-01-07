@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using System.IO.Compression;
 using System.Net;
 using WeddingShare.Attributes;
 using WeddingShare.Enums;
@@ -27,6 +28,7 @@ namespace WeddingShare.Controllers
         private readonly ILogger _logger;
         private readonly IStringLocalizer<GalleryController> _localizer;
 
+        private readonly string TempDirectory;
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
@@ -43,6 +45,7 @@ namespace WeddingShare.Controllers
             _logger = logger;
             _localizer = localizer;
 
+            TempDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "temp");
             UploadsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
             ThumbnailsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "thumbnails");
         }
@@ -308,6 +311,57 @@ namespace WeddingShare.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"{_localizer["Image_Upload_Failed"].Value} - {ex?.Message}");
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DownloadGallery(int id)
+        {
+            try
+            {
+                var gallery = await _database.GetGallery(id);
+                if (gallery != null)
+                {
+                    if (!_gallery.GetConfig(gallery.Name, "Disable_Download", false) || (User?.Identity != null && User.Identity.IsAuthenticated))
+                    {
+                        var galleryDir = id > 0 ? Path.Combine(UploadsDirectory, gallery.Name) : UploadsDirectory;
+                        if (_fileHelper.DirectoryExists(galleryDir))
+                        {
+                            _fileHelper.CreateDirectoryIfNotExists(TempDirectory);
+
+                            var tempZipFile = Path.Combine(TempDirectory, $"{gallery.Name}-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.zip");
+                            ZipFile.CreateFromDirectory(galleryDir, tempZipFile, CompressionLevel.Optimal, false);
+
+                            if (User?.Identity == null || !User.Identity.IsAuthenticated)
+                            {
+                                using (var fs = new FileStream(tempZipFile, FileMode.Open, FileAccess.ReadWrite))
+                                using (var archive = new ZipArchive(fs, ZipArchiveMode.Update, false))
+                                {
+                                    foreach (var entry in archive.Entries.Where(x => x.FullName.StartsWith("Pending/", StringComparison.OrdinalIgnoreCase) || x.FullName.StartsWith("Rejected/", StringComparison.OrdinalIgnoreCase)).ToList())
+                                    {
+                                        entry.Delete();
+                                    }
+                                }
+                            }
+
+                            return Json(new { success = true, filename = $"/temp/{Path.GetFileName(tempZipFile)}" });
+                        }
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = _localizer["Download_Gallery_Not_Allowed"].Value });
+                    }
+                }
+                else
+                {
+                    return Json(new { success = false, message = _localizer["Failed_Download_Gallery"].Value });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{_localizer["Failed_Download_Gallery"].Value} - {ex?.Message}");
             }
 
             return Json(new { success = false });

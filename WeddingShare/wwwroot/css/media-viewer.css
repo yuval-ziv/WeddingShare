@@ -74,3 +74,27 @@
             margin: 0px 5px -3px;
             padding: 0px;
         }
+
+        #media-viewer-popup .media-viewer .media-viewer-options {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+        }
+
+            #media-viewer-popup .media-viewer .media-viewer-options i {
+                color: #333333;
+                background-color: #EEEEEE;
+                text-align: center;
+                width: 40px;
+                height: 40px;
+                font-size: 14pt;
+                margin: 0px 0px 0px 5px;
+                padding: 10px;
+                border-radius: 100px;
+                cursor: pointer;
+            }
+
+                #media-viewer-popup .media-viewer .media-viewer-options i:hover {
+                    color: #FFFFFF;
+                    background-color: #0D6EFD;
+                }

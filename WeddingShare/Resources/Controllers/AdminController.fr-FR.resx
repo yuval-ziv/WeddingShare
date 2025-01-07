@@ -123,9 +123,6 @@
   <data name="Failed_Delete_Gallery" xml:space="preserve">
     <value>Impossible de supprimer la galerie</value>
   </data>
-  <data name="Failed_Download_Gallery" xml:space="preserve">
-    <value>Impossible de télécharger la galerie</value>
-  </data>
   <data name="Failed_Edit_Gallery" xml:space="preserve">
     <value>Échec de la mise à jour de la galerie</value>
   </data>

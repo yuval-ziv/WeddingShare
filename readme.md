@@ -53,6 +53,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | GALLERY_QUOTE                      | (optional)                                   | Yes              |
 | DISABLE_REVIEW_COUNTER             | false                                        | Yes              |
 | DISABLE_UPLOAD                     | false                                        | Yes              |
+| DISABLE_DOWNLOAD                   | false                                        | Yes              |
 | DISABLE_QR_CODE                    | false                                        | Yes              |
 | FULL_WIDTH_GALLERY                 | false                                        | Yes              |
 | RETAIN_REJECTED_ITEMS              | false                                        | Yes              |
@@ -75,6 +76,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | ------------------------------ | -------------------------------------------- |
 | ACCOUNT_ADMIN_USERNAME         | admin                                        |
 | ACCOUNT_ADMIN_PASSWORD         | admin                                        |
+| ACCOUNT_ADMIN_LOG_PASSWORD     | true                                         |
 | ACCOUNT_SHOW_PROFILE_ICON      | true                                         |
 | ACCOUNT_LOCKOUT_ATTEMPTS       | 5                                            |
 | ACCOUNT_LOCKOUT_MINS           | 60                                           |

@@ -42,7 +42,11 @@ namespace WeddingShare.Helpers.Dbup
 
                     var adminAccount = new UserModel() { Username = config.GetOrDefault("Settings:Account:Admin:Username", "admin"), Password = config.GetOrDefault("Settings:Account:Admin:Password", "admin") };
                     database.InitAdminAccount(adminAccount);
-                    logger.LogInformation($"Password: {adminAccount.Password}");
+                    
+                    if (config.GetOrDefault("Settings:Account:Admin:Log_Password", true))
+                    {
+                        logger.LogInformation($"Password: {adminAccount.Password}");
+                    }
                 }
                 else
                 {

@@ -66,7 +66,11 @@ namespace WeddingShare
                 options.AccessDeniedPath = $"/Error?Reason={ErrorCode.Unauthorized}";
                 options.SlidingExpiration = true;
             });
-            services.AddSession();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.Name = ".WeddingShare.Session";
+                options.Cookie.IsEssential = true;
+            });
 
             var ffmpegPath = config.GetOrDefault("FFMPEG:InstallPath", "/ffmpeg");
             var imageHelper = new ImageHelper(new FileHelper(), _loggerFactory.CreateLogger<ImageHelper>());

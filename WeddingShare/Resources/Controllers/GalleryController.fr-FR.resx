@@ -156,4 +156,10 @@
   <data name="Save_To_Gallery_Failed" xml:space="preserve">
     <value>Impossible d'enregistrer l'image dans la galerie</value>
   </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Impossible de télécharger la galerie</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Vous n'êtes pas autorisé à télécharger cette galerie</value>
+  </data>
 </root>

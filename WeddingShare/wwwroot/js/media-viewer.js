@@ -10,20 +10,25 @@ function openMediaViewer(e) {
     let collection = $(e).data('media-viewer-collection');
     let author = $(e).data('media-viewer-author');
     let description = $(e).data('media-viewer-description');
+    let download = $(e).data('media-viewer-download');
 
-    displayMediaViewer(index, thumbnail, source, type, title, collection, author, description);
+    displayMediaViewer(index, thumbnail, source, type, title, collection, author, description, download);
 }
 
-function displayMediaViewer(index, thumbnail, source, type, title, collection, author, description) {
+function displayMediaViewer(index, thumbnail, source, type, title, collection, author, description, download) {
     hideMediaViewer();
 
     $('body').append(`
         <div id="media-viewer-popup" style="opacity: 0;">
-            <div class="media-viewer" data-media-viewer-index="${index}" data-media-viewer-collection="${collection}">
+            <div class="media-viewer" data-media-viewer-index="${index}" data-media-viewer-collection="${collection}" data-media-viewer-source="${source}">
                 <div class="media-viewer-title ${title === undefined || title.length === 0 ? 'd-none' : ''}">${title}</div>
                 <div class="media-viewer-content"><img class="media-viewer-image" src="${type.toLowerCase() === 'image' ? source : thumbnail}" /></div>
                 <div class="media-viewer-author ${author === undefined || author.length === 0 ? 'd-none' : ''}">${author}</div>
                 <div class="media-viewer-description ${description === undefined || description.length === 0 ? 'd-none' : ''}">${description}</div>
+                <div class="media-viewer-options">
+                    <i class="fa fa-download ${download !== undefined && download === false ? 'd-none' : ''}" onclick="download();"></i>
+                    <i class="fa fa-close" onclick="hideMediaViewer();"></i>
+                </div>
             </div>
         </div>
     `);
@@ -80,6 +85,18 @@ function displayMediaViewer(index, thumbnail, source, type, title, collection, a
 function hideMediaViewer() {
     $('div#media-viewer-popup').hide();
     $('div#media-viewer-popup').remove();
+}
+
+function download() {
+    let source = $('#media-viewer-popup .media-viewer').data('media-viewer-source');
+    let parts = source.split('/');
+
+    let a = document.createElement('a');
+    a.href = source;
+    a.download = parts[parts.length - 1];
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 }
 
 function getOrientation(item) {

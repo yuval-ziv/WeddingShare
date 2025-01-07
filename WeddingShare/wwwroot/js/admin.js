@@ -335,7 +335,7 @@
             let id = row.data('gallery-id');
 
             $.ajax({
-                url: '/Admin/DownloadGallery',
+                url: '/Gallery/DownloadGallery',
                 method: 'POST',
                 data: { Id: id }
             })
