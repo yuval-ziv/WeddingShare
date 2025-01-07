@@ -58,7 +58,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | RETAIN_REJECTED_ITEMS              | false                                        | Yes              |
 
 > **Gallery Overrides:**<br/>
-> Gallery overrides can be added by appending the gallery name to the end of the environment variable key. For example if the DISABLE_UPLOAD key is set to true but the DISABLE_UPLOAD_PUBLIC key is also present and set to false, the default gallery behavior will be to hide the upload section for all galleries *<ins>except</ins>* the "Public" gallery.
+> Gallery overrides can be added by appending the gallery name to the end of the environment variable key. For example if the DISABLE_UPLOAD key is set to true but the DISABLE_UPLOAD_PUBLIC key is also present and set to false, the default gallery behaviour will be to hide the upload section for all galleries *<ins>except</ins>* the "Public" gallery.
 
 ## Slideshow
 
