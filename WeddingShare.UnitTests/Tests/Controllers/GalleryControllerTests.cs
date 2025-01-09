@@ -149,13 +149,16 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 				files.Add(new FormFile(null, 0, 0, "TestFile_001", $"{Guid.NewGuid()}.jpg"));
 			}
 
+			var session = new MockSession();
+			session.Set("ViewerIdentity", uploadedBy ?? string.Empty);
+
 			var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _logger, _localizer);
 			controller.ControllerContext.HttpContext = MockData.MockHttpContext(
+				session: session,
 				form: new Dictionary<string, StringValues>
 				{
 					{ "Id", "default" },
-					{ "SecretKey", "password" },
-					{ "UploadedBy", uploadedBy }
+					{ "SecretKey", "password" }
                 },
 				files: files);
 

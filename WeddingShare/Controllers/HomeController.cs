@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeddingShare.Helpers;
@@ -47,6 +48,26 @@ namespace WeddingShare.Controllers
             }
 
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult SetIdentity(string name) 
+        {
+            try
+            {
+                if (Regex.IsMatch(name, @"^[a-zA-Z-\s\-\']+$", RegexOptions.Compiled))
+                {
+                    HttpContext.Session.SetString("ViewerIdentity", name);
+
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to set user identity session - Name: '{name}'");
+            }
+
+            return Json(new { success = false });
         }
     }
 }

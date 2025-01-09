@@ -34,6 +34,11 @@ namespace WeddingShare.UnitTests.Helpers
             this.Values.Remove(key);
         }
 
+        public void Set(string key, string value)
+        {
+            this.Set(key, Encoding.UTF8.GetBytes(value));
+        }
+
         public void Set(string key, byte[] value)
         {
             if (this.Values.ContainsKey(key))

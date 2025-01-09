@@ -51,7 +51,7 @@ function displayMessage(title, message, errors) {
     hideLoader();
 
     $('#alert-message-modal .modal-title').text(title);
-    $('#alert-message-modal .modal-message').html(message);
+    $('#alert-message-modal .modal-message').text(message);
 
     $('#alert-message-modal .modal-error').hide();
     if (errors && errors.length > 0) {
@@ -64,18 +64,13 @@ function displayMessage(title, message, errors) {
         $('#alert-message-modal .modal-error').html(errorMessage);
         $('#alert-message-modal .modal-error').show();
     } else {
-        $('#alert-message-modal .modal-error').html('');
+        $('#alert-message-modal .modal-error').text('');
     }
 
     $('#alert-message-modal').modal('show');
 }
 
 function displayIdentityCheck() {
-    let identity = getCookie('ViewerIdentity');
-    if (identity !== undefined && identity.length > 0) {
-        return;
-    }
-
     displayPopup({
         Title: localization.translate('Identity_Check'),
         Fields: [{
@@ -91,14 +86,40 @@ function displayIdentityCheck() {
             Callback: function () {
                 let name = $('#popup-modal-field-identity-name').val().trim();
                 if (name !== undefined && name.length > 0) {
-                    setCookie('ViewerIdentity', name, 24);
-                    window.location.reload();
+                    const regex = /^[a-zA-Z-\s\-\']+$/;
+                    if (regex.test(name)) {
+                        $.ajax({
+                            url: '/Home/SetIdentity',
+                            method: 'POST',
+                            data: { name }
+                        })
+                            .done(data => {
+                                window.location.reload();
+                            })
+                            .fail((xhr, error) => {
+                                displayMessage(localization.translate('Identity_Check'), localization.translate('Identity_Check_Set_Failed'), [error]);
+                            });
+                    } else {
+                        displayMessage(localization.translate('Identity_Check_Invalid_Name'), localization.translate('Identity_Check_Invalid_Name_Msg'));
+                    }
+                } else {
+                    displayMessage(localization.translate('Identity_Check_Invalid_Name'), localization.translate('Identity_Check_Invalid_Name_Msg'));
                 }
             }
         }, {
             Text: localization.translate('Identity_Check_Stay_Anonymous'),
             Callback: function () {
-                setCookie('ViewerIdentity', 'Anonymous', 1);
+                $.ajax({
+                    url: '/Home/SetIdentity',
+                    method: 'POST',
+                    data: { name: 'Anonymous' }
+                })
+                    .done(data => {
+                        window.location.reload();
+                    })
+                    .fail((xhr, error) => {
+                        displayMessage(localization.translate('Identity_Check'), localization.translate('Identity_Check_Set_Failed'), [error]);
+                    });
             }
         }]
     });
@@ -124,7 +145,7 @@ function displayIdentityCheck() {
                 Fields: [{
                     Id: 'identity-name',
                     Name: localization.translate('Identity_Check_Name'),
-                    Value: getCookie('ViewerIdentity'),
+                    Value: $(this).data('identity'),
                     Hint: localization.translate('Identity_Check_Hint'),
                     Placeholder: localization.translate('Identity_Check_Placeholder')
                 }],
@@ -134,7 +155,24 @@ function displayIdentityCheck() {
                     Callback: function () {
                         let name = $('#popup-modal-field-identity-name').val().trim();
                         if (name !== undefined && name.length > 0) {
-                            setCookie('ViewerIdentity', name, 24);
+                            const regex = /^[a-zA-Z-\s\-\']+$/;
+                            if (regex.test(name)) {
+                                $.ajax({
+                                    url: '/Home/SetIdentity',
+                                    method: 'POST',
+                                    data: { name }
+                                })
+                                    .done(data => {
+                                        window.location.reload();
+                                    })
+                                    .fail((xhr, error) => {
+                                        displayMessage(localization.translate('Identity_Check_Change'), localization.translate('Identity_Check_Set_Failed'), [error]);
+                                    });
+                            } else {
+                                displayMessage(localization.translate('Identity_Check_Invalid_Name'), localization.translate('Identity_Check_Invalid_Name_Msg'));
+                            }
+                        } else {
+                            displayMessage(localization.translate('Identity_Check_Invalid_Name'), localization.translate('Identity_Check_Invalid_Name_Msg'));
                         }
                     }
                 }, {
@@ -157,7 +195,9 @@ function displayIdentityCheck() {
 
             var galleryId = $('input#gallery-id').val();
             var secretKey = $('input#gallery-key').val();
-            if (galleryId && galleryId.length > 0) {
+
+            const regex = /^[a-zA-Z0-9\-\s-_~]+$/;
+            if (galleryId && galleryId.length > 0 && regex.test(galleryId)) {
                 var url = `/Gallery?id=${galleryId}`;
                 if (secretKey && secretKey.length > 0) {
                     url = `${url}&key=${secretKey}`;

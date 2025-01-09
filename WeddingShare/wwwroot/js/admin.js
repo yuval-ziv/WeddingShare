@@ -78,6 +78,12 @@
                             return;
                         }
 
+                        const regex = /^[a-zA-Z0-9\-\s-_~]+$/;
+                        if (!regex.test(name)) {
+                            displayMessage(localization.translate('Gallery_Create'), localization.translate('Gallery_Invalid_Name'));
+                            return;
+                        }
+
                         let key = $('#popup-modal-field-gallery-key').val();
                         
                         $.ajax({
