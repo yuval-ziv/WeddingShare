@@ -1,13 +1,9 @@
-﻿using System.Globalization;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using WeddingShare.BackgroundWorkers;
 using WeddingShare.Configurations;
 using WeddingShare.Helpers;
-using WeddingShare.Helpers.Database;
-using WeddingShare.Models.Database;
 
 namespace WeddingShare
 {
@@ -108,8 +104,13 @@ namespace WeddingShare
                     name: "default",
                     pattern: "{controller}/{action}/{id?}",
                     defaults: new { controller = "Home", action = "Index" });
-
                 endpoints.MapRazorPages();
+            });
+
+            app.Use(async (context, next) => {
+                context.Response.Headers.Add("Content-Security-Policy-Report-Only", "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; frame-src 'self'");
+
+                await next();
             });
         }
     }

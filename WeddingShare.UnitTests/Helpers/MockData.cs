@@ -7,19 +7,19 @@ namespace WeddingShare.UnitTests.Helpers
 {
 	internal class MockData
 	{
-		public static DefaultHttpContext MockHttpContext(Dictionary<string, StringValues>? form = null, IFormFileCollection? files = null) 
-		{
-			var ctx = new DefaultHttpContext()
-			{
-				Session = new MockSession()
-			};
+        public static DefaultHttpContext MockHttpContext(Dictionary<string, StringValues>? form = null, IFormFileCollection? files = null, MockSession session = null)
+        {
+            var ctx = new DefaultHttpContext()
+            {
+                Session = session ?? new MockSession()
+            };
 
-			ctx.Request.Form = new FormCollection(form, files);
+            ctx.Request.Form = new FormCollection(form, files);
 
-			return ctx;
-		}
+            return ctx;
+        }
 
-		public static List<GalleryItemModel> MockGalleryItems(int count = 10, int? galleryId = null, GalleryItemState state = GalleryItemState.All)
+        public static List<GalleryItemModel> MockGalleryItems(int count = 10, int? galleryId = null, GalleryItemState state = GalleryItemState.All)
 		{
 			var result = new List<GalleryItemModel>();
 

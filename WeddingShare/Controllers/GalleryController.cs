@@ -176,7 +176,7 @@ namespace WeddingShare.Controllers
                         return Json(new { success = false, uploaded = 0, errors = new List<string>() { _localizer["Invalid_Secret_Key_Warning"].Value } });
                     }
 
-                    string uploadedBy = (Request?.Form?.FirstOrDefault(x => string.Equals("UploadedBy", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString() ?? string.Empty;
+                    string uploadedBy = HttpContext.Session.GetString("ViewerIdentity") ?? "Anonymous";
                 
                     var files = Request?.Form?.Files;
                     if (files != null && files.Count > 0)
@@ -197,15 +197,15 @@ namespace WeddingShare.Controllers
                                 var allowedFileTypes = _config.GetOrDefault("Settings:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                                 if (!allowedFileTypes.Any(x => string.Equals(x.Trim('.'), extension.Trim('.'), StringComparison.OrdinalIgnoreCase)))
                                 {
-                                    errors.Add($"{_localizer["File_Upload_Failed"].Value} '{Path.GetFileName(file.FileName)}'. {_localizer["Invalid_File_Type"].Value}");
+                                    errors.Add($"{_localizer["File_Upload_Failed"].Value}. {_localizer["Invalid_File_Type"].Value}");
                                 }
                                 else if (file.Length > maxFilesSize)
                                 {
-                                    errors.Add($"{_localizer["File_Upload_Failed"].Value} '{Path.GetFileName(file.FileName)}'. {_localizer["Max_File_Size"].Value} {maxFilesSize} bytes");
+                                    errors.Add($"{_localizer["File_Upload_Failed"].Value}. {_localizer["Max_File_Size"].Value} {maxFilesSize} bytes");
                                 }
                                 else if ((_fileHelper.GetDirectorySize(galleryPath) + file.Length) > maxGallerySize)
                                 {
-                                    errors.Add($"{_localizer["File_Upload_Failed"].Value} '{Path.GetFileName(file.FileName)}'. {_localizer["Gallery_Full"].Value} {maxGallerySize} bytes");
+                                    errors.Add($"{_localizer["File_Upload_Failed"].Value}. {_localizer["Gallery_Full"].Value} {maxGallerySize} bytes");
                                 }
                                 else
                                 {
@@ -289,7 +289,7 @@ namespace WeddingShare.Controllers
                         return Json(new { success = false, uploaded = 0, errors = new List<string>() { _localizer["Invalid_Secret_Key_Warning"].Value } });
                     }
 
-                    string uploadedBy = (Request?.Form?.FirstOrDefault(x => string.Equals("UploadedBy", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString() ?? string.Empty;
+                    string uploadedBy = HttpContext.Session.GetString("ViewerIdentity") ?? "Anonymous";
                         
                     var requiresReview = _gallery.GetConfig(galleryId, "Require_Review", true);
 

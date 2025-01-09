@@ -94,7 +94,6 @@
             }
 
             const secretKey = dataRefs.input.getAttribute('data-post-key');
-            const uploadedBy = getCookie('ViewerIdentity');
 
             let uploadedCount = 0;
             let requiresReview = true;
@@ -104,7 +103,6 @@
                 const formData = new FormData();
                 formData.append('Id', galleryId);
                 formData.append('SecretKey', secretKey);
-                formData.append('UploadedBy', uploadedBy);
                 formData.append(dataRefs.files[i].name, dataRefs.files[i]);
 
                 displayLoader(localization.translate('Upload_Progress', { index: i + 1, count: dataRefs.files.length }));
@@ -126,7 +124,6 @@
                 const formData = new FormData();
                 formData.append('Id', galleryId);
                 formData.append('SecretKey', secretKey);
-                formData.append('UploadedBy', uploadedBy);
                 formData.append('Count', uploadedCount);
 
                 postData({ url: '/Gallery/UploadCompleted', formData });
