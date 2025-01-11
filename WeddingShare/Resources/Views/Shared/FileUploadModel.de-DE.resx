@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -58,49 +58,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="File_Upload_Failed" xml:space="preserve">
-    <value>Impossible de télécharger le fichier</value>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Klicken Sie hier, um Dateien zum Hochladen auszuwählen</value>
   </data>
-  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
-    <value>La galerie demandée n'a pas été trouvée ou n'existe pas</value>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Ziehen Sie Dateien hierher und legen Sie sie dort ab, um sie in die Galerie hochzuladen</value>
   </data>
-  <data name="Image_Upload_Failed" xml:space="preserve">
-    <value>Impossible de télécharger les images</value>
-  </data>
-  <data name="Invalid_Access_Token" xml:space="preserve">
-    <value>Le jeton d'accès fourni n'était pas valide</value>
-  </data>
-  <data name="Invalid_File_Type" xml:space="preserve">
-    <value>Le type de fichier n'est pas valide</value>
-  </data>
-  <data name="Invalid_Gallery_Id" xml:space="preserve">
-    <value>ID de galerie invalide</value>
-  </data>
-  <data name="Invalid_Gallery_Key" xml:space="preserve">
-    <value>Clé de galerie non valide</value>
-  </data>
-  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
-    <value>Une demande a été effectuée à l'aide d'une clé de sécurité non valide</value>
-  </data>
-  <data name="Max_File_Size" xml:space="preserve">
-    <value>La taille maximale du fichier est</value>
-  </data>
-  <data name="Gallery_Full" xml:space="preserve">
-    <value>La galerie est pleine et a dépassé la taille maximale de</value>
-  </data>
-  <data name="New_Items_Pending_Review" xml:space="preserve">
-    <value>Nouveaux articles en attente d'examen</value>
-  </data>
-  <data name="No_Files_For_Upload" xml:space="preserve">
-    <value>Aucun fichier n'a été détecté pour le téléchargement</value>
-  </data>
-  <data name="Save_To_Gallery_Failed" xml:space="preserve">
-    <value>Impossible d'enregistrer l'image dans la galerie</value>
-  </data>
-  <data name="Failed_Download_Gallery" xml:space="preserve">
-    <value>Impossible de télécharger la galerie</value>
-  </data>
-  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
-    <value>Vous n'êtes pas autorisé à télécharger cette galerie</value>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Medien hochladen</value>
   </data>
 </root>

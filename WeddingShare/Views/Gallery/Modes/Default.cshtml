@@ -1,5 +1,5 @@
 ﻿@using WeddingShare.Enums
-@using WeddingShare.Views.Gallery
+@using WeddingShare.Views.Gallery.Modes
 @inject WeddingShare.Helpers.IConfigHelper _config
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
 @inject Microsoft.Extensions.Localization.IStringLocalizer<DefaultGalleryModel> _localizer
@@ -36,7 +36,7 @@
                 var image = Model.Images[index];
 
                 <div class="image-tile mb-4">
-                    <a href="@image.ImagePath" class="media-viewer-item" data-media-viewer-type="@image.MediaType.ToString().ToLower()" data-media-viewer-collection="@image.GalleryName" data-media-viewer-author="@(identityEnabled ? $"Uploaded By: {(!string.IsNullOrWhiteSpace(image?.UploadedBy) ? image?.UploadedBy : "Anonymous")}" : string.Empty)" data-media-viewer-download="@((!_gallery.GetConfig(Model?.GalleryName, "Disable_Download", false) || (User?.Identity != null && User.Identity.IsAuthenticated)).ToString().ToLower())">
+                    <a href="@image.ImagePath" class="media-viewer-item" data-media-viewer-type="@image.MediaType.ToString().ToLower()" data-media-viewer-collection="@image.GalleryName" data-media-viewer-author="@(identityEnabled ? $"{_localizer["Uploaded_By"].Value}: {(!string.IsNullOrWhiteSpace(image?.UploadedBy) ? image?.UploadedBy : "Anonymous")}" : string.Empty)" data-media-viewer-download="@((!_gallery.GetConfig(Model?.GalleryName, "Disable_Download", false) || (User?.Identity != null && User.Identity.IsAuthenticated)).ToString().ToLower())">
                         <img src="@image.ThumbnailPath" class="w-100 shadow-1-strong" loading="lazy" />
                         @if (image.MediaType == MediaType.Video)
                         {
