@@ -21,25 +21,25 @@
                     @if (!_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
                     {
                         <div class="mx-0 mx-sm-5 px-2 px-xl-5 text-success d-inline-block">
-                            <i class="btnAddGallery fa-solid fa-calendar-plus fa-2x pointer" alt="Create"></i>
-                            <h6>Create</h6>
+                            <i class="btnAddGallery fa-solid fa-calendar-plus fa-2x pointer" alt="@_localizer["Create"].Value"></i>
+                            <h6>@_localizer["Create"].Value</h6>
                         </div>
                     }
                     <div class="mx-0 mx-sm-5 px-2 px-xl-5 text-warning d-inline-block">
-                        <i class="btnBulkReview fa-solid fa-thumbs-up fa-2x pointer" alt="Bulk Review"></i>
-                        <h6>Review</h6>
+                        <i class="btnBulkReview fa-solid fa-thumbs-up fa-2x pointer" alt="@_localizer["Review"].Value"></i>
+                        <h6>@_localizer["Review"].Value</h6>
                     </div>
                     <div class="mx-0 mx-sm-5 px-2 px-xl-5 text-primary d-inline-block">
-                        <i class="btnImport fa-solid fa-upload fa-2x pointer" alt="Import"></i>
-                        <h6>Import</h6>
+                        <i class="btnImport fa-solid fa-upload fa-2x pointer" alt="@_localizer["Import"].Value"></i>
+                        <h6>@_localizer["Import"].Value</h6>
                     </div>
                     <div class="mx-0 mx-sm-5 px-2 px-xl-5 text-primary d-inline-block">
-                        <i class="btnExport fa-solid fa-download fa-2x pointer" alt="Export"></i>
-                        <h6>Export</h6>
+                        <i class="btnExport fa-solid fa-download fa-2x pointer" alt="@_localizer["Export"].Value"></i>
+                        <h6>@_localizer["Export"].Value</h6>
                     </div>
                     <div class="mx-0 mx-sm-5 px-2 px-xl-5 text-danger d-inline-block">
-                        <i class="btnWipeAllGalleries fa-solid fa-broom fa-2x pointer" alt="Wipe"></i>
-                        <h6>Wipe</h6>
+                        <i class="btnWipeAllGalleries fa-solid fa-broom fa-2x pointer" alt="@_localizer["Wipe"].Value"></i>
+                        <h6>@_localizer["Wipe"].Value</h6>
                     </div>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                 {
                     <div class="pending-approval col-12 col-lg-4 mb-4 mb-lg-0 mb-1 mb-lg-4">
                         <div class="card">
-                            <a href="/uploads/@review.GalleryName/Pending/@review.Title" class="media-viewer-item" data-media-viewer-type="@review.MediaType.ToString().ToLower()" data-media-viewer-collection="@review.GalleryName" data-media-viewer-author="@(identityEnabled ? $"Uploaded By: {(!string.IsNullOrWhiteSpace(review?.UploadedBy) ? review?.UploadedBy : "Anonymous")}" : string.Empty)" data-media-viewer-download="true">
+                            <a href="/uploads/@review.GalleryName/Pending/@review.Title" class="media-viewer-item" data-media-viewer-type="@review.MediaType.ToString().ToLower()" data-media-viewer-collection="@review.GalleryName" data-media-viewer-author="@(identityEnabled ? $"{_localizer["Uploaded_By"].Value}: {(!string.IsNullOrWhiteSpace(review?.UploadedBy) ? review?.UploadedBy : "Anonymous")}" : string.Empty)" data-media-viewer-download="true">
                                 <img src="/thumbnails/@($"{System.IO.Path.GetFileNameWithoutExtension(review.Title)}.webp")" class="review-tile" loading="lazy" />
                                 @if (review.MediaType == MediaType.Video)
                                 {
@@ -114,16 +114,16 @@
                                     @if (identityEnabled)
                                     {
                                         <div class="col-12 col-lg-6 text-lg-center">
-                                            <b>Gallery:</b> @review.GalleryName
+                                            <b>@_localizer["Gallery"].Value:</b> @review.GalleryName
                                         </div>
                                         <div class="col-12 col-lg-6 text-lg-center">
-                                            <b>Uploader:</b> @(!string.IsNullOrWhiteSpace(review.UploadedBy) ? review.UploadedBy : "Anonymous")
+                                            <b>@_localizer["Uploader"].Value:</b> @(!string.IsNullOrWhiteSpace(review.UploadedBy) ? review.UploadedBy : "Anonymous")
                                         </div>
                                     }
                                     else
                                     {
                                         <div class="col-12">
-                                            <b>Gallery:</b> @review.GalleryName
+                                            <b>@_localizer["Gallery"].Value:</b> @review.GalleryName
                                         </div>
                                     }
                                 </div>
