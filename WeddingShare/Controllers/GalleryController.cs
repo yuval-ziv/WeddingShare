@@ -26,13 +26,13 @@ namespace WeddingShare.Controllers
         private readonly IImageHelper _imageHelper;
         private readonly INotificationHelper _notificationHelper;
         private readonly ILogger _logger;
-        private readonly IStringLocalizer<GalleryController> _localizer;
+        private readonly IStringLocalizer<Lang.Translations> _localizer;
 
         private readonly string TempDirectory;
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IFileHelper fileHelper, IGalleryHelper galleryHelper, IDeviceDetector deviceDetector, IImageHelper imageHelper, INotificationHelper notificationHelper, ILogger<GalleryController> logger, IStringLocalizer<GalleryController> localizer)
+        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IFileHelper fileHelper, IGalleryHelper galleryHelper, IDeviceDetector deviceDetector, IImageHelper imageHelper, INotificationHelper notificationHelper, ILogger<GalleryController> logger, IStringLocalizer<Lang.Translations> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
@@ -54,7 +54,7 @@ namespace WeddingShare.Controllers
         [RequiresSecretKey]
         [AllowGuestCreate]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> Index(string id = "default", string? key = null, ViewMode? mode = null, GalleryOrder order = GalleryOrder.None)
+        public async Task<IActionResult> Index(string id = "default", string? key = null, ViewMode? mode = null, GalleryOrder order = GalleryOrder.UploadedDesc)
         {
             id = (!string.IsNullOrWhiteSpace(id) && !_config.GetOrDefault("Settings:Single_Gallery_Mode", false)) ? id.ToLower() : "default";
             
@@ -91,47 +91,34 @@ namespace WeddingShare.Controllers
             }
 
             if (gallery != null)
-            { 
+            {
                 ViewBag.GalleryId = gallery.Name;
 
                 var secretKey = await _gallery.GetSecretKey(gallery.Name);
                 ViewBag.SecretKey = secretKey;
 
-                var allowedFileTypes = _config.GetOrDefault("Settings:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-                var images = (await _database.GetAllGalleryItems(gallery.Id, GalleryItemState.Approved))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
-                switch (order) 
+                var currentPage = 1;
+                try
                 {
-                    case GalleryOrder.UploadedAsc:
-                        images = images?.OrderBy(x => x.Id);
-                        break;
-                    case GalleryOrder.UploadedDesc:
-                        images = images?.OrderByDescending(x => x.Id);
-                        break;
-                    case GalleryOrder.NameAsc:
-                        images = images?.OrderByDescending(x => x.Title);
-                        break;
-                    case GalleryOrder.NameDesc:
-                        images = images?.OrderBy(x => x.Title);
-                        break;
-                    case GalleryOrder.Random:
-                        images = images?.OrderBy(x => Guid.NewGuid());
-                        break;
-                    default: 
-                        images = images?.OrderByDescending(x => x.Id);
-                        break;
+                    currentPage = int.Parse((Request.Query.ContainsKey("page") && !string.IsNullOrWhiteSpace(Request.Query["page"])) ? Request.Query["page"].ToString().ToLower() : "1");
                 }
+                catch { }
 
+                var itemsPerPage = _gallery.GetConfig(gallery?.Name, "Gallery_Items_Per_Page", 50);
+                var allowedFileTypes = _config.GetOrDefault("Settings:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                var items = (await _database.GetAllGalleryItems(gallery?.Id, GalleryItemState.Approved, order, itemsPerPage, currentPage))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
+                
                 FileUploader? fileUploader = null;
-                if (!string.Equals("All", gallery.Name, StringComparison.OrdinalIgnoreCase) && (!_gallery.GetConfig(gallery.Name, "Disable_Upload", false) || (User?.Identity != null && User.Identity.IsAuthenticated)))
+                if (!string.Equals("All", gallery?.Name, StringComparison.OrdinalIgnoreCase) && (!_gallery.GetConfig(gallery?.Name, "Disable_Upload", false) || (User?.Identity != null && User.Identity.IsAuthenticated)))
                 {
-                    fileUploader = new FileUploader(gallery.Name, secretKey, "/Gallery/UploadImage");
+                    fileUploader = new FileUploader(gallery?.Name ?? "default", secretKey, "/Gallery/UploadImage");
                 }
 
                 var model = new PhotoGallery()
                 {
-                    GalleryId = gallery.Id,
-                    GalleryName = gallery.Name,
-                    Images = images?.Select(x => new PhotoGalleryImage() 
+                    GalleryId = gallery?.Id,
+                    GalleryName = gallery?.Name,
+                    Images = items?.Select(x => new PhotoGalleryImage() 
                     { 
                         Id = x.Id, 
                         GalleryId = x.GalleryId,
@@ -142,9 +129,13 @@ namespace WeddingShare.Controllers
                         ThumbnailPath = $"/{ThumbnailsDirectory.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}/{Path.GetFileNameWithoutExtension(x.Title)}.webp",
                         MediaType = x.MediaType
                     })?.ToList(),
+                    CurrentPage = currentPage,
+                    ApprovedCount = gallery?.ApprovedItems ?? 0,
                     PendingCount = gallery?.PendingItems ?? 0,
+                    ItemsPerPage = itemsPerPage,
                     FileUploader =  fileUploader,
-                    ViewMode = (ViewMode)ViewBag.ViewMode
+                    ViewMode = (ViewMode)ViewBag.ViewMode,
+                    Pagination = order != GalleryOrder.Random
                 };
             
                 return View(model);
@@ -190,8 +181,8 @@ namespace WeddingShare.Controllers
                             try
                             {
                                 var extension = Path.GetExtension(file.FileName);
-                                var maxFilesSize = _config.GetOrDefault("Settings:Max_File_Size_Mb", 10) * 1000000;
-                                var maxGallerySize = _gallery.GetConfig(galleryId, "Max_Gallery_Size_Mb", 1024) * 1000000;
+                                var maxFilesSize = _config.GetOrDefault("Settings:Max_File_Size_Mb", 10L) * 1000000;
+                                var maxGallerySize = _gallery.GetConfig(galleryId, "Max_Gallery_Size_Mb", 1024L) * 1000000;
                                 var galleryPath = Path.Combine(UploadsDirectory, gallery.Name);
 
                                 var allowedFileTypes = _config.GetOrDefault("Settings:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);

@@ -164,7 +164,22 @@
             await imageUpload(dataRefs);
         }
 
-        $(document).off('click', 'i.btnDownloadGallery').on('click', 'button.btnDownloadGallery', function (e) {
+        $(document).off('click', 'button.btnSaveQRCode').on('click', 'button.btnSaveQRCode', function (e) {
+            preventDefaults(e);
+            
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
+            let galleryName = $(this).data('gallery-name');
+
+            let link = document.createElement('a');
+            link.download = `${galleryName}-qrcode.png`;
+            link.href = $('#qrcode-download canvas')[0].toDataURL('image/png', 1.0).replace('image/png', 'image/octet-stream');
+            link.click();
+        });
+
+        $(document).off('click', 'button.btnDownloadGallery').on('click', 'button.btnDownloadGallery', function (e) {
             preventDefaults(e);
 
             if ($(this).attr('disabled') == 'disabled') {

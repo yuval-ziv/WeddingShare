@@ -1,7 +1,7 @@
 @using WeddingShare.Enums
 @using WeddingShare.Views.Gallery
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
-@inject Microsoft.Extensions.Localization.IStringLocalizer<GalleryWrapperModel> _localizer
+@inject Microsoft.Extensions.Localization.IStringLocalizer<WeddingShare.Lang.Translations> _localizer
 @model WeddingShare.Models.PhotoGallery
 
 @if (Model.ViewMode != ViewMode.Slideshow)
@@ -44,6 +44,15 @@
             <partial name="~/Views/Gallery/Modes/Default.cshtml" model="Model" />
         }
     </div>
+
+    @if (Model.Pagination && Model.ViewMode == ViewMode.Default)
+    {
+        <div class="row">
+            <div class="col-12">
+                <partial name="~/Views/Gallery/GalleryPagination.cshtml" model="new GalleryPaginationModel() { CurrentPage = Model.CurrentPage, TotalItems = Model?.ApprovedCount ?? 0, ItemsPerPage = Model?.ItemsPerPage ?? 50 }" />
+            </div>
+        </div>
+    }
 }
 else
 {

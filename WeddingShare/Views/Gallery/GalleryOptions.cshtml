@@ -2,7 +2,7 @@
 @using WeddingShare.Enums
 @using WeddingShare.Helpers
 @using WeddingShare.Views.Gallery
-@inject Microsoft.Extensions.Localization.IStringLocalizer<GalleryOptionsModel> _localizer
+@inject Microsoft.Extensions.Localization.IStringLocalizer<WeddingShare.Lang.Translations> _localizer
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
 @model WeddingShare.Models.PhotoGallery
 
@@ -11,12 +11,14 @@
     <div class="row mb-4">
         <div class="col-12 text-center">
             <div id="qrcode"></div>
+            <div id="qrcode-download" class="d-none"></div>
             <h6>@_localizer["Share_Code"].Value</h6>
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     if ($('#qrcode').length > 0 && $('#qrcode').is(':visible')) {
                         $(function () {
                             $('#qrcode').qrcode({ width: 150, height: 150, text: '@Html.Raw(ViewBag.QRCodeLink)' });
+                            $('#qrcode-download').qrcode({ width: 1000, height: 1000, text: '@Html.Raw(ViewBag.QRCodeLink)' });
                         });
                     }
                 }, false);
@@ -27,6 +29,15 @@
 
 <div class="row px-4 mb-4 presentation-hidden">
     <div class="col-12 px-5">
+        @if (!_gallery.GetConfig(Model?.GalleryName, "Disable_QR_Code", false))
+        {
+            <div class="btn-group w-100 mb-2">
+                <button class="btnSaveQRCode btn btn-primary btn-sm" type="button" data-gallery-name="@Model?.GalleryName">
+                    @_localizer["Save_QR"].Value
+                </button>
+            </div>
+        }
+
         <div class="btn-group w-100 mb-2">
             <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @_localizer["View"].Value
@@ -38,6 +49,7 @@
                 }
             </div>
         </div>
+
         <div class="btn-group w-100 mb-2">
             <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @_localizer["Sort"].Value
@@ -52,6 +64,7 @@
                 }
             </div>
         </div>
+        
         @if (!_gallery.GetConfig(Model?.GalleryName, "Disable_Download", false) || (User?.Identity != null && User.Identity.IsAuthenticated))
         {
             <div class="btn-group w-100 mb-2">

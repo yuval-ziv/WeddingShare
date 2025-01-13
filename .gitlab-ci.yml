@@ -42,8 +42,9 @@ push_pre_release:
   variables:
     GIT_STRATEGY: none
   stage: push
-  only:
-    - /^(prerel|rc|release)-[0-9]+\.[0-9]+\.[0-9]+$/
+  except:
+    - main
+    - master
   script:
     - 'docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA'
     - 'docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH'

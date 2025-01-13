@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using WeddingShare.Controllers;
 using WeddingShare.Enums;
@@ -14,6 +15,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         private readonly IGalleryHelper _gallery = Substitute.For<IGalleryHelper>();
         private readonly IDeviceDetector _deviceDetector = Substitute.For<IDeviceDetector>();
         private readonly ILogger<HomeController> _logger = Substitute.For<ILogger<HomeController>>();
+        private readonly IStringLocalizer<Lang.Translations> _localizer = Substitute.For<IStringLocalizer<Lang.Translations>>();
         
         public HomeControllerTests()
         {
@@ -38,7 +40,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             _config.GetOrDefault("Settings:Single_Gallery_Mode", Arg.Any<bool>()).Returns(singleGalleryMode);
             _gallery.GetSecretKey(Arg.Any<string>()).Returns(secretKey);
 
-            var controller = new HomeController(_config, _gallery, _deviceDetector, _logger);
+            var controller = new HomeController(_config, _gallery, _deviceDetector, _logger, _localizer);
             controller.ControllerContext.HttpContext = new DefaultHttpContext()
             {
                 Session = new MockSession()

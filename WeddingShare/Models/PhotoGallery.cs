@@ -27,14 +27,11 @@ namespace WeddingShare.Models
         public int? GalleryId { get; set; }
         public string? GalleryName { get; set; }
         public ViewMode ViewMode { get; set; }
+        public int ApprovedCount { get; set; }
         public int PendingCount { get; set; }
-        public int ApprovedCount
-        {
-            get
-            {
-                return this.Images?.Count ?? 0;
-            }
-        }
+        public int ItemsPerPage { get; set; } = 50;
+        public int CurrentPage { get; set; } = 1;
+        public bool Pagination { get; set; } = true;
         public int TotalCount
         {
             get
