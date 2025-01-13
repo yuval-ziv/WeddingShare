@@ -50,6 +50,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | REQUIRE_REVIEW                     | true                                         | Yes              |
 | SECRET_KEY                         | (optional)                                   | Yes              |
 | GALLERY_COLUMNS                    | 4 (1, 2, 3, 4, 6, 12)                        | Yes              |
+| GALLERY_ITEMS_PER_PAGE             | 50                                           | Yes              |
 | GALLERY_QUOTE                      | (optional)                                   | Yes              |
 | DISABLE_REVIEW_COUNTER             | false                                        | Yes              |
 | DISABLE_UPLOAD                     | false                                        | Yes              |

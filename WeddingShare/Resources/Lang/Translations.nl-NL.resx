@@ -1,0 +1,349 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value></value>
+  </resheader>
+  <resheader name="version">
+    <value></value>
+  </resheader>
+  <resheader name="reader">
+    <value></value>
+  </resheader>
+  <resheader name="writer">
+    <value></value>
+  </resheader>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Bestand uploaden mislukt</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>De gevraagde galerij is niet gevonden of bestaat niet</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Afbeeldingen uploaden mislukt</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Het opgegeven toegangstoken was ongeldig</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Ongeldig bestandstype</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Ongeldige galerij-ID</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Ongeldige galerij-sleutel</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>Er is een verzoek gedaan met een ongeldige beveiligingssleutel</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>De maximale bestandsgrootte is</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Galerij is vol en heeft de maximale grootte overschreden</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Nieuwe items in afwachting van beoordeling</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Er zijn geen bestanden gedetecteerd om te uploaden</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Afbeelding opslaan in de galerij is mislukt</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Het downloaden van de galerij is mislukt</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>U bent niet bevoegd om deze galerij te downloaden</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Galerij aanmaken mislukt</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Galerij verwijderen mislukt</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Galerij kan niet worden bijgewerkt</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Gegevens exporteren is mislukt</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Bestand kon niet worden gevonden</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Gegevens importeren is mislukt</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Item kon niet worden beoordeeld</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Het wissen van galerijen is mislukt</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Het wissen van de galerij is mislukt</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Galerijnaam bestaat al</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Het is niet gelukt om de gebruiker aan te melden</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Galerijnaam mag niet leeg zijn</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Het is niet gelukt om in behandeling zijnde uploads te verkrijgen</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Onbekende beoordelingsactie</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Acties</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Gebruikersnaam</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Voer de gebruikersnaam van uw account in.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Voer het wachtwoord van uw account in.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Wachtwoord</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Goedkeuren</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Goedgekeurd</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Beschikbare galerijen</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Aanmaken</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Sleutel</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Er zijn nog geen galerijen aangemaakt</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Er zijn nog geen uploads om te beoordeling</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>In behandeling</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Uploads in behandeling</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Afwijzen</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Hernoemen</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Totaal</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Geüpload door</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Beoordeling</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importeren</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exporteren</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Wissen</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galerij</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Uploaden</value>
+  </data>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Als dit probleem aanhoudt, neem dan contact op met de website beheerder</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Oeps, het lijkt erop dat er een onverwachte fout is opgetreden...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Het lijkt erop dat u niet bevoegd bent om de pagina te bekijken...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Toegang geweigerd</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>De opgegeven geheime sleutel was onjuist</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Ongeldige geheime sleutel</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>De opgegeven galerij bestaat niet en u heeft geen rechten om deze aan te maken</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Toegang geweigerd</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Code delen</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Weergave</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sorteren</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Er zijn momenteel geen herinneringen gedeeld. Upload hierboven uw eigen herinnering!</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Er zijn momenteel geen herinneringen gedeeld. Upload je herinneringen hierboven.</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Scan de QR-code met uw telefoon om uw afbeeldingen te delen</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Galerij sleutel</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Voer de geheime sleutel in.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>trouwdag</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Galerij naam</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Voer de naam in van de galerij die u wenst te bezoeken.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>mijn-bruiloft-galerij</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Selecteer een galerij</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Genereren</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Uitloggen</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Bezoeken</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Klik hier om bestanden te selecteren om te uploaden</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Sleep afbeelding(en) hierheen om ze naar de galerij te uploaden</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Media uploaden</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Opruimen</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Weet u zeker dat u deze galerij wenst op te ruimen?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Weet u zeker dat u deze galerij wenst te wissen?</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Sluiten</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Standaard</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Weet u zeker dat u deze galerij wenst te verwijderen?</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Bijwerken</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Weet u zeker dat u alle galerijen wenst te wissen?</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het laden van de homepage</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Het is niet gelukt om de gebruikersidentiteitssessie in te stellen - Naam</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>QR opslaan</value>
+  </data>
+</root>

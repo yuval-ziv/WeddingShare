@@ -28,7 +28,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         private readonly IImageHelper _image = Substitute.For<IImageHelper>();
         private readonly INotificationHelper _notification = Substitute.For<INotificationHelper>();
         private readonly ILogger<GalleryController> _logger = Substitute.For<ILogger<GalleryController>>();
-        private readonly IStringLocalizer<GalleryController> _localizer = Substitute.For<IStringLocalizer<GalleryController>>();
+        private readonly IStringLocalizer<Lang.Translations> _localizer = Substitute.For<IStringLocalizer<Lang.Translations>>();
         
         public GalleryControllerTests()
         {
@@ -69,9 +69,9 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             }));
 			_database.AddGalleryItem(Arg.Any<GalleryItemModel>()).Returns(Task.FromResult<GalleryItemModel?>(MockData.MockGalleryItem()));
 
-			_database.GetAllGalleryItems(Arg.Any<int>(), GalleryItemState.All).Returns(Task.FromResult(MockData.MockGalleryItems(10, 1, GalleryItemState.All)));
-            _database.GetAllGalleryItems(Arg.Any<int>(), GalleryItemState.Pending).Returns(Task.FromResult(MockData.MockGalleryItems(10, 1, GalleryItemState.Pending)));
-            _database.GetAllGalleryItems(Arg.Any<int>(), GalleryItemState.Approved).Returns(Task.FromResult(MockData.MockGalleryItems(10, 1, GalleryItemState.Approved)));
+			_database.GetAllGalleryItems(Arg.Any<int>(), GalleryItemState.All, Arg.Any<GalleryOrder>(), Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(MockData.MockGalleryItems(10, 1, GalleryItemState.All)));
+            _database.GetAllGalleryItems(Arg.Any<int>(), GalleryItemState.Pending, Arg.Any<GalleryOrder>(), Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(MockData.MockGalleryItems(10, 1, GalleryItemState.Pending)));
+            _database.GetAllGalleryItems(Arg.Any<int>(), GalleryItemState.Approved, Arg.Any<GalleryOrder>(), Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(MockData.MockGalleryItems(10, 1, GalleryItemState.Approved)));
             
             _gallery.GetSecretKey(Arg.Any<string>()).Returns("password");
             _gallery.GetSecretKey("blaa").Returns("456789");

@@ -1,0 +1,349 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Failed to upload file</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>The requested gallery was not found or does not exist</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Failed to upload images</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>The provided access token was invalid</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>File type is invalid</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Invalid gallery Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Invalid gallery key</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>A request was made using an invalid secret key</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Max file size is</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Gallery is full and has exceeded the max size of</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>New Items Pending Review</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>No files were detected for upload</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Failed to save image to gallery</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Failed to download gallery</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>You are not authorised to download this gallery</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Failed to create gallery</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Failed to delete gallery</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Failed to update gallery</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Failed to export data</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Failed to find file</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Failed to import data</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Failed to review item</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Failed to wipe galleries</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Failed to wipe gallery</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Gallery name already exists</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Failed to log user in</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Gallery name cannot be empty</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Failed to get pending uploads</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Unknown review action</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Please enter account username.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Please enter account password.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Approve</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Available Galleries</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>No galleries created yet</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>No uploads pending review</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Pending Uploads</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Reject</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Uploaded By</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Review</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Wipe</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Gallery</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Uploader</value>
+  </data>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>If this issue persists please contact the web administrator</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Opps, it looks like an unexpected error occurred...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>It looks like you are not authorized to view that page...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Access Denied</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>The provided secret key was incorrect</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Invalid Secret Key</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>The specified gellery does not exist and you do not have permissions to create it</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Access Denied</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Share Code</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>There are currently no memories shared, why don't you upload yours above!</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>There are currently no memories shared</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Scan the QR code with your phone to share your images</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Gallery Key</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Please enter the secret key.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>wedding-day</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Gallery Name</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Please enter the name of the gallery you want to visit.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>my-wedding-gallery</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Gallery Selector</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Generate</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Visit</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Click here to select files to upload</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Drag &amp; Drop files(s) here to upload them to the gallery</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Upload Media</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Clean</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Are you sure you want to clean this gallery?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Are you sure you want to wipe this gallery?</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Are you sure you want to delete this gallery?</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Are you sure you want to wipe all galleries?</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>An error occurred loading the homepage</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Failed to set user identity session - Name</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Save QR</value>
+  </data>
+</root>

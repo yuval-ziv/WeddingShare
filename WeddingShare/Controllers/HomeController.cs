@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using WeddingShare.Helpers;
 
 namespace WeddingShare.Controllers
@@ -12,13 +13,15 @@ namespace WeddingShare.Controllers
         private readonly IGalleryHelper _gallery;
         private readonly IDeviceDetector _deviceDetector;
         private readonly ILogger _logger;
+        private readonly IStringLocalizer<Lang.Translations> _localizer;
 
-        public HomeController(IConfigHelper config, IGalleryHelper gallery, IDeviceDetector deviceDetector, ILogger<HomeController> logger)
+        public HomeController(IConfigHelper config, IGalleryHelper gallery, IDeviceDetector deviceDetector, ILogger<HomeController> logger, IStringLocalizer<Lang.Translations> localizer)
         {
             _config = config;
             _gallery = gallery;
             _deviceDetector = deviceDetector;
             _logger = logger;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -44,7 +47,7 @@ namespace WeddingShare.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred loading the homepage - {ex?.Message}");
+                _logger.LogError(ex, $"{_localizer["Homepage_Load_Error"].Value} - {ex?.Message}");
             }
 
             return View();
@@ -64,7 +67,7 @@ namespace WeddingShare.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Failed to set user identity session - Name: '{name}'");
+                _logger.LogError(ex, $"{_localizer["Identity_Session_Error"].Value}: '{name}'");
             }
 
             return Json(new { success = false });

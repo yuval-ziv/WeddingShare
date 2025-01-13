@@ -23,23 +23,21 @@ namespace WeddingShare.Controllers
         private readonly IDatabaseHelper _database;
         private readonly IDeviceDetector _deviceDetector;
         private readonly IFileHelper _fileHelper;
-        private readonly IImageHelper _imageHelper;
         private readonly INotificationHelper _notificationHelper;
         private readonly ILogger _logger;
-        private readonly IStringLocalizer<AdminController> _localizer;
+        private readonly IStringLocalizer<Lang.Translations> _localizer;
 
         private readonly string TempDirectory;
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IImageHelper imageHelper, INotificationHelper notificationHelper, ILogger<AdminController> logger, IStringLocalizer<AdminController> localizer)
+        public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, INotificationHelper notificationHelper, ILogger<AdminController> logger, IStringLocalizer<Lang.Translations> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
             _database = database;
             _deviceDetector = deviceDetector;
             _fileHelper = fileHelper;
-            _imageHelper = imageHelper;
             _notificationHelper = notificationHelper;
             _logger = logger;
             _localizer = localizer;

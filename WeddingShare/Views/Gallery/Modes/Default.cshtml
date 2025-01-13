@@ -2,7 +2,7 @@
 @using WeddingShare.Views.Gallery.Modes
 @inject WeddingShare.Helpers.IConfigHelper _config
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
-@inject Microsoft.Extensions.Localization.IStringLocalizer<DefaultGalleryModel> _localizer
+@inject Microsoft.Extensions.Localization.IStringLocalizer<WeddingShare.Lang.Translations> _localizer
 @model WeddingShare.Models.PhotoGallery
 @{
     var columnCount = _gallery.GetConfig(Model?.GalleryName, "Gallery_Columns", 4);
