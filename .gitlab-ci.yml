@@ -45,6 +45,7 @@ push_pre_release:
   except:
     - main
     - master
+    - tag
   script:
     - 'docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA'
     - 'docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH'
