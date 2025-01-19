@@ -306,9 +306,9 @@ namespace WeddingShare.Helpers.Database
             return result;
         }
 
-        public async Task<List<PendingGalleryItemModel>> GetPendingGalleryItems(int? galleryId = null)
+        public async Task<List<GalleryItemModel>> GetPendingGalleryItems(int? galleryId = null)
         {
-            List<PendingGalleryItemModel> result;
+            List<GalleryItemModel> result;
           
             using (var conn = new SqliteConnection(_connString))
             {
@@ -325,9 +325,9 @@ namespace WeddingShare.Helpers.Database
             return result;
         }
 
-        public async Task<PendingGalleryItemModel?> GetPendingGalleryItem(int id)
+        public async Task<GalleryItemModel?> GetPendingGalleryItem(int id)
         {
-            PendingGalleryItemModel? result;
+            GalleryItemModel? result;
 
             using (var conn = new SqliteConnection(_connString))
             {
@@ -887,9 +887,9 @@ namespace WeddingShare.Helpers.Database
             return items;
         }
 
-        private async Task<List<PendingGalleryItemModel>> ReadPendingGalleryItems(SqliteDataReader? reader)
+        private async Task<List<GalleryItemModel>> ReadPendingGalleryItems(SqliteDataReader? reader)
         {
-            var items = new List<PendingGalleryItemModel>();
+            var items = new List<GalleryItemModel>();
 
             if (reader != null && reader.HasRows)
             {
@@ -901,7 +901,7 @@ namespace WeddingShare.Helpers.Database
                         var id = !await reader.IsDBNullAsync("id") ? reader.GetInt32("id") : 0;
                         if (id > 0)
                         { 
-                            items.Add(new PendingGalleryItemModel()
+                            items.Add(new GalleryItemModel()
                             {
                                 Id = id,
                                 GalleryId = !await reader.IsDBNullAsync("gallery_id") ? reader.GetInt32("gallery_id") : 0,

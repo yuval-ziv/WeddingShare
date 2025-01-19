@@ -346,4 +346,10 @@
   <data name="Save_QR" xml:space="preserve">
     <value>QR opslaan</value>
   </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Probeerde videominiatuur te genereren, maar FFMPEG is nog niet klaar met downloaden. Als dit een nieuwe installatie is, wacht dan tot het downloaden is voltooid en de gemiste miniaturen worden gegenereerd door de achtergrondscanner</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Het is niet gelukt om FFMPEG naar het pad te downloaden</value>
+  </data>
 </root>

@@ -1,8 +1,9 @@
+using System.IO.Compression;
+using System.Net;
+using System.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using System.IO.Compression;
-using System.Net;
 using WeddingShare.Attributes;
 using WeddingShare.Enums;
 using WeddingShare.Extensions;
@@ -25,6 +26,7 @@ namespace WeddingShare.Controllers
         private readonly IDeviceDetector _deviceDetector;
         private readonly IImageHelper _imageHelper;
         private readonly INotificationHelper _notificationHelper;
+        private readonly IEncryptionHelper _encryptionHelper;
         private readonly ILogger _logger;
         private readonly IStringLocalizer<Lang.Translations> _localizer;
 
@@ -32,7 +34,7 @@ namespace WeddingShare.Controllers
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IFileHelper fileHelper, IGalleryHelper galleryHelper, IDeviceDetector deviceDetector, IImageHelper imageHelper, INotificationHelper notificationHelper, ILogger<GalleryController> logger, IStringLocalizer<Lang.Translations> localizer)
+        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IFileHelper fileHelper, IGalleryHelper galleryHelper, IDeviceDetector deviceDetector, IImageHelper imageHelper, INotificationHelper notificationHelper, IEncryptionHelper encryptionHelper, ILogger<GalleryController> logger, IStringLocalizer<Lang.Translations> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
@@ -42,6 +44,7 @@ namespace WeddingShare.Controllers
             _deviceDetector = deviceDetector;
             _imageHelper = imageHelper;
             _notificationHelper = notificationHelper;
+            _encryptionHelper = encryptionHelper;
             _logger = logger;
             _localizer = localizer;
 
@@ -51,13 +54,21 @@ namespace WeddingShare.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Login(string id = "default", string? key = null)
+        {
+            var enc = _encryptionHelper.IsEncryptionEnabled();
+            return Redirect($"/Gallery?id={HttpUtility.UrlEncode(id)}&key={HttpUtility.UrlEncode(enc ? _encryptionHelper.Encrypt(key) : key)}&enc={enc.ToString().ToLower()}");
+        }
+
+        [HttpGet]
         [RequiresSecretKey]
         [AllowGuestCreate]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Index(string id = "default", string? key = null, ViewMode? mode = null, GalleryOrder order = GalleryOrder.UploadedDesc)
         {
             id = (!string.IsNullOrWhiteSpace(id) && !_config.GetOrDefault("Settings:Single_Gallery_Mode", false)) ? id.ToLower() : "default";
-            
+
             try
             {
                 ViewBag.ViewMode = mode ?? (ViewMode)_config.GetOrDefault("Settings:Default_Gallery_View", (int)ViewMode.Default);

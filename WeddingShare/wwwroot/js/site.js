@@ -198,7 +198,7 @@ function displayIdentityCheck() {
 
             const regex = /^[a-zA-Z0-9\-\s-_~]+$/;
             if (galleryId && galleryId.length > 0 && regex.test(galleryId)) {
-                var url = `/Gallery?id=${galleryId}`;
+                var url = `/Gallery/Login?id=${galleryId}`;
                 if (secretKey && secretKey.length > 0) {
                     url = `${url}&key=${secretKey}`;
                 }
@@ -211,6 +211,8 @@ function displayIdentityCheck() {
 
         $(document).off('submit', '#frmAdminLogin').on('submit', '#frmAdminLogin', function (e) {
             preventDefaults(e);
+
+            var token = $('#frmAdminLogin input[name=\'__RequestVerificationToken\']').val();
 
             var username = $('#frmAdminLogin input.input-username').val();
             if (username === undefined || username.length === 0) {
@@ -229,7 +231,7 @@ function displayIdentityCheck() {
             $.ajax({
                 url: '/Admin/Login',
                 method: 'POST',
-                data: { Username: username, Password: password }
+                data: { __RequestVerificationToken: token, Username: username, Password: password }
             })
                 .done(data => {
                     hideLoader();

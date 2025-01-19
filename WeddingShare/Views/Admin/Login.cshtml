@@ -10,6 +10,8 @@
             </div>
             <div class="card-body m-1 m-lg-5">
                 <form id="frmAdminLogin">
+                    @Html.AntiForgeryToken()
+
                     <div class="row mb-4 mb-lg-5">
                         <div class="col-12">
                             <input type="text" class="input-username form-control" aria-describedby="admin-username-help" placeholder="@_localizer["Login_Username_Placeholder"].Value" aria-label="@_localizer["Login_Username"].Value" />

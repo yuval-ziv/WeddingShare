@@ -33,90 +33,44 @@ namespace WeddingShare.BackgroundWorkers
         {
             await Task.Run(async () =>
             {
-                var allowedFileTypes = configHelper.GetOrDefault("Settings:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-
-                var thumbnailsDirectory = Path.Combine(hostingEnvironment.WebRootPath, "thumbnails");
-                fileHelper.CreateDirectoryIfNotExists(thumbnailsDirectory);
-
-                var uploadsDirectory = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
-                if (fileHelper.DirectoryExists(uploadsDirectory))
+                if (Startup.Ready)
                 {
-                    var searchPattern = !configHelper.GetOrDefault("Settings:Single_Gallery_Mode", false) ? "*" : "default";
-                    var galleries = fileHelper.GetDirectories(uploadsDirectory, searchPattern, SearchOption.TopDirectoryOnly)?.Where(x => !Path.GetFileName(x).StartsWith("."));
-                    if (galleries != null)
+                    var allowedFileTypes = configHelper.GetOrDefault("Settings:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+                    var thumbnailsDirectory = Path.Combine(hostingEnvironment.WebRootPath, "thumbnails");
+                    fileHelper.CreateDirectoryIfNotExists(thumbnailsDirectory);
+
+                    var uploadsDirectory = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
+                    if (fileHelper.DirectoryExists(uploadsDirectory))
                     {
-                        foreach (var gallery in galleries)
+                        var searchPattern = !configHelper.GetOrDefault("Settings:Single_Gallery_Mode", false) ? "*" : "default";
+                        var galleries = fileHelper.GetDirectories(uploadsDirectory, searchPattern, SearchOption.TopDirectoryOnly)?.Where(x => !Path.GetFileName(x).StartsWith("."));
+                        if (galleries != null)
                         {
-                            try
+                            foreach (var gallery in galleries)
                             {
-                                var id = Path.GetFileName(gallery).ToLower();
-                                var galleryItem = await databaseHelper.GetGallery(id);
-                                if (galleryItem == null)
+                                try
                                 {
-                                    galleryItem = await databaseHelper.AddGallery(new GalleryModel()
+                                    var id = Path.GetFileName(gallery).ToLower();
+                                    var galleryItem = await databaseHelper.GetGallery(id);
+                                    if (galleryItem == null)
                                     {
-                                        Name = id
-                                    });
-                                }
+                                        galleryItem = await databaseHelper.AddGallery(new GalleryModel()
+                                        {
+                                            Name = id
+                                        });
+                                    }
 
-                                if (galleryItem != null)
-                                {
-                                    var galleryItems = await databaseHelper.GetAllGalleryItems(galleryItem.Id);
-
-                                    if (Path.Exists(gallery))
+                                    if (galleryItem != null)
                                     {
-                                        var approvedFiles = fileHelper.GetFiles(gallery, "*.*", SearchOption.TopDirectoryOnly).Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
-                                        if (approvedFiles != null)
+                                        var galleryItems = await databaseHelper.GetAllGalleryItems(galleryItem.Id);
+
+                                        if (Path.Exists(gallery))
                                         {
-                                            foreach (var file in approvedFiles)
+                                            var approvedFiles = fileHelper.GetFiles(gallery, "*.*", SearchOption.TopDirectoryOnly).Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
+                                            if (approvedFiles != null)
                                             {
-                                                try
-                                                {
-                                                    var filename = Path.GetFileName(file);
-                                                    if (!galleryItems.Exists(x => string.Equals(x.Title, filename, StringComparison.OrdinalIgnoreCase)))
-                                                    {
-                                                        await databaseHelper.AddGalleryItem(new GalleryItemModel()
-                                                        {
-                                                            GalleryId = galleryItem.Id,
-                                                            Title = filename,
-                                                            MediaType = imageHelper.GetMediaType(file),
-                                                            State = GalleryItemState.Approved
-                                                        });
-                                                    }
-
-                                                    var thumbnailPath = Path.Combine(thumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(file)}.webp");
-                                                    if (!fileHelper.FileExists(thumbnailPath))
-                                                    {
-                                                        await imageHelper.GenerateThumbnail(file, thumbnailPath, configHelper.GetOrDefault("Settings:Thumbnail_Size", 720));
-                                                    }
-                                                    else
-                                                    {
-                                                        using (var img = await Image.LoadAsync(thumbnailPath))
-                                                        {
-                                                            var width = img.Width;
-
-                                                            img.Mutate(x => x.AutoOrient());
-
-                                                            if (width != img.Width)
-                                                            {
-                                                                await img.SaveAsWebpAsync(thumbnailPath);
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    logger.LogError(ex, $"An error occurred while scanning file '{file}'");
-                                                }
-                                            }
-                                        }
-
-                                        if (Path.Exists(Path.Combine(gallery, "Pending")))
-                                        {
-                                            var pendingFiles = fileHelper.GetFiles(Path.Combine(gallery, "Pending"), "*.*", SearchOption.TopDirectoryOnly).Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
-                                            if (pendingFiles != null)
-                                            {
-                                                foreach (var file in pendingFiles)
+                                                foreach (var file in approvedFiles)
                                                 {
                                                     try
                                                     {
@@ -128,8 +82,28 @@ namespace WeddingShare.BackgroundWorkers
                                                                 GalleryId = galleryItem.Id,
                                                                 Title = filename,
                                                                 MediaType = imageHelper.GetMediaType(file),
-                                                                State = GalleryItemState.Pending
+                                                                State = GalleryItemState.Approved
                                                             });
+                                                        }
+
+                                                        var thumbnailPath = Path.Combine(thumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(file)}.webp");
+                                                        if (!fileHelper.FileExists(thumbnailPath))
+                                                        {
+                                                            await imageHelper.GenerateThumbnail(file, thumbnailPath, configHelper.GetOrDefault("Settings:Thumbnail_Size", 720));
+                                                        }
+                                                        else
+                                                        {
+                                                            using (var img = await Image.LoadAsync(thumbnailPath))
+                                                            {
+                                                                var width = img.Width;
+
+                                                                img.Mutate(x => x.AutoOrient());
+
+                                                                if (width != img.Width)
+                                                                {
+                                                                    await img.SaveAsWebpAsync(thumbnailPath);
+                                                                }
+                                                            }
                                                         }
                                                     }
                                                     catch (Exception ex)
@@ -138,16 +112,49 @@ namespace WeddingShare.BackgroundWorkers
                                                     }
                                                 }
                                             }
+
+                                            if (Path.Exists(Path.Combine(gallery, "Pending")))
+                                            {
+                                                var pendingFiles = fileHelper.GetFiles(Path.Combine(gallery, "Pending"), "*.*", SearchOption.TopDirectoryOnly).Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
+                                                if (pendingFiles != null)
+                                                {
+                                                    foreach (var file in pendingFiles)
+                                                    {
+                                                        try
+                                                        {
+                                                            var filename = Path.GetFileName(file);
+                                                            if (!galleryItems.Exists(x => string.Equals(x.Title, filename, StringComparison.OrdinalIgnoreCase)))
+                                                            {
+                                                                await databaseHelper.AddGalleryItem(new GalleryItemModel()
+                                                                {
+                                                                    GalleryId = galleryItem.Id,
+                                                                    Title = filename,
+                                                                    MediaType = imageHelper.GetMediaType(file),
+                                                                    State = GalleryItemState.Pending
+                                                                });
+                                                            }
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            logger.LogError(ex, $"An error occurred while scanning file '{file}'");
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                                logger.LogError(ex, $"An error occurred while scanning directory '{gallery}'");
+                                catch (Exception ex)
+                                {
+                                    logger.LogError(ex, $"An error occurred while scanning directory '{gallery}'");
+                                }
                             }
                         }
                     }
+                }
+                else
+                { 
+                    logger.LogInformation($"Skipping directory scan, application not ready yet");
                 }
             });
         }

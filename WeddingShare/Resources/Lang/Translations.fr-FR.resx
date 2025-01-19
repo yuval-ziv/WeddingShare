@@ -346,4 +346,10 @@
   <data name="Save_QR" xml:space="preserve">
     <value>Enregistrer le QR</value>
   </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>J'ai tenté de générer une miniature de vidéo, mais FFMPEG n'a pas encore terminé le téléchargement. S'il s'agit d'une nouvelle installation, veuillez attendre la fin du téléchargement et les miniatures manquantes seront générées par le scanner d'arrière-plan</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Échec du téléchargement de FFMPEG sur le chemin</value>
+  </data>
 </root>

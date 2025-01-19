@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -10,6 +11,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
     {
         private readonly IFileHelper _fileHelper = Substitute.For<IFileHelper>();
         private readonly ILogger<ImageHelper> _logger = Substitute.For<ILogger<ImageHelper>>();
+        private readonly IStringLocalizer<Lang.Translations> _localizer = Substitute.For<IStringLocalizer<Lang.Translations>>();
         private readonly IDictionary<ImageOrientation, Image?> _imageCollection;
 
         public ImageHelperTests()
@@ -35,7 +37,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             var image = _imageCollection[orientation];
             Assert.IsNotNull(image);
 
-            var actual = new ImageHelper(_fileHelper, _logger).GetOrientation(image);
+            var actual = new ImageHelper(_fileHelper, _logger, _localizer).GetOrientation(image);
             Assert.That(actual, Is.EqualTo(orientation));
         }
     }

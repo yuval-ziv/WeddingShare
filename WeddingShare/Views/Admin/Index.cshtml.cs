@@ -10,7 +10,7 @@ namespace WeddingShare.Views.Admin
         }
 
         public List<GalleryModel>? Galleries { get; set; }
-        public List<PendingGalleryItemModel>? PendingRequests { get; set; }
+        public List<GalleryItemModel>? PendingRequests { get; set; }
 
         public void OnGet()
         {

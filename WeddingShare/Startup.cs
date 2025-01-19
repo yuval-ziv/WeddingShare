@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Localization;
 using WeddingShare.BackgroundWorkers;
 using WeddingShare.Configurations;
 using WeddingShare.Helpers;
@@ -12,6 +13,8 @@ namespace WeddingShare
         private readonly ILoggerFactory _loggerFactory;
         private readonly ILogger _logger;
 
+        public static bool Ready = false;
+        
         public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             Configuration = configuration;
@@ -68,13 +71,16 @@ namespace WeddingShare
                 options.Cookie.IsEssential = true;
             });
 
+            var localizer = services.BuildServiceProvider().GetRequiredService<IStringLocalizer<Lang.Translations>>();
             var ffmpegPath = config.GetOrDefault("FFMPEG:InstallPath", "/ffmpeg");
-            var imageHelper = new ImageHelper(new FileHelper(), _loggerFactory.CreateLogger<ImageHelper>());
+            var imageHelper = new ImageHelper(new FileHelper(), _loggerFactory.CreateLogger<ImageHelper>(), localizer);
             var downloaded = imageHelper.DownloadFFMPEG(ffmpegPath).Result;
             if (!downloaded)
             {
-                _logger.LogWarning($"Failed to download FFMPEG to path '{ffmpegPath}'");
+                _logger.LogWarning($"{localizer["FFMPEG_Download_Failed"].Value} '{ffmpegPath}'");
             }
+
+            Ready = true;
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -82,13 +88,30 @@ namespace WeddingShare
             if (!env.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
             }
 
             var config = new ConfigHelper(new EnvironmentWrapper(), Configuration, _loggerFactory.CreateLogger<ConfigHelper>());
             if (config.GetOrDefault("Settings:Force_Https", false))
             { 
+                app.UseHsts();
                 app.UseHttpsRedirection();
+            }
+
+            if (config.GetOrDefault("Security:Set_Headers", true))
+            {
+                var logoImages = string.Join(' ', Configuration.AsEnumerable().Where(x => (x.Key.StartsWith("Settings:Logo", StringComparison.OrdinalIgnoreCase) || x.Key.StartsWith("LOGO", StringComparison.OrdinalIgnoreCase)) && (!string.IsNullOrEmpty(x.Value) && !x.Value.StartsWith(".") && !x.Value.StartsWith("/") && !x.Value.StartsWith("\\"))).Select(x => x.Value));
+                app.Use(async (context, next) => {
+                    context.Response.Headers.Remove("X-Frame-Options");
+                    context.Response.Headers.Append("X-Frame-Options", config.GetOrDefault("Security:X_Frame_Options", "SAMEORIGIN"));
+
+                    context.Response.Headers.Remove("X-Content-Type-Options");
+                    context.Response.Headers.Append("X-Content-Type-Options", config.GetOrDefault("Security:X_Content_Type_Options", "nosniff"));
+
+                    context.Response.Headers.Remove("Content-Security-Policy");
+                    context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault("Security:CSP_Header", $"default-src 'self' http://localhost:* ws://localhost:*; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src {(!string.IsNullOrWhiteSpace(logoImages) ? $"{logoImages} " : string.Empty)}'self'; frame-src 'self'; frame-ancestors 'self';"));
+
+                    await next();
+                });
             }
 
             app.UseStaticFiles();
@@ -105,12 +128,6 @@ namespace WeddingShare
                     pattern: "{controller}/{action}/{id?}",
                     defaults: new { controller = "Home", action = "Index" });
                 endpoints.MapRazorPages();
-            });
-
-            app.Use(async (context, next) => {
-                context.Response.Headers.Add("Content-Security-Policy-Report-Only", "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; frame-src 'self'");
-
-                await next();
             });
         }
     }

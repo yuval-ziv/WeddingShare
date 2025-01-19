@@ -60,6 +60,7 @@ namespace WeddingShare.Controllers
         }
 
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
         {

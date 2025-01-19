@@ -5,6 +5,7 @@
 @inject Microsoft.Extensions.Localization.IStringLocalizer<WeddingShare.Lang.Translations> _localizer
 @inject WeddingShare.Helpers.IConfigHelper _config
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
+@inject WeddingShare.Helpers.IEncryptionHelper _encryption
 
 @{
     var identityEnabled = _config.GetOrDefault("Settings:Show_Identity_Request", true);
@@ -59,8 +60,9 @@
                 </tr>
                 @foreach (var gallery in Model.Galleries.OrderBy(x => string.Equals("All", x.Name, StringComparison.OrdinalIgnoreCase) ? 0 : string.Equals("default", x.Name, StringComparison.OrdinalIgnoreCase) ? 1 : 2))
                 {
+                    var enc = _encryption.IsEncryptionEnabled();
                     var secretKey = await _gallery.GetSecretKey(gallery.Name);
-                    var galleryLink = $"{link}?id={gallery.Name}{(!string.IsNullOrWhiteSpace(secretKey) ? $"&key={secretKey}" : string.Empty)}";
+                    var galleryLink = $"{link}?id={System.Web.HttpUtility.UrlEncode(gallery.Name)}{(!string.IsNullOrWhiteSpace(secretKey) ? $"&key={System.Web.HttpUtility.UrlEncode(enc ? _encryption.Encrypt(secretKey) : secretKey)}&enc={enc.ToString().ToLower()}" : string.Empty)}";
 
                     <tr data-gallery-id="@gallery.Id" data-gallery-name="@gallery.Name" data-gallery-key="@secretKey">
                         <td class="gallery-name text-capitalize">@gallery.Name</td>
