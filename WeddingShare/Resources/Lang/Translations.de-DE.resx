@@ -346,4 +346,10 @@
   <data name="Save_QR" xml:space="preserve">
     <value>QR speichern</value>
   </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Es wurde versucht, ein Video-Thumbnail zu erstellen, aber der Download von FFMPEG ist noch nicht abgeschlossen. Wenn es sich um eine Neuinstallation handelt, warten Sie bitte, bis der Download abgeschlossen ist. Fehlende Thumbnails werden vom Hintergrundscanner erstellt.</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>FFMPEG konnte nicht in den Pfad heruntergeladen werden</value>
+  </data>
 </root>

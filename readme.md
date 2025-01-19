@@ -121,7 +121,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | NTFY_ENDPOINT                  | (required)                                   |
 | NTFY_TOKEN                     | (required)                                   |
 | NTFY_TOPIC                     | WeddingShare                                 |
-| NTFY_PRIORITY                  |  4                                           |
+| NTFY_PRIORITY                  | 4                                            |
 
 ## Notifications (Gotify)
 
@@ -131,6 +131,14 @@ Not all image formats are supported in browsers so although you may be able to a
 | GOTIFY_ENDPOINT                | (required)                                   |
 | GOTIFY_TOKEN                   | (required)                                   |
 | GOTIFY_PRIORITY                | 4                                            |
+
+## Encryption
+
+| Name                           | Value                                        |
+| ------------------------------ | -------------------------------------------- |
+| SECURITY_ENCRYPTION_KEY        | ChangeMe                                     |
+| SECURITY_ENCRYPTION_SALT       | ChangeMe                                     |
+| SECURITY_ENCRYPTION_ITERATIONS | 1000                                         |
 
 ## Docker Run
 

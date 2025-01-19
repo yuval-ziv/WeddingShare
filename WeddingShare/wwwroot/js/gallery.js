@@ -81,6 +81,8 @@
                 return;
             }
 
+            const token = $('#frmFileUpload input[name=\'__RequestVerificationToken\']').val();
+            
             const galleryId = dataRefs.input.getAttribute('data-post-gallery-id');
             if (!galleryId) {
                 displayMessage(localization.translate('Upload'), localization.translate('Upload_Invalid_Gallery_Detected'));
@@ -101,6 +103,7 @@
 
             for (var i = 0; i < dataRefs.files.length; i++) {
                 const formData = new FormData();
+                formData.append('__RequestVerificationToken', token);
                 formData.append('Id', galleryId);
                 formData.append('SecretKey', secretKey);
                 formData.append(dataRefs.files[i].name, dataRefs.files[i]);

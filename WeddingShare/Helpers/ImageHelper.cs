@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using WeddingShare.Enums;
@@ -19,11 +21,15 @@ namespace WeddingShare.Helpers
     {
         private readonly IFileHelper _fileHelper;
         private readonly ILogger _logger;
+        private readonly IStringLocalizer<Lang.Translations> _localizer;
 
-        public ImageHelper(IFileHelper fileHelper, ILogger<ImageHelper> logger)
+        private static bool FfmpegInstalled = false;
+
+        public ImageHelper(IFileHelper fileHelper, ILogger<ImageHelper> logger, IStringLocalizer<Lang.Translations> localizer)
         {
             _fileHelper = fileHelper;
             _logger = logger;
+            _localizer = localizer;
         }
 
         public async Task<bool> GenerateThumbnail(string filePath, string savePath, int size = 720)
@@ -39,6 +45,12 @@ namespace WeddingShare.Helpers
 
                         if (mediaType == MediaType.Video)
                         {
+                            if (FfmpegInstalled == false)
+                            {
+                                _logger.LogWarning(_localizer["FFMPEG_Downloading"].Value);
+                                return false;
+                            }
+
                             var conversion = await FFmpeg.Conversions.FromSnippet.Snapshot(filePath, savePath, TimeSpan.FromSeconds(0));
                             await conversion.Start();
                             filePath = savePath;
@@ -143,6 +155,7 @@ namespace WeddingShare.Helpers
                 }
 
                 FFmpeg.SetExecutablesPath(path);
+                FfmpegInstalled = true;
 
                 return true;
             }

@@ -13,6 +13,7 @@ namespace WeddingShare.Configurations
             services.AddSingleton<IFileHelper, FileHelper>();
             services.AddSingleton<IDeviceDetector, DeviceDetector>();
             services.AddSingleton<ISmtpClientWrapper, SmtpClientWrapper>();
+            services.AddSingleton<IEncryptionHelper, EncryptionHelper>();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Web;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using WeddingShare.Helpers;
 
@@ -16,18 +17,36 @@ namespace WeddingShare.Attributes
                 if (galleryHelper != null)
                 {
                     var galleryId = (request.Query.ContainsKey("id") && !string.IsNullOrWhiteSpace(request.Query["id"])) ? request.Query["id"].ToString().ToLower() : "default";
-                    var secretKey = galleryHelper.GetSecretKey(galleryId).Result;
 
-                    var key = request.Query.ContainsKey("key") ? request.Query["key"].ToString() : string.Empty;
-                    if (!string.IsNullOrWhiteSpace(secretKey) && !string.Equals(secretKey, key))
-                    {
-                        var logger = filterContext.HttpContext.RequestServices.GetService<ILogger<RequiresSecretKeyAttribute>>();
-                        if (logger != null)
+                    var encryptionHelper = filterContext.HttpContext.RequestServices.GetService<IEncryptionHelper>();
+                    if (encryptionHelper != null)
+                    { 
+                        var key = request.Query.ContainsKey("key") ? request.Query["key"].ToString() : string.Empty;
+
+                        var isEncrypted = request.Query.ContainsKey("enc") ? bool.Parse(request.Query["enc"].ToString().ToLower()) : false;
+                        if (!isEncrypted && encryptionHelper.IsEncryptionEnabled())
                         {
-                            logger.LogWarning($"A request was made to an endpoint with an invalid secure key");
-                        }
+                            var queryString = HttpUtility.ParseQueryString(request.QueryString.ToString());
+                            queryString.Set("enc", "true");
+                            queryString.Set("key", encryptionHelper.Encrypt(key));
 
-                        filterContext.Result = new RedirectToActionResult("Index", "Error", new { Reason = ErrorCode.InvalidSecretKey }, false);
+                            filterContext.Result = new RedirectResult($"/Gallery?{queryString.ToString()}");
+                        }
+                        else
+                        { 
+                            var secretKey = galleryHelper.GetSecretKey(galleryId).Result ?? string.Empty;
+                            secretKey = encryptionHelper.IsEncryptionEnabled() ? encryptionHelper.Encrypt(secretKey) : secretKey;
+                            if (!string.IsNullOrWhiteSpace(secretKey) && !string.Equals(secretKey, key))
+                            {
+                                var logger = filterContext.HttpContext.RequestServices.GetService<ILogger<RequiresSecretKeyAttribute>>();
+                                if (logger != null)
+                                {
+                                    logger.LogWarning($"A request was made to an endpoint with an invalid secure key");
+                                }
+
+                                filterContext.Result = new RedirectToActionResult("Index", "Error", new { Reason = ErrorCode.InvalidSecretKey }, false);
+                            }
+                        }
                     }
                 }
             }

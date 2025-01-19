@@ -119,6 +119,21 @@ function getOrientation(item) {
     return orientation;
 }
 
+function moveSlide(direction) {
+    let viewer = $('.media-viewer .media-viewer-content').closest('.media-viewer');
+    let index = viewer.data('media-viewer-index') + direction;
+    let collection = viewer.data('media-viewer-collection');
+    let items = $(`a[data-media-viewer-collection='${collection}']`);
+
+    if (index < 0) {
+        index = items.length - 1;
+    } else if (index >= items.length) {
+        index = 0;
+    }
+
+    openMediaViewer(items[index]);
+}
+
 (function () {
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -172,25 +187,29 @@ function getOrientation(item) {
             e.preventDefault();
             e.stopPropagation();
 
-            let viewer = $(this).closest('.media-viewer');
-            let index = viewer.data('media-viewer-index');
-            let collection = viewer.data('media-viewer-collection');
-            let items = $(`a[data-media-viewer-collection='${collection}']`);
-
             let position = e.pageX - $(this).offset().left;
             if (position <= ($(this).width() / 2)) {
-                index--;
-                if (index < 0) {
-                    index = items.length - 1;
-                }
+                moveSlide(-1);
             } else {
-                index++;
-                if (index >= items.length) {
-                    index = 0;
+                moveSlide(1);
+            }
+        });
+
+        $(document).off('keyup').on('keyup', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if ($('.media-viewer .media-viewer-content').is(':visible')) {
+                if (e.key === 'Escape') {
+                    hideMediaViewer();
+                } else if (e.key === 'ArrowLeft') {
+                    moveSlide(-1);
+                } else if (e.key === 'ArrowRight') {
+                    moveSlide(1);
+                } else if (e.key === 'd') {
+                    download();
                 }
             }
-
-            openMediaViewer(items[index]);
         });
 
         $(document).off('click', 'div#media-viewer-popup').on('click', 'div#media-viewer-popup', function (e) {

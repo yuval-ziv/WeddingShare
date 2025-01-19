@@ -14,6 +14,8 @@
             </div>
             <div class="card-body m-1 m-lg-5">
                 <form id="frmSelectGallery">
+                    @Html.AntiForgeryToken()
+
                     @if (!singleGalleryMode)
                     {
                         <div class="input-group">

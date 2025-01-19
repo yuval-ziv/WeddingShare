@@ -37,7 +37,7 @@
         <title>@title</title>
         
         <link rel="icon" type="image/png" href="@logo" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/bootstrap-icons.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/template.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/media-viewer.css" asp-append-version="true" />
@@ -166,18 +166,22 @@
         }
 
         <!-- Footer -->
-    <footer class="py-1">
-        <div class="container">
-            <p class="m-0 text-white">
-                <span class="float-none">
-                    <a class="text-link text-light" href="https://github.com/Cirx08/WeddingShare" title="Copyright Cirx08" target="_blank"><i class="fa-brands fa-github"></i> WeddingShare v@_config.GetOrDefault("Release:Version", "1.0.0") &copy; Copyright Cirx08 @DateTime.UtcNow.Year</a>
-                </span>
-                <span class="float-end">
-                    <a class="text-link text-light" href="https://www.flaticon.com/free-icon/wedding-couple_703213" title="bride icons" target="_blank">Freepik - Flaticon</a>
-                </span>
-            </p>
-        </div>
-    </footer>
+        <footer class="py-1">
+            <div class="container">
+                <p class="m-0 text-white">
+                    <span class="float-none">
+                        <a class="text-link text-light" href="https://github.com/Cirx08/WeddingShare" title="Copyright Cirx08" target="_blank"><i class="fa-brands fa-github"></i> WeddingShare v@_config.GetOrDefault("Release:Version", "1.0.0") &copy; Copyright Cirx08 @DateTime.UtcNow.Year</a>
+                    </span>
+
+                    @if (string.Equals("/images/logo.png", _config.GetOrDefault("Settings:Logo", "/images/logo.png"), StringComparison.OrdinalIgnoreCase))
+                    {
+                        <span class="float-end">
+                            <a class="text-link text-light" href="https://www.flaticon.com/free-icon/wedding-couple_703213" title="bride icons" target="_blank">Freepik - Flaticon</a>
+                        </span>
+                    }
+                </p>
+            </div>
+        </footer>
         
         <!-- JS -->
         @await RenderSectionAsync("Scripts", required: false)
