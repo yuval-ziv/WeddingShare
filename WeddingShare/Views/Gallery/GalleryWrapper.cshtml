@@ -1,8 +1,7 @@
+@model WeddingShare.Models.PhotoGallery
 @using WeddingShare.Enums
 @using WeddingShare.Views.Gallery
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
-@inject Microsoft.Extensions.Localization.IStringLocalizer<WeddingShare.Lang.Translations> _localizer
-@model WeddingShare.Models.PhotoGallery
 
 @if (Model.ViewMode != ViewMode.Slideshow)
 {

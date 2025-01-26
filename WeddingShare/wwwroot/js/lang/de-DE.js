@@ -1,6 +1,9 @@
 ﻿class Localization extends BaseLocalization {
     constructor() {
         super('de-DE', {
+			"Or": "Oder",
+			"Code": "Code",
+			"Next": "Nächste",
             "Loading": "Wird geladen...",
             "Review": "Überprüfen",
             "Approve": "Genehmigen",
@@ -9,6 +12,8 @@
             "Import": "Importieren",
             "Export": "Exportieren",
             "Wipe": "Löschen",
+            "Remove": "Entfernen",
+            "Reset": "Zurücksetzen",
             "Upload": "Hochladen",
             "Download": "Herunterladen",
             "Update": "Aktualisieren",
@@ -17,6 +22,7 @@
             "Delete": "Löschen",
             "Error": "Fehler",
             "Errors": "Fehler",
+			"Validate": "Bestätigen",
             "Login": "Anmelden",
             "Login_Invalid_Username": "Bitte gib einen gültigen Benutzernamen ein",
             "Login_Invalid_Password": "Bitte gib ein gültiges Passwort ein",
@@ -87,7 +93,15 @@
             "Wipe_Data_Success": "Daten wurden erfolgreich gelöscht",
             "Wipe_Data_Failed": "Daten konnten nicht gelöscht werden",
             "Download_Failed": "Galerie konnte nicht heruntergeladen werden",
-            "Browser_Does_Not_Support": "Dein Browser unterstützt diese Funktion leider nicht"
+            "Browser_Does_Not_Support": "Dein Browser unterstützt diese Funktion leider nicht",
+            "2FA_Setup": "2FA Aufstellen",
+            "2FA_Scan_With_App": "Scannen Sie das folgende Bild mit Ihrer App",
+            "2FA_Manually_Enter_Code": "Geben Sie den Code manuell ein:",
+            "2FA_Code_Hint": "Bitte geben Sie den von Ihrer 2FA-App generierten Code ein",
+            "2FA_Set_Successfully": "2FA erfolgreich eingerichtet",
+            "2FA_Set_Failed": "2FA konnte nicht eingerichtet werden",
+            "2FA_Reset_Successfully": "2FA erfolgreich zurückgesetzt",
+            "2FA_Reset_Failed": "2FA konnte nicht zurückgesetzt werden"
         });
     }
 }

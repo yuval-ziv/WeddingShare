@@ -78,11 +78,11 @@ namespace WeddingShare.Controllers
                 ViewBag.ViewMode = ViewMode.Default;
             }
 
-            var deviceType = HttpContext.Session.GetString("DeviceType");
+            var deviceType = HttpContext.Session.GetString(SessionKey.DeviceType);
             if (string.IsNullOrWhiteSpace(deviceType))
             {
                 deviceType = (await _deviceDetector.ParseDeviceType(Request.Headers["User-Agent"].ToString())).ToString();
-                HttpContext.Session.SetString("DeviceType", deviceType ?? "Desktop");
+                HttpContext.Session.SetString(SessionKey.DeviceType, deviceType ?? "Desktop");
             }
 
             ViewBag.IsMobile = !string.Equals("Desktop", deviceType, StringComparison.OrdinalIgnoreCase);
@@ -119,10 +119,55 @@ namespace WeddingShare.Controllers
                 var allowedFileTypes = _config.GetOrDefault("Settings:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                 var items = (await _database.GetAllGalleryItems(gallery?.Id, GalleryItemState.Approved, order, itemsPerPage, currentPage))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
                 
+                var isAdmin = User?.Identity != null && User.Identity.IsAuthenticated;
+
                 FileUploader? fileUploader = null;
-                if (!string.Equals("All", gallery?.Name, StringComparison.OrdinalIgnoreCase) && (!_gallery.GetConfig(gallery?.Name, "Disable_Upload", false) || (User?.Identity != null && User.Identity.IsAuthenticated)))
+                if (!string.Equals("All", gallery?.Name, StringComparison.OrdinalIgnoreCase) && (!_gallery.GetConfig(gallery?.Name, "Disable_Upload", false) || isAdmin))
                 {
-                    fileUploader = new FileUploader(gallery?.Name ?? "default", secretKey, "/Gallery/UploadImage");
+                    var uploadActvated = isAdmin;
+                    try
+                    {
+                        if (!uploadActvated)
+                        { 
+                            var periods = _gallery.GetConfig(gallery?.Name, "Gallery_Upload_Period", "1970-01-01 00:00")?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                            if (periods != null)
+                            { 
+                                var now = DateTime.UtcNow;
+                                foreach (var period in periods)
+                                {
+                                    var timeRanges = period?.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                                    if (timeRanges != null && timeRanges.Length > 0)
+                                    {
+                                        var startDate = DateTime.Parse(timeRanges[0]).ToUniversalTime();
+
+                                        if (timeRanges.Length == 2)
+                                        {
+                                            var endDate = DateTime.Parse(timeRanges[1]).ToUniversalTime();
+                                            if (now >= startDate && now < endDate)
+                                            {
+                                                uploadActvated = true;
+                                                break;
+                                            }
+                                        }
+                                        else if (timeRanges.Length == 1 && now >= startDate)
+                                        {
+                                            uploadActvated = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch 
+                    {
+                        uploadActvated = true;
+                    }
+
+                    if (uploadActvated)
+                    { 
+                        fileUploader = new FileUploader(gallery?.Name ?? "default", secretKey, "/Gallery/UploadImage");
+                    }
                 }
 
                 var model = new PhotoGallery()
@@ -178,7 +223,7 @@ namespace WeddingShare.Controllers
                         return Json(new { success = false, uploaded = 0, errors = new List<string>() { _localizer["Invalid_Secret_Key_Warning"].Value } });
                     }
 
-                    string uploadedBy = HttpContext.Session.GetString("ViewerIdentity") ?? "Anonymous";
+                    string uploadedBy = HttpContext.Session.GetString(SessionKey.ViewerIdentity) ?? "Anonymous";
                 
                     var files = Request?.Form?.Files;
                     if (files != null && files.Count > 0)
@@ -219,23 +264,33 @@ namespace WeddingShare.Controllers
                                     var filePath = Path.Combine(galleryPath, fileName);
                                     if (!string.IsNullOrWhiteSpace(filePath))
                                     {
-										await _fileHelper.SaveFile(file, filePath, FileMode.Create);
+                                        await _fileHelper.SaveFile(file, filePath, FileMode.Create);
 
-                                        _fileHelper.CreateDirectoryIfNotExists(ThumbnailsDirectory);
-                                        await _imageHelper.GenerateThumbnail(filePath, Path.Combine(ThumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(filePath)}.webp"), _config.GetOrDefault("Settings:Thumbnail_Size", 720));
-
-                                        var item = await _database.AddGalleryItem(new GalleryItemModel()
+                                        var checksum = await _fileHelper.GetChecksum(filePath);
+                                        if (_gallery.GetConfig(galleryId, "Gallery_Prevent_Duplicates", true) && string.IsNullOrWhiteSpace(checksum) || await _database.GetGalleryItemByChecksum(gallery.Id, checksum) != null)
                                         {
-                                            GalleryId = gallery.Id,
-                                            Title = fileName,
-                                            UploadedBy = uploadedBy,
-                                            MediaType = _imageHelper.GetMediaType(filePath),
-                                            State = requiresReview ? GalleryItemState.Pending : GalleryItemState.Approved
-                                        });
-
-                                        if (item?.Id > 0)
+                                            errors.Add($"{_localizer["File_Upload_Failed"].Value}. {_localizer["Duplicate_Item_Detected"].Value}");
+                                            _fileHelper.DeleteFileIfExists(filePath);
+                                        }
+                                        else
                                         { 
-                                            uploaded++;
+                                            _fileHelper.CreateDirectoryIfNotExists(ThumbnailsDirectory);
+                                            await _imageHelper.GenerateThumbnail(filePath, Path.Combine(ThumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(filePath)}.webp"), _config.GetOrDefault("Settings:Thumbnail_Size", 720));
+
+                                            var item = await _database.AddGalleryItem(new GalleryItemModel()
+                                            {
+                                                GalleryId = gallery.Id,
+                                                Title = fileName,
+                                                UploadedBy = uploadedBy,
+                                                Checksum = checksum,
+                                                MediaType = _imageHelper.GetMediaType(filePath),
+                                                State = requiresReview ? GalleryItemState.Pending : GalleryItemState.Approved
+                                            });
+
+                                            if (item?.Id > 0)
+                                            { 
+                                                uploaded++;
+                                            }
                                         }
                                     }
                                 }
@@ -291,7 +346,7 @@ namespace WeddingShare.Controllers
                         return Json(new { success = false, uploaded = 0, errors = new List<string>() { _localizer["Invalid_Secret_Key_Warning"].Value } });
                     }
 
-                    string uploadedBy = HttpContext.Session.GetString("ViewerIdentity") ?? "Anonymous";
+                    string uploadedBy = HttpContext.Session.GetString(SessionKey.ViewerIdentity) ?? "Anonymous";
                         
                     var requiresReview = _gallery.GetConfig(galleryId, "Require_Review", true);
 

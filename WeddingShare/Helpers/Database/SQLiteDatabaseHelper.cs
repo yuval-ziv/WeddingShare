@@ -380,6 +380,25 @@ namespace WeddingShare.Helpers.Database
             return result;
         }
 
+        public async Task<GalleryItemModel?> GetGalleryItemByChecksum(int galleryId, string checksum) 
+        {
+            GalleryItemModel? result;
+
+            using (var conn = new SqliteConnection(_connString))
+            {
+                var cmd = new SqliteCommand($"SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id`  WHERE g.`id`=@Id AND gi.`checksum`=@Checksum;", conn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("Id", galleryId);
+                cmd.Parameters.AddWithValue("Checksum", checksum);
+
+                await conn.OpenAsync();
+                result = (await ReadGalleryItems(await cmd.ExecuteReaderAsync()))?.FirstOrDefault();
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
         public async Task<GalleryItemModel?> AddGalleryItem(GalleryItemModel model)
         {
             GalleryItemModel? result = null;
@@ -388,12 +407,13 @@ namespace WeddingShare.Helpers.Database
             { 
                 using (var conn = new SqliteConnection(_connString))
                 {
-                    var cmd = new SqliteCommand($"INSERT INTO `gallery_items` (`gallery_id`, `title`, `state`, `uploaded_by`, `media_type`) VALUES (@GalleryId, @Title, @State, @UploadedBy, @MediaType); SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE gi.`id`=last_insert_rowid();", conn);
+                    var cmd = new SqliteCommand($"INSERT INTO `gallery_items` (`gallery_id`, `title`, `state`, `uploaded_by`, `checksum`, `media_type`) VALUES (@GalleryId, @Title, @State, @UploadedBy, @Checksum, @MediaType); SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE gi.`id`=last_insert_rowid();", conn);
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("GalleryId", model.GalleryId);
                     cmd.Parameters.AddWithValue("Title", model.Title);
                     cmd.Parameters.AddWithValue("State", (int)model.State);
                     cmd.Parameters.AddWithValue("UploadedBy", !string.IsNullOrWhiteSpace(model.UploadedBy) ? model.UploadedBy : DBNull.Value);
+                    cmd.Parameters.AddWithValue("Checksum", !string.IsNullOrWhiteSpace(model.Checksum) ? model.Checksum : DBNull.Value);
                     cmd.Parameters.AddWithValue("MediaType", (int)model.MediaType);
 
                     await conn.OpenAsync();
@@ -422,12 +442,13 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = new SqliteConnection(_connString))
             {
-                var cmd = new SqliteCommand($"UPDATE `gallery_items` SET `title`=@Title, `state`=@State, `uploaded_by`=@UploadedBy WHERE `id`=@Id; SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE gi.`id`=@Id;", conn);
+                var cmd = new SqliteCommand($"UPDATE `gallery_items` SET `title`=@Title, `state`=@State, `uploaded_by`=@UploadedBy, `checksum`=@Checksum WHERE `id`=@Id; SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE gi.`id`=@Id;", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", model.Id);
                 cmd.Parameters.AddWithValue("Title", model.Title);
                 cmd.Parameters.AddWithValue("State", (int)model.State);
                 cmd.Parameters.AddWithValue("UploadedBy", !string.IsNullOrWhiteSpace(model.UploadedBy) ? model.UploadedBy : DBNull.Value);
+                cmd.Parameters.AddWithValue("Checksum", !string.IsNullOrWhiteSpace(model.Checksum) ? model.Checksum : DBNull.Value);
 
                 await conn.OpenAsync();
                 var tran = await conn.BeginTransactionAsync();
@@ -759,6 +780,64 @@ namespace WeddingShare.Helpers.Database
 
             return result;
         }
+
+        public async Task<bool> SetMultiFactorToken(int id, string token)
+        {
+            bool result = false;
+
+            using (var conn = new SqliteConnection(_connString))
+            {
+                var cmd = new SqliteCommand($"UPDATE `users` SET `2fa_token`=@Token WHERE `id`=@Id;", conn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("Id", id);
+                cmd.Parameters.AddWithValue("Token", token);
+
+                await conn.OpenAsync();
+                var tran = await conn.BeginTransactionAsync();
+                try
+                {
+                    cmd.Transaction = (SqliteTransaction)tran;
+                    result = await cmd.ExecuteNonQueryAsync() > 0;
+                    await tran.CommitAsync();
+                }
+                catch
+                {
+                    await tran.RollbackAsync();
+                }
+
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<bool> ResetMultiFactorToDefault()
+        {
+            bool result = false;
+
+            using (var conn = new SqliteConnection(_connString))
+            {
+                var cmd = new SqliteCommand($"UPDATE `users` SET `2fa_token`='';", conn);
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+                var tran = await conn.BeginTransactionAsync();
+                try
+                {
+                    cmd.Transaction = (SqliteTransaction)tran;
+                    result = await cmd.ExecuteNonQueryAsync() > 0;
+                    await tran.CommitAsync();
+                }
+                catch
+                {
+                    await tran.RollbackAsync();
+                }
+
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
         #endregion
 
         #region Backups
@@ -872,6 +951,7 @@ namespace WeddingShare.Helpers.Database
                                 GalleryName = !await reader.IsDBNullAsync("gallery_name") ? reader.GetString("gallery_name") : string.Empty,
                                 Title = !await reader.IsDBNullAsync("title") ? reader.GetString("title") : string.Empty,
                                 UploadedBy = !await reader.IsDBNullAsync("uploaded_by") ? reader.GetString("uploaded_by") : null,
+                                Checksum = !await reader.IsDBNullAsync("checksum") ? reader.GetString("checksum") : null,
                                 MediaType = !await reader.IsDBNullAsync("media_type") ? (MediaType)reader.GetInt32("media_type") : MediaType.Unknown,
                                 State = !await reader.IsDBNullAsync("state") ? (GalleryItemState)reader.GetInt32("state") : GalleryItemState.Pending
                             });
@@ -908,6 +988,7 @@ namespace WeddingShare.Helpers.Database
                                 GalleryName = !await reader.IsDBNullAsync("gallery_name") ? reader.GetString("gallery_name") : "default",
                                 Title = !await reader.IsDBNullAsync("title") ? reader.GetString("title") : string.Empty,
                                 UploadedBy = !await reader.IsDBNullAsync("uploaded_by") ? reader.GetString("uploaded_by") : null,
+                                Checksum = !await reader.IsDBNullAsync("checksum") ? reader.GetString("checksum") : null,
                                 MediaType = !await reader.IsDBNullAsync("media_type") ? (MediaType)reader.GetInt32("media_type") : MediaType.Unknown,
                                 State = !await reader.IsDBNullAsync("state") ? (GalleryItemState)reader.GetInt32("state") : GalleryItemState.Pending
                             });
@@ -943,7 +1024,8 @@ namespace WeddingShare.Helpers.Database
                                 Email = !await reader.IsDBNullAsync("email") ? reader.GetString("email") : null,
                                 Password = null,
                                 FailedLogins = !await reader.IsDBNullAsync("failed_logins") ? reader.GetInt32("failed_logins") : 0,
-                                LockoutUntil = !await reader.IsDBNullAsync("lockout_until") ? DateTime.UnixEpoch.AddSeconds(reader.GetInt32("lockout_until")) : null
+                                LockoutUntil = !await reader.IsDBNullAsync("lockout_until") ? DateTime.UnixEpoch.AddSeconds(reader.GetInt32("lockout_until")) : null,
+                                MultiFactorToken = !await reader.IsDBNullAsync("2fa_token") ? reader.GetString("2fa_token") : null
                             });
                         }
                     }

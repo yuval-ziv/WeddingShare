@@ -4,7 +4,7 @@ using WeddingShare.Helpers;
 
 namespace WeddingShare.Configurations
 {
-    internal static class LocalizationConfiguration
+    public static class LocalizationConfiguration
     {
         public static string CurrentCulture = "en-GB";
 

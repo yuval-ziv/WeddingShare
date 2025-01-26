@@ -1,7 +1,6 @@
-﻿@using WeddingShare.Views.Home
-@inject Microsoft.Extensions.Localization.IStringLocalizer<WeddingShare.Lang.Translations> _localizer
+﻿@model WeddingShare.Models.PhotoGallery
+@using WeddingShare.Views.Home
 @inject WeddingShare.Helpers.IConfigHelper _config
-@model WeddingShare.Models.PhotoGallery
 
 @{
     var singleGalleryMode = _config.GetOrDefault("Settings:Single_Gallery_Mode", false);

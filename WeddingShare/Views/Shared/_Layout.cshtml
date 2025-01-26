@@ -1,6 +1,7 @@
 @using WeddingShare.Enums
 @inject WeddingShare.Helpers.IConfigHelper _config
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
+
 @{
     var galleryId = (!string.IsNullOrWhiteSpace(ViewBag.GalleryId) ? ViewBag.GalleryId : "_").Trim().ToUpper();
     var title = _gallery.GetConfig(galleryId, "Title", "WeddingShare");
@@ -23,6 +24,16 @@
     catch
     {
         theme = "default";
+    }
+
+    string culture;
+    try
+    {
+        culture = WeddingShare.Configurations.LocalizationConfiguration.CurrentCulture;
+    }
+    catch
+    {
+        culture = "en-GB";
     }
 }
 
@@ -51,18 +62,18 @@
             <link rel="stylesheet" href="~/css/themes/@(theme).css" asp-append-version="true" />
         }
         
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/lib/jquery-loading/jquery.loading.min.js"></script>
-        <script src="~/lib/jquery-qrcode/jquery.qrcode.min.js"></script>
-        <script src="~/lib/fontawesome/fontawesome.regular.min.js"></script>
-        <script src="~/lib/fontawesome/fontawesome.solid.min.js"></script>
-        <script src="~/lib/fontawesome/fontawesome.brands.min.js"></script>
-        <script src="~/js/lang/localization.js"></script>
-        <script src="~/js/lang/@(WeddingShare.Configurations.LocalizationConfiguration.CurrentCulture).js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-loading/jquery.loading.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-qrcode/jquery.qrcode.min.js" asp-append-version="true"></script>
+        <script src="~/lib/fontawesome/fontawesome.regular.min.js" asp-append-version="true"></script>
+        <script src="~/lib/fontawesome/fontawesome.solid.min.js" asp-append-version="true"></script>
+        <script src="~/lib/fontawesome/fontawesome.brands.min.js" asp-append-version="true"></script>
+        <script src="~/js/lang/localization.js" asp-append-version="true"></script>
+        <script src="~/js/lang/@(culture).js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
         <script src="~/js/popup.js" asp-append-version="true"></script>
-        <script src="~/js/media-viewer.js"></script>
+        <script src="~/js/media-viewer.js" asp-append-version="true"></script>
     </head>
     <body>
         <!-- Navigation -->
@@ -81,9 +92,13 @@
                             {
                                 <i class="change-theme fa-solid @(string.Equals("default", theme, StringComparison.OrdinalIgnoreCase) ? "fa-moon" : "fa-sun") fa-1x text-secondary pointer mx-2"></i>
                             }
-                            @if (_config.GetOrDefault("Settings:Show_Identity_Request", true) && !string.IsNullOrWhiteSpace(Context?.Session?.GetString("ViewerIdentity")))
+                            @if (_config.GetOrDefault("Settings:Show_Identity_Request", true) && !string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity)))
                             {
-                                <i class="change-identity fa-solid fa-id-card fa-1x text-secondary pointer mx-2" data-identity="@Context.Session.GetString("ViewerIdentity")"></i>
+                                <i class="change-identity fa-solid fa-id-card fa-1x text-secondary pointer mx-2" data-identity="@Context.Session.GetString(SessionKey.ViewerIdentity)"></i>
+                            }
+                            @if (User?.Identity != null && User.Identity.IsAuthenticated)
+                            {
+                                <i class="change-2fa fa-solid fa-key fa-1x text-secondary pointer mx-2" data-mfa-set="@(bool.Parse(Context?.Session.GetString(SessionKey.MultiFactorTokenSet)?.ToLower() ?? "false").ToString().ToLower())"></i>
                             }
                         </div>
                         <div class="profile-icon my-1 m-lg-0 float-end">
@@ -157,8 +172,9 @@
         </div>
 
         <partial name="~/Views/Shared/_Modals.cshtml" model="null" />
+        <partial name="~/Views/Shared/_2FA.cshtml" model="null" />
 
-        @if (_config.GetOrDefault("Settings:Show_Identity_Request", true) && string.IsNullOrWhiteSpace(Context?.Session?.GetString("ViewerIdentity")))
+        @if (_config.GetOrDefault("Settings:Show_Identity_Request", true) && string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity)))
         {
             <script>
                 displayIdentityCheck();

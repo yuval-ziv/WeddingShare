@@ -61,6 +61,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>Bestand uploaden mislukt</value>
   </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Dubbel bestand gedetecteerd</value>
+  </data>
   <data name="Gallery_Does_Not_Exist" xml:space="preserve">
     <value>De gevraagde galerij is niet gevonden of bestaat niet</value>
   </data>
@@ -351,5 +354,8 @@
   </data>
   <data name="FFMPEG_Download_Failed" xml:space="preserve">
     <value>Het is niet gelukt om FFMPEG naar het pad te downloaden</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Het is niet gelukt om 2FA in te stellen</value>
   </data>
 </root>

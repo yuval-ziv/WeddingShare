@@ -11,49 +11,51 @@ namespace WeddingShare.Helpers.Dbup
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await Task.Run(() =>
+            var logger = loggerFactory.CreateLogger<DbupMigrator>();
+
+            fileHelper.CreateDirectoryIfNotExists("config");
+
+            var config = new ConfigHelper(environment, configuration, loggerFactory.CreateLogger<ConfigHelper>());
+            var connString = config.GetOrDefault("Database:Connection_String", "Data Source=./config/wedding-share.db");
+            if (!string.IsNullOrWhiteSpace(connString))
             {
-                var logger = loggerFactory.CreateLogger<DbupMigrator>();
+                DatabaseUpgradeResult? dbupResult;
 
-                fileHelper.CreateDirectoryIfNotExists("config");
-
-                var config = new ConfigHelper(environment, configuration, loggerFactory.CreateLogger<ConfigHelper>());
-                var connString = config.GetOrDefault("Database:Connection_String", "Data Source=./config/wedding-share.db");
-                if (!string.IsNullOrWhiteSpace(connString))
+                var dbType = config.GetOrDefault("Database:Database_Type", "sqlite")?.ToLower();
+                switch (dbType)
                 {
-                    DatabaseUpgradeResult? dbupResult;
+                    case "sqlite":
+                        dbupResult = new DbupSqliteHelper().Migrate(connString);
+                        break;
+                    default:
+                        var error = $"Database type '{dbType}' is not yet supported by this application";
+                        logger.LogWarning(error);
+                        throw new NotImplementedException(error);
+                }
 
-                    var dbType = config.GetOrDefault("Database:Database_Type", "sqlite")?.ToLower();
-                    switch (dbType)
-                    {
-                        case "sqlite":
-                            dbupResult = new DbupSqliteHelper().Migrate(connString);
-                            break;
-                        default:
-                            var error = $"Database type '{dbType}' is not yet supported by this application";
-                            logger.LogWarning(error);
-                            throw new NotImplementedException(error);
-                    }
+                if (dbupResult != null && !dbupResult.Successful)
+                {
+                    logger.LogWarning($"DBUP failed with error: '{dbupResult?.Error?.Message}' - '{dbupResult?.Error?.ToString()}'");
+                }
 
-                    if (dbupResult != null && !dbupResult.Successful)
-                    {
-                        logger.LogWarning($"DBUP failed with error: '{dbupResult?.Error?.Message}' - '{dbupResult?.Error?.ToString()}'");
-                    }
-
-                    var adminAccount = new UserModel() { Username = config.GetOrDefault("Settings:Account:Admin:Username", "admin"), Password = config.GetOrDefault("Settings:Account:Admin:Password", "admin") };
-                    database.InitAdminAccount(adminAccount);
+                var adminAccount = new UserModel() { Username = config.GetOrDefault("Settings:Account:Admin:Username", "admin"), Password = config.GetOrDefault("Settings:Account:Admin:Password", "admin") };
+                await database.InitAdminAccount(adminAccount);
                     
-                    if (config.GetOrDefault("Settings:Account:Admin:Log_Password", true))
-                    {
-                        logger.LogInformation($"Password: {adminAccount.Password}");
-                    }
-                }
-                else
+                if (config.GetOrDefault("Settings:Account:Admin:Log_Password", true))
                 {
-                    logger.LogError($"DBUP failed with error: 'Connection string was null or empty'");
-                    throw new ArgumentNullException("Please specify a valid database connection string");
+                    logger.LogInformation($"Password: {adminAccount.Password}");
                 }
-            }, stoppingToken);
+
+                if (config.GetOrDefault("Security:2FA:Reset_To_Default", false))
+                {
+                    await database.ResetMultiFactorToDefault();
+                }
+            }
+            else
+            {
+                logger.LogError($"DBUP failed with error: 'Connection string was null or empty'");
+                throw new ArgumentNullException("Please specify a valid database connection string");
+            }
         }
     }
 

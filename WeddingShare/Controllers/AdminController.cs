@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using TwoFactorAuthNet;
 using WeddingShare.Enums;
 using WeddingShare.Helpers;
 using WeddingShare.Helpers.Database;
@@ -49,7 +50,7 @@ namespace WeddingShare.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Login()
+        public IActionResult Login()
         {
             if (User?.Identity != null && User.Identity.IsAuthenticated)
             {
@@ -76,41 +77,77 @@ namespace WeddingShare.Controllers
                             await _database.ResetLockoutCount(user.Id);
                         }
 
-                        var claims = new List<Claim>
+                        var mfaSet = !string.IsNullOrEmpty(user.MultiFactorToken);
+                        HttpContext.Session.SetString(SessionKey.MultiFactorTokenSet, mfaSet.ToString().ToLower());
+
+                        if (mfaSet)
                         {
-                            new Claim(ClaimTypes.Name, user.Username.ToLower())
-                        };
-
-                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                        await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-
-                        return Json(new { success = true });
+                            return Json(new { success = true, mfa = true });
+                        }
+                        else
+                        {
+                            return Json(new { success = await this.SetUserClaims(this.HttpContext, user), mfa = false });
+                        }
                     }
                     else
                     {
-                        if (_config.GetOrDefault("Notifications:Alerts:Failed_Login", true))
-                        { 
-                            await _notificationHelper.Send("Invalid Login Detected", $"An invalid login attempt was made for account '{model?.Username}'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
-                        }
-
-                        var failedAttempts = await _database.IncrementLockoutCount(user.Id);
-                        if (failedAttempts >= _config.GetOrDefault("Settings:Account:Lockout_Attempts", 5))
-                        {
-                            var timeout = _config.GetOrDefault("Settings:Account:Lockout_Mins", 60);
-                            await _database.SetLockout(user.Id, DateTime.UtcNow.AddMinutes(timeout));
-
-                            if (_config.GetOrDefault("Notifications:Alerts:Account_Lockout", true))
-                            { 
-                                await _notificationHelper.Send("Account Lockout", $"Account '{model?.Username}' has been locked out for {timeout} minutes due to too many failed login attempts.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
-                            }
-                        }
+                        await this.FailedLoginDetected(model, user);
                     }
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"{_localizer["Login_Failed"].Value} - {ex?.Message}");
+            }
+
+            return Json(new { success = false });
+        }
+
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<IActionResult> ValidateMultifactorAuth(LoginModel model)
+        {
+            if (!string.IsNullOrWhiteSpace(model?.Code))
+            { 
+                try
+                {
+                    var user = await _database.GetUser(model.Username);
+                    if (user != null && !user.IsLockedOut)
+                    {
+                        if (await _database.ValidateCredentials(user.Username, model.Password))
+                        {
+                            if (user.FailedLogins > 0)
+                            {
+                                await _database.ResetLockoutCount(user.Id);
+                            }
+
+                            var mfaSet = !string.IsNullOrWhiteSpace(user.MultiFactorToken);
+                            HttpContext.Session.SetString(SessionKey.MultiFactorTokenSet, (!string.IsNullOrEmpty(user.MultiFactorToken)).ToString().ToLower());
+
+                            if (mfaSet)
+                            {
+                                var tfa = new TwoFactorAuth(_config.GetOrDefault("Settings:Title", "WeddingShare"));
+                                if (tfa.VerifyCode(user.MultiFactorToken, model.Code))
+                                {
+                                    return Json(new { success = await this.SetUserClaims(this.HttpContext, user) });
+                                }
+                            }
+                            else
+                            {
+                                return Json(new { success = await this.SetUserClaims(this.HttpContext, user) });
+                            }
+                        }
+                        else
+                        {
+                            await this.FailedLoginDetected(model, user);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"{_localizer["Login_Failed"].Value} - {ex?.Message}");
+                }
             }
 
             return Json(new { success = false });
@@ -134,36 +171,40 @@ namespace WeddingShare.Controllers
 
             var model = new IndexModel();
 
-            var deviceType = HttpContext.Session.GetString("DeviceType");
+            var deviceType = HttpContext.Session.GetString(SessionKey.DeviceType);
             if (string.IsNullOrWhiteSpace(deviceType))
             {
                 deviceType = (await _deviceDetector.ParseDeviceType(Request.Headers["User-Agent"].ToString())).ToString();
-                HttpContext.Session.SetString("DeviceType", deviceType ?? "Desktop");
+                HttpContext.Session.SetString(SessionKey.DeviceType, deviceType ?? "Desktop");
             }
 
             try
             {
-                if (!_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
-                {
-                    model.Galleries = await _database.GetAllGalleries();
-                    if (model.Galleries != null)
-                    { 
-                        var all = await _database.GetGallery(0);
-                        if (all != null)
+                var user = await _database.GetUser(int.Parse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => string.Equals(ClaimTypes.Sid, x.Type, StringComparison.OrdinalIgnoreCase))?.Value ?? "-1"));
+                if (user != null)
+                { 
+                    if (!_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
+                    {
+                        model.Galleries = await _database.GetAllGalleries();
+                        if (model.Galleries != null)
                         { 
-                            model.Galleries.Add(all);
+                            var all = await _database.GetGallery(0);
+                            if (all != null)
+                            { 
+                                model.Galleries.Add(all);
+                            }
                         }
-                    }
 
-                    model.PendingRequests = await _database.GetPendingGalleryItems();
-                }
-                else
-                {
-                    var gallery = await _database.GetGallery("default");
-                    if (gallery != null)
-                    { 
-                        model.Galleries = new List<GalleryModel>() { gallery };
-                        model.PendingRequests = await _database.GetPendingGalleryItems(gallery.Id);
+                        model.PendingRequests = await _database.GetPendingGalleryItems();
+                    }
+                    else
+                    {
+                        var gallery = await _database.GetGallery("default");
+                        if (gallery != null)
+                        { 
+                            model.Galleries = new List<GalleryModel>() { gallery };
+                            model.PendingRequests = await _database.GetPendingGalleryItems(gallery.Id);
+                        }
                     }
                 }
             }
@@ -618,6 +659,118 @@ namespace WeddingShare.Controllers
             }
 
             return Json(new { success = false });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterMultifactorAuth(string secret, string code)
+        {
+            if (!string.IsNullOrWhiteSpace(secret) && !string.IsNullOrWhiteSpace(code))
+            {
+                if (User?.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    try
+                    {
+                        var tfa = new TwoFactorAuth(_config.GetOrDefault("Settings:Title", "WeddingShare"));
+                        if (tfa.VerifyCode(secret, code))
+                        {
+                            var userId = int.Parse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => string.Equals(ClaimTypes.Sid, x.Type, StringComparison.OrdinalIgnoreCase))?.Value ?? "-1");
+                            if (userId > 0)
+                            {
+                                var set = await _database.SetMultiFactorToken(userId, secret);
+                                if (set)
+                                { 
+                                    HttpContext.Session.SetString(SessionKey.MultiFactorTokenSet, "true");
+                                    return Json(new { success = true });
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, $"{_localizer["MultiFactor_Token_Set_Failed"].Value} - {ex?.Message}");
+                    }
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> ResetMultifactorAuth()
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                try
+                {
+                    var userId = int.Parse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => string.Equals(ClaimTypes.Sid, x.Type, StringComparison.OrdinalIgnoreCase))?.Value ?? "-1");
+                    if (userId > 0)
+                    {
+                        var cleared = await _database.SetMultiFactorToken(userId, string.Empty);
+                        if (cleared)
+                        {
+                            HttpContext.Session.SetString(SessionKey.MultiFactorTokenSet, "false");
+                            return Json(new { success = true });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"{_localizer["MultiFactor_Token_Set_Failed"].Value} - {ex?.Message}");
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        private async Task<bool> SetUserClaims(HttpContext ctx, UserModel user)
+        {
+            try
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Sid, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.Username.ToLower())
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await ctx.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private async Task<bool> FailedLoginDetected(LoginModel model, UserModel user)
+        {
+            try
+            {
+                if (_config.GetOrDefault("Notifications:Alerts:Failed_Login", true))
+                {
+                    await _notificationHelper.Send("Invalid Login Detected", $"An invalid login attempt was made for account '{model?.Username}'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                }
+
+                var failedAttempts = await _database.IncrementLockoutCount(user.Id);
+                if (failedAttempts >= _config.GetOrDefault("Settings:Account:Lockout_Attempts", 5))
+                {
+                    var timeout = _config.GetOrDefault("Settings:Account:Lockout_Mins", 60);
+                    await _database.SetLockout(user.Id, DateTime.UtcNow.AddMinutes(timeout));
+
+                    if (_config.GetOrDefault("Notifications:Alerts:Account_Lockout", true))
+                    {
+                        await _notificationHelper.Send("Account Lockout", $"Account '{model?.Username}' has been locked out for {timeout} minutes due to too many failed login attempts.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                    }
+                }
+
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
         }
     }
 }

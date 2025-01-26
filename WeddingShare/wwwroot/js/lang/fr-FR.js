@@ -1,6 +1,9 @@
 ﻿class Localization extends BaseLocalization {
     constructor() {
         super('fr-FR', {
+			"Or": "Ou",
+			"Code": "Code",
+			"Next": "Suivant",
             "Loading": "Chargement...",
             "Review": "Revoir",
             "Approve": "Approuver",
@@ -9,6 +12,8 @@
             "Import": "Importer",
             "Export": "Exporter",
             "Wipe": "Essuyer",
+            "Remove": "Retirer",
+            "Reset": "Réinitialiser",
             "Upload": "Télécharger",
             "Download": "Télécharger",
             "Update": "Mise à jour",
@@ -17,6 +22,7 @@
             "Delete": "Supprimer",
             "Error": "Erreur",
             "Errors": "Erreurs",
+			"Validate": "Valider",
             "Login": "Se connecter",
             "Login_Invalid_Username": "Veuillez entrer un nom d'utilisateur valide",
             "Login_Invalid_Password": "Veuillez entrer un mot de passe valide",
@@ -87,7 +93,15 @@
             "Wipe_Data_Success": "Données effacées avec succès",
             "Wipe_Data_Failed": "Impossible d'effacer les données",
             "Download_Failed": "Impossible de télécharger la galerie",
-            "Browser_Does_Not_Support": "Votre navigateur ne prend pas en charge cette fonctionnalité"
+            "Browser_Does_Not_Support": "Votre navigateur ne prend pas en charge cette fonctionnalité",
+            "2FA_Setup": "2FA Installation",
+            "2FA_Scan_With_App": "Scannez l'image suivante avec votre application",
+            "2FA_Manually_Enter_Code": "Geben Sie den Code manuell ein:",
+            "2FA_Code_Hint": "Veuillez saisir le code généré par votre application 2FA",
+            "2FA_Set_Successfully": "Configurer 2FA avec succès",
+            "2FA_Set_Failed": "Échec de la configuration de la 2FA",
+            "2FA_Reset_Successfully": "Réinitialisation réussie de 2FA",
+            "2FA_Reset_Failed": "Échec de la réinitialisation de 2FA"
         });
     }
 }

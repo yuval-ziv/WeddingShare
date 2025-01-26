@@ -115,7 +115,7 @@
 
             if ($(this).attr('disabled') == 'disabled') {
                 return;
-            }
+            } 
 
             displayPopup({
                 Title: localization.translate('Bulk_Review'),
@@ -125,7 +125,7 @@
                     Class: 'btn-success',
                     Callback: function () {
                         displayLoader(localization.translate('Loading'));
-
+                        
                         $.ajax({
                             url: '/Admin/BulkReview',
                             method: 'POST',

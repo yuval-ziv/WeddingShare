@@ -1,8 +1,8 @@
-﻿@using WeddingShare.Enums
+﻿@model WeddingShare.Models.PhotoGallery
+
+@using WeddingShare.Enums
 @using WeddingShare.Views.Gallery.Modes
 @inject WeddingShare.Helpers.IConfigHelper _config
-@inject Microsoft.Extensions.Localization.IStringLocalizer<WeddingShare.Lang.Translations> _localizer
-@model WeddingShare.Models.PhotoGallery
 
 @{
     var slideshowInterval = TimeSpan.FromSeconds(_config.GetOrDefault("Settings:Slideshow:Interval", 10)).TotalMilliseconds;

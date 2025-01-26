@@ -32,9 +32,9 @@ test:
 build:
   stage: build
   script:
-    - 'docker build -t $CI_REGISTRY_IMAGE:dev -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA -f WeddingShare/Dockerfile .'
-    - 'docker push $CI_REGISTRY_IMAGE:dev'
-    - 'docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA'
+    - 'docker buildx rm --all-inactive --force'
+    - 'docker buildx create --name wedding-share-builder --driver=docker-container'
+    - 'docker buildx build --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA --tag $CI_REGISTRY_IMAGE:dev --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --builder wedding-share-builder --push -f WeddingShare/Dockerfile .'
   needs:
     - test
     

@@ -1,6 +1,9 @@
 ﻿class Localization extends BaseLocalization {
     constructor() {
         super('nl-NL', {
+			"Or": "Of",
+			"Code": "Code",
+			"Next": "Volgende",
             "Loading": "Laden...",
             "Review": "Beoordelen",
             "Approve": "Goedkeuren",
@@ -9,6 +12,8 @@
             "Import": "Importeren",
             "Export": "Exporteren",
             "Wipe": "Wissen",
+            "Remove": "Verwijderen",
+            "Reset": "Opnieuw instellen",
             "Upload": "Uploaden",
             "Download": "Downloaden",
             "Update": "Bijwerken",
@@ -17,6 +22,7 @@
             "Delete": "Verwijderen",
             "Error": "Fout",
             "Errors": "Fouten",
+			"Validate": "Valideren",
             "Login": "Inloggen",
             "Login_Invalid_Username": "Voer een geldige gebruikersnaam in",
             "Login_Invalid_Password": "Voer een geldig wachtwoord in",
@@ -87,7 +93,15 @@
             "Wipe_Data_Success": "Gegevens succesvol gewist",
             "Wipe_Data_Failed": "Wissen mislukt data",
             "Download_Failed": "Kan galerij niet downloaden",
-            "Browser_Does_Not_Support": "Uw browser ondersteunt deze functie niet"
+            "Browser_Does_Not_Support": "Uw browser ondersteunt deze functie niet",
+            "2FA_Setup": "2FA Instellen",
+            "2FA_Scan_With_App": "Scan de volgende afbeelding met uw app",
+            "2FA_Manually_Enter_Code": "Voer de code handmatig in:",
+            "2FA_Code_Hint": "Voer de code in die door uw 2FA-app is gegenereerd",
+            "2FA_Set_Successfully": "2FA succesvol ingesteld",
+            "2FA_Set_Failed": "Het is niet gelukt om 2FA in te stellen",
+            "2FA_Reset_Successfully": "2FA succesvol gereset",
+            "2FA_Reset_Failed": "2FA kan niet worden gereset"
         });
     }
 }
