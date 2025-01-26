@@ -22,21 +22,14 @@ cache:
 
 before_script:
   - 'docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY'
+#  - 'docker buildx rm --all-inactive --force'
+#  - 'docker buildx create --name wedding-share-builder --driver=docker-container'
   
 test:
   stage: test
   script:
     - 'dotnet restore'
     - 'dotnet test'
-
-build:
-  stage: build
-  script:
-#    - 'docker buildx rm --all-inactive --force'
-#    - 'docker buildx create --name wedding-share-builder --driver=docker-container'
-    - 'docker buildx build --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA --tag $CI_REGISTRY_IMAGE:dev --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --builder wedding-share-builder --push -f WeddingShare/Dockerfile .'
-  needs:
-    - test
     
 push_pre_release:
   variables:
@@ -45,13 +38,9 @@ push_pre_release:
   only:
     - /^(prerel|rc|release)-[0-9]+\.[0-9]+\.[0-9]+$/
   script:
-    - 'docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA'
-    - 'docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH'
-    - 'docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH'
-    - 'docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:pre_release'
-    - 'docker push $CI_REGISTRY_IMAGE:pre_release'
+    - 'docker buildx build --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH --tag $CI_REGISTRY_IMAGE:pre_release --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --builder wedding-share-builder --push -f WeddingShare/Dockerfile .'
   needs:
-    - build
+    - test
 
 push_latest:
   variables:
@@ -61,11 +50,9 @@ push_latest:
     - main
     - master
   script:
-    - 'docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA'
-    - 'docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:latest'
-    - 'docker push $CI_REGISTRY_IMAGE:latest'
+    - 'docker buildx build --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH --tag $CI_REGISTRY_IMAGE:latest --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --builder wedding-share-builder --push -f WeddingShare/Dockerfile .'
   needs:
-    - build
+    - test
     
 push_tag:
   variables:
@@ -74,11 +61,9 @@ push_tag:
   only:
     - tags
   script:
-    - 'docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA'
-    - 'docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME'
-    - 'docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME'
+    - 'docker buildx build --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --builder wedding-share-builder --push -f WeddingShare/Dockerfile .'
   needs:
-    - build
+    - test
 
 push_docker_hub:
   variables:
@@ -87,11 +72,7 @@ push_docker_hub:
   only:
     - tags
   script:
-    - 'docker pull $CI_REGISTRY_IMAGE:latest'
     - 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN'
-    - 'docker tag $CI_REGISTRY_IMAGE:latest $DOCKERHUB_USERNAME/wedding_share:latest'
-    - 'docker push $DOCKERHUB_USERNAME/wedding_share:latest'
-    - 'docker tag $CI_REGISTRY_IMAGE:latest $DOCKERHUB_USERNAME/wedding_share:$CI_COMMIT_REF_NAME'
-    - 'docker push $DOCKERHUB_USERNAME/wedding_share:$CI_COMMIT_REF_NAME'
+    - 'docker buildx build --tag $DOCKERHUB_USERNAME/wedding_share:$CI_COMMIT_REF_NAME --tag $DOCKERHUB_USERNAME/wedding_share:latest --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --builder wedding-share-builder --push -f WeddingShare/Dockerfile .'
   needs:
-    - build
+    - test
