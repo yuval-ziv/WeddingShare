@@ -61,7 +61,7 @@ push_tag:
   only:
     - tags
   script:
-    - 'docker buildx build --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --builder wedding-share-builder --push -f WeddingShare/Dockerfile .'
+    - 'docker buildx build --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --builder wedding-share-builder --push -f WeddingShare/Dockerfile .'
   needs:
     - test
 
