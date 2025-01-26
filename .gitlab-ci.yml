@@ -32,8 +32,8 @@ test:
 build:
   stage: build
   script:
-    - 'docker buildx rm --all-inactive --force'
-    - 'docker buildx create --name wedding-share-builder --driver=docker-container'
+#    - 'docker buildx rm --all-inactive --force'
+#    - 'docker buildx create --name wedding-share-builder --driver=docker-container'
     - 'docker buildx build --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA --tag $CI_REGISTRY_IMAGE:dev --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --builder wedding-share-builder --push -f WeddingShare/Dockerfile .'
   needs:
     - test
