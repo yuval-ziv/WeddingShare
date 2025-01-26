@@ -1,4 +1,5 @@
-﻿using WeddingShare.Helpers.Database;
+﻿using System.Security.Cryptography;
+using System.Text;
 
 namespace WeddingShare.Helpers
 {
@@ -15,12 +16,16 @@ namespace WeddingShare.Helpers
         long GetDirectorySize(string path);
         Task<byte[]> ReadAllBytes(string path);
         Task SaveFile(IFormFile file, string path, FileMode mode);
-	}
+        Task<string> GetChecksum(string path);
+    }
 
     public class FileHelper : IFileHelper
     {
-        public FileHelper()
+        private readonly ILogger<FileHelper> _logger;
+
+        public FileHelper(ILogger<FileHelper> logger)
         {
+            _logger = logger;
         }
 
         public bool DirectoryExists(string path)
@@ -125,5 +130,28 @@ namespace WeddingShare.Helpers
 				await file.CopyToAsync(fs);
 			}
 		}
+
+        public async Task<string> GetChecksum(string path)
+        {
+            return await Task.Run(() => 
+            {
+                var checksum = string.Empty;
+
+                try
+                {
+                    using (var md5 = MD5.Create())
+                    using (var stream = File.OpenRead(path))
+                    {
+                        checksum = Encoding.UTF8.GetString(md5.ComputeHash(stream));
+                    }
+                }
+                catch (Exception ex) 
+                {
+                    _logger.LogWarning(ex, $"Failed to compute MD5 checksum for file '{path}'");
+                }
+
+                return checksum;
+            });
+        }
     }
 }

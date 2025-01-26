@@ -8,6 +8,7 @@
         public string? Password { get; set; }
         public int FailedLogins { get; set; }
         public DateTime? LockoutUntil { get; set; }
+        public string? MultiFactorToken { get; set; }
 
         public bool IsLockedOut
         {

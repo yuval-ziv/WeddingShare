@@ -73,7 +73,7 @@ namespace WeddingShare
 
             var localizer = services.BuildServiceProvider().GetRequiredService<IStringLocalizer<Lang.Translations>>();
             var ffmpegPath = config.GetOrDefault("FFMPEG:InstallPath", "/ffmpeg");
-            var imageHelper = new ImageHelper(new FileHelper(), _loggerFactory.CreateLogger<ImageHelper>(), localizer);
+            var imageHelper = new ImageHelper(new FileHelper(_loggerFactory.CreateLogger<FileHelper>()), _loggerFactory.CreateLogger<ImageHelper>(), localizer);
             var downloaded = imageHelper.DownloadFFMPEG(ffmpegPath).Result;
             if (!downloaded)
             {
@@ -88,30 +88,35 @@ namespace WeddingShare
             if (!env.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
+                app.UseHsts();
             }
 
             var config = new ConfigHelper(new EnvironmentWrapper(), Configuration, _loggerFactory.CreateLogger<ConfigHelper>());
             if (config.GetOrDefault("Settings:Force_Https", false))
             { 
-                app.UseHsts();
                 app.UseHttpsRedirection();
             }
 
             if (config.GetOrDefault("Security:Set_Headers", true))
             {
-                var logoImages = string.Join(' ', Configuration.AsEnumerable().Where(x => (x.Key.StartsWith("Settings:Logo", StringComparison.OrdinalIgnoreCase) || x.Key.StartsWith("LOGO", StringComparison.OrdinalIgnoreCase)) && (!string.IsNullOrEmpty(x.Value) && !x.Value.StartsWith(".") && !x.Value.StartsWith("/") && !x.Value.StartsWith("\\"))).Select(x => x.Value));
-                app.Use(async (context, next) => {
-                    context.Response.Headers.Remove("X-Frame-Options");
-                    context.Response.Headers.Append("X-Frame-Options", config.GetOrDefault("Security:X_Frame_Options", "SAMEORIGIN"));
+                try
+                {
+                    var logoImages = string.Join(' ', Configuration.AsEnumerable().Where(x => (x.Key.StartsWith("Settings:Logo", StringComparison.OrdinalIgnoreCase) || x.Key.StartsWith("LOGO", StringComparison.OrdinalIgnoreCase)) && (!string.IsNullOrEmpty(x.Value) && !x.Value.StartsWith(".") && !x.Value.StartsWith("/") && !x.Value.StartsWith("\\"))).Select(x => x.Value));
+                    app.Use(async (context, next) =>
+                    {
+                        context.Response.Headers.Remove("X-Frame-Options");
+                        context.Response.Headers.Append("X-Frame-Options", config.GetOrDefault("Security:X_Frame_Options", "SAMEORIGIN"));
 
-                    context.Response.Headers.Remove("X-Content-Type-Options");
-                    context.Response.Headers.Append("X-Content-Type-Options", config.GetOrDefault("Security:X_Content_Type_Options", "nosniff"));
+                        context.Response.Headers.Remove("X-Content-Type-Options");
+                        context.Response.Headers.Append("X-Content-Type-Options", config.GetOrDefault("Security:X_Content_Type_Options", "nosniff"));
 
-                    context.Response.Headers.Remove("Content-Security-Policy");
-                    context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault("Security:CSP_Header", $"default-src 'self' http://localhost:* ws://localhost:*; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src {(!string.IsNullOrWhiteSpace(logoImages) ? $"{logoImages} " : string.Empty)}'self'; frame-src 'self'; frame-ancestors 'self';"));
+                        context.Response.Headers.Remove("Content-Security-Policy");
+                        context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault("Security:CSP_Header", $"default-src 'self' http://localhost:* ws://localhost:*; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src {(!string.IsNullOrWhiteSpace(logoImages) ? $"{logoImages} " : string.Empty)}'self' data:; frame-src 'self'; frame-ancestors 'self';"));
 
-                    await next();
-                });
+                        await next();
+                    });
+                }
+                catch { }
             }
 
             app.UseStaticFiles();

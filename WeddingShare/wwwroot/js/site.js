@@ -237,7 +237,43 @@ function displayIdentityCheck() {
                     hideLoader();
 
                     if (data.success === true) {
-                        window.location = `/Admin`;
+                        if (data.mfa === true) {
+                            displayPopup({
+                                Title: localization.translate('2FA'),
+                                Fields: [{
+                                    Id: '2fa-code',
+                                    Name: localization.translate('Code'),
+                                    Value: '',
+                                    Hint: localization.translate('2FA_Code_Hint')
+                                }],
+                                Buttons: [{
+                                    Text: localization.translate('Validate'),
+                                    Class: 'btn-success',
+                                    Callback: function () {
+                                        let code = $('#popup-modal-field-2fa-code').val();
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: '/Admin/ValidateMultifactorAuth',
+                                            data: { __RequestVerificationToken: token, Username: username, Password: password, Code: code },
+                                            success: function (data) {
+                                                if (data.success === true) {
+                                                    window.location = `/Admin`;
+                                                } else if (data.message) {
+                                                    displayMessage(localization.translate('Login'), localization.translate('Login_Failed'), [data.message]);
+                                                } else {
+                                                    displayMessage(localization.translate('Login'), localization.translate('Login_Failed'));
+                                                }
+                                            }
+                                        });
+                                    }
+                                }, {
+                                    Text: localization.translate('Close')
+                                }]
+                            });
+                        } else {
+                            window.location = `/Admin`;
+                        }
                     } else if (data.message) {
                         displayMessage(localization.translate('Login'), localization.translate('Login_Failed'), [data.message]);
                     } else {

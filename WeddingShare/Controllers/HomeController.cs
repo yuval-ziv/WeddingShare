@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using WeddingShare.Helpers;
+using WeddingShare.Models;
 
 namespace WeddingShare.Controllers
 {
@@ -29,11 +30,11 @@ namespace WeddingShare.Controllers
         {
             try
             {
-                var deviceType = HttpContext.Session.GetString("DeviceType");
+                var deviceType = HttpContext.Session.GetString(SessionKey.DeviceType);
                 if (string.IsNullOrWhiteSpace(deviceType))
                 {
                     deviceType = (await _deviceDetector.ParseDeviceType(Request.Headers["User-Agent"].ToString())).ToString();
-                    HttpContext.Session.SetString("DeviceType", deviceType ?? "Desktop");
+                    HttpContext.Session.SetString(SessionKey.DeviceType, deviceType ?? "Desktop");
                 }
 
                 if (_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
@@ -60,7 +61,7 @@ namespace WeddingShare.Controllers
             {
                 if (Regex.IsMatch(name, @"^[a-zA-Z-\s\-\']+$", RegexOptions.Compiled))
                 {
-                    HttpContext.Session.SetString("ViewerIdentity", name);
+                    HttpContext.Session.SetString(SessionKey.ViewerIdentity, name);
 
                     return Json(new { success = true });
                 }

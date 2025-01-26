@@ -13,7 +13,7 @@
     let message = '';
     if (options?.Message != undefined && options?.Message.length > 0) {
         message = `<div class="row pb-3">
-            <div class="col-12">${options?.Message ?? ""}</div>
+            <div class="col-12 modal-message"></div>
         </div>`;
     }
 
@@ -44,9 +44,10 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">${options.Title}</h5>
+                    <h5 class="modal-title"></h5>
                 </div>
                 <div class="modal-body">
+                    ${options?.CustomHtml ?? ''}
                     ${fields}
                     ${message}
                     <div class="row ${(options?.Fields?.length ?? 0) > 0 ? "pt-3" : ""}">
@@ -56,7 +57,10 @@
             </div>
         </div>
     </div>`);
+    $('.popup-modal .modal-title').text(options.Title);
+    $('.popup-modal .modal-message').text(options?.Message ?? "");
     $('.popup-modal').show();
+    $('.popup-modal input, .popup-modal textarea').first().focus();
 }
 
 function hidePopup() {

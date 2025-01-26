@@ -12,9 +12,13 @@
     <None Remove="SqlScripts\000 - Initialize Database.sql" />
     <None Remove="SqlScripts\SQLite\001 - Add Failed Login Tracking.sql" />
     <None Remove="SqlScripts\SQLite\002 - Add MediaType.sql" />
+    <None Remove="SqlScripts\SQLite\003 - Add Checksum.sql" />
+    <None Remove="SqlScripts\SQLite\004 - Add 2FA.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\SQLite\004 - Add 2FA.sql" />
+    <EmbeddedResource Include="SqlScripts\SQLite\003 - Add Checksum.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\002 - Add MediaType.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\001 - Add Failed Login Tracking.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\000 - Initialize Database.sql" />
@@ -33,6 +37,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
     <PackageReference Include="NCrontab" Version="3.3.3" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
+    <PackageReference Include="TwoFactorAuth.Net" Version="1.4.0" />
     <PackageReference Include="Xabe.FFmpeg" Version="5.2.6" />
     <PackageReference Include="Xabe.FFmpeg.Downloader" Version="5.2.6" />
   </ItemGroup>

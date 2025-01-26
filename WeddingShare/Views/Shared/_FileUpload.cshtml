@@ -1,7 +1,7 @@
-﻿@using WeddingShare.Views.Shared
-@inject Microsoft.Extensions.Localization.IStringLocalizer<WeddingShare.Lang.Translations> _localizer
+﻿@model WeddingShare.Models.FileUploader
+@using WeddingShare.Views.Shared
 @inject WeddingShare.Helpers.IConfigHelper _config
-@model WeddingShare.Models.FileUploader
+
 @{
     var allowedFileTypes = _config.GetOrDefault("Settings:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov")?.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)?.Select(x => $".{x.Trim('.')}")?.OrderBy(x => x)?.ToList() ?? new List<string>();
 }

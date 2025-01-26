@@ -1,10 +1,9 @@
-﻿@using System.Text
+﻿@model WeddingShare.Models.PhotoGallery
+@using System.Text
 @using WeddingShare.Enums
 @using WeddingShare.Helpers
 @using WeddingShare.Views.Gallery
-@inject Microsoft.Extensions.Localization.IStringLocalizer<WeddingShare.Lang.Translations> _localizer
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
-@model WeddingShare.Models.PhotoGallery
 
 @if (!_gallery.GetConfig(Model?.GalleryName, "Disable_QR_Code", false))
 {

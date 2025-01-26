@@ -18,6 +18,7 @@ namespace WeddingShare.Helpers.Database
         Task<List<GalleryItemModel>> GetPendingGalleryItems(int? galleryId = null);
         Task<GalleryItemModel?> GetPendingGalleryItem(int id);
         Task<GalleryItemModel?> GetGalleryItem(int id);
+        Task<GalleryItemModel?> GetGalleryItemByChecksum(int galleryId, string checksum);
         Task<GalleryItemModel?> AddGalleryItem(GalleryItemModel model);
         Task<GalleryItemModel?> EditGalleryItem(GalleryItemModel model);
         Task<bool> DeleteGalleryItem(GalleryItemModel model);
@@ -32,6 +33,8 @@ namespace WeddingShare.Helpers.Database
         Task<int> IncrementLockoutCount(int id);
         Task<bool> SetLockout(int id, DateTime? datetime);
         Task<bool> ResetLockoutCount(int id);
+        Task<bool> SetMultiFactorToken(int id, string token);
+        Task<bool> ResetMultiFactorToDefault();
         Task<bool> Import(string path);
         Task<bool> Export(string path);
     }

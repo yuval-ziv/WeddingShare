@@ -1,5 +1,10 @@
 # WeddingShare
- 
+
+> [!CAUTION]
+> <b>Storm Warning</b><br/><br/>
+> Due to storms affecting a large portion of the countries infrastructure I will not be actively working on bugs and any internally hosted resources such as the documentation Wiki may be down until the issues are resolved.
+> <br/><br/><b>26/01/2025</b>
+
  <br />![Banner](https://github.com/Cirx08/WeddingShare/blob/main/banner.png?raw=true)
 
 ## Support
@@ -23,55 +28,59 @@ there are no warranties. Use at your own risk.
 
 Not all image formats are supported in browsers so although you may be able to add them via the ALLOWED_FILE_TYPES environment variable they may not be supported. One such format is Apples .heic format. It is specific to Apple devices and due to its licensing, a lot of browsers have not implemented it.
 
-## Settings
+# Basic
 
-| Name                               | Value                                        | Gallery Override |
-| ---------------------------------- | -------------------------------------------- | ---------------- |
-| TITLE                              | WeddingShare                                 | Yes              |
-| LOGO                               | https://someurl/someimage.png                | Yes              |
-| BASE_URL                           | www.wedding-share.com                        | No               |
-| LANGUAGE                           | en-GB                                        | No               |
-| FORCE_HTTPS                        | false                                        | No               |
-| DEFAULT_THEME                      | default (default, dark)                      | No               |
-| LINKS_OPEN_NEW_TAB                 | true                                         | No               |
-| SHOW_IDENTITY_REQUEST              | true                                         | No               |
-| DISABLE_HOME_LINK                  | false                                        | No               |
-| DISABLE_DARK_MODE                  | false                                        | No               |
-| DISABLE_GUEST_GALLERY_CREATION     | true                                         | No               |
-| SINGLE_GALLERY_MODE                | false                                        | No               |
-| DEFAULT_GALLERY_VIEW               | 0 (Default), 1 (Presentation), 2 (Slideshow) | No               |
-| ALLOWED_FILE_TYPES                 | .jpg,.jpeg,.png                              | No               |
-| MAX_GALLERY_SIZE_MB                | 1024                                         | Yes              |
-| MAX_FILE_SIZE_MB                   | 10                                           | No               |
-| THUMBNAIL_SIZE                     | 720                                          | No               |
-| HIDE_KEY_FROM_QR_CODE              | false                                        | No               |
-| IDLE_GALLERY_REFRESH_MINS          | 5 (0 = disable)                              | No               |
-| EMAIL_REPORT                       | true                                         | No               |
-| REQUIRE_REVIEW                     | true                                         | Yes              |
-| SECRET_KEY                         | (optional)                                   | Yes              |
-| GALLERY_COLUMNS                    | 4 (1, 2, 3, 4, 6, 12)                        | Yes              |
-| GALLERY_ITEMS_PER_PAGE             | 50                                           | Yes              |
-| GALLERY_QUOTE                      | (optional)                                   | Yes              |
-| DISABLE_REVIEW_COUNTER             | false                                        | Yes              |
-| DISABLE_UPLOAD                     | false                                        | Yes              |
-| DISABLE_DOWNLOAD                   | false                                        | Yes              |
-| DISABLE_QR_CODE                    | false                                        | Yes              |
-| FULL_WIDTH_GALLERY                 | false                                        | Yes              |
-| RETAIN_REJECTED_ITEMS              | false                                        | Yes              |
+:::warning Media Formats
+Not all image formats are supported in browsers so although you may be able to add them via the `ALLOWED_FILE_TYPES` environment variable they may not be supported. One such format is Apples `.heic` format. It is specific to Apple devices and due to its licensing, a lot of browsers have not implemented it.
+:::
 
-> **Gallery Overrides:**<br/>
-> Gallery overrides can be added by appending the gallery name to the end of the environment variable key. For example if the DISABLE_UPLOAD key is set to true but the DISABLE_UPLOAD_PUBLIC key is also present and set to false, the default gallery behaviour will be to hide the upload section for all galleries *<ins>except</ins>* the "Public" gallery.
+| Name                               | Value                                        |
+| ---------------------------------- | -------------------------------------------- |
+| TITLE                              | WeddingShare                                 |
+| LOGO                               | https://someurl/someimage.png                |
+| BASE_URL                           | www.wedding-share.com                        |
+| LANGUAGE                           | en-GB                                        |
+| FORCE_HTTPS                        | false                                        |
+| DEFAULT_THEME                      | default (default, dark)                      |
+| LINKS_OPEN_NEW_TAB                 | true                                         |
+| SHOW_IDENTITY_REQUEST              | true                                         |
+| DISABLE_HOME_LINK                  | false                                        |
+| DISABLE_DARK_MODE                  | false                                        |
+| DISABLE_GUEST_GALLERY_CREATION     | true                                         |
+| SINGLE_GALLERY_MODE                | false                                        |
+| DEFAULT_GALLERY_VIEW               | 0 (Default), 1 (Presentation), 2 (Slideshow) |
+| ALLOWED_FILE_TYPES                 | .jpg,.jpeg,.png                              |
+| MAX_FILE_SIZE_MB                   | 10                                           |
+| THUMBNAIL_SIZE                     | 720                                          |
+| HIDE_KEY_FROM_QR_CODE              | false                                        |
+| IDLE_GALLERY_REFRESH_MINS          | 5 (0 = disable)                              |
+| EMAIL_REPORT                       | true                                         |
 
-## Slideshow
+### Gallery Overrides
 
-| Name                           | Value                                        |
-| ------------------------------ | -------------------------------------------- |
-| SLIDESHOW_INTERVAL             | 10 (seconds)                                 |
-| SLIDESHOW_FADE                 | 500 (milliseconds)                           |
-| SLIDESHOW_LIMIT                | (optional)                                   |
-| SLIDESHOW_INCLUDE_SHARE_SLIDE  | true                                         |
+:::tip Gallery Overrides
+Any setting marked **Yes** in the table below can have a gallery specific override by appending the gallery name to the end of the key. For example if the environment variable `REQUIRE_REVIEW_PROPOSAL` is specified it will override the value specified using the `REQUIRE_REVIEW` environment variable.
+:::
 
-## Admin Account
+| Name                               | Value                                        |
+| ---------------------------------- | -------------------------------------------- |
+| TITLE                              | WeddingShare                                 |
+| LOGO                               | https://someurl/someimage.png                |
+| REQUIRE_REVIEW                     | true                                         |
+| SECRET_KEY                         | (optional)                                   |
+| GALLERY_UPLOAD_PERIOD              | "2025-01-29 23:59" or "2025-01-01 00:00 / 2025-01-03 23:59" or "2025-01-01 00:00 / 2025-01-01 23:59, 2025-01-03 00:00 / 2025-01-03 23:59" |
+| GALLERY_COLUMNS                    | 4 (1, 2, 3, 4, 6, 12)                        |
+| GALLERY_ITEMS_PER_PAGE             | 50                                           |
+| GALLERY_QUOTE                      | (optional)                                   |
+| DISABLE_REVIEW_COUNTER             | false                                        |
+| DISABLE_UPLOAD                     | false                                        |
+| DISABLE_DOWNLOAD                   | false                                        |
+| DISABLE_QR_CODE                    | false                                        |
+| FULL_WIDTH_GALLERY                 | false                                        |
+| RETAIN_REJECTED_ITEMS              | false                                        |
+| MAX_GALLERY_SIZE_MB                | 1024                                         |
+
+# Account
 
 | Name                           | Value                                        |
 | ------------------------------ | -------------------------------------------- |
@@ -82,7 +91,16 @@ Not all image formats are supported in browsers so although you may be able to a
 | ACCOUNT_LOCKOUT_ATTEMPTS       | 5                                            |
 | ACCOUNT_LOCKOUT_MINS           | 60                                           |
 
-## Background Services
+# Slideshow
+
+| Name                           | Value                                        |
+| ------------------------------ | -------------------------------------------- |
+| SLIDESHOW_INTERVAL             | 10 (seconds)                                 |
+| SLIDESHOW_FADE                 | 500 (milliseconds)                           |
+| SLIDESHOW_LIMIT                | (optional)                                   |
+| SLIDESHOW_INCLUDE_SHARE_SLIDE  | true                                         |
+
+# Background Services
 
 | Name                           | Value                                        |
 | ------------------------------ | -------------------------------------------- |
@@ -90,7 +108,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | EMAIL_REPORT_INTERVAL          | 0 0 * * * (cron)                             |
 | CLEANUP_INTERVAL               | 0 4 * * * (cron)                             |
 
-## Notifications (Alerts)
+# Alerts
 
 | Name                           | Value                                        |
 | ------------------------------ | -------------------------------------------- |
@@ -99,7 +117,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | ALERTS_DESTRUCTIVE_ACTION      | true                                         |
 | ALERTS_PENDING_REVIEW          | true                                         |
 
-## Notifications (SMTP)
+# STMP
 
 | Name                           | Value                                        |
 | ------------------------------ | -------------------------------------------- |
@@ -113,7 +131,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | SMTP_DISPLAYNAME               | WeddingShare                                 |
 | SMTP_USE_SSL                   | true                                         |
 
-## Notifications (Ntfy)
+# NTFY
 
 | Name                           | Value                                        |
 | ------------------------------ | -------------------------------------------- |
@@ -123,7 +141,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | NTFY_TOPIC                     | WeddingShare                                 |
 | NTFY_PRIORITY                  | 4                                            |
 
-## Notifications (Gotify)
+# Gotify
 
 | Name                           | Value                                        |
 | ------------------------------ | -------------------------------------------- |
@@ -132,13 +150,22 @@ Not all image formats are supported in browsers so although you may be able to a
 | GOTIFY_TOKEN                   | (required)                                   |
 | GOTIFY_PRIORITY                | 4                                            |
 
-## Encryption
+# Security
 
-| Name                           | Value                                        |
-| ------------------------------ | -------------------------------------------- |
-| SECURITY_ENCRYPTION_KEY        | ChangeMe                                     |
-| SECURITY_ENCRYPTION_SALT       | ChangeMe                                     |
-| SECURITY_ENCRYPTION_ITERATIONS | 1000                                         |
+| Name                            | Value                                        |
+| ------------------------------- | -------------------------------------------- |
+| SECURITY_ENCRYPTION_KEY         | ChangeMe                                     |
+| SECURITY_ENCRYPTION_SALT        | ChangeMe                                     |
+| SECURITY_ENCRYPTION_ITERATIONS  | 1000                                         |
+| SECURITY_2FA_RESET_TO_DEFAULT   | false                                        |
+| SECURITY_SET_HEADERS            | true                                         |
+| SECURITY_X_FRAME_OPTIONS        | SAMEORIGIN                                   |
+| SECURITY_X_CONTENT_TYPE_OPTIONS | nosniff                                      |
+| SECURITY_CSP_HEADER             | (optional)                                   |
+
+:::tip Reset 2FA
+If for any reason your 2FA no longer works correctly you can reset it by setting the `SECURITY_2FA_RESET_TO_DEFAULT` environment variable to `true` and restarting the container. Just be sure to remove it or set it back to `false` once done or it will reset again next restart.
+:::
 
 ## Docker Run
 

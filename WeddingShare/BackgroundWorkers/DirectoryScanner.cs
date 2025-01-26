@@ -81,6 +81,7 @@ namespace WeddingShare.BackgroundWorkers
                                                             {
                                                                 GalleryId = galleryItem.Id,
                                                                 Title = filename,
+                                                                Checksum = await fileHelper.GetChecksum(file),
                                                                 MediaType = imageHelper.GetMediaType(file),
                                                                 State = GalleryItemState.Approved
                                                             });
@@ -129,6 +130,7 @@ namespace WeddingShare.BackgroundWorkers
                                                                 {
                                                                     GalleryId = galleryItem.Id,
                                                                     Title = filename,
+                                                                    Checksum = await fileHelper.GetChecksum(file),
                                                                     MediaType = imageHelper.GetMediaType(file),
                                                                     State = GalleryItemState.Pending
                                                                 });

@@ -120,6 +120,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>Failed to upload file</value>
   </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Duplicate file detected</value>
+  </data>
   <data name="Gallery_Does_Not_Exist" xml:space="preserve">
     <value>The requested gallery was not found or does not exist</value>
   </data>
@@ -410,5 +413,8 @@
   </data>
   <data name="FFMPEG_Download_Failed" xml:space="preserve">
     <value>Failed to download FFMPEG to path</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Failed to set up 2FA</value>
   </data>
 </root>
