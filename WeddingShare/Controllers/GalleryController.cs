@@ -115,9 +115,10 @@ namespace WeddingShare.Controllers
                 }
                 catch { }
 
+                var mediaType = mode == ViewMode.Slideshow ? MediaType.Image : MediaType.All;
                 var itemsPerPage = _gallery.GetConfig(gallery?.Name, "Gallery_Items_Per_Page", 50);
                 var allowedFileTypes = _config.GetOrDefault("Settings:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-                var items = (await _database.GetAllGalleryItems(gallery?.Id, GalleryItemState.Approved, order, itemsPerPage, currentPage))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
+                var items = (await _database.GetAllGalleryItems(gallery?.Id, GalleryItemState.Approved, mediaType, order, itemsPerPage, currentPage))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
                 
                 var isAdmin = User?.Identity != null && User.Identity.IsAuthenticated;
 

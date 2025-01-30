@@ -258,13 +258,13 @@ namespace WeddingShare.Helpers.Database
         #endregion
 
         #region Gallery Items
-        public async Task<List<GalleryItemModel>> GetAllGalleryItems(int? galleryId, GalleryItemState state = GalleryItemState.All, GalleryOrder order = GalleryOrder.UploadedDesc, int limit = int.MaxValue, int page = 1)
+        public async Task<List<GalleryItemModel>> GetAllGalleryItems(int? galleryId, GalleryItemState state = GalleryItemState.All, MediaType type = MediaType.All, GalleryOrder order = GalleryOrder.UploadedDesc, int limit = int.MaxValue, int page = 1)
         {
             List<GalleryItemModel> result;
 
             using (var conn = new SqliteConnection(_connString))
             {
-                var query = $"SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE {(galleryId != null && galleryId > 0 ? "gi.`gallery_id`=@Id" : "gi.`gallery_id` > 0")} {(state != GalleryItemState.All ? "AND gi.`state`=@State" : string.Empty)};";
+                var query = $"SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE {(galleryId != null && galleryId > 0 ? "gi.`gallery_id`=@Id" : "gi.`gallery_id` > 0")} {(type != MediaType.All ? "AND gi.`media_type`=@Type" : string.Empty)} {(state != GalleryItemState.All ? "AND gi.`state`=@State" : string.Empty)};";
                 switch (order)
                 {
                     case GalleryOrder.UploadedAsc:
@@ -294,6 +294,7 @@ namespace WeddingShare.Helpers.Database
                 var cmd = new SqliteCommand(query, conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", galleryId);
+                cmd.Parameters.AddWithValue("Type", type);
                 cmd.Parameters.AddWithValue("State", state);
                 cmd.Parameters.AddWithValue("Limit", limit);
                 cmd.Parameters.AddWithValue("Offset", ((page - 1) * limit));

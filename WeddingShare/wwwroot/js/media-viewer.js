@@ -66,6 +66,8 @@ function displayMediaViewer(index, thumbnail, source, type, title, collection, a
             }
         }
 
+        await new Promise(r => setTimeout(r, 100));
+
         container.css({
             'top': `${(popup.innerHeight() - container.outerHeight()) / 2}px`,
             'left': `${(popup.innerWidth() - container.outerWidth()) / 2}px`

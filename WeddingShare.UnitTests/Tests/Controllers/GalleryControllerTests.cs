@@ -72,9 +72,9 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             }));
 			_database.AddGalleryItem(Arg.Any<GalleryItemModel>()).Returns(Task.FromResult<GalleryItemModel?>(MockData.MockGalleryItem()));
 
-			_database.GetAllGalleryItems(Arg.Any<int>(), GalleryItemState.All, Arg.Any<GalleryOrder>(), Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(MockData.MockGalleryItems(10, 1, GalleryItemState.All)));
-            _database.GetAllGalleryItems(Arg.Any<int>(), GalleryItemState.Pending, Arg.Any<GalleryOrder>(), Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(MockData.MockGalleryItems(10, 1, GalleryItemState.Pending)));
-            _database.GetAllGalleryItems(Arg.Any<int>(), GalleryItemState.Approved, Arg.Any<GalleryOrder>(), Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(MockData.MockGalleryItems(10, 1, GalleryItemState.Approved)));
+			_database.GetAllGalleryItems(Arg.Any<int>(), GalleryItemState.All, Arg.Any<MediaType>(), Arg.Any<GalleryOrder>(), Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(MockData.MockGalleryItems(10, 1, GalleryItemState.All)));
+            _database.GetAllGalleryItems(Arg.Any<int>(), GalleryItemState.Pending, Arg.Any<MediaType>(), Arg.Any<GalleryOrder>(), Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(MockData.MockGalleryItems(10, 1, GalleryItemState.Pending)));
+            _database.GetAllGalleryItems(Arg.Any<int>(), GalleryItemState.Approved, Arg.Any<MediaType>(), Arg.Any<GalleryOrder>(), Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(MockData.MockGalleryItems(10, 1, GalleryItemState.Approved)));
 			_database.GetGalleryItemByChecksum(Arg.Any<int>(), Arg.Any<string>()).ReturnsNull();
 
             _gallery.GetSecretKey(Arg.Any<string>()).Returns("password");
