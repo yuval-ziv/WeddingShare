@@ -1,4 +1,4 @@
-﻿let mediaViewerTimeout = null;
+let mediaViewerTimeout = null;
 let playButtonTimeout = null;
 
 function openMediaViewer(e) {
@@ -65,8 +65,6 @@ function displayMediaViewer(index, thumbnail, source, type, title, collection, a
                 break;
             }
         }
-
-        await new Promise(r => setTimeout(r, 100));
 
         container.css({
             'top': `${(popup.innerHeight() - container.outerHeight()) / 2}px`,
