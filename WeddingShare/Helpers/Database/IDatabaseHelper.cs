@@ -13,7 +13,7 @@ namespace WeddingShare.Helpers.Database
         Task<bool> WipeGallery(GalleryModel model);
         Task<bool> WipeAllGalleries();
         Task<bool> DeleteGallery(GalleryModel model);
-        Task<List<GalleryItemModel>> GetAllGalleryItems(int? galleryId, GalleryItemState state = GalleryItemState.All, GalleryOrder order = GalleryOrder.UploadedDesc, int limit = int.MaxValue, int page = 1);
+        Task<List<GalleryItemModel>> GetAllGalleryItems(int? galleryId, GalleryItemState state = GalleryItemState.All, MediaType type = MediaType.All, GalleryOrder order = GalleryOrder.UploadedDesc, int limit = int.MaxValue, int page = 1);
         Task<int> GetPendingGalleryItemCount(int? galleryId = null);
         Task<List<GalleryItemModel>> GetPendingGalleryItems(int? galleryId = null);
         Task<GalleryItemModel?> GetPendingGalleryItem(int id);
