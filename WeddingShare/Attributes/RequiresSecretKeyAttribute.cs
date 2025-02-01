@@ -24,7 +24,7 @@ namespace WeddingShare.Attributes
                         var key = request.Query.ContainsKey("key") ? request.Query["key"].ToString() : string.Empty;
 
                         var isEncrypted = request.Query.ContainsKey("enc") ? bool.Parse(request.Query["enc"].ToString().ToLower()) : false;
-                        if (!isEncrypted && encryptionHelper.IsEncryptionEnabled())
+                        if (!isEncrypted && !string.IsNullOrWhiteSpace(key) && encryptionHelper.IsEncryptionEnabled())
                         {
                             var queryString = HttpUtility.ParseQueryString(request.QueryString.ToString());
                             queryString.Set("enc", "true");
@@ -35,16 +35,19 @@ namespace WeddingShare.Attributes
                         else
                         { 
                             var secretKey = galleryHelper.GetSecretKey(galleryId).Result ?? string.Empty;
-                            secretKey = encryptionHelper.IsEncryptionEnabled() ? encryptionHelper.Encrypt(secretKey) : secretKey;
-                            if (!string.IsNullOrWhiteSpace(secretKey) && !string.Equals(secretKey, key))
-                            {
-                                var logger = filterContext.HttpContext.RequestServices.GetService<ILogger<RequiresSecretKeyAttribute>>();
-                                if (logger != null)
+                            if (!string.IsNullOrWhiteSpace(secretKey))
+                            { 
+                                secretKey = encryptionHelper.IsEncryptionEnabled() ? encryptionHelper.Encrypt(secretKey) : secretKey;
+                                if (!string.IsNullOrWhiteSpace(secretKey) && !string.Equals(secretKey, key))
                                 {
-                                    logger.LogWarning($"A request was made to an endpoint with an invalid secure key");
-                                }
+                                    var logger = filterContext.HttpContext.RequestServices.GetService<ILogger<RequiresSecretKeyAttribute>>();
+                                    if (logger != null)
+                                    {
+                                        logger.LogWarning($"A request was made to an endpoint with an invalid secure key");
+                                    }
 
-                                filterContext.Result = new RedirectToActionResult("Index", "Error", new { Reason = ErrorCode.InvalidSecretKey }, false);
+                                    filterContext.Result = new RedirectToActionResult("Index", "Error", new { Reason = ErrorCode.InvalidSecretKey }, false);
+                                }
                             }
                         }
                     }

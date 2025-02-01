@@ -25,6 +25,7 @@ namespace WeddingShare.Controllers
         private readonly IDeviceDetector _deviceDetector;
         private readonly IFileHelper _fileHelper;
         private readonly INotificationHelper _notificationHelper;
+        private readonly Helpers.IUrlHelper _url;
         private readonly ILogger _logger;
         private readonly IStringLocalizer<Lang.Translations> _localizer;
 
@@ -32,7 +33,7 @@ namespace WeddingShare.Controllers
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, INotificationHelper notificationHelper, ILogger<AdminController> logger, IStringLocalizer<Lang.Translations> localizer)
+        public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, INotificationHelper notificationHelper, Helpers.IUrlHelper url, ILogger<AdminController> logger, IStringLocalizer<Lang.Translations> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
@@ -40,6 +41,7 @@ namespace WeddingShare.Controllers
             _deviceDetector = deviceDetector;
             _fileHelper = fileHelper;
             _notificationHelper = notificationHelper;
+            _url = url;
             _logger = logger;
             _localizer = localizer;
 
@@ -428,7 +430,7 @@ namespace WeddingShare.Controllers
 
                             if (_config.GetOrDefault("Notifications:Alerts:Destructive_Action", true))
                             { 
-                                await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Wipe' was performed on gallery '{gallery.Name}'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                                await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Wipe' was performed on gallery '{gallery.Name}'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
                             }
                         }
 
@@ -471,7 +473,7 @@ namespace WeddingShare.Controllers
 
                         if (_config.GetOrDefault("Notifications:Alerts:Destructive_Action", true))
                         {
-                            await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Wipe' was performed on all galleries'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                            await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Wipe' was performed on all galleries'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
                         }
                     }
 
@@ -501,7 +503,7 @@ namespace WeddingShare.Controllers
 
                         if (_config.GetOrDefault("Notifications:Alerts:Destructive_Action", true))
                         {
-                            await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Delete' was performed on gallery '{gallery.Name}'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                            await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Delete' was performed on gallery '{gallery.Name}'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
                         }
 
                         return Json(new { success = await _database.DeleteGallery(gallery) });
@@ -750,7 +752,7 @@ namespace WeddingShare.Controllers
             {
                 if (_config.GetOrDefault("Notifications:Alerts:Failed_Login", true))
                 {
-                    await _notificationHelper.Send("Invalid Login Detected", $"An invalid login attempt was made for account '{model?.Username}'.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                    await _notificationHelper.Send("Invalid Login Detected", $"An invalid login attempt was made for account '{model?.Username}'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
                 }
 
                 var failedAttempts = await _database.IncrementLockoutCount(user.Id);
@@ -761,7 +763,7 @@ namespace WeddingShare.Controllers
 
                     if (_config.GetOrDefault("Notifications:Alerts:Account_Lockout", true))
                     {
-                        await _notificationHelper.Send("Account Lockout", $"Account '{model?.Username}' has been locked out for {timeout} minutes due to too many failed login attempts.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                        await _notificationHelper.Send("Account Lockout", $"Account '{model?.Username}' has been locked out for {timeout} minutes due to too many failed login attempts.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
                     }
                 }
 

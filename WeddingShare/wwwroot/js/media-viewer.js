@@ -1,4 +1,5 @@
 let mediaViewerTimeout = null;
+let mediaViewerPositionTimeout = null;
 let playButtonTimeout = null;
 
 function openMediaViewer(e) {
@@ -38,6 +39,8 @@ function displayMediaViewer(index, thumbnail, source, type, title, collection, a
     $('#media-viewer-popup .media-viewer-description').text(description);
 
     clearTimeout(mediaViewerTimeout);
+    clearTimeout(mediaViewerPositionTimeout);
+
     mediaViewerTimeout = setTimeout(function () {
         let margin = window.innerWidth > 900 ? 50 : 20;
 
@@ -66,24 +69,25 @@ function displayMediaViewer(index, thumbnail, source, type, title, collection, a
             }
         }
 
-        container.css({
-            'top': `${(popup.innerHeight() - container.outerHeight()) / 2}px`,
-            'left': `${(popup.innerWidth() - container.outerWidth()) / 2}px`
-        });
+        mediaViewerPositionTimeout = setTimeout(function () {
+            container.css({
+                'top': `${(popup.innerHeight() - container.outerHeight()) / 2}px`,
+                'left': `${(popup.innerWidth() - container.outerWidth()) / 2}px`
+            });
 
-        if (type === 'video') {
-            let width = $('.media-viewer-content img').innerWidth();
-            let height = $('.media-viewer-content img').innerHeight();
-            $('.media-viewer-content').html(`
-                <video width="${width}" height="${height}" controls autoplay>
-                    <source src="${source}" type="video/mp4">
-                    ${localization.translate('Browser_Does_Not_Support')}
-                </video>
-            `);
-        }
-
-        popup.fadeTo(500, 1.0);
-    }, 100);
+            if (type === 'video') {
+                let width = $('.media-viewer-content img').innerWidth();
+                let height = $('.media-viewer-content img').innerHeight();
+                $('.media-viewer-content').html(`
+                    <video width="${width}" height="${height}" controls autoplay>
+                        <source src="${source}" type="video/mp4">
+                        ${localization.translate('Browser_Does_Not_Support')}
+                    </video>
+                `);
+            }
+            popup.fadeTo(500, 1.0);
+        }, 200);
+    }, 200);
 }
 
 function hideMediaViewer() {
@@ -140,6 +144,7 @@ function moveSlide(direction) {
         clearTimeout(playButtonTimeout);
         playButtonTimeout = setTimeout(function () {
             let collections = [];
+
             $('.media-viewer-item').each(function () {
                 let name = $(this).data('media-viewer-collection');
                 if (!collections.includes(name)) {

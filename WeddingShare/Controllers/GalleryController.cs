@@ -27,6 +27,7 @@ namespace WeddingShare.Controllers
         private readonly IImageHelper _imageHelper;
         private readonly INotificationHelper _notificationHelper;
         private readonly IEncryptionHelper _encryptionHelper;
+        private readonly Helpers.IUrlHelper _urlHelper;
         private readonly ILogger _logger;
         private readonly IStringLocalizer<Lang.Translations> _localizer;
 
@@ -34,7 +35,7 @@ namespace WeddingShare.Controllers
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IFileHelper fileHelper, IGalleryHelper galleryHelper, IDeviceDetector deviceDetector, IImageHelper imageHelper, INotificationHelper notificationHelper, IEncryptionHelper encryptionHelper, ILogger<GalleryController> logger, IStringLocalizer<Lang.Translations> localizer)
+        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IFileHelper fileHelper, IGalleryHelper galleryHelper, IDeviceDetector deviceDetector, IImageHelper imageHelper, INotificationHelper notificationHelper, IEncryptionHelper encryptionHelper, Helpers.IUrlHelper urlHelper, ILogger<GalleryController> logger, IStringLocalizer<Lang.Translations> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
@@ -45,6 +46,7 @@ namespace WeddingShare.Controllers
             _imageHelper = imageHelper;
             _notificationHelper = notificationHelper;
             _encryptionHelper = encryptionHelper;
+            _urlHelper = urlHelper;
             _logger = logger;
             _localizer = localizer;
 
@@ -53,12 +55,25 @@ namespace WeddingShare.Controllers
             ThumbnailsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "thumbnails");
         }
 
-        [HttpGet]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [HttpPost]
         public IActionResult Login(string id = "default", string? key = null)
         {
-            var enc = _encryptionHelper.IsEncryptionEnabled();
-            return Redirect($"/Gallery?id={HttpUtility.UrlEncode(id)}&key={HttpUtility.UrlEncode(enc ? _encryptionHelper.Encrypt(key) : key)}&enc={enc.ToString().ToLower()}");
+
+            var append = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("id", id)
+            };
+
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                var enc = _encryptionHelper.IsEncryptionEnabled();
+                append.Add(new KeyValuePair<string, string>("key", enc ? _encryptionHelper.Encrypt(key) : key));
+                append.Add(new KeyValuePair<string, string>("enc", enc.ToString().ToLower()));
+            }
+
+            var redirectUrl = _urlHelper.GenerateFullUrl(HttpContext.Request, "/Gallery", append);
+
+            return new JsonResult(new { success = true, redirectUrl });
         }
 
         [HttpGet]
@@ -354,7 +369,7 @@ namespace WeddingShare.Controllers
                     int uploaded = int.Parse((Request?.Form?.FirstOrDefault(x => string.Equals("Count", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString() ?? "0");
                     if (uploaded > 0 && requiresReview && _config.GetOrDefault("Notifications:Alerts:Pending_Review", true))
                     {
-                        await _notificationHelper.Send(_localizer["New_Items_Pending_Review"].Value, $"{uploaded} new item(s) have been uploaded to gallery '{gallery.Name}' by '{(!string.IsNullOrWhiteSpace(uploadedBy) ? uploadedBy : "Anonymous")}' and are awaiting your review.", UrlHelper.Generate(HttpContext, _config, "/Admin"));
+                        await _notificationHelper.Send(_localizer["New_Items_Pending_Review"].Value, $"{uploaded} new item(s) have been uploaded to gallery '{gallery.Name}' by '{(!string.IsNullOrWhiteSpace(uploadedBy) ? uploadedBy : "Anonymous")}' and are awaiting your review.", _urlHelper.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
                     }
 
                     Response.StatusCode = (int)HttpStatusCode.OK;
