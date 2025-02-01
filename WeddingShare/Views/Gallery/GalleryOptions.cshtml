@@ -4,6 +4,7 @@
 @using WeddingShare.Helpers
 @using WeddingShare.Views.Gallery
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
+@inject WeddingShare.Helpers.IUrlHelper _url
 
 @if (!_gallery.GetConfig(Model?.GalleryName, "Disable_QR_Code", false))
 {
@@ -44,7 +45,11 @@
             <div class="dropdown-menu">
                 @foreach (ViewMode mode in Enum.GetValues(typeof(ViewMode)))
                 {
-                    <a class="dropdown-item" href="@($"{ViewBag.QRCodeLink}{(ViewBag.QRCodeLink.Contains("?") ? "&" : "?")}mode={(int)mode}")">@mode</a>
+                    var append = new List<KeyValuePair<string, string>>() 
+                    { 
+                        new KeyValuePair<string, string>("mode", ((int)mode).ToString()) 
+                    };
+                    <a class="dropdown-item" href="@_url.GenerateFullUrl(Context.Request, Context.Request.Path, append)">@mode</a>
                 }
             </div>
         </div>
@@ -58,7 +63,11 @@
                 {
                     if (order != GalleryOrder.None)
                     {
-                        <a class="dropdown-item" href="@($"{ViewBag.BaseLink}{(ViewBag.BaseLink.Contains("?") ? "&" : "?")}order={(int)order}")">@order</a>
+                        var append = new List<KeyValuePair<string, string>>() 
+                        { 
+                            new KeyValuePair<string, string>("order", ((int)order).ToString()) 
+                        };
+                        <a class="dropdown-item" href="@_url.GenerateFullUrl(Context.Request, Context.Request.Path, append)">@order</a>
                     }
                 }
             </div>

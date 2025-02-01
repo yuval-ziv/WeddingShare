@@ -198,12 +198,18 @@ function displayIdentityCheck() {
 
             const regex = /^[a-zA-Z0-9\-\s-_~]+$/;
             if (galleryId && galleryId.length > 0 && regex.test(galleryId)) {
-                var url = `/Gallery/Login?id=${galleryId}`;
-                if (secretKey && secretKey.length > 0) {
-                    url = `${url}&key=${secretKey}`;
-                }
-
-                window.location = url;
+                $.ajax({
+                    type: "POST",
+                    url: '/Gallery/Login',
+                    data: { id: galleryId, key: secretKey },
+                    success: function (data) {
+                        if (data.success && data.redirectUrl) {
+                            window.location = data.redirectUrl;
+                        } else {
+                            displayMessage(localization.translate('Gallery'), localization.translate('Gallery_Invalid_Secret_Key'));
+                        }
+                    }
+                });
             } else {
                 displayMessage(localization.translate('Gallery'), localization.translate('Gallery_Invalid_Name'));
             }

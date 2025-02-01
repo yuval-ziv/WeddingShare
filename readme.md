@@ -1,10 +1,5 @@
 # WeddingShare
 
-> [!CAUTION]
-> <b>Storm Warning</b><br/><br/>
-> Due to storms affecting a large portion of the countries infrastructure I will not be actively working on bugs and any internally hosted resources such as the documentation Wiki may be down until the issues are resolved.
-> <br/><br/><b>26/01/2025</b>
-
  <br />![Banner](https://github.com/Cirx08/WeddingShare/blob/main/banner.png?raw=true)
 
 ## Support
@@ -49,7 +44,7 @@ Not all image formats are supported in browsers so although you may be able to a
 | DISABLE_GUEST_GALLERY_CREATION     | true                                         |
 | SINGLE_GALLERY_MODE                | false                                        |
 | DEFAULT_GALLERY_VIEW               | 0 (Default), 1 (Presentation), 2 (Slideshow) |
-| ALLOWED_FILE_TYPES                 | .jpg,.jpeg,.png                              |
+| ALLOWED_FILE_TYPES                 | .jpg,.jpeg,.png,.mp4,.mov                    |
 | MAX_FILE_SIZE_MB                   | 10                                           |
 | THUMBNAIL_SIZE                     | 720                                          |
 | HIDE_KEY_FROM_QR_CODE              | false                                        |

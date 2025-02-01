@@ -14,6 +14,7 @@ namespace WeddingShare.Configurations
             services.AddSingleton<IDeviceDetector, DeviceDetector>();
             services.AddSingleton<ISmtpClientWrapper, SmtpClientWrapper>();
             services.AddSingleton<IEncryptionHelper, EncryptionHelper>();
+            services.AddSingleton<IUrlHelper, UrlHelper>();
         }
     }
 }

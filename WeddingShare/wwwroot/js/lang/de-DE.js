@@ -45,6 +45,7 @@
             "Gallery_Secret_Key": "Galerie-Schlüssel",
             "Gallery_Secret_Key_Hint": "Gib einen neuen Galerie-Schlüssel ein",
             "Gallery_Invalid_Name": "Bitte gib einen gültigen Galerienamen ein",
+            "Gallery_Invalid_Secret_Key": "Ungültiger geheimer Schlüssel, bitte versuchen Sie es erneut",
             "Gallery_Missing_Id": "Galerie-ID darf nicht leer sein",
             "Gallery_Missing_Name": "Galeriename darf nicht leer sein",
             "Gallery_Create": "Galerie erstellen",

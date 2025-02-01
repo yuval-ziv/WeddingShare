@@ -45,6 +45,7 @@
             "Gallery_Secret_Key": "Geheime sleutel",
             "Gallery_Secret_Key_Hint": "Voer een nieuwe geheime sleutel in",
             "Gallery_Invalid_Name": "Geef een geldige galerijnaam op",
+            "Gallery_Invalid_Secret_Key": "Ongeldige geheime sleutel, probeer het opnieuw",
             "Gallery_Missing_Id": "Gallery-ID mag niet leeg zijn",
             "Gallery_Missing_Name": "Gallery-naam mag niet leeg zijn",
             "Gallery_Create": "Maak galerij",

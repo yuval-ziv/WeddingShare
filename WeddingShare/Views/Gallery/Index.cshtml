@@ -4,28 +4,10 @@
 @using WeddingShare.Views.Gallery
 @inject WeddingShare.Helpers.IConfigHelper _config
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
+@inject WeddingShare.Helpers.IUrlHelper _url
 
 @{
-    var ctx = Context.Request;
-    var baseLink = UrlHelper.Generate(ctx, _config, ctx.Path);
-
-    var queryString = new System.Text.StringBuilder();
-    foreach (var q in ctx.Query.Where(x => !string.Equals("order", x.Key, StringComparison.OrdinalIgnoreCase)))
-    {
-        if (string.Equals("key", q.Key, StringComparison.OrdinalIgnoreCase) && _gallery.GetConfig(Model?.GalleryName, "Hide_Key_From_QR_Code", false))
-        {
-            continue;
-        }
-        else if (string.Equals("order", q.Key, StringComparison.OrdinalIgnoreCase) || string.Equals("mode", q.Key, StringComparison.OrdinalIgnoreCase))
-        {
-            continue;
-        }
-
-        queryString.Append($"&{q.Key}={q.Value}");
-    }
-
-    ViewBag.BaseLink = $"{baseLink}?{queryString.ToString().TrimStart('&')}".TrimEnd(new char[] { '?', '&' });
-    ViewBag.QRCodeLink = $"{ViewBag.BaseLink}{(ctx.Query.ContainsKey("order") ? $"{(ViewBag.BaseLink.Contains("?") ? "&" : "?")}order={ctx.Query["order"]}" : string.Empty)}";
+    ViewBag.QRCodeLink = _url.GenerateFullUrl(Context.Request, Context.Request.Path, null, _gallery.GetConfig(Model?.GalleryName, "Hide_Key_From_QR_Code", false) ? new List<string>() { "key", "enc" } : null);
 }
 
 @if (Model?.FileUploader != null && Model.ViewMode != ViewMode.Presentation && Model.ViewMode != ViewMode.Slideshow)
