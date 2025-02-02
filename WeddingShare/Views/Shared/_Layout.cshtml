@@ -92,9 +92,9 @@
                             {
                                 <i class="change-theme fa-solid @(string.Equals("default", theme, StringComparison.OrdinalIgnoreCase) ? "fa-moon" : "fa-sun") fa-1x text-secondary pointer mx-2"></i>
                             }
-                            @if (_config.GetOrDefault("Settings:Show_Identity_Request", true) && !string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity)))
+                            @if (_config.GetOrDefault("Settings:Show_Identity_Request", true))
                             {
-                                <i class="change-identity fa-solid fa-id-card fa-1x text-secondary pointer mx-2" data-identity="@Context.Session.GetString(SessionKey.ViewerIdentity)"></i>
+                                <i class="change-identity fa-solid fa-id-card fa-1x text-secondary pointer mx-2" data-identity="@Context?.Session.GetString(SessionKey.ViewerIdentity)"></i>
                             }
                             @if (User?.Identity != null && User.Identity.IsAuthenticated)
                             {
@@ -174,10 +174,10 @@
         <partial name="~/Views/Shared/_Modals.cshtml" model="null" />
         <partial name="~/Views/Shared/_2FA.cshtml" model="null" />
 
-        @if (_config.GetOrDefault("Settings:Show_Identity_Request", true) && string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity)))
+        @if (_config.GetOrDefault("Settings:Show_Identity_Request", true) && _config.GetOrDefault("Settings:Identity_Check:Show_On_Page_Load", true) && string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity)))
         {
             <script>
-                displayIdentityCheck();
+                displayIdentityCheck(false);
             </script>
         }
 
@@ -188,13 +188,13 @@
                     <span class="float-none">
                         <a class="text-link text-light" href="https://github.com/Cirx08/WeddingShare" title="Copyright Cirx08" target="_blank"><i class="fa-brands fa-github"></i> WeddingShare v@_config.GetOrDefault("Release:Version", "1.0.0") &copy; Copyright Cirx08 @DateTime.UtcNow.Year</a>
                     </span>
-
-                    @if (string.Equals("/images/logo.png", _config.GetOrDefault("Settings:Logo", "/images/logo.png"), StringComparison.OrdinalIgnoreCase))
-                    {
-                        <span class="float-end">
+                    <span class="float-end">
+                        @if (string.Equals("/images/logo.png", _config.GetOrDefault("Settings:Logo", "/images/logo.png"), StringComparison.OrdinalIgnoreCase))
+                        {
                             <a class="text-link text-light" href="https://www.flaticon.com/free-icon/wedding-couple_703213" title="bride icons" target="_blank">Freepik - Flaticon</a>
-                        </span>
-                    }
+                        }
+                        <a class="text-link text-light" href="https://buymeacoffee.com/cirx08" title="BuyMeACoffee" target="_blank"><img class="fa-brands fa-buymeacoffee" src="./images//buymeacoffee.gif"/></a>
+                    </span>
                 </p>
             </div>
         </footer>
