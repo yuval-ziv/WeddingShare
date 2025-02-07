@@ -4,7 +4,9 @@
         const triggerSelector = event => {
             const identityReqiured = $('#frmFileUpload').attr('data-identity-required') == 'true';
             if (identityReqiured) {
-                displayIdentityCheck(true);
+                displayIdentityCheck(true, function () {
+                    triggerSelector(event);
+                });
                 return;
             }
 
@@ -33,7 +35,6 @@
         }
 
         const eventHandlers = zone => {
-
             const dataRefs = getInputAndGalleryRefs(zone);
 
             if (!dataRefs.input) return;
@@ -64,7 +65,6 @@
                 dataRefs.files = event.target.files;
                 handleFiles(dataRefs);
             }, false);
-
         }
 
         // Initialise ALL dropzones
@@ -82,7 +82,9 @@
         const imageUpload = async dataRefs => {
             const identityReqiured = $('#frmFileUpload').attr('data-identity-required') == 'true';
             if (identityReqiured) {
-                displayIdentityCheck(true);
+                displayIdentityCheck(true, function () {
+                    dataRefs.input.click();
+                });
                 return;
             }
 
@@ -140,7 +142,16 @@
                 formData.append('SecretKey', secretKey);
                 formData.append('Count', uploadedCount);
 
-                postData({ url: '/Gallery/UploadCompleted', formData });
+                postData({ url: '/Gallery/UploadCompleted', formData }).then(data => {
+                    dataRefs.input.value = '';
+
+                    let counter = $('.review-counter');
+                    if (counter.length > 0) {
+                        counter.find('.review-counter-total').text(data.counters.total);
+                        counter.find('.review-counter-approved').text(data.counters.approved);
+                        counter.find('.review-counter-pending').text(data.counters.pending);
+                    }
+                });
             } else {
                 displayMessage(localization.translate('Upload'), localization.translate('Upload_Success', { count: uploadedCount }), errors);
             }
@@ -159,7 +170,6 @@
 
         // Handle both selected and dropped files
         const handleFiles = async dataRefs => {
-
             let files = [...dataRefs.files];
 
             // Remove unaccepted file types

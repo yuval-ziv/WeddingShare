@@ -81,13 +81,14 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             _gallery.GetSecretKey(Arg.Any<string>()).Returns("password");
             _gallery.GetSecretKey("blaa").Returns("456789");
             _gallery.GetSecretKey("missing").Returns("123456");
-			_gallery.GetConfig(Arg.Any<string>(), "Gallery_Upload_Period", Arg.Any<string>()).Returns("1970-01-01 00:00:00");
-			_gallery.GetConfig(Arg.Any<string>(), "Gallery_Prevent_Duplicates", Arg.Any<bool>()).Returns(true);
-
-            _config.GetOrDefault("Settings:Allowed_File_Types", Arg.Any<string>()).Returns(".jpg,.jpeg,.png,.mp4,.mov");
-            _config.GetOrDefault("Settings:Default_Gallery_View", Arg.Any<int>()).Returns((int)ViewMode.Default);
-			_config.GetOrDefault("Settings:Require_Review", Arg.Any<bool>()).Returns(true); 
-			_config.GetOrDefault("Settings:Max_File_Size_Mb", Arg.Any<int>()).Returns(10);
+			_gallery.GetConfig(Arg.Any<string>(), "Gallery:Upload", Arg.Any<bool>()).Returns(true);
+			_gallery.GetConfig(Arg.Any<string>(), "Gallery:Download", Arg.Any<bool>()).Returns(true);
+			_gallery.GetConfig(Arg.Any<string>(), "Gallery:Upload_Period", Arg.Any<string>()).Returns("1970-01-01 00:00:00");
+			_gallery.GetConfig(Arg.Any<string>(), "Gallery:Prevent_Duplicates", Arg.Any<bool>()).Returns(true);
+            _gallery.GetConfig(Arg.Any<string>(), "Gallery:Default_View", Arg.Any<int>()).Returns((int)ViewMode.Default);
+            _gallery.GetConfig(Arg.Any<string>(), "Gallery:Allowed_File_Types", Arg.Any<string>()).Returns(".jpg,.jpeg,.png,.mp4,.mov");
+			_gallery.GetConfig(Arg.Any<string>(), "Gallery:Require_Review", Arg.Any<bool>()).Returns(true);
+            _gallery.GetConfig(Arg.Any<string>(), "Gallery:Max_File_Size_Mb", Arg.Any<int>()).Returns(10);
 
 			_file.GetChecksum(Arg.Any<string>()).Returns(Guid.NewGuid().ToString());
 
@@ -120,13 +121,13 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             Assert.That(model?.FileUploader?.UploadUrl, Is.EqualTo("/Gallery/UploadImage"));
         }
 
-        [TestCase(true, false)]
-        [TestCase(false, true)]
+        [TestCase(true, true)]
+        [TestCase(false, false)]
         public async Task GalleryController_UploadDisabled(bool disabled, bool expected)
         {
             _deviceDetector.ParseDeviceType(Arg.Any<string>()).Returns(DeviceType.Desktop);
             _config.GetOrDefault("Settings:Single_Gallery_Mode", Arg.Any<bool>()).Returns(false);
-			_gallery.GetConfig(Arg.Any<string>(), "Disable_Upload", Arg.Any<bool>()).Returns(disabled);
+			_gallery.GetConfig(Arg.Any<string>(), "Gallery:Upload", Arg.Any<bool>()).Returns(disabled);
 
             var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
             controller.ControllerContext.HttpContext = MockData.MockHttpContext();
@@ -148,7 +149,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         {
             _deviceDetector.ParseDeviceType(Arg.Any<string>()).Returns(DeviceType.Desktop);
             _config.GetOrDefault("Settings:Single_Gallery_Mode", Arg.Any<bool>()).Returns(false);
-            _gallery.GetConfig(Arg.Any<string>(), "Gallery_Upload_Period", Arg.Any<string>()).Returns(uploadPeriod);
+            _gallery.GetConfig(Arg.Any<string>(), "Gallery:Upload_Period", Arg.Any<string>()).Returns(uploadPeriod);
 
             var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
             controller.ControllerContext.HttpContext = MockData.MockHttpContext();
@@ -191,7 +192,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 		[TestCase(false, 3, "Unit Testing")]
 		public async Task GalleryController_UploadImage(bool requiresReview, int fileCount, string? uploadedBy)
 		{
-			_config.GetOrDefault("Settings:Require_Review", Arg.Any<bool>()).Returns(requiresReview);
+			_config.GetOrDefault("Settings:Gallery:Require_Review", Arg.Any<bool>()).Returns(requiresReview);
 
 			var files = new FormFileCollection();
 			for (var i = 0; i < fileCount; i++)

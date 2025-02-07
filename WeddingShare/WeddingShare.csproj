@@ -55,4 +55,10 @@
     <Folder Include="wwwroot\thumbnails\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Lang\Translations.es-ES.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

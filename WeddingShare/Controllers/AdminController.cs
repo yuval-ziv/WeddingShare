@@ -239,7 +239,7 @@ namespace WeddingShare.Controllers
                         }
                         else if (action == ReviewAction.REJECTED)
                         {
-                            var retain = _config.GetOrDefault("Settings:Retain_Rejected_Items", false);
+                            var retain = _config.GetOrDefault("Settings:Gallery:Retain_Rejected_Items", false);
                             if (retain)
                             {
                                 var rejectedDir = Path.Combine(galleryDir, "Rejected");
@@ -297,7 +297,7 @@ namespace WeddingShare.Controllers
                             }
                             else if (action == ReviewAction.REJECTED)
                             {
-                                var retain = _config.GetOrDefault("Settings:Retain_Rejected_Items", false);
+                                var retain = _config.GetOrDefault("Settings:Gallery:Retain_Rejected_Items", false);
                                 if (retain)
                                 {
                                     var rejectedDir = Path.Combine(galleryDir, "Rejected");

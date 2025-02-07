@@ -22,7 +22,9 @@ namespace WeddingShare.Configurations
                     new CultureInfo("en-GB"),
                     new CultureInfo("fr-FR"),
                     new CultureInfo("de-DE"),
-                    new CultureInfo("nl-NL")
+                    new CultureInfo("nl-NL"),
+                    new CultureInfo("es-ES"),
+                    new CultureInfo("sv-SE")
                 };
 
                 CurrentCulture = GetDefaultCulture(supportedCultures, language);

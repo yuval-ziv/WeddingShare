@@ -32,6 +32,7 @@ namespace WeddingShare.Models
         public int ItemsPerPage { get; set; } = 50;
         public int CurrentPage { get; set; } = 1;
         public bool Pagination { get; set; } = true;
+        public bool LoadScripts { get; set; } = true;
         public int TotalCount
         {
             get
