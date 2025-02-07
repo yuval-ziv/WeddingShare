@@ -7,7 +7,7 @@ namespace WeddingShare.BackgroundWorkers
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var cron = configHelper.GetOrDefault("BackgroundServices:Cleanup_Interval", "0 4 * * *");
+            var cron = configHelper.GetOrDefault("BackgroundServices:Schedules:Cleanup", "0 4 * * *");
             var schedule = CrontabSchedule.Parse(cron, new CrontabSchedule.ParseOptions() { IncludingSeconds = cron.Split(new[] { ' ' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Length == 6 });
 
             await Task.Delay((int)TimeSpan.FromSeconds(10).TotalMilliseconds, stoppingToken);

@@ -8,11 +8,11 @@ using WeddingShare.Models.Database;
 
 namespace WeddingShare.BackgroundWorkers
 {
-    public sealed class DirectoryScanner(IWebHostEnvironment hostingEnvironment, IConfigHelper configHelper, IDatabaseHelper databaseHelper, IFileHelper fileHelper, IImageHelper imageHelper, ILogger<DirectoryScanner> logger) : BackgroundService
+    public sealed class DirectoryScanner(IWebHostEnvironment hostingEnvironment, IConfigHelper configHelper, IGalleryHelper galleryHelper, IDatabaseHelper databaseHelper, IFileHelper fileHelper, IImageHelper imageHelper, ILogger<DirectoryScanner> logger) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var cron = configHelper.GetOrDefault("BackgroundServices:Directory_Scanner_Interval", "*/30 * * * *");
+            var cron = configHelper.GetOrDefault("BackgroundServices:Schedules:Directory_Scanner", "*/30 * * * *");
             var schedule = CrontabSchedule.Parse(cron, new CrontabSchedule.ParseOptions() { IncludingSeconds = cron.Split(new[] { ' ' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Length == 6 });
 
             await Task.Delay((int)TimeSpan.FromSeconds(10).TotalMilliseconds, stoppingToken);
@@ -35,8 +35,6 @@ namespace WeddingShare.BackgroundWorkers
             {
                 if (Startup.Ready)
                 {
-                    var allowedFileTypes = configHelper.GetOrDefault("Settings:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-
                     var thumbnailsDirectory = Path.Combine(hostingEnvironment.WebRootPath, "thumbnails");
                     fileHelper.CreateDirectoryIfNotExists(thumbnailsDirectory);
 
@@ -63,6 +61,7 @@ namespace WeddingShare.BackgroundWorkers
 
                                     if (galleryItem != null)
                                     {
+                                        var allowedFileTypes = galleryHelper.GetConfig(galleryItem.Name, "Gallery:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                                         var galleryItems = await databaseHelper.GetAllGalleryItems(galleryItem.Id);
 
                                         if (Path.Exists(gallery))

@@ -5,7 +5,7 @@
 
 @if (Model.ViewMode != ViewMode.Slideshow)
 {
-    var quote = _gallery.GetConfig(Model?.GalleryName, "Gallery_Quote", string.Empty);
+    var quote = _gallery.GetConfig(Model?.GalleryName, "Gallery:Quote", string.Empty);
     if (!string.IsNullOrWhiteSpace(quote))
     {
         <div class="row mb-3 mb-lg-4 border rounded">
@@ -15,17 +15,17 @@
         </div>
     }
 
-    if (!_gallery.GetConfig(Model?.GalleryName, "Disable_Review_Counter", false))
+    if (_gallery.GetConfig(Model?.GalleryName, "Gallery:Review_Counter", true))
     {
         <div class="row mb-3 mb-lg-4 review-counter">
             <div class="col-4">
-                <h6 class="my-0 text-center">@_localizer["Total"].Value<br/>@(Model?.TotalCount ?? 0)</h6>
+                <h6 class="my-0 text-center">@_localizer["Total"].Value<br /><span class="review-counter-total">@(Model?.TotalCount ?? 0)</span></h6>
             </div>
             <div class="col-4">
-                <h6 class="my-0 text-center">@_localizer["Approved"].Value<br/>@(Model?.ApprovedCount ?? 0)</h6>
+                <h6 class="my-0 text-center">@_localizer["Approved"].Value<br /><span class="review-counter-approved">@(Model?.ApprovedCount ?? 0)</span></h6>
             </div>
             <div class="col-4">
-                <h6 class="my-0 text-center">@_localizer["Pending"].Value<br/>@(Model?.PendingCount ?? 0)</h6>
+                <h6 class="my-0 text-center">@_localizer["Pending"].Value<br /><span class="review-counter-pending">@(Model?.PendingCount ?? 0)</span></h6>
             </div>
         </div>
     }

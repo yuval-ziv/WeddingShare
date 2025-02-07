@@ -25,11 +25,11 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         public async Task GalleryHelper_GetSecretKey_DefaultEnvKey()
         {
             var environment = Substitute.For<IEnvironmentWrapper>();
-            environment.GetEnvironmentVariable("SECRET_KEY").Returns("123");
+            environment.GetEnvironmentVariable("GALLERY_SECRET_KEY").Returns("123");
 
             var configuration = ConfigurationHelper.MockConfiguration(new Dictionary<string, string?>()
             {
-                { "Secret_Key_Gallery2", "002" }
+                { "Gallery:Secret_Key_Gallery2", "002" }
             });
 
             var config = new ConfigHelper(environment, configuration, Substitute.For<ILogger<ConfigHelper>>());
@@ -42,12 +42,12 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         public async Task GalleryHelper_GetSecretKey_GalleryEnvKey()
         {
             var environment = Substitute.For<IEnvironmentWrapper>();
-            environment.GetEnvironmentVariable("SECRET_KEY").Returns("123");
-            environment.GetEnvironmentVariable("SECRET_KEY_GALLERY1").Returns("001");
+            environment.GetEnvironmentVariable("GALLERY_SECRET_KEY").Returns("123");
+            environment.GetEnvironmentVariable("GALLERY_SECRET_KEY_GALLERY1").Returns("001");
 
             var configuration = ConfigurationHelper.MockConfiguration(new Dictionary<string, string?>()
             {
-                { "Secret_Key_Gallery2", "002" }
+                { "Gallery:Secret_Key_Gallery2", "002" }
             });
 
             var config = new ConfigHelper(environment, configuration, Substitute.For<ILogger<ConfigHelper>>());
@@ -73,38 +73,64 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         }
 
         [TestCase()]
-        public async Task GalleryHelper_GetConfig_DefaultEnvKey()
+        public void GalleryHelper_GetConfig_DefaultEnvKey()
         {
             var environment = Substitute.For<IEnvironmentWrapper>();
-            environment.GetEnvironmentVariable("SECRET_KEY").Returns("123");
+            environment.GetEnvironmentVariable("GALLERY_SECRET_KEY").Returns("123");
 
             var configuration = ConfigurationHelper.MockConfiguration(new Dictionary<string, string?>()
             {
-                { "Secret_Key_Gallery2", "002" }
+                { "Gallery:Secret_Key_Gallery2", "002" }
             });
 
             var config = new ConfigHelper(environment, configuration, Substitute.For<ILogger<ConfigHelper>>());
 
-            var actual = new GalleryHelper(config, _database).GetConfig("Gallery3", "Secret_Key");
+            var actual = new GalleryHelper(config, _database).GetConfig("Gallery3", "Gallery:Secret_Key");
             Assert.That(actual, Is.EqualTo("123"));
         }
 
-        [TestCase()]
-        public async Task GalleryHelper_GetConfig_GalleryEnvKey()
+        [TestCase("Gallery:Secret_Key", "001")]
+        [TestCase("Gallery:Columns", "001")]
+        public void GalleryHelper_GetConfig_GalleryEnvKey(string key, string expected)
         {
             var environment = Substitute.For<IEnvironmentWrapper>();
             environment.GetEnvironmentVariable("SECRET_KEY").Returns("123");
             environment.GetEnvironmentVariable("SECRET_KEY_GALLERY1").Returns("001");
+            environment.GetEnvironmentVariable("GALLERY_COLUMNS").Returns("123");
+            environment.GetEnvironmentVariable("GALLERY_COLUMNS_GALLERY1").Returns("001");
 
             var configuration = ConfigurationHelper.MockConfiguration(new Dictionary<string, string?>()
             {
-                { "Secret_Key_Gallery2", "002" }
+                { "Gallery:Secret_Key_Gallery2", "002" },
+                { "Gallery:Columns_Gallery2", "002" }
             });
 
             var config = new ConfigHelper(environment, configuration, Substitute.For<ILogger<ConfigHelper>>());
 
-            var actual = new GalleryHelper(config, _database).GetConfig("Gallery1", "Secret_Key");
-            Assert.That(actual, Is.EqualTo("001"));
+            var actual = new GalleryHelper(config, _database).GetConfig("Gallery1", key);
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
+        [TestCase("Disable_QR_Code", "true")]
+        [TestCase("Gallery:QR_Code", "false")]
+        public void GalleryHelper_GetConfig_Migrated_GalleryEnvKey(string key, string expected)
+        {
+            var environment = Substitute.For<IEnvironmentWrapper>();
+            environment.GetEnvironmentVariable("DISABLE_QR_CODE").Returns("false");
+            environment.GetEnvironmentVariable("DISABLE_QR_CODE_GALLERY1").Returns("true");
+            environment.GetEnvironmentVariable("GALLERY_QR_CODE").Returns("true");
+            environment.GetEnvironmentVariable("GALLERY_QR_CODE_GALLERY1").Returns("false");
+
+            var configuration = ConfigurationHelper.MockConfiguration(new Dictionary<string, string?>()
+            {
+                { "Disable_QR_Code_Gallery2", "false" },
+                { "Gallery:QR_Code_Gallery2", "true" }
+            });
+
+            var config = new ConfigHelper(environment, configuration, Substitute.For<ILogger<ConfigHelper>>());
+
+            var actual = new GalleryHelper(config, _database).GetConfig("Gallery1", key);
+            Assert.That(actual, Is.EqualTo(expected));
         }
     }
 }

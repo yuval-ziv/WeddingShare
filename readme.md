@@ -36,46 +36,42 @@ Not all image formats are supported in browsers so although you may be able to a
 | BASE_URL                                   | www.wedding-share.com                        |
 | LANGUAGE                                   | en-GB                                        |
 | FORCE_HTTPS                                | false                                        |
-| DEFAULT_THEME                              | default (default, dark)                      |
-| LINKS_OPEN_NEW_TAB                         | true                                         |
-| SHOW_IDENTITY_REQUEST                      | true                                         |
-| IDENTITY_CHECK_SHOW_ON_PAGE_LOAD           | true                                         |
-| IDENTITY_CHECK_REQUIRE_IDENTITY_FOR_UPLOAD | false                                        |
-| DISABLE_HOME_LINK                          | false                                        |
-| DISABLE_DARK_MODE                          | false                                        |
-| DISABLE_GUEST_GALLERY_CREATION             | true                                         |
 | SINGLE_GALLERY_MODE                        | false                                        |
-| DEFAULT_GALLERY_VIEW                       | 0 (Default), 1 (Presentation), 2 (Slideshow) |
-| ALLOWED_FILE_TYPES                         | .jpg,.jpeg,.png,.mp4,.mov                    |
-| MAX_FILE_SIZE_MB                           | 10                                           |
-| THUMBNAIL_SIZE                             | 720                                          |
+| HOME_LINK                                  | true                                         |
+| GUEST_GALLERY_CREATION                     | false                                        |
 | HIDE_KEY_FROM_QR_CODE                      | false                                        |
-| IDLE_GALLERY_REFRESH_MINS                  | 5 (0 = disable)                              |
+| LINKS_OPEN_NEW_TAB                         | false                                        |
+| THUMBNAIL_SIZE                             | 720                                          |
 | EMAIL_REPORT                               | true                                         |
 
-### Gallery Overrides
+### Gallery
 
 :::tip Gallery Overrides
-Any setting marked **Yes** in the table below can have a gallery specific override by appending the gallery name to the end of the key. For example if the environment variable `REQUIRE_REVIEW_PROPOSAL` is specified it will override the value specified using the `REQUIRE_REVIEW` environment variable.
+All settings in the table below can have a gallery specific override by appending the gallery name to the end of the key. For example if the environment variable `REQUIRE_REVIEW_PROPOSAL` is specified it will override the value specified using the `REQUIRE_REVIEW` environment variable.
 :::
 
 | Name                               | Value                                        |
 | ---------------------------------- | -------------------------------------------- |
 | TITLE                              | WeddingShare                                 |
 | LOGO                               | https://someurl/someimage.png                |
-| REQUIRE_REVIEW                     | true                                         |
-| SECRET_KEY                         | (optional)                                   |
-| GALLERY_UPLOAD_PERIOD              | "2025-01-29 23:59" or "2025-01-01 00:00 / 2025-01-03 23:59" or "2025-01-01 00:00 / 2025-01-01 23:59, 2025-01-03 00:00 / 2025-01-03 23:59" |
+| GALLERY_QUOTE                      | (optional)                                   |
+| GALLERY_SECRET_KEY                 | (optional)                                   |
 | GALLERY_COLUMNS                    | 4 (1, 2, 3, 4, 6, 12)                        |
 | GALLERY_ITEMS_PER_PAGE             | 50                                           |
-| GALLERY_QUOTE                      | (optional)                                   |
-| DISABLE_REVIEW_COUNTER             | false                                        |
-| DISABLE_UPLOAD                     | false                                        |
-| DISABLE_DOWNLOAD                   | false                                        |
-| DISABLE_QR_CODE                    | false                                        |
-| FULL_WIDTH_GALLERY                 | false                                        |
-| RETAIN_REJECTED_ITEMS              | false                                        |
-| MAX_GALLERY_SIZE_MB                | 1024                                         |
+| GALLERY_FULL_WIDTH                 | false                                        |
+| GALLERY_RETAIN_REJECTED_ITEMS      | false                                        |
+| GALLERY_UPLOAD                     | false                                        |
+| GALLERY_DOWNLOAD                   | false                                        |
+| GALLERY_REQUIRE_REVIEW             | true                                         |
+| GALLERY_REVIEW_COUNTER             | true                                         |
+| GALLERY_PREVENT_DUPLICATES         | true                                         |
+| GALLERY_QR_CODE                    | true                                         |
+| GALLERY_IDLE_REFRESH_MINS          | 5 (0 = disable)                              |
+| GALLERY_MAX_SIZE_MB                | 1024                                         |
+| GALLERY_MAX_FILE_SIZE_MB           | 10                                           |
+| GALLERY_ALLOWED_FILE_TYPES         | .jpg,.jpeg,.png,.mp4,.mov                    |
+| GALLERY_DEFAULT_VIEW               | 0 (Default), 1 (Presentation), 2 (Slideshow) |
+| GALLERY_UPLOAD_PERIOD              | "2025-01-29 23:59" or "2025-01-01 00:00 / 2025-01-03 23:59" or "2025-01-01 00:00 / 2025-01-01 23:59, 2025-01-03 00:00 / 2025-01-03 23:59" |
 
 # Account
 
@@ -87,6 +83,14 @@ Any setting marked **Yes** in the table below can have a gallery specific overri
 | ACCOUNT_SHOW_PROFILE_ICON      | true                                         |
 | ACCOUNT_LOCKOUT_ATTEMPTS       | 5                                            |
 | ACCOUNT_LOCKOUT_MINS           | 60                                           |
+
+# Identity Check
+
+| Name                                       | Value                                        |
+| ------------------------------------------ | -------------------------------------------- |
+| IDENTITY_CHECK_ENABLED                     | true                                         |
+| IDENTITY_CHECK_SHOW_ON_PAGE_LOAD           | true                                         |
+| IDENTITY_CHECK_REQUIRE_IDENTITY_FOR_UPLOAD | false                                        |
 
 # Slideshow
 
@@ -101,9 +105,9 @@ Any setting marked **Yes** in the table below can have a gallery specific overri
 
 | Name                           | Value                                        |
 | ------------------------------ | -------------------------------------------- |
-| DIRECTORY_SCANNER_INTERVAL     | */30 * * * * (cron)                          |
-| EMAIL_REPORT_INTERVAL          | 0 0 * * * (cron)                             |
-| CLEANUP_INTERVAL               | 0 4 * * * (cron)                             |
+| SCHEDULES_DIRECTORY_SCANNER    | */30 * * * * (cron)                          |
+| SCHEDULES_EMAIL_REPORT         | 0 0 * * * (cron)                             |
+| SCHEDULES_CLEANUP              | 0 4 * * * (cron)                             |
 
 # Alerts
 
@@ -147,22 +151,39 @@ Any setting marked **Yes** in the table below can have a gallery specific overri
 | GOTIFY_TOKEN                   | (required)                                   |
 | GOTIFY_PRIORITY                | 4                                            |
 
-# Security
+# Encryption
 
 | Name                            | Value                                        |
 | ------------------------------- | -------------------------------------------- |
-| SECURITY_ENCRYPTION_KEY         | ChangeMe                                     |
-| SECURITY_ENCRYPTION_SALT        | ChangeMe                                     |
-| SECURITY_ENCRYPTION_ITERATIONS  | 1000                                         |
-| SECURITY_2FA_RESET_TO_DEFAULT   | false                                        |
-| SECURITY_SET_HEADERS            | true                                         |
-| SECURITY_X_FRAME_OPTIONS        | SAMEORIGIN                                   |
-| SECURITY_X_CONTENT_TYPE_OPTIONS | nosniff                                      |
-| SECURITY_CSP_HEADER             | (optional)                                   |
+| ENCRYPTION_KEY                  | ChangeMe                                     |
+| ENCRYPTION_SALT                 | ChangeMe                                     |
+| ENCRYPTION_ITERATIONS           | 1000                                         |
+
+# 2FA
+
+| Name                            | Value                                        |
+| ------------------------------- | -------------------------------------------- |
+| 2FA_RESET_TO_DEFAULT            | false                                        |
 
 :::tip Reset 2FA
-If for any reason your 2FA no longer works correctly you can reset it by setting the `SECURITY_2FA_RESET_TO_DEFAULT` environment variable to `true` and restarting the container. Just be sure to remove it or set it back to `false` once done or it will reset again next restart.
+If for any reason your 2FA no longer works correctly you can reset it by setting the `2FA_RESET_TO_DEFAULT` environment variable to `true` and restarting the container. Just be sure to remove it or set it back to `false` once done or it will reset again next restart.
 :::
+
+# Request Headers
+
+| Name                            | Value                                        |
+| ------------------------------- | -------------------------------------------- |
+| HEADERS_ENABLED                 | true                                         |
+| HEADERS_X_FRAME_OPTIONS         | SAMEORIGIN                                   |
+| HEADERS_X_CONTENT_TYPE_OPTIONS  | nosniff                                      |
+| HEADERS_CSP_HEADER              | (optional)                                   |
+
+# Themes
+
+| Name                            | Value                                        |
+| ------------------------------- | -------------------------------------------- |
+| THEMES_ENABLED                  | true                                         |
+| THEMES_DEFAULT                  | default (default, dark)                      |
 
 ## Docker Run
 
@@ -183,9 +204,9 @@ services:
       TITLE: 'WeddingShare'
       LOGO: 'Url'
       GALLERY_COLUMNS: 4
-      ALLOWED_FILE_TYPES: '.jpg,.jpeg,.png'
-      MAX_FILE_SIZE_MB: 10
-      SECRET_KEY: 'password'
+      GALLERY_ALLOWED_FILE_TYPES: '.jpg,.jpeg,.png'
+      GALLERY_MAX_FILE_SIZE_MB: 10
+      GALLERY_SECRET_KEY: 'password'
     volumes:
       - data-volume-config:/app/config
       - data-volume-thumbnails:/app/wwwroot/thumbnails

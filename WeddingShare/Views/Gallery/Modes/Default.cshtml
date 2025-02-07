@@ -6,8 +6,8 @@
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
 
 @{
-    var columnCount = _gallery.GetConfig(Model?.GalleryName, "Gallery_Columns", 4);
-    var identityEnabled = _config.GetOrDefault("Settings:Show_Identity_Request", true);
+    var columnCount = _gallery.GetConfig(Model?.GalleryName, "Gallery:Columns", 4);
+    var identityEnabled = _config.GetOrDefault("Settings:Identity_Check:Enabled", true);
 
     try
     {
@@ -37,7 +37,7 @@
                 var image = Model.Images[index];
 
                 <div class="image-tile mb-4">
-                    <a href="@image.ImagePath" class="media-viewer-item" data-media-viewer-type="@image.MediaType.ToString().ToLower()" data-media-viewer-collection="@image.GalleryName" data-media-viewer-author="@(identityEnabled ? $"{_localizer["Uploaded_By"].Value}: {(!string.IsNullOrWhiteSpace(image?.UploadedBy) ? image?.UploadedBy : "Anonymous")}" : string.Empty)" data-media-viewer-download="@((!_gallery.GetConfig(Model?.GalleryName, "Disable_Download", false) || (User?.Identity != null && User.Identity.IsAuthenticated)).ToString().ToLower())">
+                    <a href="@image.ImagePath" class="media-viewer-item" data-media-viewer-type="@image.MediaType.ToString().ToLower()" data-media-viewer-collection="@image.GalleryName" data-media-viewer-author="@(identityEnabled ? $"{_localizer["Uploaded_By"].Value}: {(!string.IsNullOrWhiteSpace(image?.UploadedBy) ? image?.UploadedBy : "Anonymous")}" : string.Empty)" data-media-viewer-download="@((_gallery.GetConfig(Model?.GalleryName, "Gallery:Download", true) || (User?.Identity != null && User.Identity.IsAuthenticated)).ToString().ToLower())">
                         <img src="@image.ThumbnailPath" class="w-100 shadow-1-strong" loading="lazy" />
                         @if (image.MediaType == MediaType.Video)
                         {
@@ -55,8 +55,9 @@
     </div>
 }
 
-@{
-    var idleTimeout = _config.GetOrDefault("Settings:Idle_Gallery_Refresh_Mins", 0);
+@if (Model?.LoadScripts ?? true)
+{
+    var idleTimeout = _gallery.GetConfig(Model?.GalleryName, "Gallery:Idle_Refresh_Mins", 0);
     if (idleTimeout > 0)
     {
         <script>
@@ -70,7 +71,14 @@
                     function onIdle() {
                         clearTimeout(idleTimeout);
                         idleTimeout = setTimeout(function () {
-                            window.location.reload();
+                            $.ajax({
+                                type: 'GET',
+                                url: `${window.location.pathname}${window.location.search}&partial=true`,
+                                success: function (data) {
+                                    $('#main-gallery').html(data);
+                                    onIdle();
+                                }
+                            });
                         }, @TimeSpan.FromMinutes(idleTimeout).TotalMilliseconds);
                     }
                 });

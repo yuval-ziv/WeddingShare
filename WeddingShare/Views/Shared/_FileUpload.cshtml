@@ -1,9 +1,9 @@
 ﻿@model WeddingShare.Models.FileUploader
 @using WeddingShare.Views.Shared
-@inject WeddingShare.Helpers.IConfigHelper _config
+@inject WeddingShare.Helpers.IGalleryHelper _gallery
 
 @{
-    var allowedFileTypes = _config.GetOrDefault("Settings:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov")?.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)?.Select(x => $".{x.Trim('.')}")?.OrderBy(x => x)?.ToList() ?? new List<string>();
+    var allowedFileTypes = _gallery.GetConfig(Model?.GalleryId, "Gallery:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov")?.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)?.Select(x => $".{x.Trim('.')}")?.OrderBy(x => x)?.ToList() ?? new List<string>();
 }
 
 <header class="file-uploader bg-dark py-1 py-lg-4">

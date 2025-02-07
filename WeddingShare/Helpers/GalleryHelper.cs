@@ -31,7 +31,7 @@ namespace WeddingShare.Helpers
 
             try
             {
-                value = _config.Get($"Settings:{key}_{galleryId ?? "default"}");
+                value = _config.Get($"Settings:{key}", galleryId ?? "default");
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     value = _config.Get($"Settings:{key}");
@@ -142,13 +142,13 @@ namespace WeddingShare.Helpers
         {
             try
             {
-                var secretKey = _config.Get($"Settings:Secret_Key_{galleryId}");
+                var secretKey = _config.Get($"Settings:Gallery:Secret_Key", galleryId ?? "default");
                 if (string.IsNullOrWhiteSpace(secretKey))
                 {
-                    secretKey = (await _database.GetGallery(galleryId))?.SecretKey;
+                    secretKey = (await _database.GetGallery(galleryId ?? "default"))?.SecretKey;
                     if (string.IsNullOrWhiteSpace(secretKey))
                     {
-                        secretKey = _config.Get("Settings:Secret_Key");
+                        secretKey = _config.Get("Settings:Gallery:Secret_Key");
                     }
                 }
 

@@ -1,12 +1,13 @@
 ﻿using WeddingShare.Helpers.Migrators;
+using WeddingShare.Models.Migrator;
 
 namespace WeddingShare.Helpers
 {
     public interface IConfigHelper
     {
-        string? GetEnvironmentVariable(string key);
+        string? GetEnvironmentVariable(string key, string? galleryId = null);
         string? GetConfigValue(string key);
-        string? Get(string key);
+        string? Get(string key, string? galleryId = null);
         string GetOrDefault(string key, string defaultValue);
         int GetOrDefault(string key, int defaultValue);
         long GetOrDefault(string key, long defaultValue);
@@ -29,20 +30,20 @@ namespace WeddingShare.Helpers
             _logger = logger;
         }
 
-        public string? GetEnvironmentVariable(string key)
+        public string? GetEnvironmentVariable(string key, string? galleryId = null)
         {
             try
             {
-                foreach (var envKey in KeyHelper.GetAlternateVersions(key))
-                { 
-                    if (!this.IsProtectedVariable(envKey))
+                foreach (var envKey in KeyHelper.GetAlternateVersions(key, galleryId))
+                {
+                    if (!this.IsProtectedVariable(envKey.Key))
                     {
-                        var keyName = string.Join('_', envKey.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Skip(1)).Trim('_').ToUpper();
+                        var keyName = string.Join('_', envKey.Key.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Skip(1)).Trim('_').ToUpper();
 
                         var value = _environment.GetEnvironmentVariable(keyName);
                         if (!string.IsNullOrWhiteSpace(value))
                         {
-                            return value;
+                            return envKey.MigrationAction != null ? envKey.MigrationAction(value) : value;
                         }
                     }
                 }
@@ -73,11 +74,11 @@ namespace WeddingShare.Helpers
             return null;
         }
 
-        public string? Get(string key)
+        public string? Get(string key, string? galleryId = null)
         {
             try
             {
-                var value = this.GetEnvironmentVariable(key);
+                var value = this.GetEnvironmentVariable(key, galleryId);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     return value;

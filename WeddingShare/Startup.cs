@@ -97,7 +97,7 @@ namespace WeddingShare
                 app.UseHttpsRedirection();
             }
 
-            if (config.GetOrDefault("Security:Set_Headers", true))
+            if (config.GetOrDefault("Security:Headers:Enabled", true))
             {
                 try
                 {
@@ -105,13 +105,13 @@ namespace WeddingShare
                     app.Use(async (context, next) =>
                     {
                         context.Response.Headers.Remove("X-Frame-Options");
-                        context.Response.Headers.Append("X-Frame-Options", config.GetOrDefault("Security:X_Frame_Options", "SAMEORIGIN"));
+                        context.Response.Headers.Append("X-Frame-Options", config.GetOrDefault("Security:Headers:X_Frame_Options", "SAMEORIGIN"));
 
                         context.Response.Headers.Remove("X-Content-Type-Options");
-                        context.Response.Headers.Append("X-Content-Type-Options", config.GetOrDefault("Security:X_Content_Type_Options", "nosniff"));
+                        context.Response.Headers.Append("X-Content-Type-Options", config.GetOrDefault("Security:Headers:X_Content_Type_Options", "nosniff"));
 
                         context.Response.Headers.Remove("Content-Security-Policy");
-                        context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault("Security:CSP_Header", $"default-src 'self' http://localhost:* ws://localhost:*; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src {(!string.IsNullOrWhiteSpace(logoImages) ? $"{logoImages} " : string.Empty)}'self' data:; frame-src 'self'; frame-ancestors 'self';"));
+                        context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault("Security:Headers:CSP", $"default-src 'self' http://localhost:* ws://localhost:*; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src {(!string.IsNullOrWhiteSpace(logoImages) ? $"{logoImages} " : string.Empty)}'self' data:; frame-src 'self'; frame-ancestors 'self';"));
 
                         await next();
                     });

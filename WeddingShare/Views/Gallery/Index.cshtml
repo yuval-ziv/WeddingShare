@@ -7,7 +7,7 @@
 @inject WeddingShare.Helpers.IUrlHelper _url
 
 @{
-    ViewBag.QRCodeLink = _url.GenerateFullUrl(Context.Request, Context.Request.Path, null, _gallery.GetConfig(Model?.GalleryName, "Hide_Key_From_QR_Code", false) ? new List<string>() { "key", "enc" } : null);
+    ViewBag.QRCodeLink = _url.GenerateFullUrl(Context.Request, Context.Request.Path, null, _config.GetOrDefault("Hide_Key_From_QR_Code", false) ? new List<string>() { "key", "enc" } : null);
 }
 
 @if (Model?.FileUploader != null && Model.ViewMode != ViewMode.Presentation && Model.ViewMode != ViewMode.Slideshow)
@@ -17,7 +17,7 @@
 
 <section class="py-1 py-lg-4 gallery-container">
     <div class="row mt-3 mt-lg-0">
-        @if (_gallery.GetConfig(Model?.GalleryName, "Full_Width_Gallery", false))
+        @if (_gallery.GetConfig(Model?.GalleryName, "Gallery:Full_Width", false))
         {
             <div class="col-12 px-3 px-lg-5">
                 <partial name="~/Views/Gallery/GalleryWrapper.cshtml" model="Model" />
@@ -26,7 +26,7 @@
         else
         {
             <div class="col-2 d-none d-lg-block"></div>
-            <div class="col-12 col-lg-8 px-3 px-lg-1">
+            <div id="main-gallery" class="col-12 col-lg-8 px-3 px-lg-1">
                 <partial name="~/Views/Gallery/GalleryWrapper.cshtml" model="Model" />
             </div>
             <div class="col-2 d-none d-lg-block pt-3">
