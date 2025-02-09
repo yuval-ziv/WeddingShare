@@ -102,7 +102,12 @@
             "2FA_Set_Successfully": "Lyckades konfigurera 2FA",
             "2FA_Set_Failed": "Det gick inte att konfigurera 2FA",
 			"2FA_Reset_Successfully": "Återställ 2FA framgångsrikt",
-			"2FA_Reset_Failed": "Det gick inte att återställa 2FA"
+            "2FA_Reset_Failed": "Det gick inte att återställa 2FA",
+            "User_Delete": "Ta bort användare",
+            "User_Delete_Message": "Är du säker på att du vill ta bort användaren '{name}'?",
+            "User_Missing_Id": "Användar-ID kan inte vara tomt",
+            "User_Delete_Success": "Borttagen användare",
+            "User_Delete_Failed": "Det gick inte att ta bort användare"
         });
     }
 }

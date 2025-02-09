@@ -102,7 +102,12 @@
             "2FA_Set_Successfully": "Successfully set up 2FA",
             "2FA_Set_Failed": "Failed to set up 2FA",
 			"2FA_Reset_Successfully": "Successfully reset 2FA",
-			"2FA_Reset_Failed": "Failed to reset 2FA"
+            "2FA_Reset_Failed": "Failed to reset 2FA",
+            "User_Delete": "Delete User",
+            "User_Delete_Message": "Are you sure you want to delete user '{name}'?",
+            "User_Missing_Id": "User Id cannot be empty",
+            "User_Delete_Success": "Successfully deleted user",
+            "User_Delete_Failed": "Failed to delete user"
         });
     }
 }

@@ -31,7 +31,13 @@
         const handleDrop = event => {
             const dataRefs = getInputAndGalleryRefs(event.target);
             dataRefs.files = event.dataTransfer.files;
-            handleFiles(dataRefs);
+            const identityReqiured = $('#frmFileUpload').attr('data-identity-required') == 'true';
+            if (identityReqiured) {
+                displayIdentityCheck(true, function () {
+                    handleFiles(dataRefs);
+                });
+                return;
+            }
         }
 
         const eventHandlers = zone => {

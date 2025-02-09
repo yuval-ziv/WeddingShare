@@ -32,7 +32,7 @@
             "Identity_Check_Name": "Nombre",
             "Identity_Check_Hint": "Dinos quién eres para saber quién subió los recuerdos.",
             "Identity_Check_Placeholder": "Ej.: Juan Pérez, Pepe, Tío Roberto",
-            "Identity_Check_Tell_Us": "Dinos",
+            "Identity_Check_Tell_Us": "Confirmar",
             "Identity_Check_Stay_Anonymous": "Permanecer anónimo",
             "Identity_Check_Change_Identity": "Cambiar identidad",
             "Identity_Check_Change": "Cambiar",
@@ -102,7 +102,12 @@
             "2FA_Set_Successfully": "2FA configurado con éxito",
             "2FA_Set_Failed": "Error al configurar 2FA",
             "2FA_Reset_Successfully": "2FA restablecido con éxito",
-            "2FA_Reset_Failed": "Error al restablecer 2FA"
+            "2FA_Reset_Failed": "Error al restablecer 2FA",
+            "User_Delete": "Eliminar usuario",
+            "User_Delete_Message": "¿Está seguro de que desea eliminar el usuario '{name}'?",
+            "User_Missing_Id": "El ID de usuario no puede estar vacío",
+            "User_Delete_Success": "El usuario se eliminó correctamente",
+            "User_Delete_Failed": "No se pudo eliminar el usuario"
         });
     }
 }

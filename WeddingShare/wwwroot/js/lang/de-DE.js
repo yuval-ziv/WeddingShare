@@ -102,7 +102,12 @@
             "2FA_Set_Successfully": "2FA erfolgreich eingerichtet",
             "2FA_Set_Failed": "2FA konnte nicht eingerichtet werden",
             "2FA_Reset_Successfully": "2FA erfolgreich zurückgesetzt",
-            "2FA_Reset_Failed": "2FA konnte nicht zurückgesetzt werden"
+            "2FA_Reset_Failed": "2FA konnte nicht zurückgesetzt werden",
+            "User_Delete": "Benutzer löschen",
+            "User_Delete_Message": "Möchten Sie Benutzer '{name}' wirklich löschen?",
+            "User_Missing_Id": "Benutzer-ID darf nicht leer sein",
+            "User_Delete_Success": "Benutzer erfolgreich gelöscht",
+            "User_Delete_Failed": "Benutzer konnte nicht gelöscht werden"
         });
     }
 }

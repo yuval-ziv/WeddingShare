@@ -102,7 +102,12 @@
             "2FA_Set_Successfully": "2FA succesvol ingesteld",
             "2FA_Set_Failed": "Het is niet gelukt om 2FA in te stellen",
             "2FA_Reset_Successfully": "2FA succesvol gereset",
-            "2FA_Reset_Failed": "2FA kan niet worden gereset"
+            "2FA_Reset_Failed": "2FA kan niet worden gereset",
+            "User_Delete": "Gebruiker verwijderen",
+            "User_Delete_Message": "Weet u zeker dat u gebruiker '{name}' wilt verwijderen?",
+            "User_Missing_Id": "Gebruikers-ID mag niet leeg zijn",
+            "User_Delete_Success": "Gebruiker succesvol verwijderd",
+            "User_Delete_Failed": "Gebruiker verwijderen mislukt"
         });
     }
 }

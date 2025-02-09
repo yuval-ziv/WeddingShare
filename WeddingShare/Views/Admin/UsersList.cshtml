@@ -1,0 +1,23 @@
+﻿@model List<UserModel>
+@using WeddingShare.Views.Admin
+@using WeddingShare.Models.Database
+@inject WeddingShare.Helpers.IConfigHelper _config
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered">
+        <tr>
+            <th class="col-5 col-md-4">@_localizer["Name"].Value</th>
+            <th class="col-7 col-md-4">@_localizer["Actions"].Value</th>
+        </tr>
+        @foreach (var user in Model.OrderBy(x => x.Username.ToLower()))
+        {
+            <tr data-user-id="@user.Id" data-user-name="@user.Username">
+                <td class="user-name text-capitalize">@user.Username</td>
+                <td>
+                    <i class="btn @(user.Id > 1 ? "btnDeleteUser btn-outline-danger" : "btn-outline-disabled") fa-solid fa-trash-can" alt="Delete"></i>
+                </td>
+            </tr>
+        }
+    </table>
+}

@@ -9,6 +9,7 @@ namespace WeddingShare.Views.Admin
         {
         }
 
+        public List<UserModel>? Users { get; set; }
         public List<GalleryModel>? Galleries { get; set; }
         public List<GalleryItemModel>? PendingRequests { get; set; }
 

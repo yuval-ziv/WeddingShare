@@ -1,0 +1,58 @@
+﻿@model List<GalleryItemModel>
+@using WeddingShare.Enums
+@using WeddingShare.Models.Database
+@using WeddingShare.Views.Admin
+@inject WeddingShare.Helpers.IConfigHelper _config
+
+@{
+    var identityEnabled = _config.GetOrDefault("Settings:Identity_Check:Enabled", true);
+}
+
+@if (Model != null && Model.Any())
+{
+    foreach (var review in Model)
+    {
+        <div class="pending-approval col-12 col-lg-4 mb-4 mb-lg-0 mb-1 mb-lg-4">
+            <div class="card">
+                <a href="/uploads/@review.GalleryName/Pending/@review.Title" class="media-viewer-item" data-media-viewer-type="@review.MediaType.ToString().ToLower()" data-media-viewer-collection="@review.GalleryName" data-media-viewer-author="@(identityEnabled ? $"{_localizer["Uploaded_By"].Value}: {(!string.IsNullOrWhiteSpace(review?.UploadedBy) ? review?.UploadedBy : "Anonymous")}" : string.Empty)" data-media-viewer-download="true">
+                    <img src="/thumbnails/@($"{System.IO.Path.GetFileNameWithoutExtension(review?.Title)}.webp")" class="review-tile" loading="lazy" />
+                    @if (review?.MediaType == MediaType.Video)
+                    {
+                        <img src="/images/play-button.svg" class="media-viewer-play" loading="lazy" />
+                    }
+                </a>
+                <div class="card-header my-0 py-0">
+                    <div class="row card-title text-capitalize border-top py-0 pt-2">
+                        @if (identityEnabled)
+                        {
+                            <div class="col-12 col-lg-6 text-lg-center">
+                                <b>@_localizer["Gallery"].Value:</b> @review?.GalleryName
+                            </div>
+                            <div class="col-12 col-lg-6 text-lg-center">
+                                <b>@_localizer["Uploader"].Value:</b> @(!string.IsNullOrWhiteSpace(review?.UploadedBy) ? review.UploadedBy : "Anonymous")
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-12">
+                                <b>@_localizer["Gallery"].Value:</b> @review?.GalleryName
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="card-body m-0 p-0">
+                    <div class="btn-group w-100" role="group" data-id="@review?.Id">
+                        <button type="button" class="btn btn-success btnReviewApprove">@_localizer["Approve"].Value</button>
+                        <button type="button" class="btn btn-danger btnReviewReject">@_localizer["Reject"].Value</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="col-12 text-center">
+        <h3 class="display-6">@_localizer["No_Pending_Uploads"].Value</h3>
+    </div>
+}

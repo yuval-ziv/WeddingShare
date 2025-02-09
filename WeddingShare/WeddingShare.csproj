@@ -10,6 +10,11 @@
 
   <ItemGroup>
     <None Remove="SqlScripts\000 - Initialize Database.sql" />
+    <None Remove="SqlScripts\MySQL\000 - Initialize Database.sql" />
+    <None Remove="SqlScripts\MySQL\001 - Add Failed Login Tracking.sql" />
+    <None Remove="SqlScripts\MySQL\002 - Add MediaType.sql" />
+    <None Remove="SqlScripts\MySQL\003 - Add Checksum.sql" />
+    <None Remove="SqlScripts\MySQL\004 - Add 2FA.sql" />
     <None Remove="SqlScripts\SQLite\001 - Add Failed Login Tracking.sql" />
     <None Remove="SqlScripts\SQLite\002 - Add MediaType.sql" />
     <None Remove="SqlScripts\SQLite\003 - Add Checksum.sql" />
@@ -17,6 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MySQL\000 - Initialize Database.sql" />
+    <EmbeddedResource Include="SqlScripts\MySQL\001 - Add Failed Login Tracking.sql" />
+    <EmbeddedResource Include="SqlScripts\MySQL\002 - Add MediaType.sql" />
+    <EmbeddedResource Include="SqlScripts\MySQL\003 - Add Checksum.sql" />
+    <EmbeddedResource Include="SqlScripts\MySQL\004 - Add 2FA.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\004 - Add 2FA.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\003 - Add Checksum.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\002 - Add MediaType.sql" />
@@ -25,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="dbup-mysql" Version="6.0.4" />
     <PackageReference Include="dbup-sqlite" Version="5.0.40" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
@@ -35,6 +46,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+    <PackageReference Include="MySql.Data" Version="9.2.0" />
     <PackageReference Include="NCrontab" Version="3.3.3" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
     <PackageReference Include="TwoFactorAuth.Net" Version="1.4.0" />

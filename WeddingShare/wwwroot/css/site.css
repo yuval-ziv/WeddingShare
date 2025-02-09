@@ -92,6 +92,10 @@ tr td i {
         background-color: #ff7563;
     }
 
+.pending-approval {
+    display: inline-block;
+}
+
 .pending-approval .btn-group .btn {
     height: 50px;
 }

@@ -102,7 +102,12 @@
             "2FA_Set_Successfully": "Configurer 2FA avec succès",
             "2FA_Set_Failed": "Échec de la configuration de la 2FA",
             "2FA_Reset_Successfully": "Réinitialisation réussie de 2FA",
-            "2FA_Reset_Failed": "Échec de la réinitialisation de 2FA"
+            "2FA_Reset_Failed": "Échec de la réinitialisation de 2FA",
+            "User_Delete": "Supprimer l'utilisateur",
+            "User_Delete_Message": "Êtes-vous sûr de vouloir supprimer l'utilisateur '{name}' ?",
+            "User_Missing_Id": "L'identifiant de l'utilisateur ne peut pas être vide",
+            "User_Delete_Success": "Utilisateur supprimé avec succès",
+            "User_Delete_Failed": "Échec de la suppression de l'utilisateur"
         });
     }
 }

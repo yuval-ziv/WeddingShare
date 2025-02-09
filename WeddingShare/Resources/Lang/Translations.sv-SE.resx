@@ -200,6 +200,12 @@
   <data name="Name_Cannot_Be_Blank" xml:space="preserve">
     <value>Gallerinamnet får inte vara tomt</value>
   </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Det gick inte att hämta gallerilistan</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+  <value>Det gick inte att hämta användarlistan</value>
+</data>
   <data name="Pending_Uploads_Failed" xml:space="preserve">
     <value>Det gick inte att hämta väntande uppladdningar</value>
   </data>
@@ -415,5 +421,14 @@
   </data>
   <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
     <value>Det gick inte att konfigurera 2FA</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Användare</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Gallerier</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Det gick inte att ta bort användaren</value>
   </data>
 </root>
