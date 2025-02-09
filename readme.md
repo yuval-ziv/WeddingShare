@@ -43,6 +43,12 @@ Not all image formats are supported in browsers so although you may be able to a
 | LINKS_OPEN_NEW_TAB                         | false                                        |
 | THUMBNAIL_SIZE                             | 720                                          |
 | EMAIL_REPORT                               | true                                         |
+| DATABASE_TYPE                              | sqlite (sqlite, mysql)                       |
+| DATABASE_CONNECTION_STRING                 | (only applies to mysql)                      |
+
+:::note Connection String Format (MySQL)
+Server={{ IP / DNS }};Port={{ Likely 3306 or 3307 }};Database={{ Database Name }};User={{ Username }};Password={{ Password }};
+:::
 
 ### Gallery
 

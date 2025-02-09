@@ -24,6 +24,7 @@ namespace WeddingShare.Helpers.Database
         Task<bool> DeleteGalleryItem(GalleryItemModel model);
         Task<bool> InitAdminAccount(UserModel model);
         Task<bool> ValidateCredentials(string username, string password);
+        Task<List<UserModel>?> GetAllUsers();
         Task<UserModel?> GetUser(int id);
         Task<UserModel?> GetUser(string name);
         Task<UserModel?> AddUser(UserModel model);

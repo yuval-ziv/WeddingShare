@@ -8,10 +8,13 @@ namespace WeddingShare.Configurations
     {
         public static void AddDatabaseConfiguration(this IServiceCollection services, ConfigHelper config)
         {
-            switch (config.GetOrDefault("Database:Database_Type", "sqlite")?.ToLower())
+            switch (config.GetOrDefault("Settings:Database:Type", "sqlite")?.ToLower())
             {
                 case "sqlite":
                     services.AddSingleton<IDatabaseHelper, SQLiteDatabaseHelper>();
+                    break;
+                case "mysql":
+                    services.AddSingleton<IDatabaseHelper, MySqlDatabaseHelper>();
                     break;
                 default:
                     break;

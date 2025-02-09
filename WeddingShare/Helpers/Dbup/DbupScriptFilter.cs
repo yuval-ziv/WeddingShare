@@ -20,6 +20,8 @@ namespace WeddingShare.Helpers.Dbup
             {
                 case DatabaseType.SQLite:
                     return scripts.Where(s => s.Name.ToLower().Contains(".sqlscripts.sqlite."));
+                case DatabaseType.MySQL:
+                    return scripts.Where(s => s.Name.ToLower().Contains(".sqlscripts.mysql."));
                 default:
                     return new List<SqlScript>();
             }

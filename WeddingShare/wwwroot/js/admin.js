@@ -17,13 +17,9 @@
 
             if (data.success === true) {
                 element.closest('.pending-approval').remove();
-
+                updateGalleryList();
                 if ($('.pending-approval').length == 0) {
-                    $('#gallery-review').addClass('visually-hidden');
-                    $('#no-review-msg').removeClass('visually-hidden');
-                } else {
-                    $('#no-review-msg').addClass('visually-hidden');
-                    $('#gallery-review').removeClass('visually-hidden');
+                    updatePendingReviews();
                 }
             } else if (data.message) {
                 displayMessage(localization.translate('Review'), localization.translate('Review_Failed'), [data.message]);
@@ -33,6 +29,42 @@
             hideLoader();
             displayMessage(localization.translate('Review'), localization.translate('Review_Failed'), [error]);
         });
+}
+
+function updateUsersList() {
+    $.ajax({
+        type: 'GET',
+        url: `/Admin/UsersList`,
+        success: function (data) {
+            $('#users-list').html(data);
+        }
+    });
+}
+
+function updateGalleryList() {
+    $.ajax({
+        type: 'GET',
+        url: `/Admin/AvailableGalleries`,
+        success: function (data) {
+            $('#available-galleries').html(data);
+        }
+    });
+}
+
+function updatePendingReviews() {
+    $.ajax({
+        type: 'GET',
+        url: `/Admin/PendingReviews`,
+        success: function (data) {
+            $('#pending-reviews').html(data);
+        }
+    });
+}
+
+function updatePage() {
+    updateUsersList();
+    updateGalleryList();
+    updatePendingReviews();
 }
 
 (function () {
@@ -93,6 +125,7 @@
                         })
                             .done(data => {
                                 if (data.success === true) {
+                                    updateGalleryList();
                                     displayMessage(localization.translate('Gallery_Create'), localization.translate('Gallery_Create_Success'));
                                 } else if (data.message) {
                                     displayMessage(localization.translate('Gallery_Create'), localization.translate('Gallery_Create_Failed'), [data.message]);
@@ -133,9 +166,7 @@
                         })
                             .done(data => {
                                 if (data.success === true) {
-                                    $('.pending-approval').remove();
-                                    $('#gallery-review').addClass('visually-hidden');
-                                    $('#no-review-msg').removeClass('visually-hidden');
+                                    updatePage();
                                     hideLoader();
                                 } else if (data.message) {
                                     displayMessage(localization.translate('Bulk_Review'), localization.translate('Bulk_Review_Approve_Failed'), [data.message]);
@@ -160,9 +191,7 @@
                             })
                                 .done(data => {
                                     if (data.success === true) {
-                                        $('.pending-approval').remove();
-                                        $('#gallery-review').addClass('visually-hidden');
-                                        $('#no-review-msg').removeClass('visually-hidden');
+                                        updatePage();
                                         hideLoader();
                                     } else if (data.message) {
                                         displayMessage(localization.translate('Bulk_Review'), localization.translate('Bulk_Review_Reject_Failed'), [data.message]);
@@ -301,6 +330,7 @@
                         })
                             .done(data => {
                                 if (data.success === true) {
+                                    updatePage();
                                     displayMessage(localization.translate('Wipe_Data'), localization.translate('Wipe_Data_Success'));
                                 } else if (data.message) {
                                     displayMessage(localization.translate('Wipe_Data'), localization.translate('Wipe_Data_Failed'), [data.message]);
@@ -310,6 +340,59 @@
                             })
                             .fail((xhr, error) => {
                                 displayMessage(localization.translate('Wipe_Data'), localization.translate('Wipe_Data_Failed'), [error]);
+                            });
+                    }
+                }, {
+                    Text: localization.translate('Close')
+                }]
+            });
+        });
+
+        $(document).off('click', 'i.btnDeleteUser').on('click', 'i.btnDeleteUser', function (e) {
+            preventDefaults(e);
+
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
+            let row = $(this).closest('tr');
+            displayPopup({
+                Title: localization.translate('User_Delete'),
+                Message: localization.translate('User_Delete_Message', { name: row.data('user-name') }),
+                Fields: [{
+                    Id: 'user-id',
+                    Value: row.data('user-id'),
+                    Type: 'hidden'
+                }],
+                Buttons: [{
+                    Text: localization.translate('Delete'),
+                    Class: 'btn-danger',
+                    Callback: function () {
+                        displayLoader(localization.translate('Loading'));
+
+                        let id = $('#popup-modal-field-user-id').val();
+                        if (id == undefined || id.length == 0) {
+                            displayMessage(localization.translate('User_Delete'), localization.translate('User_Missing_Id'));
+                            return;
+                        }
+
+                        $.ajax({
+                            url: '/Admin/DeleteUser',
+                            method: 'DELETE',
+                            data: { id }
+                        })
+                            .done(data => {
+                                if (data.success === true) {
+                                    updatePage();
+                                    displayMessage(localization.translate('User_Delete'), localization.translate('User_Delete_Success'));
+                                } else if (data.message) {
+                                    displayMessage(localization.translate('User_Delete'), localization.translate('User_Delete_Failed'), [data.message]);
+                                } else {
+                                    displayMessage(localization.translate('User_Delete'), localization.translate('User_Delete_Failed'));
+                                }
+                            })
+                            .fail((xhr, error) => {
+                                displayMessage(localization.translate('User_Delete'), localization.translate('User_Delete_Failed'), [error]);
                             });
                     }
                 }, {
@@ -414,7 +497,7 @@
                         })
                             .done(data => {
                                 if (data.success === true) {
-                                    $(`tr[data-gallery-id=${id}] .gallery-name`).text(name);
+                                    updateGalleryList();
                                     displayMessage(localization.translate('Gallery_Edit'), localization.translate('Gallery_Edit_Success'));
                                 } else if (data.message) {
                                     displayMessage(localization.translate('Gallery_Edit'), localization.translate('Gallery_Edit_Failed'), [data.message]);
@@ -467,7 +550,7 @@
                         })
                             .done(data => {
                                 if (data.success === true) {
-                                    $(`tr[data-gallery-id=${id}] .gallery-name`).text(name);
+                                    updatePage();
                                     displayMessage(localization.translate('Gallery_Wipe'), localization.translate('Gallery_Wipe_Success'));
                                 } else if (data.message) {
                                     displayMessage(localization.translate('Gallery_Wipe'), localization.translate('Gallery_Wipe_Failed'), [data.message]);
@@ -520,7 +603,7 @@
                         })
                             .done(data => {
                                 if (data.success === true) {
-                                    $(`tr[data-gallery-id=${id}]`).remove();
+                                    updatePage();
                                     displayMessage(localization.translate('Gallery_Delete'), localization.translate('Gallery_Delete_Success'));
                                 } else if (data.message) {
                                     displayMessage(localization.translate('Gallery_Delete'), localization.translate('Gallery_Delete_Failed'), [data.message]);

@@ -3,6 +3,7 @@
     public enum DatabaseType
     {
         Unknown,
-        SQLite
+        SQLite,
+        MySQL
     }
 }

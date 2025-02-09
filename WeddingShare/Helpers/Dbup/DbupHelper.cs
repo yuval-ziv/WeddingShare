@@ -16,16 +16,19 @@ namespace WeddingShare.Helpers.Dbup
             fileHelper.CreateDirectoryIfNotExists("config");
 
             var config = new ConfigHelper(environment, configuration, loggerFactory.CreateLogger<ConfigHelper>());
-            var connString = config.GetOrDefault("Database:Connection_String", "Data Source=./config/wedding-share.db");
+            var connString = config.GetOrDefault("Settings:Database:Connection_String", "Data Source=./config/wedding-share.db");
             if (!string.IsNullOrWhiteSpace(connString))
             {
                 DatabaseUpgradeResult? dbupResult;
 
-                var dbType = config.GetOrDefault("Database:Database_Type", "sqlite")?.ToLower();
+                var dbType = config.GetOrDefault("Settings:Database:Type", "sqlite")?.ToLower();
                 switch (dbType)
                 {
                     case "sqlite":
                         dbupResult = new DbupSqliteHelper().Migrate(connString);
+                        break;
+                    case "mysql":
+                        dbupResult = new DbupMySqlHelper().Migrate(connString);
                         break;
                     default:
                         var error = $"Database type '{dbType}' is not yet supported by this application";
@@ -71,7 +74,30 @@ namespace WeddingShare.Helpers.Dbup
                     .WithScriptNameComparer(new DbupScriptComparer())
                     .WithFilter(new DbupScriptFilter(DatabaseType.SQLite))
                     .LogToConsole();
-                dbupBuilder.Configure(c => c.Journal = new DbupTableJournal(() => c.ConnectionManager, () => c.Log, "schemaversions"));
+                dbupBuilder.Configure(c => c.Journal = new DbupSQLiteTableJournal(() => c.ConnectionManager, () => c.Log, "schemaversions"));
+
+                return dbupBuilder.Build().PerformUpgrade();
+            }
+            catch (Exception ex)
+            {
+                return new DatabaseUpgradeResult(null, false, ex, null);
+            }
+        }
+    }
+
+    public class DbupMySqlHelper
+    {
+        public DatabaseUpgradeResult Migrate(string connectionString)
+        {
+            try
+            {
+                var dbupBuilder = DeployChanges.To
+                    .MySqlDatabase(connectionString)
+                    .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
+                    .WithScriptNameComparer(new DbupScriptComparer())
+                    .WithFilter(new DbupScriptFilter(DatabaseType.MySQL))
+                    .LogToConsole();
+                dbupBuilder.Configure(c => c.Journal = new DbupMySqlTableJournal(() => c.ConnectionManager, () => c.Log, "weddingshare", "schemaversions"));
 
                 return dbupBuilder.Build().PerformUpgrade();
             }

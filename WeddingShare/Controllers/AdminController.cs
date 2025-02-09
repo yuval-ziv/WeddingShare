@@ -208,6 +208,8 @@ namespace WeddingShare.Controllers
                             model.PendingRequests = await _database.GetPendingGalleryItems(gallery.Id);
                         }
                     }
+                            
+                    model.Users = await _database.GetAllUsers();
                 }
             }
             catch (Exception ex)
@@ -216,6 +218,114 @@ namespace WeddingShare.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AvailableGalleries()
+        {
+            if (User?.Identity == null || !User.Identity.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
+
+            List<GalleryModel>? result = null;
+
+            try
+            {
+                var user = await _database.GetUser(int.Parse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => string.Equals(ClaimTypes.Sid, x.Type, StringComparison.OrdinalIgnoreCase))?.Value ?? "-1"));
+                if (user != null)
+                {
+                    if (!_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
+                    {
+                        result = await _database.GetAllGalleries();
+                        if (result != null)
+                        {
+                            var all = await _database.GetGallery(0);
+                            if (all != null)
+                            {
+                                result.Add(all);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var gallery = await _database.GetGallery("default");
+                        if (gallery != null)
+                        {
+                            result = new List<GalleryModel>() { gallery };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{_localizer["Gallery_List_Failed"].Value} - {ex?.Message}");
+            }
+
+            return PartialView(result ?? new List<GalleryModel>());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> PendingReviews()
+        {
+            if (User?.Identity == null || !User.Identity.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
+
+            List<GalleryItemModel>? result = null;
+
+            try
+            {
+                var user = await _database.GetUser(int.Parse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => string.Equals(ClaimTypes.Sid, x.Type, StringComparison.OrdinalIgnoreCase))?.Value ?? "-1"));
+                if (user != null)
+                {
+                    if (!_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
+                    {
+                        result = await _database.GetPendingGalleryItems();
+                    }
+                    else
+                    {
+                        var gallery = await _database.GetGallery("default");
+                        if (gallery != null)
+                        {
+                            result = await _database.GetPendingGalleryItems(gallery.Id);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{_localizer["Pending_Uploads_Failed"].Value} - {ex?.Message}");
+            }
+
+            return PartialView(result ?? new List<GalleryItemModel>());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UsersList()
+        {
+            if (User?.Identity == null || !User.Identity.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
+
+            List<UserModel>? result = null;
+
+            try
+            {
+                var user = await _database.GetUser(int.Parse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => string.Equals(ClaimTypes.Sid, x.Type, StringComparison.OrdinalIgnoreCase))?.Value ?? "-1"));
+                if (user != null)
+                {
+                    result = await _database.GetAllUsers();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{_localizer["Users_List_Failed"].Value} - {ex?.Message}");
+            }
+
+            return PartialView(result ?? new List<UserModel>());
         }
 
         [HttpPost]
@@ -496,7 +606,7 @@ namespace WeddingShare.Controllers
                 try
                 {
                     var gallery = await _database.GetGallery(id);
-                    if (gallery != null)
+                    if (gallery != null && gallery.Id > 1)
                     {
                         var galleryDir = Path.Combine(UploadsDirectory, gallery.Name);
                         _fileHelper.DeleteDirectoryIfExists(galleryDir);
@@ -549,6 +659,37 @@ namespace WeddingShare.Controllers
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, $"{_localizer["Failed_Delete_Gallery"].Value} - {ex?.Message}");
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                try
+                {
+                    var user = await _database.GetUser(id);
+                    if (user != null && user.Id > 1)
+                    {
+                        if (_config.GetOrDefault("Notifications:Alerts:Destructive_Action", true))
+                        {
+                            await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Delete' was performed on user '{user.Username}'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
+                        }
+
+                        return Json(new { success = await _database.DeleteUser(user) });
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = _localizer["Failed_Delete_User"].Value });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"{_localizer["Failed_Delete_User"].Value} - {ex?.Message}");
                 }
             }
 

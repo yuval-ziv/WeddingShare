@@ -1,47 +1,62 @@
 ﻿using System.Data;
-using Microsoft.Data.Sqlite;
+using System.Data.Common;
+using MySql.Data.MySqlClient;
 using WeddingShare.Enums;
 using WeddingShare.Models.Database;
 
 namespace WeddingShare.Helpers.Database
 {
-    public class SQLiteDatabaseHelper : IDatabaseHelper
+    public class MySqlDatabaseHelper : IDatabaseHelper
     {
         private readonly string _connString;
         private readonly ILogger _logger;
 
-        public SQLiteDatabaseHelper(IConfigHelper config, ILogger<SQLiteDatabaseHelper> logger)
+        public MySqlDatabaseHelper(IConfigHelper config, ILogger<MySqlDatabaseHelper> logger)
         {
-            _connString = config.GetOrDefault("Settings:Database:Connection_String", "Data Source=./config/wedding-share.db");
+            _connString = config.GetOrDefault("Settings:Database:Connection_String", "Server=mysql;Port=3306;Database=WeddingShare;Uid=WeddingShare;Pwd=Password;");
             _logger = logger;
 
-            _logger.LogInformation($"Using SQLite connection string: '{_connString}'");
+            _logger.LogInformation($"Using MySQL connection string: '{_connString}'");
         }
 
         #region Setup
-        private async Task<SqliteConnection> GetConnection()
+        private async Task<MySqlConnection> GetConnection()
         {
             return await GetConnection(_connString);
         }
 
-        private async Task<SqliteConnection> GetConnection(string connString)
+        private async Task<MySqlConnection> GetConnection(string connString)
         {
-            return await Task.Run(() => { return new SqliteConnection(connString); });
+            var conn = new MySqlConnection(connString);
+            await DisableOnlyFullGroup(conn);
+            return conn;
         }
 
-        private SqliteCommand CreateCommand(string cmd, SqliteConnection conn)
+        private MySqlCommand CreateCommand(string cmd, MySqlConnection conn)
         {
-            return new SqliteCommand(cmd, conn);
+            return new MySqlCommand(cmd, conn);
         }
 
-        private async Task<SqliteTransaction> CreateTransaction(SqliteConnection conn)
+        private async Task<MySqlTransaction> CreateTransaction(MySqlConnection conn)
         {
-            return (SqliteTransaction)await conn.BeginTransactionAsync();
+            return (MySqlTransaction)await conn.BeginTransactionAsync();
         }
 
-        private void ClearPool(SqliteConnection conn)
+        private async Task<bool> DisableOnlyFullGroup(MySqlConnection conn)
         {
-            SqliteConnection.ClearPool(conn);
+            var cmd = CreateCommand($"SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));", conn);
+            cmd.CommandType = CommandType.Text;
+
+            await conn.OpenAsync();
+            var result = await cmd.ExecuteNonQueryAsync() > 0;
+            await conn.CloseAsync();
+
+            return result;
+        }
+
+        private void ClearPool(MySqlConnection conn)
+        {
+            MySqlConnection.ClearPool(conn);
         }
         #endregion
 
@@ -147,7 +162,7 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = await GetConnection())
             {
-                var cmd = CreateCommand($"INSERT INTO `galleries` (`name`, `secret_key`) VALUES (@Name, @SecretKey); SELECT g.*, COUNT(gi.`id`) AS `total`, SUM(CASE WHEN gi.`state`=@ApprovedState THEN 1 ELSE 0 END) AS `approved`, SUM(CASE WHEN gi.`state`=@PendingState THEN 1 ELSE 0 END) AS `pending` FROM `galleries` AS g LEFT JOIN `gallery_items` AS gi ON g.`id` = gi.`gallery_id` WHERE g.`id`=last_insert_rowid();", conn);
+                var cmd = CreateCommand($"INSERT INTO `galleries` (`name`, `secret_key`) VALUES (@Name, @SecretKey); SELECT g.*, COUNT(gi.`id`) AS `total`, SUM(CASE WHEN gi.`state`=@ApprovedState THEN 1 ELSE 0 END) AS `approved`, SUM(CASE WHEN gi.`state`=@PendingState THEN 1 ELSE 0 END) AS `pending` FROM `galleries` AS g LEFT JOIN `gallery_items` AS gi ON g.`id` = gi.`gallery_id` WHERE g.`id`=LAST_INSERT_ID();", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Name", model.Name.ToLower());
                 cmd.Parameters.AddWithValue("SecretKey", !string.IsNullOrWhiteSpace(model.SecretKey) ? model.SecretKey : DBNull.Value);
@@ -327,17 +342,17 @@ namespace WeddingShare.Helpers.Database
                         query = $"{query.TrimEnd(' ', ';')} ORDER BY gi.`title` DESC;";
                         break;
                     case GalleryOrder.Random:
-                        query = $"{query.TrimEnd(' ', ';')} ORDER BY RANDOM();";
+                        query = $"{query.TrimEnd(' ', ';')} ORDER BY RAND();";
                         break;
                     default:
                         break;
                 }
 
                 if (limit > 0 && page > 0)
-                { 
+                {
                     query = $"{query.TrimEnd(' ', ';')} LIMIT @Limit OFFSET @Offset;";
                 }
-                
+
                 var cmd = CreateCommand(query, conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", galleryId);
@@ -360,7 +375,7 @@ namespace WeddingShare.Helpers.Database
         public async Task<List<GalleryItemModel>> GetPendingGalleryItems(int? galleryId = null)
         {
             List<GalleryItemModel> result;
-          
+
             using (var conn = await GetConnection())
             {
                 var cmd = CreateCommand($"SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON g.`id` = gi.`gallery_id` WHERE gi.`state`=@State {(galleryId != null && galleryId > 0 ? "AND gi.`gallery_id`=@GalleryId" : string.Empty)};", conn);
@@ -440,7 +455,7 @@ namespace WeddingShare.Helpers.Database
             return result;
         }
 
-        public async Task<GalleryItemModel?> GetGalleryItemByChecksum(int galleryId, string checksum) 
+        public async Task<GalleryItemModel?> GetGalleryItemByChecksum(int galleryId, string checksum)
         {
             GalleryItemModel? result;
 
@@ -467,10 +482,10 @@ namespace WeddingShare.Helpers.Database
             GalleryItemModel? result = null;
 
             if (model.GalleryId > 0)
-            { 
+            {
                 using (var conn = await GetConnection())
                 {
-                    var cmd = CreateCommand($"INSERT INTO `gallery_items` (`gallery_id`, `title`, `state`, `uploaded_by`, `checksum`, `media_type`) VALUES (@GalleryId, @Title, @State, @UploadedBy, @Checksum, @MediaType); SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE gi.`id`=last_insert_rowid();", conn);
+                    var cmd = CreateCommand($"INSERT INTO `gallery_items` (`gallery_id`, `title`, `state`, `uploaded_by`, `checksum`, `media_type`) VALUES (@GalleryId, @Title, @State, @UploadedBy, @Checksum, @MediaType); SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE gi.`id`=LAST_INSERT_ID();", conn);
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("GalleryId", model.GalleryId);
                     cmd.Parameters.AddWithValue("Title", model.Title);
@@ -680,7 +695,7 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = await GetConnection())
             {
-                var cmd = CreateCommand($"INSERT INTO `users` (`username`, `email`, `password`) VALUES (@Username, @Email, @Password); SELECT SELECT * FROM `users` WHERE `id`=last_insert_rowid();", conn);
+                var cmd = CreateCommand($"INSERT INTO `users` (`username`, `email`, `password`) VALUES (@Username, @Email, @Password); SELECT SELECT * FROM `users` WHERE `id`=LAST_INSERT_ID();", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Username", model.Username.ToLower());
                 cmd.Parameters.AddWithValue("Email", model.Email);
@@ -751,7 +766,7 @@ namespace WeddingShare.Helpers.Database
             bool result = false;
 
             if (model.Id > 1 && !string.Equals("Admin", model.Username, StringComparison.OrdinalIgnoreCase))
-            { 
+            {
                 using (var conn = await GetConnection())
                 {
                     var cmd = CreateCommand($"DELETE FROM `users` WHERE `id`=@Id;", conn);
@@ -824,7 +839,7 @@ namespace WeddingShare.Helpers.Database
             return result;
         }
 
-        public async Task<bool> SetLockout(int id, DateTime? datetime) 
+        public async Task<bool> SetLockout(int id, DateTime? datetime)
         {
             bool result = false;
 
@@ -955,61 +970,17 @@ namespace WeddingShare.Helpers.Database
         #region Backups
         public async Task<bool> Import(string path)
         {
-            bool result = false;
-
-            try
-            {
-                using (var backup = await GetConnection(path))
-                using (var conn = await GetConnection())
-                {
-                    await backup.OpenAsync();
-                    await conn.OpenAsync();
-
-                    backup.BackupDatabase(conn);
-
-                    await conn.CloseAsync();
-                    await backup.CloseAsync();
-
-                    ClearPool(backup);
-                }
-
-                result = true;
-            }
-            catch { }
-
-            return result;
+            throw new NotImplementedException("This feature is not yet available");
         }
 
         public async Task<bool> Export(string path)
         {
-            bool result = false;
-
-            try
-            {
-                using (var conn = await GetConnection())
-                using (var backup = await GetConnection(path))
-                {
-                    await conn.OpenAsync();
-                    await backup.OpenAsync();
-
-                    conn.BackupDatabase(backup);
-
-                    await backup.CloseAsync();
-                    await conn.CloseAsync();
-                
-                    ClearPool(backup);
-                }
-
-                result = true;
-            }
-            catch { }
-
-            return result;
+            throw new NotImplementedException("This feature is not yet available");
         }
         #endregion
 
         #region Data Parsers
-        private async Task<List<GalleryModel>> ReadGalleries(SqliteDataReader? reader)
+        private async Task<List<GalleryModel>> ReadGalleries(DbDataReader? reader)
         {
             var items = new List<GalleryModel>();
 
@@ -1021,7 +992,7 @@ namespace WeddingShare.Helpers.Database
                     {
                         var id = !await reader.IsDBNullAsync("id") ? reader.GetInt32("id") : 0;
                         if (id > 0)
-                        { 
+                        {
                             items.Add(new GalleryModel()
                             {
                                 Id = id,
@@ -1043,7 +1014,7 @@ namespace WeddingShare.Helpers.Database
             return items;
         }
 
-        private async Task<List<GalleryItemModel>> ReadGalleryItems(SqliteDataReader? reader)
+        private async Task<List<GalleryItemModel>> ReadGalleryItems(DbDataReader? reader)
         {
             var items = new List<GalleryItemModel>();
 
@@ -1055,7 +1026,7 @@ namespace WeddingShare.Helpers.Database
                     {
                         var id = !await reader.IsDBNullAsync("id") ? reader.GetInt32("id") : 0;
                         if (id > 0)
-                        { 
+                        {
                             items.Add(new GalleryItemModel()
                             {
                                 Id = id,
@@ -1079,7 +1050,7 @@ namespace WeddingShare.Helpers.Database
             return items;
         }
 
-        private async Task<List<GalleryItemModel>> ReadPendingGalleryItems(SqliteDataReader? reader)
+        private async Task<List<GalleryItemModel>> ReadPendingGalleryItems(DbDataReader? reader)
         {
             var items = new List<GalleryItemModel>();
 
@@ -1092,7 +1063,7 @@ namespace WeddingShare.Helpers.Database
 
                         var id = !await reader.IsDBNullAsync("id") ? reader.GetInt32("id") : 0;
                         if (id > 0)
-                        { 
+                        {
                             items.Add(new GalleryItemModel()
                             {
                                 Id = id,
@@ -1116,7 +1087,7 @@ namespace WeddingShare.Helpers.Database
             return items;
         }
 
-        private async Task<List<UserModel>> ReadUsers(SqliteDataReader? reader)
+        private async Task<List<UserModel>> ReadUsers(DbDataReader? reader)
         {
             var items = new List<UserModel>();
 
@@ -1128,7 +1099,7 @@ namespace WeddingShare.Helpers.Database
                     {
                         var id = !await reader.IsDBNullAsync("id") ? reader.GetInt32("id") : 0;
                         if (id > 0)
-                        { 
+                        {
                             items.Add(new UserModel()
                             {
                                 Id = id,

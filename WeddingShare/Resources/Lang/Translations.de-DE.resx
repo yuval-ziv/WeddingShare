@@ -201,6 +201,12 @@
   <data name="Name_Cannot_Be_Blank" xml:space="preserve">
     <value>Galeriename darf nicht leer sein</value>
   </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Galerieliste konnte nicht abgerufen werden.</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Benutzerliste konnte nicht abgerufen werden.</value>
+  </data>
   <data name="Pending_Uploads_Failed" xml:space="preserve">
     <value>Fehler beim Abrufen ausstehender Uploads</value>
   </data>
@@ -416,5 +422,14 @@
   </data>
   <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
     <value>2FA konnte nicht eingerichtet werden</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Benutzer</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Galerien</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Benutzer konnte nicht gelöscht werden</value>
   </data>
 </root>
