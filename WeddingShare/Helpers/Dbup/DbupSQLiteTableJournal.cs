@@ -2,11 +2,11 @@
 using DbUp.Engine;
 using DbUp.Engine.Output;
 using DbUp.Engine.Transactions;
-using DbUp.SQLite;
+using DbUp.Sqlite;
 
 namespace WeddingShare.Helpers.Dbup
 {
-    public class DbupSQLiteTableJournal : SQLiteTableJournal
+    public class DbupSQLiteTableJournal : SqliteTableJournal
     {
         public DbupSQLiteTableJournal(Func<IConnectionManager> connectionManager, Func<IUpgradeLog> logger, string table)
             : base(connectionManager, logger, table)

@@ -69,7 +69,7 @@ namespace WeddingShare.Helpers.Dbup
             try
             {
                 var dbupBuilder = DeployChanges.To
-                    .SQLiteDatabase(connectionString)
+                    .SqliteDatabase(connectionString)
                     .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
                     .WithScriptNameComparer(new DbupScriptComparer())
                     .WithFilter(new DbupScriptFilter(DatabaseType.SQLite))
