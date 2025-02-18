@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Se este problema persiste, póñase en contacto co administrador web</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Parece un erro inesperado...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Parece que non estás autorizado a ver esa páxina.</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Acceso negado</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>A chave secreta proporcionada era incorrecta</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Clave secreto inválido</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>O gellery especificado non existe e non ten permisos para crealo</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Acceso negado</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Accións</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Aprobar</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Aprobado</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Galerías dispoñibles</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Limpieza</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Estás seguro de que queres limpar esta galería?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Prema aquí para seleccionar ficheiros para subir</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Pechar</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Crea</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Por defecto</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Estás seguro de que queres eliminar esta galería?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Non está autorizado para descargar esta galería</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Drag</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Ficheiro duplicado detectado</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exportación</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Non se puido crear a galería</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Non crear usuario</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Non se pode borrar a galería</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Fallo de usuario</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Non se pode descargar a galería</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Non se pode actualizar a galería</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>Non actualizo usuario</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Non exportar datos</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Non se atopou o ficheiro</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Non importan datos</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Falta de revisión do artigo</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Non se pode borrar galerías</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Non se pode borrar a galería</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Baixar FFMPEG para o camiño</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Tentado xerar miniatura de vídeo, pero FFMPEG aínda non rematou a descarga. Se esta é unha nova instalación, por favor espere a descarga para completar e perder miniaturas será xerado polo escáner de fondo</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Non se puido cargar o ficheiro</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Galerías</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galería</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>A galería solicitada non se atopa ou non existe</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Actualmente non hai memoria compartida</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Actualmente non hai memoria compartida, por que non subir as súas!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>A galería está chea e superou o tamaño máximo de</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Galería Key</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Introduza a clave secreta.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>bodas-día</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Non chegou a lista de galerías</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Galería Nome</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>O nome da galería xa existe</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Introduza o nome da galería que desexa visitar.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>miña moeda-galería</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Galería Selector</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Generar</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Produciuse un erro cargando a páxina de inicio</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Non foi posible establecer a sesión de identidade do usuario - Nome</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Non foi posible subir imaxes</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importacións</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>O acceso ao token foi inválido</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>O tipo de ficheiro non é válido</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Galería Inválida Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Galerías Inválidas</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>Unha solicitude foi feita usando unha clave secreta non válida</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Clave</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Non puido acceder ao usuario en</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Por favor, introduza o contrasinal da conta.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Contrasinal</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Por favor, introduza o nome de usuario da conta.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Tamaño do ficheiro Max</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>No se han encontrado resultados para 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>O nome da galería non pode estar baleiro</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Novos artigos Pending Review</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Non se detectaron ficheiros para subir</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Non hai galerías creadas</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Sen subidas pendentes de revisión</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pendente</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Pending Uploads</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Non foi posible obter cargas pendentes</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Rexeitamento</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Renomeado</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Revisión</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Salvar QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Non se pode gardar a imaxe na galería</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Escanea o código QR co teu móbil para compartir as túas imaxes</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Compartir código</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Acción de revisión descoñecida</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Actualización</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Upload Media</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Cargado por</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Uploader</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>O contrasinal e contrasinal proporcionados non coinciden</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Engadir un usuario co mesmo nome xa existe</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Nome de usuario</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Usuarios</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Non chegou á lista de usuarios</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Ver</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Visita</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Wipe</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Estás seguro de que queres borrar todas as galerías?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Estás seguro de que queres borrar esta galería?</value>
+  </data>
+</root>

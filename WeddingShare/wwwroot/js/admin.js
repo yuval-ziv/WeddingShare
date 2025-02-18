@@ -67,6 +67,49 @@ function updatePage() {
     updatePendingReviews();
 }
 
+function initPasswordValidation() {
+    if ($('.password-validator').length > 0) {
+        $('.password-validator').each(function () {
+            let validator = $(this);
+            let input = $(validator.data('input'));
+            if (input !== undefined && input.length > 0) {
+                let confirmField = input.parent().parent().parent().find('input.confirm-password');
+                if (confirmField !== undefined && confirmField.length === 1) {
+                    validator.find('.lbl-confirm').removeClass('visually-hidden');
+                    confirmField.off('keyup').on('keyup', function () {
+                        var value = $(input).val();
+                        setPasswordValidationField(validator.find('.lbl-confirm'), confirmField.val() === value && value.length);
+                        setPasswordValidationField(validator, validator.find('li[class^=\'lbl-\']:not([class*=\'hidden\'])').length === 0);
+                    });
+                }
+
+                $(input).off('keyup').on('keyup', function () {
+                    var value = $(this).val();
+                    setPasswordValidationField(validator.find('.lbl-lower') , /[a-z]+?/.test(value));
+                    setPasswordValidationField(validator.find('.lbl-upper') , /[A-Z]+?/.test(value));
+                    setPasswordValidationField(validator.find('.lbl-number'), /[0-9]+?/.test(value));
+                    setPasswordValidationField(validator.find('.lbl-special'), /[^A-Za-z0-9]+?/.test(value));
+                    setPasswordValidationField(validator.find('.lbl-length'), value.length >= 8);
+
+                    if (confirmField !== undefined && confirmField.length === 1) {
+                        setPasswordValidationField(validator.find('.lbl-confirm'), confirmField.val() === value && value.length);
+                    }
+
+                    setPasswordValidationField(validator, validator.find('li[class^=\'lbl-\']:not([class*=\'hidden\'])').length === 0);
+                })
+            }
+        });
+    }
+}
+
+function setPasswordValidationField(field, valid) {
+    if (valid) {
+        field.addClass('visually-hidden');
+    } else {
+        field.removeClass('visually-hidden');
+    }
+}
+
 (function () {
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -78,6 +121,110 @@ function updatePage() {
         $(document).off('click', 'button.btnReviewReject').on('click', 'button.btnReviewReject', function (e) {
             preventDefaults(e);
             reviewPhoto($(this), 2);
+        });
+
+        $(document).off('click', 'i.btnAddUser').on('click', 'i.btnAddUser', function (e) {
+            preventDefaults(e);
+
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
+            let passwordValidation = `<ul class="password-validator" data-input="input#popup-modal-field-user-password"> \
+                    <li class="lbl-lower">${localization.translate('Password_Validation_Lower')}</li> \
+                    <li class="lbl-upper">${localization.translate('Password_Validation_Upper')}</li> \
+                    <li class="lbl-number">${localization.translate('Password_Validation_Numbers')}</li> \
+                    <li class="lbl-special">${localization.translate('Password_Validation_Special')}</li> \
+                    <li class="lbl-length">${localization.translate('Password_Validation_Length')}</li> \
+                    <li class="lbl-confirm visually-hidden">${localization.translate('Password_Validation_Confirm')}</li> \
+                </ul><script>initPasswordValidation();</script>`;
+
+            displayPopup({
+                Title: localization.translate('User_Create'),
+                Fields: [{
+                    Id: 'user-name',
+                    Name: localization.translate('User_Name'),
+                    Hint: localization.translate('User_Name_Hint')
+                },
+                {
+                    Id: 'user-email',
+                    Name: localization.translate('User_Email'),
+                    Hint: localization.translate('User_Email_Hint')
+                },
+                {
+                    Id: 'user-password',
+                    Name: localization.translate('User_Password'),
+                    Hint: localization.translate('User_Password_Hint'),
+                    Type: "password"
+                },
+                {
+                    Id: 'user-cpassword',
+                    Name: localization.translate('User_Confirm_Password'),
+                    Hint: localization.translate('User_Confirm_Password_Hint'),
+                    Type: "password",
+                    Class: 'confirm-password'
+                }],
+                FooterHtml: passwordValidation,
+                Buttons: [{
+                    Text: localization.translate('Add'),
+                    Class: 'btn-success',
+                    Callback: function () {
+                        displayLoader(localization.translate('Loading'));
+
+                        let username = $('#popup-modal-field-user-name').val();
+                        if (username == undefined || username.length == 0) {
+                            displayMessage(localization.translate('User_Create'), localization.translate('User_Missing_Name'));
+                            return;
+                        }
+
+                        const usernameRegex = /^[a-zA-Z0-9\-\s-_~]+$/;
+                        if (!usernameRegex.test(username)) {
+                            displayMessage(localization.translate('User_Create'), localization.translate('User_Invalid_Name'));
+                            return;
+                        }
+
+                        let email = $('#popup-modal-field-user-email').val();
+                        const emailRegex = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+                        if (email != undefined && email.length > 0 && !emailRegex.test(email)) {
+                            displayMessage(localization.translate('User_Create'), localization.translate('User_Invalid_Email'));
+                            return;
+                        }
+
+                        let password = $('#popup-modal-field-user-password').val();
+                        if (password == undefined || password.length < 8) {
+                            displayMessage(localization.translate('User_Create'), localization.translate('User_Invalid_Password'));
+                            return;
+                        }
+
+                        let cpassword = $('#popup-modal-field-user-cpassword').val();
+                        if (password !== cpassword) {
+                            displayMessage(localization.translate('User_Create'), localization.translate('User_Invalid_CPassword'));
+                            return;
+                        }
+
+                        $.ajax({
+                            url: '/Admin/AddUser',
+                            method: 'POST',
+                            data: { Username: username, Email: email, Password: password, CPassword: cpassword }
+                        })
+                            .done(data => {
+                                if (data.success === true) {
+                                    updateUsersList();
+                                    displayMessage(localization.translate('User_Create'), localization.translate('User_Create_Success'));
+                                } else if (data.message) {
+                                    displayMessage(localization.translate('User_Create'), localization.translate('User_Create_Failed'), [data.message]);
+                                } else {
+                                    displayMessage(localization.translate('User_Create'), localization.translate('User_Create_Failed'));
+                                }
+                            })
+                            .fail((xhr, error) => {
+                                displayMessage(localization.translate('User_Create'), localization.translate('User_Create_Failed'), [error]);
+                            });
+                    }
+                }, {
+                    Text: localization.translate('Close')
+                }]
+            });
         });
 
         $(document).off('click', 'i.btnAddGallery').on('click', 'i.btnAddGallery', function (e) {
@@ -117,7 +264,7 @@ function updatePage() {
                         }
 
                         let key = $('#popup-modal-field-gallery-key').val();
-                        
+
                         $.ajax({
                             url: '/Admin/AddGallery',
                             method: 'POST',
@@ -348,6 +495,59 @@ function updatePage() {
             });
         });
 
+        $(document).off('click', 'i.btnWipe2FA').on('click', 'i.btnWipe2FA', function (e) {
+            preventDefaults(e);
+
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
+            let row = $(this).closest('tr');
+            displayPopup({
+                Title: localization.translate('2FA_Setup'),
+                Message: localization.translate('2FA_Wipe_Message', { name: row.data('user-name') }),
+                Fields: [{
+                    Id: 'user-id',
+                    Value: row.data('user-id'),
+                    Type: 'hidden'
+                }],
+                Buttons: [{
+                    Text: localization.translate('Wipe'),
+                    Class: 'btn-danger',
+                    Callback: function () {
+                        displayLoader(localization.translate('Loading'));
+
+                        let id = $('#popup-modal-field-user-id').val();
+                        if (id == undefined || id.length == 0) {
+                            displayMessage(localization.translate('2FA_Setup'), localization.translate('User_Missing_Id'));
+                            return;
+                        }
+
+                        $.ajax({
+                            url: '/Admin/ResetMultifactorAuthForUser',
+                            method: 'DELETE',
+                            data: { userId: id }
+                        })
+                            .done(data => {
+                                if (data.success === true) {
+                                    updatePage();
+                                    displayMessage(localization.translate('2FA_Setup'), localization.translate('2FA_Set_Successfully'));
+                                } else if (data.message) {
+                                    displayMessage(localization.translate('2FA_Setup'), localization.translate('2FA_Set_Failed'), [data.message]);
+                                } else {
+                                    displayMessage(localization.translate('2FA_Setup'), localization.translate('2FA_Set_Failed'));
+                                }
+                            })
+                            .fail((xhr, error) => {
+                                displayMessage(localization.translate('2FA_Setup'), localization.translate('2FA_Set_Failed'), [error]);
+                            });
+                    }
+                }, {
+                    Text: localization.translate('Close')
+                }]
+            });
+        });
+
         $(document).off('click', 'i.btnDeleteUser').on('click', 'i.btnDeleteUser', function (e) {
             preventDefaults(e);
 
@@ -507,6 +707,111 @@ function updatePage() {
                             })
                             .fail((xhr, error) => {
                                 displayMessage(localization.translate('Gallery_Edit'), localization.translate('Gallery_Edit_Failed'), [error]);
+                            });
+                    }
+                }, {
+                    Text: localization.translate('Close')
+                }]
+            });
+        });
+
+        $(document).off('click', 'i.btnEditUser').on('click', 'i.btnEditUser', function (e) {
+            preventDefaults(e);
+
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
+            let passwordValidation = `<ul class="password-validator" data-input="input#popup-modal-field-user-password"> \
+                    <li class="lbl-lower">Lower case letters</li> \
+                    <li class="lbl-upper">Upper case letter</li> \
+                    <li class="lbl-number">Numbers</li> \
+                    <li class="lbl-special">Special characters</li> \
+                    <li class="lbl-length">At least 8 characters</li> \
+                    <li class="lbl-confirm visually-hidden">Confirm password matches</li> \
+                </ul><script>initPasswordValidation();</script>`;
+
+            let row = $(this).closest('tr');
+            displayPopup({
+                Title: localization.translate('User_Edit'),
+                Fields: [{
+                    Id: 'user-id',
+                    Value: row.data('user-id'),
+                    Type: 'hidden'
+                }, {
+                    Id: 'user-name',
+                    Name: localization.translate('User_Name'),
+                    Value: row.data('user-name'),
+                    Hint: localization.translate('User_Name_Hint'),
+                    Disabled: true
+                }, {
+                    Id: 'user-email',
+                    Name: localization.translate('User_Email'),
+                    Value: row.data('user-email'),
+                    Hint: localization.translate('User_Email_Hint')
+                }, {
+                    Id: 'user-password',
+                    Name: localization.translate('User_Password'),
+                    Value: row.data('user-password'),
+                    Hint: localization.translate('User_Password_Hint'),
+                    Type: 'password'
+                }, {
+                    Id: 'user-cpassword',
+                    Name: localization.translate('User_Confirm_Password'),
+                    Value: row.data('user-cpassword'),
+                    Hint: localization.translate('User_Confirm_Password_Hint'),
+                    Type: 'password',
+                    Class: 'confirm-password'
+                }],
+                FooterHtml: passwordValidation,
+                Buttons: [{
+                    Text: localization.translate('Update'),
+                    Class: 'btn-success',
+                    Callback: function () {
+                        displayLoader(localization.translate('Loading'));
+
+                        let id = $('#popup-modal-field-user-id').val();
+                        if (id == undefined || id.length == 0) {
+                            displayMessage(localization.translate('User_Edit'), localization.translate('User_Missing_Id'));
+                            return;
+                        }
+
+                        let email = $('#popup-modal-field-user-email').val();
+                        const emailRegex = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+                        if (email != undefined && email.length > 0 && !emailRegex.test(email)) {
+                            displayMessage(localization.translate('User_Create'), localization.translate('User_Invalid_Email'));
+                            return;
+                        }
+
+                        let password = $('#popup-modal-field-user-password').val();
+                        if (password == undefined || password.length < 8) {
+                            displayMessage(localization.translate('User_Create'), localization.translate('User_Invalid_Password'));
+                            return;
+                        }
+
+                        let cpassword = $('#popup-modal-field-user-cpassword').val();
+                        if (password !== cpassword) {
+                            displayMessage(localization.translate('User_Create'), localization.translate('User_Invalid_CPassword'));
+                            return;
+                        }
+
+                        $.ajax({
+                            url: '/Admin/EditUser',
+                            method: 'PUT',
+                            data: { Id: id, Email: email, Password: password, CPassword: cpassword }
+                        })
+                            .done(data => {
+                                if (data.success === true) {
+                                    updateUsersList();
+                                    displayMessage(localization.translate('User_Edit'), localization.translate('User_Edit_Success'));
+                                } else if (data.message) {
+                                    displayMessage(localization.translate('User_Edit'), localization.translate('User_Edit_Failed'), [data.message]);
+                                } else {
+                                    displayMessage(localization.translate('User_Edit'), localization.translate('User_Edit_Failed'));
+                                }
+                            })
+                            .fail((xhr, error) => {
+                                displayMessage(localization.translate('User_Edit'), localization.translate('User_Edit_Failed'), [error]);
                             });
                     }
                 }, {

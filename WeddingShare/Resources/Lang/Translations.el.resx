@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Εάν αυτό το θέμα επιμένει παρακαλώ επικοινωνήστε με το διαχειριστή ιστού</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Οπς, φαίνεται ότι συνέβη ένα απροσδόκητο λάθος...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Φαίνεται ότι δεν είστε εξουσιοδοτημένοι να δείτε αυτή τη σελίδα...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Άρνηση πρόσβασης</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>Το παρεχόμενο μυστικό κλειδί ήταν λανθασμένο</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Μη έγκυρο μυστικό κλειδί</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>Το καθορισμένο Gellery δεν υπάρχει και δεν έχετε άδειες για τη δημιουργία του</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Άρνηση πρόσβασης</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Δράσεις</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Προσθήκη</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Εφαρμογή</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Έγκριση</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Διαθέσιμες Γκαλερί</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Καθαρισμός</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Είσαι σίγουρος ότι θέλεις να καθαρίσεις την γκαλερί?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Κάντε κλικ εδώ για να επιλέξετε αρχεία για αποστολή</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Κλείσιμο</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Δημιουργία</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Προκαθορισμένο</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Διαγραφή</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Σίγουρα θέλετε να διαγράψετε αυτή την γκαλερί?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Δεν είστε εξουσιοδοτημένοι να κατεβάσετε αυτή τη συλλογή</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Σύρσιμο</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Ανιχνεύθηκε διπλό αρχείο</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Εξαγωγή</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Αποτυχία δημιουργίας συλλογής</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Αποτυχία δημιουργίας του χρήστη</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Αποτυχία διαγραφής της συλλογής</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Αποτυχία διαγραφής του χρήστη</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Αποτυχία λήψης συλλογής</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Αποτυχία ενημέρωσης της συλλογής</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>Αποτυχία ενημέρωσης του χρήστη</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Αποτυχία εξαγωγής δεδομένων</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Αποτυχία εύρεσης αρχείου</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Αποτυχία εισαγωγής δεδομένων</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Αποτυχία αναθεώρησης του αντικειμένου</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Αποτυχία διαγραφής στοών</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Αποτυχία διαγραφής της συλλογής</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Αποτυχία λήψης του FFMPEG στη διαδρομή</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Αποπειράθηκε να δημιουργήσει μικρογραφία βίντεο, αλλά το FFMPEG δεν έχει ολοκληρώσει τη λήψη ακόμα. Εάν αυτή είναι μια νέα εγκατάσταση παρακαλώ περιμένετε για τη λήψη για να ολοκληρωθεί και οι χαμένες εικόνες επισκόπησης θα δημιουργηθούν από το σαρωτή φόντου</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Αποτυχία αποστολής αρχείου</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Γκαλερί</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Πινακοθήκη</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>Η ζητούμενη συλλογή δεν βρέθηκε ή δεν υπάρχει</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Προς το παρόν δεν υπάρχουν κοινές αναμνήσεις</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Προς το παρόν δεν υπάρχουν κοινές αναμνήσεις, γιατί δεν ανεβάζεις τις δικές σου πάνω!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Η γκαλερί είναι γεμάτη και έχει ξεπεράσει το μέγιστο μέγεθος της</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Κλειδί συλλογής</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Παρακαλώ εισάγετε το μυστικό κλειδί.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>ημέρα γάμου</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Αποτυχία λήψης λίστας συλλογής</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Όνομα γκαλερί</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Το όνομα της γκαλερί υπάρχει ήδη</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Παρακαλώ εισάγετε το όνομα της γκαλερί που θέλετε να επισκεφθείτε.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>η γάγγραινα μου</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Επιλογέας συλλογής</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Δημιουργία</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Συνέβη ένα σφάλμα φόρτωσης της αρχικής σελίδας</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Αποτυχία ορισμού συνεδρίας ταυτότητας χρήστη - Name</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Αποτυχία αποστολής εικόνων</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Εισαγωγή</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Η παρεχόμενη πρόσβαση δεν ήταν έγκυρη</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Ο τύπος αρχείου δεν είναι έγκυρος</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Μη έγκυρη συλλογή Ταυτότητα</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Μη έγκυρο κλειδί συλλογής</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>Μια αίτηση υποβλήθηκε με χρήση ενός μη έγκυρου μυστικού κλειδιού</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Κλειδί</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Δεσμός</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Σύνδεση</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Αποτυχία σύνδεσης του χρήστη</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Παρακαλώ εισάγετε τον κωδικό πρόσβασης του λογαριασμού.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Κωδικός πρόσβασης</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Παρακαλώ εισάγετε το όνομα χρήστη του λογαριασμού.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Διαχειριστής</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Αποσύνδεση</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Μέγιστο μέγεθος αρχείου</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Αποτυχία δημιουργίας 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Όνομα</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Το όνομα της συλλογής δεν μπορεί να είναι κενό</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Νέα αντικείμενα σε αναμονή αναθεώρησης</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Δεν εντοπίστηκαν αρχεία για αποστολή</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Δεν έχει δημιουργηθεί ακόμα γκαλερί</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Χωρίς αποστολή εν αναμονή αναθεώρησης</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Σε αναμονή</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Εκκρεμείς αποστολές</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Αποτυχία λήψης αναρτήσεων σε εκκρεμότητα</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Απόρριψη</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Μετονομασία</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Αναθεώρηση</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Αποθήκευση QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Αποτυχία αποθήκευσης της εικόνας στη συλλογή</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Σαρώστε τον κωδικό QR με το τηλέφωνό σας για να μοιραστείτε τις εικόνες σας</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Κωδικός μετοχής</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Ταξινόμηση</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Σύνολο</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Άγνωστη ενέργεια αναθεώρησης</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Ενημέρωση</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Αποστολή πολυμέσων</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Αποστολή από</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Αποστολή</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>Ο παρεχόμενος κωδικός πρόσβασης και κωδικός confrim δεν ταιριάζουν</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Προσθήκη χρήστη με το ίδιο όνομα υπάρχει ήδη</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Όνομα χρήστη</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Χρήστες</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Αποτυχία λήψης λίστας χρηστών</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Προβολή</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Επίσκεψη</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Σκουπίστε</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Σίγουρα θέλεις να σκουπίσεις όλες τις γκαλερί?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Σίγουρα θέλεις να σκουπίσεις αυτή την γκαλερί?</value>
+  </data>
+</root>

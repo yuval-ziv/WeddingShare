@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Hvis dette problem fortsætter, bedes du kontakte web-administratoren</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Opps, det ser ud til at der opstod en uventet fejl...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Det ser ud til, at du ikke har tilladelse til at se den side...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Adgang nægtet</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>Den medfølgende hemmelige nøgle var forkert</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Ugyldig hemmelig nøgle</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>Den angivne gellery eksisterer ikke, og du har ikke tilladelser til at oprette det</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Adgang nægtet</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Handlinger</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Tilføj</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Godkendt</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Godkendt</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Tilgængelige gallerier</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Ren</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Er du sikker på, du vil rense galleriet?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Klik her for at vælge filer til at uploade</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Luk</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Opret</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Slet</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Er du sikker på, du vil slette dette galleri?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Du har ikke tilladelse til at downloade dette galleri</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Træk</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Duplikeret fil detekteret</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Eksport</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Kunne ikke oprette galleri</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Kunne ikke oprette bruger</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Kunne ikke slette galleri</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Kunne ikke slette brugeren</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Kunne ikke downloade galleri</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Kunne ikke opdatere galleri</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>Kunne ikke opdatere brugeren</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Kunne ikke eksportere data</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Kunne ikke finde filen</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Kunne ikke importere data</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Kunne ikke gennemse elementet</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Kunne ikke tørre gallerier</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Kunne ikke tørre galleri</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Kunne ikke hente FFMPEG til stien</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Forsøgte at generere video miniature, men FFMPEG har ikke afsluttet download endnu. Hvis dette er en frisk installation, skal du vente på download for at fuldføre og glemte miniaturer vil blive genereret af baggrundsscanneren</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Kunne ikke uploade fil</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Gallerier</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galleri</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>Det ønskede galleri blev ikke fundet eller eksisterer ikke</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Der er i øjeblikket ingen minder delt</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Der er i øjeblikket ingen minder delt, hvorfor uploader du ikke din ovenfor!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Galleri er fuld og har overskredet den maksimale størrelse af</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Gallery Key</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Indtast venligst den hemmelige nøgle.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>ægteskab- dag</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Kunne ikke få gallerilisten</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Galleringsnavn</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Galleri navn findes allerede</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Indtast venligst navnet på det galleri, du vil besøge.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>min-bryllups-galleri</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Galleringsvælger</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Generér</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>En fejl opstod indlæsning af hjemmesiden</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Kunne ikke indstille brugeridentitetssession - Navn</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Kunne ikke uploade billeder</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importér</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Den angivne adgangsbillet var ugyldig</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Filtype er ugyldig</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Ugyldigt galleri Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Ugyldig galleri nøgle</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>En anmodning blev fremsat ved hjælp af en ugyldig hemmelig nøgle</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Nøgle</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Kunne ikke logge brugeren ind</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Indtast venligst kontopassword.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Adgangskode</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Indtast venligst kontobrugernavn.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Maks. filstørrelse er</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Kunne ikke oprette 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Navn</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Galleringsnavn kan ikke være tomt</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Nye elementer afventer revision</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Ingen filer blev opdaget til upload</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Ingen gallerier skabt endnu</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Ingen uploads afventer revision</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Afventer</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Afventer uploads</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Kunne ikke få ventende uploads</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Afvis</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Omdøb</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Revision</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Gem QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Kunne ikke gemme billede til galleri</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Scan QR-koden med telefonen for at dele dine billeder</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Del kode</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sortér</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>I alt</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Ukendt revision</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Opdatering</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Upload medier</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Uploadet af</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Uploader</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>Den medfølgende adgangskode og confrim password matcher ikke</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Tilføj bruger med samme navn findes allerede</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Brugernavn</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Brugere</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Kunne ikke få brugerlisten</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Vis</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Besøg</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Tør</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Er du sikker på, du vil tørre alle gallerier af?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Er du sikker på, du vil tørre galleriet af?</value>
+  </data>
+</root>

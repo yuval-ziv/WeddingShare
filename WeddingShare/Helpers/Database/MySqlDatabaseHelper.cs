@@ -695,10 +695,10 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = await GetConnection())
             {
-                var cmd = CreateCommand($"INSERT INTO `users` (`username`, `email`, `password`) VALUES (@Username, @Email, @Password); SELECT SELECT * FROM `users` WHERE `id`=LAST_INSERT_ID();", conn);
+                var cmd = CreateCommand($"INSERT INTO `users` (`username`, `email`, `password`) VALUES (@Username, @Email, @Password); SELECT * FROM `users` WHERE `id`=LAST_INSERT_ID();", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Username", model.Username.ToLower());
-                cmd.Parameters.AddWithValue("Email", model.Email);
+                cmd.Parameters.AddWithValue("Email", !string.IsNullOrEmpty(model.Email) ? model.Email : DBNull.Value);
                 cmd.Parameters.AddWithValue("Password", model.Password);
 
                 await conn.OpenAsync();

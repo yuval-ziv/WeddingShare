@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Jika isu ini berlanjut silakan hubungi administrator web</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Opps, sepertinya kesalahan tak terduga terjadi...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Sepertinya kau tak berhak melihat halaman itu...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Akses Tak Ditolak</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>Kunci rahasia yang diberikan olehnya tidak benar</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Kunci Rahasia Tidak Sah</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>Galeri yang dinyatakan tidak ada dan Anda tidak memiliki hak untuk menciptakannya</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Akses Tak Ditolak</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Aksi</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Tambah</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Approve</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Disetujui</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Perumpamaan yang Tersedia</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Bersih</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Kau yakin mau membersihkan galeri ini?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Klik di sini untuk memilih berkas untuk dimuat naik</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Klon</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Cipta</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Dihapus</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Anda yakin ingin menghapus galeri ini?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Anda tidak diizinkan mengunduh galeri ini</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Seret</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Berkas duplikat terdeteksi</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Ekspor</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Gagal membuat galeri</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Gagal mencipta pengguna</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Gagal memadam galeri</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Gagal memadam pengguna</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Gagal memuat turun galeri</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Gagal memperbaharui galeri</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>Gagal mengemaskini pengguna</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Gagal mengeksport data</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Gagal menemukan berkas</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Gagal untuk mengimpor data</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Gagal untuk meninjau item</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Gagal menghapus galeri</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Gagal menghapus galeri</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Gagal memuat turun FFMPEG ke path</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Upaya untuk menghasilkan thumbnail video tetapi FFMPEG belum selesai mengunduh. Jika ini adalah pemasangan segar, silakan tunggu muat turun untuk melengkapi dan melewatkan thumbnail akan dihasilkan oleh pengimbas latar belakang</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Gagal memuat-naik file</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Galleries</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galeri</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>Galeri yang diminta tidak ditemukan atau tidak ada</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Saat ini tidak ada kenangan bersama</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Saat ini tidak ada kenangan yang dibagikan, mengapa tidak Anda upload Anda di atas!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Galeri Galeri Galeri telah penuh dan telah melebihi ukuran maksimal</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Kunci Galeri Galeri</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Silakan masukkan kunci rahasia.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>hari pernikahan pernikahan</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Gagal mendapatkan daftar galeri</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Nama Galeri Galeri Galeri Galeri telah ada</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Sila masukkan nama galeri yang ingin anda kunjungi.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>\"membuat perhiasan wedding-ku\"</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Galeri Galeri Galeri</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Hasilkan</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Kesalahan terjadi ketika memuat laman utama</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Gagal menetapkan sesi identitas pengguna - Name</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Gagal mengunggah gambar</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Token akses yang diberikan tidak sah</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Jenis File file tidak sah</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Galeri tidak sah Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Kunci galeri tidak sah</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>Permintaan dilakukan menggunakan kunci rahasia tidak sah</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Kunci</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Log masuk</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Gagal log pengguna masuk</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Kata sandi akaun.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Kata Sandi</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Nama pengguna akaun.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logkeluar</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Ukuran file Max adalah</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Gagal mendirikan 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nama</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Nama Galeri Galeri Galeri tidak dapat kosong</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Item Baru Mending Ulasan</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Tak ada berkas yang terdeteksi untuk dimuat naik</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Galeri belum dibuat</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Tidak ada upload review tertunda</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Ditunda</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Muatan Tertangguh</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Gagal memuat-naik tertunda</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Tolak</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Tukarnama</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Review</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Simpan QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Gagal untuk menyimpan gambar ke galeri</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Memindai kode QR dengan telepon Anda untuk berbagi gambar Anda</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Kode Kongsi</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Urutkan</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Tindakan review tidak diketahui</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Media Upload</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Diunggah Oleh</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Loadloader</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>Kata sandi yang diberikan dan kata sandi confrim tidak cocok</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Tambahkan pengguna dengan nama yang sama telah ada</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Namapengguna</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Pengguna</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Gagal mendapatkan daftar pengguna</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Pandangan</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Lawati</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Lap</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Kau yakin ingin menghapus semua galeri?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Kau yakin ingin menghapus galeri ini?</value>
+  </data>
+</root>

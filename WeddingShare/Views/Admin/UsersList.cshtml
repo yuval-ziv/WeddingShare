@@ -12,9 +12,11 @@
         </tr>
         @foreach (var user in Model.OrderBy(x => x.Username.ToLower()))
         {
-            <tr data-user-id="@user.Id" data-user-name="@user.Username">
+            <tr data-user-id="@user.Id" data-user-name="@user.Username" data-user-email="@user.Email">
                 <td class="user-name text-capitalize">@user.Username</td>
                 <td>
+                    <i class="btn @(user.Id > 1 ? "btnEditUser btn-outline-success" : "btn-outline-disabled") fa-solid fa-pen-to-square" alt="Edit"></i>
+                    <i class="btn @(user.Id > 1 ? "btnWipe2FA btn-outline-danger" : "btn-outline-disabled") fa-solid fa-key" alt="Wipe 2FA"></i>
                     <i class="btn @(user.Id > 1 ? "btnDeleteUser btn-outline-danger" : "btn-outline-disabled") fa-solid fa-trash-can" alt="Delete"></i>
                 </td>
             </tr>

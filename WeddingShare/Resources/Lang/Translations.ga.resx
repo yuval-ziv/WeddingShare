@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Má tá an cheist seo fós téigh i dteagmháil leis an riarthóir gréasáin</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Opps, tá sé cosúil le earráid gan choinne tharla...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Breathnaíonn sé cosúil nach bhfuil tú údaraithe chun féachaint ar an leathanach...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Rochtain a Fháil</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>Bhí an eochair rúnda ar fáil mícheart</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Uisce agus Séarachas</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>Níl an gellery sonraithe ann agus níl cead agat é a chruthú</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Rochtain a Fháil</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Amharc ar gach eolas</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Déan teagmháil linn</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Amharc ar gach eolas</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Ceadaithe</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>An tSraith Shinsearach</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Glanadh agus Glanadh</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>An bhfuil tú cinnte gur mhaith leat an gailearaí seo a ghlanadh?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Cliceáil anseo chun comhaid a uaslódáil a roghnú</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Dún na nGall</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Tréimhse saoil: ilbhliantúil</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Réamhshocrú</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Scriosta</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>An bhfuil tú cinnte gur mhaith leat an gailearaí seo a scriosadh?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Níl tú údaraithe an gailearaí seo a íoslódáil</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Déan teagmháil linn</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Comhad dúbailte braitheadh</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Easpórtáil</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Failed a chruthú gailearaí</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Failed a chruthú úsáideoir</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Failed a scriosadh gailearaí</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Failed a scriosadh úsáideoir</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Failed a íoslódáil gailearaí</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Failed chun gailearaí cothrom le dáta</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>Failed a thabhairt cothrom le dáta úsáideoir</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Failed chun sonraí a onnmhairiú</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Failed a aimsiú comhad</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Failed chun sonraí a allmhairiú</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Failed a athbhreithniú mír</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Failed a wipe dánlanna</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Failed chun wipe gailearaí</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Failed a íoslódáil FFMPEG chun cosán</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Iarracht a ghiniúint thumbnail físeán ach FFMPEG nach bhfuil i gcrích íoslódáil go fóill. Má tá sé seo a shuiteáil úr le do thoil fanacht ar an íoslódáil a chur i gcrích agus beidh thumbnails caillte a ghiniúint ag an scanóir cúlra</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Failed a uaslódáil comhad</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>An tSraith Shinsearach</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Amharc ar gach eolas</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>Ní bhfuarthas an gailearaí iarrtha nó nach bhfuil ann</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Níl aon cuimhní roinnte faoi láthair</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Níl aon cuimhní roinnte faoi láthair, cén fáth nach bhfuil tú a uaslódáil mise thuas!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Tá Gailearaí iomlán agus tá níos mó ná an méid max</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Amharc ar gach eolas</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Cuir isteach an eochair rúnda.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>bainise-lá</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Failed a fháil liosta gailearaí</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Naisc ábhartha eile</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Ainm an Gailearaí ann cheana féin</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Cuir isteach ainm an gailearaí is mian leat cuairt a thabhairt.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>mogallóireacht bainise-</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Clár na dToghthóirí</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Cineáltas</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Tharla earráid luchtú an leathanach baile</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Failed a shocrú seisiún aitheantais úsáideora - Ainm</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Failed chun íomhánna a uaslódáil</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Allmhairiú Allamuigh</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Bhí an dearbhán rochtana a soláthraíodh neamhbhailí</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Tá cineál comhaid neamhbhailí</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Gailearaí luachmhara taiseachas aeir: fliuch</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Eochair gailearaí luachmhar</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>Rinneadh iarratas ag baint úsáide as eochair rúnda neamhbhailí</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Uisce agus Séarachas</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Naisc ábhartha eile</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Taiseachas aeir: fliuch</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Failed chun logáil isteach úsáideoir i</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Cuir focal faire san áireamh.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Post a fhógairt</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Cuir ainm úsáideora san áireamh.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Amharc ar gach eolas</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logáil isteach</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Tá méid comhaid Max</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Failed a chur ar bun 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Ainm an ainm</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Ní féidir ainm an Gailearaí folamh</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Míreanna Nua ar feitheamh Athbhreithniú</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Níor aimsíodh aon chomhaid le haghaidh uaslódáil</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Níl aon dán a cruthaíodh go fóill</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Níl aon uaslódáil ar feitheamh athbhreithniú</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Go dtí go</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Uaslódáil ar feitheamh</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Failed a fháil ar feitheamh uaslódáil</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Déan teagmháil</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Amharc ar gach eolas</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Athbhreithniú</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Sábháil Q</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Failed íomhá a shábháil ar gailearaí</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Scan an cód QR le do ghuthán a roinnt do íomhánna</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Comhroinn an leathanach</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sórtáil</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Iomlán</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Gníomh athbhreithnithe aitheanta</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Tuilleadh eolais</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Uaslódáil Meáin</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Uaslódáil ag</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Uaslódáil</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>Ní dhéanann an focal faire ar fáil agus focal faire confrim mheaitseáil</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Cuir úsáideoir leis an ainm céanna ann cheana féin</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Ainm úsáideora</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Úsáideoirí</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Failed a fháil liosta úsáideoirí</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Féach ar an roghchlár</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Tabhair cuairt ar</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Déan teagmháil</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>An bhfuil tú cinnte gur mhaith leat a wipe gach dánlanna?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>An bhfuil tú cinnte gur mhaith leat a wipe an gailearaí?</value>
+  </data>
+</root>

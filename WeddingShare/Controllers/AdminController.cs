@@ -24,6 +24,7 @@ namespace WeddingShare.Controllers
         private readonly IDatabaseHelper _database;
         private readonly IDeviceDetector _deviceDetector;
         private readonly IFileHelper _fileHelper;
+        private readonly IEncryptionHelper _encryption;
         private readonly INotificationHelper _notificationHelper;
         private readonly Helpers.IUrlHelper _url;
         private readonly ILogger _logger;
@@ -33,13 +34,14 @@ namespace WeddingShare.Controllers
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, INotificationHelper notificationHelper, Helpers.IUrlHelper url, ILogger<AdminController> logger, IStringLocalizer<Lang.Translations> localizer)
+        public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IEncryptionHelper encryption, INotificationHelper notificationHelper, Helpers.IUrlHelper url, ILogger<AdminController> logger, IStringLocalizer<Lang.Translations> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
             _config = config;
             _database = database;
             _deviceDetector = deviceDetector;
             _fileHelper = fileHelper;
+            _encryption = encryption;
             _notificationHelper = notificationHelper;
             _url = url;
             _logger = logger;
@@ -72,7 +74,7 @@ namespace WeddingShare.Controllers
                 var user = await _database.GetUser(model.Username);
                 if (user != null && !user.IsLockedOut)
                 {
-                    if (await _database.ValidateCredentials(user.Username, model.Password))
+                    if (await _database.ValidateCredentials(user.Username, _encryption.Encrypt(model.Password, user.Username)))
                     {
                         if (user.FailedLogins > 0)
                         {
@@ -117,7 +119,7 @@ namespace WeddingShare.Controllers
                     var user = await _database.GetUser(model.Username);
                     if (user != null && !user.IsLockedOut)
                     {
-                        if (await _database.ValidateCredentials(user.Username, model.Password))
+                        if (await _database.ValidateCredentials(user.Username, _encryption.Encrypt(model.Password, user.Username)))
                         {
                             if (user.FailedLogins > 0)
                             {
@@ -665,6 +667,78 @@ namespace WeddingShare.Controllers
             return Json(new { success = false });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddUser(UserModel model)
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                if (!string.IsNullOrWhiteSpace(model?.Username) && !string.IsNullOrWhiteSpace(model?.Password) && string.Equals(model.Password, model.CPassword))
+                {
+                    try
+                    {
+                        var check = await _database.GetUser(model.Username);
+                        if (check == null)
+                        {
+                            model.Password = _encryption.Encrypt(model.Password, model.Username.ToLower());
+                            model.CPassword = string.Empty;
+
+                            return Json(new { success = string.Equals(model?.Username, (await _database.AddUser(model))?.Username, StringComparison.OrdinalIgnoreCase) });
+                        }
+                        else
+                        {
+                            return Json(new { success = false, message = _localizer["User_Name_Already_Exists"].Value });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, $"{_localizer["Failed_Add_User"].Value} - {ex?.Message}");
+                    }
+                }
+                else
+                {
+                    return Json(new { success = false, message = _localizer["Failed_Add_User"].Value });
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> EditUser(UserModel model)
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                if (model?.Id != null && !string.IsNullOrWhiteSpace(model?.Password) && string.Equals(model.Password, model.CPassword))
+                {
+                    try
+                    {
+                        var user = await _database.GetUser(model.Id);
+                        if (user != null)
+                        {
+                            user.Email = model.Email;
+                            user.Password = _encryption.Encrypt(model.Password, user.Username.ToLower());
+                            
+                            return Json(new { success = string.Equals(user?.Username, (await _database.EditUser(user))?.Username, StringComparison.OrdinalIgnoreCase) });
+                        }
+                        else
+                        {
+                            return Json(new { success = false, message = _localizer["Failed_Edit_User"].Value });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, $"{_localizer["Failed_Edit_User"].Value} - {ex?.Message}");
+                    }
+                }
+                else
+                {
+                    return Json(new { success = false, message = _localizer["Failed_Edit_User"].Value });
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -846,12 +920,35 @@ namespace WeddingShare.Controllers
                 try
                 {
                     var userId = int.Parse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => string.Equals(ClaimTypes.Sid, x.Type, StringComparison.OrdinalIgnoreCase))?.Value ?? "-1");
+                    return await ResetMultifactorAuthForUser(userId);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"{_localizer["MultiFactor_Token_Set_Failed"].Value} - {ex?.Message}");
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> ResetMultifactorAuthForUser(int userId)
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                try
+                {
                     if (userId > 0)
                     {
                         var cleared = await _database.SetMultiFactorToken(userId, string.Empty);
                         if (cleared)
                         {
-                            HttpContext.Session.SetString(SessionKey.MultiFactorTokenSet, "false");
+                            var currentUserId = int.Parse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => string.Equals(ClaimTypes.Sid, x.Type, StringComparison.OrdinalIgnoreCase))?.Value ?? "-1");
+                            if (userId == currentUserId)
+                            { 
+                                HttpContext.Session.SetString(SessionKey.MultiFactorTokenSet, "false");
+                            }
+
                             return Json(new { success = true });
                         }
                     }

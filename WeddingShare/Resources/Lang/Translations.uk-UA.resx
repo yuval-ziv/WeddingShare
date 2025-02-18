@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Якщо це питання зберігається, будь ласка, зв'яжіться з адміністратором сайту</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Опс, схоже, несподівана помилка сталася...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Як ви не уповноважені переглядати цю сторінку...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Доступ</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>Наданий секретний ключ був неправильним</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Invalid секрет ключ</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>Ви не маєте дозволу на створення</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Доступ</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Акції</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Додати</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Затвердження</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Затвердження</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Доступні галереї</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Чистий</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Ви впевнені, що хочете очистити цю галерею?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Натисніть тут, щоб вибрати файли для завантаження</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрити</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Зареєструватися</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Зареєструватися</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Делет</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити цю галерею?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Ви не авторизовані для завантаження цієї галереї</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Проксимус</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Дублікатний файл виявлений</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Експорт</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Не вдалося створити галерею</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Не вдалося створити користувача</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Не вдалося видалити галерею</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Не вдалося видалити користувача</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Не вдалося завантажити галерею</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Не вдалося оновити галерею</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>Заборонено оновити користувача</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Заборонено експортувати дані</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Не вдалося знайти файл</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Заборонено імпортувати дані</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Не вдалося переглянути пункт</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>В'язаний для протирання галерей</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>В'язаний для витирання галереї</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Не вдалося завантажити FFMPEG на шлях</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Attempted, щоб генерувати мініатюру відео, але FFMPEG ще не завершили завантаження. Якщо це свіжа інсталяція, будь ласка, чекайте завантаження для завершення та пропущених ескізів буде генеруватися фоновим сканером</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Завантажити файл</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Галене</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Видання</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>За запитом галереї не знайдено або не існує</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>В даний час немає пам'яті</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>В даний час немає пам'яті, тому не ви завантажте вище!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Галерея повністю перевищила розмір макс</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Галерея ключ</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Будь ласка, введіть секретний ключ.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>весілля-день</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Покинути список галереї</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Назва галереї</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Назва галереї вже існує</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Будь ласка, введіть назву галереї, яку ви хочете відвідати.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>мирослава</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Галерея Selector</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Генерація</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Похибка стала завантаження головної сторінки</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Не вдалося встановити сеанс ідентичності користувача - Ім'я</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Заборонено завантажувати зображення</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Імпорт</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Наданий токени недійсний</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Тип файлу недійсний</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Галерея Ід</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Invalid галерея ключ</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>Запит було зроблено з використанням недійсного секретного ключа</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Головна</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Посилання</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Логін</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Заборонено вводити користувача в</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Введіть пароль.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Логін</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Введіть ім'я користувача облікового запису.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Головна</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Зареєструватися</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Макс розмір файлу</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Не вдалося встановити 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Ім'я</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Назва галереї не може бути порожнім</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Новий товар Попередній огляд</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Не знайдено файли для завантаження</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Немає галерей, створених ще</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>No upload pending огляд</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Закінчення</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Закінчення завантажень</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Несправедливість для отримання скидання</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Відправити</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Ім'я</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Огляд</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Зберегти QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Не вдалося зберегти зображення в галереї</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Скануйте QR-код з вашим телефоном, щоб поділитися фотографіями</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Код акції</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Сортувати</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Всього</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Невідомий відгук</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Новини</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Завантажити медіа</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Загружено гостем</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Завантажити</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>Надані паролі і confrim паролі не відповідають</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Додати користувача з такою назвою вже існує</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Ім'я користувача</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Користувачі</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Покинути список користувачів</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Переглянути</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Зареєструватися</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Про нас</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Ви впевнені, що ви хочете протирати всі галереї?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Ви впевнені, що ви хочете протирати цю галерею?</value>
+  </data>
+</root>

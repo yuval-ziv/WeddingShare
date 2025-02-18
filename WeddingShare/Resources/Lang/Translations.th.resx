@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>หากเรื่องนี้ยืนยัน โปรดติดต่อผู้ดูแลระบบ</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Ops, ดูเหมือนว่าจะเกิดความผิดพลาดอย่างไม่คาดคิด...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>ดูเหมือนว่าคุณไม่ได้รับอนุญาติให้ดูหน้านั้น...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>ถูกปฏิเสธการเข้าใช้งาน</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>กุญแจลับที่จัดให้ไม่ถูกต้อง</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>กุญแจลับไม่ถูกต้อง</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>คลังภาพที่ระบุไว้ยังไม่มีอยู่ และคุณไม่มีสิทธิ์สร้าง</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>ถูกปฏิเสธการเข้าใช้งาน</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>การกระทํา</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>เพิ่ม</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>ยอมรับ</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>ยอมรับแล้ว</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>แกล เล รี ที่ มี อยู่</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>สะอาด</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>คุณแน่ใจหรือว่าต้องการจะล้างคลังภาพนี้?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>คลิกที่นี่เพื่อเลือกแฟ้มที่จะอัปโหลด</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>ปิด</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>สร้าง</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>ค่าปริยาย</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>ลบ</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>คุณแน่ใจหรือว่าต้องการจะลบคลังภาพนี้?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>คุณไม่ได้รับอนุญาตให้ดาวน์โหลดคลังภาพนี้</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>ลาก</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>ตรวจพบแฟ้มซ้ํากัน</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>ส่งออก</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>ล้มเหลวในการสร้างคลังภาพ</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>ล้มเหลวในการสร้างผู้ใช้</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>ล้มเหลวในการลบคลังภาพ</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>ล้มเหลวในการลบผู้ใช้</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>ล้มเหลวในการดาวน์โหลดคลังภาพ</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>ล้มเหลวในการอัปเดตคลังภาพ</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>ล้มเหลวในการอัปเดตผู้ใช้</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>ล้มเหลวในการส่งออกข้อมูล</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>ล้มเหลวในการค้นหาแฟ้ม</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>ล้มเหลวในการนําเข้าข้อมูล</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>ล้มเหลวในการทบทวนรายการ</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>ล้มเหลวในการลบคลังภาพ</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>ล้มเหลวในการลบคลังภาพ</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>ล้มเหลวในการดาวน์โหลด FMPEG ไปยังพาธ</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>กําลังพยายามสร้างภาพตัวอย่างวิดีโอ แต่ FMPEG ยังทําการดาวน์โหลดไม่สําเร็จ หากนี่เป็นการติดตั้งใหม่ โปรดรอให้การดาวน์โหลดเสร็จสิ้นและสูญหายภาพตัวอย่าง จะถูกสร้างโดยเครื่องสแกนพื้นหลัง</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>ล้มเหลวในการอัปโหลดแฟ้ม</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>แกล เล รี</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>คลังภาพ</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>ไม่พบคลังภาพที่ร้องขอมา หรือยังไม่มีอยู่</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>ตอนนี้ไม่มีความทรงจําร่วมกัน</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>ตอนนี้ไม่มีความทรงจําร่วมกัน ทําไมคุณไม่อัพโหลดของคุณด้านบน!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>แกลเลอรีภาพเต็มและมีขนาดสูงสุด</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>กุญแจของแกลเลอรี</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>โปรดป้อนกุญแจลับ.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>วันแต่งงาน</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>ล้มเหลวในการรับรายการของคลังภาพ</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>ชื่อแกลเลอรี</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>มีชื่อแกลเลอรีอยู่แล้ว</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>โปรดป้อนชื่อของคลังภาพที่คุณต้องการจะเยี่ยมชม.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>งานแต่งของฉัน</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>เครื่องมือเลือกคลังภาพ</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>สร้าง</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>เกิดข้อผิดพลาดระหว่างทําการโหลดหน้าเว็บหลัก</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>ล้มเหลวในการตั้งค่าวาระการแสดงตัวของผู้ใช้ - ชื่อ</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>ล้มเหลวในการอัปโหลดภาพต่าง ๆ</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>นําเข้า</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>ป้ายที่จัดให้ใช้ไม่ได้</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>ประเภทแฟ้มไม่ถูกต้อง</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>คลังภาพไม่ถูกต้อง หมายเลข</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>กุญแจของคลังภาพใช้ไม่ได้</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>มีการร้องขอโดยใช้กุญแจลับไม่ถูกต้อง</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>คีย์</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>เชื่อมโยง</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>ล็อกอิน</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>ล้มเหลวในการบันทึกผู้ใช้</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>โปรดป้อนรหัสผ่านของบัญชีผู้ใช้.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>รหัสผ่าน</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>โปรดป้อนชื่อผู้ใช้ของบัญชีผู้ใช้.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>แอดมิน</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>ออกจากระบบ</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>ขนาดของแฟ้มสูงสุด</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>ล้มเหลวในการตั้งค่า 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>ชื่อ</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>ชื่อของคลังภาพไม่สามารถว่างไว้ได้</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>การทบทวนรายการใหม่</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>ไม่พบแฟ้มใด ๆ ในการอัปโหลด</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>ยังไม่ได้สร้างแกลเลอรี่</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>ไม่มีการอัปโหลดที่จะตรวจสอบ</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>จํานวนครั้งที่เล่น</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>อัปโหลดไปยังส่วนต่าง ๆ</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>ล้มเหลวในการทําการอัปโหลด</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>ปฏิเสธ</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>เปลี่ยนชื่อ</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>ทบทวน</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>บันทึก QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>ล้มเหลวในการจัดเก็บภาพไปยังคลังภาพ</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>สแกนรหัส QR ด้วยโทรศัพท์ของคุณเพื่อแบ่งปันภาพต่าง ๆ ของคุณ</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>รหัสใช้ร่วมกัน</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>ชนิด</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>รวม</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>ไม่รู้จักการกระทําทบทวน</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>ปรับปรุง</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>อัปโหลดสื่อ</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>อัปโหลดโดย</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>ตัวอัปโหลด</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>รหัสผ่านและรหัสผ่านของ confrim ไม่ตรงกัน</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>มีผู้ใช้ชื่อเดียวกันนี้อยู่แล้ว</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>ชื่อผู้ใช้</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>ผู้ใช้</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>ล้มเหลวในการรับรายการผู้ใช้</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>แสดง</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>ไปยัง</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>กวาด</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>คุณแน่ใจหรือไม่ที่จะเช็ด ทุกห้องระเบียง?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>คุณแน่ใจหรือว่าต้องการจะล้างคลังภาพนี้?</value>
+  </data>
+</root>

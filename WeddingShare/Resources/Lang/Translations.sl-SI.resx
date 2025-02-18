@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Če se to vprašanje nadaljuje, se obrnite na spletnega administratorja</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Opps, izgleda, da se je zgodila nepričakovana napaka...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Izgleda, da nisi pooblaščen za ogled tiste strani...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Dostop zavrnjen</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>Zagotovljen skrivni ključ je bil nepravilen</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Neveljaven skrivni ključ</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>Navedena gellery ne obstaja in nimate dovoljenj za ustvarjanje</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Dostop zavrnjen</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Dejanja</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Dodaj</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Odobreno</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Odobreno</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Razpoložljive galerije</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Čista</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Si prepričan, da želiš počistiti to galerijo?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Kliknite tukaj za izbiro datotek za nalaganje</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Zapri</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Ustvari</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Privzeto</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Zbriši</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Ali res želite zbrisati to galerijo?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Nimate dovoljenja za prenos te galerije</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Povleci</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Podvoji zaznano datoteko</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Izvoz</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Ustvarjanje galerije ni uspelo</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Ni uspelo ustvariti uporabnika</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Ni uspelo zbrisati galerije</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Ni uspelo zbrisati uporabnika</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Ni moč prenesti galerije</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Ni moč posodobiti galerije</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>Ni moč posodobiti uporabnika</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Podatki o izvozu niso bili uspešni</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Ni moč najti datoteke</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Uvoz podatkov ni uspel</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Postavka ni bila pregledana</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Ni uspelo brisati galerij</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Ni uspelo brisati galerije</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Ni moč prenesti FFMPEG na pot</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Poskušal ustvariti video sličice, vendar FFMPEG še ni končal prenosa. Če je to nova namestitev, počakajte na prenos, da se zaključijo in zgrešene sličice bo ustvaril skener ozadja</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Ni moč naložiti datoteke</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Galerije</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galerija</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>Zahtevana galerija ni bila najdena ali ne obstaja</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Trenutno ni skupnih spominov</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Trenutno ni skupnih spominov, zakaj ne naložiš svojih zgoraj!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Galerija je polna in presega največjo velikost</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Ključ galerije</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Prosim vnesite skrivni ključ.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>poročni dan</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Seznam galerije ni uspel</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Ime galerije</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Ime galerije že obstaja</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Vnesite ime galerije, ki jo želite obiskati.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>moja-poročna-galerija</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Izbirnik galerije</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Ustvari</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Prišlo je do napake pri nalaganju domače strani</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Nastavitev uporabniške identitete - Ime</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Nalaganje slik ni uspelo</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Uvozi</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Dostop do žetona je bil neveljaven</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Vrsta datoteke je neveljavna</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Neveljavna galerija Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Neveljaven ključ galerije</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>Zahteva je bila vložena z uporabo neveljavnega skrivnega ključa</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Ključ</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Povezava</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Prijava</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Uporabnika ni moč prijaviti</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Prosim vnesite geslo računa.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Geslo</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Vnesite uporabniško ime računa.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Skrbnik</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Odjava</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Največja velikost datoteke je</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Nastavitev 2FA ni uspela</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Ime</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Ime galerije ne more biti prazno</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Nove postavke v pričakovanju pregleda</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Za pošiljanje ni bilo zaznanih nobenih datotek</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Ni še ustvarjenih galerij</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Ni prenosov v obravnavi</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Čakanje</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Predhodno pošiljanje</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Ni moč dobiti nerešenih prenosov</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Zavrni</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Preimenuj</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Pregled</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Shrani QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Ni moč shraniti slike v galerijo</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Preglejte kodo QR s telefonom, da si delite slike</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Koda deleža</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Razvrsti</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Skupaj</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Neznan ukrep pregleda</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Posodobi</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Pošlji večpredstavnostne datoteke</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Poslano od</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Pošiljalnik</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>Priloženo geslo in konfrim geslo se ne ujemata</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Dodaj uporabnika z istim imenom že obstaja</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Uporabniško ime</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Uporabniki</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Ni moč dobiti seznama uporabnikov</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Pogled</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Obisk</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Obriši</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Si prepričan, da želiš pobrisati vse galerije?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Si prepričan, da želiš obrisati to galerijo?</value>
+  </data>
+</root>

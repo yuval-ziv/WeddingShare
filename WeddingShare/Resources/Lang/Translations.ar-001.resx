@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>إذا استمرت هذه المسألة، يرجى الاتصال بمدير الإنترنت</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>يبدو أن خطأ غير متوقع حدث.</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>يبدو أنك غير مصرح لك بالنظر إلى تلك الصفحة.</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Access Denied</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>المفتاح السري كان غير صحيح</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>مفتاح سرّي غير مستقر</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>المجوهرات المحددة لا وجود لها وليس لديك إذن لخلقها</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Access Denied</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>الإجراءات</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>مضافا إليها</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>الموافقة</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>الوظائف المعتمدة</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>المتاح</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>نظيفة</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد تنظيف هذا المعرض؟?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>انقر هنا لاختيار الملفات</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>اقترب</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>الإبداع</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>التقصير</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>تحذف</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد حذف هذا المعرض؟?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>لا يسمح لك بتحميل هذا المعرض</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Drag</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>ملف مزدوج مكتشف</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>الصادرات</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>فشل في خلق المعرض</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>فشل في خلق مستعمل</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>فشل في حذف المعرض</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>عدم حذف المستخدم</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>فشل في تنزيل المعرض</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>فشل في تحديث المعرض</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>لم يستكمل المستعمل</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>الفشل في الحصول على بيانات التصدير</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>فشل في العثور على ملف</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>الفشل في الحصول على بيانات الاستيراد</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>عدم استعراض البند</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>فشل في مسح المغالي</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>فشل في محو المعرض</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>فشل في تحميل FFMPEG إلى الطريق</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>محاولاً توليد إبهام بالفيديو، لكن شركة FMPEG لم تستكمل التحميل بعد. إذا كانت هذه تركيبة جديدة، يرجى الانتظار لتنزيلها لإكمال وضياع الإبهام</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>فشل في رفع الملف</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Galleries</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Gallery</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>The requested gallery was not found or does not exist</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>لا توجد حاليا ذكريات مشتركة</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>لا توجد حالياً ذكريات مشتركة لماذا لا تحملين ذكرياتك!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>المعرض ممتلئ وقد تجاوز الحد الأقصى لحجم</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>مفتاح المعرض</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>من فضلك أدخل المفتاح السري.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>يوم الزفاف</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>فشل في الحصول على قائمة المعرض</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>اسم المعرض</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>اسم المعرض موجود بالفعل</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>رجاءً أدخلي اسم المعرض الذي تريدين زيارته.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>حفل زفافي</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Gallery Selector</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>الجيل</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>وقع خطأ في تحميل الصفحة الرئيسية</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>عدم تحديد جلسة هوية المستخدمين - الاسم</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>فشل في تحميل الصور</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>الواردات</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>The provided access token was invalid</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>نوع الملف غير صحيح</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>معرض غير رسمي Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>مفتاح المعرض الفاشل</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>قُدم طلب باستخدام مفتاح سري غير صحيح</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>المفتاح</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>فشل في تسجيل المستخدمين</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>من فضلك أدخل كلمة السر.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>كلمة السر</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>من فضلك أدخل اسم المستخدم.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>حجم ملف (ماكس)</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>فشل في إنشاء 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>اسم المعرض لا يمكن أن يكون فارغا</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>البنود الجديدة قيد الاستعراض</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>No files were detected for upload</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>لا توجد مسابقات بعد</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>No uploads pending review</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>معلقة</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>تحميل</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>فشل في الحصول على تحميل</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Reject</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>الاستعراض</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>أنقذوا (كيو آر)</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>فشل في توفير الصور للمعرض</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>قوموا بمسح شفرة (كيو آر) بهواتفكم لتشاركوا صوركم</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Share Code</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>المجموع</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>إجراء استعراض غير معروف</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>آخر</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>تحميل وسائط الإعلام</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>محمولة</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>الحمولة</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>كلمة السر المقدّمة وكلمة سر الكونفريم لا تتطابق</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>يضاف المستخدم الذي يحمل نفس الاسم موجود بالفعل</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>المستعمل</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>المستخدمون</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>فشل في الحصول على قائمة المستخدمين</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>زيارة</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Wipe</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>هل أنت متأكد من أنك تريد مسح كل المجرات؟?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد مسح هذا المعرض؟?</value>
+  </data>
+</root>

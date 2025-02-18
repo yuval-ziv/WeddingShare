@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>אם נושא זה נמשך אנא צרו קשר עם מנהל האינטרנט</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>זה נראה כמו טעות בלתי צפויה התרחשה...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>נראה שאתה לא מורשה להציג את הדף הזה...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>גישה Denied</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>המפתח הסודי היה לא נכון</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>מפתח סודי</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>הגלאי שצוין אינו קיים ואין לך הרשאות ליצור אותו</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>גישה Denied</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>פעולות</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>הוסף</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>שיפור</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>אישור</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>גלריות זמינות</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>נקי</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>אתה בטוח שאתה רוצה לנקות את הגלריה?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>לחץ כאן כדי לבחור קבצים כדי להעלות</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>סגור</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>יצירת</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>אתה בטוח שאתה רוצה למחוק את הגלריה?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>אתה לא מורשה להוריד את הגלריה</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>דרגו</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>קובץ Duplicate זוהה</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>יצוא</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>נכשל ליצור גלריה</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>נכשל ליצור משתמשים</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>נכשל למחוק את הגלריה</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>נכשל למחוק משתמשים</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>נכשל להוריד את הגלריה</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>נכשל לעדכן את הגלריה</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>נכשל לעדכן את המשתמש</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>נכשל לייצא נתונים</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>נכשל למצוא קובץ</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>נכשל לייבא נתונים</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>נכשל בבדיקת הפריט</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>נכשל בגלריות</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>נכשלת בגלריית הנגיף</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>FF MPEG to Path</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>ניסה ליצור אגודל וידאו אבל FF MPEG עדיין לא השלים את ההורדה. אם מדובר בתקנה חדשה, חכה שההורדה תבוטל ותפספס את האגודל ייגרם על ידי סורק הרקע</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>נכשל להעלות קבצים</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>גלריות</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>גלריה</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>הגלריה המבוקשת לא נמצאה ואינה קיימת</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>כרגע אין זיכרונות משותפים</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>אין כרגע זיכרונות משותפים, למה אתה לא מעלה את שלך למעלה!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>הגלריה מלאה והתגברה על הגודל המקסימלי של</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>גלריה מפתח</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>אנא הזן את המפתח הסודי.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>יום החתונה</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>לא מצליחים להגיע לרשימת הגלריה</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>שם גלריה</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>שם הגלריה כבר קיים</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>אנא הזן את שם הגלריה שברצונך לבקר.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>הצחוק שלי</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>גלריה Selector</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>ייצור</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>טעות הייתה לטעון את דף הבית</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>נכשל בקביעת זהות המשתמש - שם</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>נכשל להעלות תמונות</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>יבוא</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>הסימון של הגישה היה בלתי חוקי</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>סוג הקובץ אינו חוקי</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>גלריה Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>מפתח גלריה</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>בקשה נעשתה באמצעות מפתח סודי לא חוקי</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>מפתח</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>קישור</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>כניסה</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>נכשל להכניס משתמשים</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>אנא הזן את הסיסמה של החשבון.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>סיסמה</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>אנא הכנס את שם המשתמש.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>גודל הקובץ מקס</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>נכשל בהקמת 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>שם השם</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>שם גלריה לא יכול להיות ריק</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>פריטים חדשים להורדה</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>לא נמצאו קבצים להעלאה</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>עדיין לא נוצרו גלריות</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>אין העלאת ביקורת</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>עקבו</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>עקבו אחרי Uploads</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>נכשלים לקבל העלאה</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Reject</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>שם מקור</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Review</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>הצילו QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>לא מצליח להציל תמונה לגלריה</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>לסרוק את קוד QR עם הטלפון שלך כדי לשתף את התמונות שלך</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>קוד שיתוף</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>מין</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>ביקורת לא ידוע</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>עדכון Update</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Upload Media</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>מוצג על ידי</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Uploader</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>הסיסמה והסיסמה המסופקת אינם מתאימים</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>הוסף למשתמש עם אותו שם כבר קיים</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>שם המשתמש</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>משתמשים</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>לא מצליחים לקבל רשימת משתמשים</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>ביקור</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Wipe</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>אתה בטוח שאתה רוצה למחוק את כל הגלריות?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>אתה בטוח שאתה רוצה למחוק את הגלריה?</value>
+  </data>
+</root>

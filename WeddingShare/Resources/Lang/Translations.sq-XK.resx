@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Nëse kjo çështje vazhdon të kontaktojë administratorin e ueb-it</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Ops, duket sikur një gabim i papritur ndodhi...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Duket se nuk je i autorizuar ta shohësh atë faqe...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Nuk lejohet hyrja</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>Çelësi sekret i dhënë ishte i pasaktë</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Kyçi sekret i pavlefshëm</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>Gjelleri i specifikuar nuk ekziston dhe ju nuk keni të drejta ta krijoni</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Nuk lejohet hyrja</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Veprimet</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>_Shto</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Miratimi</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>I miratuar</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Gallerimet në dispozicion</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>E pastër</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Jeni i sigurt që dëshironi të pastroni këtë galeri?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Kliko këtu për të zgjedhur files që duhet ngarkuar</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Mbyll</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Krijo</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Paracaktuar</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Elemino</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Jeni i sigurt që dëshironi të eleminoni këtë galeri?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Nuk jeni të autorizuar të shkarkoni këtë galeri</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Drag</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>U zbulua një file i dyfishuar</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Eksporto</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Krijimi i koleksionit dështoi</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Krijimi i përdoruesit dështoi</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Eleminimi i koleksionit dështoi</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Fshirja e përdoruesit dështoi</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Dështoi gjatë shkarkimit të koleksionit</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>I pamundur rifreskimi i koleksionit</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>I pamundur rifreskimi i përdoruesit</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Eksportimi i të dhënave dështoi</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Gjetja e file dështoi</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Importimi i të dhënave dështoi</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>I pamundur shqyrtimi i elementit</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Fshirja e galerive dështoi</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Fshirja e koleksionit dështoi</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Dështoi nga shtegu</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Përpjekje për të krijuar miniatura video por FFMPEG nuk është kompletuar akoma. Nëse kjo është një instalimi i ri, ju lutem prisni që shkarkimi për t'u plotësuar dhe miniaturat e humbura të gjenerohen nga skaneri i sfondit</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Ngarkoje file</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Galleritë</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Koleksioni</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>Galeria e kërkuar nuk u gjet ose nuk ekziston</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Nuk ka aktualisht asnjë kujtesë të përbashkët</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Nuk ka aktualisht kujtime të ndara, pse nuk ngarkoni tuajat sipër!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Galeria është plot dhe ka tejkaluar madhësinë maksimum të</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Kyçi i koleksionit</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Ju lutem shkruani çelësin sekret.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>dasëm</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Marrja e listës së koleksionit dështoi</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Emri i koleksionit</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Emri i koleksionit ekziston</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Ju lutem shkruani emrin e koleksionit që dëshironi të vizitoni.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>mi-veshur-galleri im</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Zgjedhësi i Galerisë</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Gjenero</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>U ndesh një gabim gjatë ngarkimit të faqes home</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>I pamundur caktimi i seancës së identitetit të përdoruesit - Emri</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Ngarkimi i figurave dështoi</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importo</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Argumenti i dhënë i hyrjes ishte i pavlefshëm</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Lloji i file është i pavlefshëm</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Galeri e pavlefshme Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Kyç galerie i pavlefshëm</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>U bë një kërkesë duke përdorur një kyç sekret të pavlefshëm</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Kenia</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Lidhje</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Futu</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Gabim gjatë regjistrimit të përdoruesit</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Të lutem shkruaj fjalëkalimin e profilit.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Fjalëkalimi</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Të lutem shkruaj emrin e përdoruesit të profilit.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Madhësia e file maksimum është</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Gabim gjatë krijimit të 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Emri</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Emri i koleksionit nuk mund të jetë bosh</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Elementë të rinj</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Jo për</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Nuk u krijua asnjë galeri</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Jo</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Në pritje</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Ngarkimet në pritje</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Gabim gjatë marrjes së ngarkimit në pritje</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>_Refuzo</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Riemërto</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Pamja e parë</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Ruaj</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Kodifikimi i të dhënave dështoi</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Kontrollo kodin QR me telefonin tënd për të ndarë imazhet e tua</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Kodi</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Renditja</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Gjithsej</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Veprim i panjohur rishikimi</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Përditëso</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Ngarko</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Nga</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Ngarkues</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>Fjalëkalimi i dhënë dhe fjalëkalimi i konfrimit nuk përputhen</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Shto përdorues me të njëjtin emër ekziston</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Përdoruesi</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Përdorues</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Gabim gjatë marrjes së listës së përdoruesve</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Shfaq</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Vizitim</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Fshi</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Je i sigurt që dëshiron të fshish të gjitha galeritë?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Jeni i sigurt që dëshironi të fshini këtë galeri?</value>
+  </data>
+</root>

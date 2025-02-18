@@ -6,7 +6,7 @@ namespace WeddingShare.Helpers
     public interface IEncryptionHelper
     {
         bool IsEncryptionEnabled();
-        string Encrypt(string value);
+        string Encrypt(string value, string? salt = null);
     }
 
     public class EncryptionHelper : IEncryptionHelper
@@ -30,13 +30,13 @@ namespace WeddingShare.Helpers
             return !string.IsNullOrWhiteSpace(_key) && !string.IsNullOrWhiteSpace(_salt);
         }
 
-        public string Encrypt(string value)
+        public string Encrypt(string value, string? salt = null)
         {
             var enabled = this.IsEncryptionEnabled();
             if (enabled)
             { 
                 var clearBytes = Encoding.Unicode.GetBytes(value);
-                var saltBytes = Encoding.Unicode.GetBytes(_salt);
+                var saltBytes = Encoding.Unicode.GetBytes(salt ?? _salt);
 
                 using (var encryptor = Aes.Create())
                 {

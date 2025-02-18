@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Bu məhsul davam edir ki, web administrator</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Opps, gözlənmiş bir səhv kimi görünür...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Bu, o səhifə səhifə etməyə məlumat deyil...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>Verilmiş gizli key yanlış idi</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Daxil ol</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>Qeyd olunan jellery mövcud deyil və onu yaratmaq üçün məlumatları yoxdur</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Proqramlar</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Axtarış</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Bakı</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Tarix</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Daxil ol</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Daxili</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Bu gallery təmiz etmək istəyirsiniz?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Yüklemek üçün faylları seçin</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Yapon</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Bu gallery silmək istəyirsiniz?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Siz bu gallery yükləməyə qəbul deyil</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Daxil ol</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Qeyd olunan fayl</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>İdman</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Gallery yaratmaq</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Istifadəçi yaratmaq</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Sığmaq</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>İstifadəçi istifadə etmək</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Qeydiyyatdan keçin</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Gallery yeniləndirilməsi</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>İstifadəçinin yeniləndirilməsi</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Əməliyyat verilməsi</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Fayl tapmaq</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Əməliyyat verilməsi</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Baxış maddəsi</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Sərgilər silindi</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Sərginin silinməsi</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>FFMPEG yükləməyə qoşulmaq</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Video başqasını yaratmaq üçün çalışır, lakin FFMPEG henüz yükləmədi. Bu yeni bir quraşdırma varsa, download tam və gözlənmiş başqaları plan browser tərəfindən yaradılır</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Yükleme faylını yükləmək</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Uşaqlar</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Bakı</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>İstehsalçılar tapılmadı və ya mövcud deyil</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Şu anda paylaşılan heç bir xüsusiyyət</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Şu anda paylaşılan heç bir xüsusiyyət var, niyə aşağıdakıları yükləməyin!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Gallery tamdır və maksimum ölçüsü aşmışdır</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Daxil əsas daxil edin.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>qoca</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Gallery siyahısı almaq</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value> Gallery  already  already  already</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Bakının adı daxil ol.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>my-wedding-gallery</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value> Gene</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Bir məlumat anadan yüklədi</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>İstifadəçi kimlik sessiyası açıqlamaq - Adı</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Avtomobil yükləməyə qoşulmaq</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Axtarış</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Qeydiyyatdan keçirilib</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>File növü qeyd olunur</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Invalid gallery İdman</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Invalid gallery əsas</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>Qeydsiz gizli əsas istifadə etdi</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Tarix</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Axtar</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Daxil ol</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Qeydiyyatdan istifadə edin</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Qeydiyyatdan keçin.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Qeydiyyatdan istifadə edin.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Daxil ol</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Max fayl ölçüsü</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>2FA qəbul edilməsi</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Ad Soyad</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Domen adı boş deyil</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Yeni maddələr Pending Review</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>No faylları yükləndirilmişdir</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value> No  yet</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Heç bir yükləmə baxmaq</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Gecək yüksək almaq</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value> Re</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Ad Soyad</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value> Review</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Yadda saxla</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Gallery üçün image saxlamaq</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Sizin şəkillər bölüşmək üçün telefon ilə QR kodu</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Yadda saxla</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Bakı</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Ümumi</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Xüsusi baxış</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Yeniyetmə</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Qalereya</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Tarix</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>Verilmiş şəkil və konfrim şəkil döşməz</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Hər hansı adı ilə istifadəçi edin</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Ad Soyad</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Istifadəçi siyahısı almaq</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Bakı</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Bakı</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Bakı</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Siz bütün galerileri silmək istəyirsiniz?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Siz bu gallery silmək istəyirsiniz?</value>
+  </data>
+</root>
