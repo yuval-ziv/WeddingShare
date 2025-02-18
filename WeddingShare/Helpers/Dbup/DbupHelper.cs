@@ -7,7 +7,7 @@ using WeddingShare.Models.Database;
 
 namespace WeddingShare.Helpers.Dbup
 {
-    public sealed class DbupMigrator(IEnvironmentWrapper environment, IConfiguration configuration, IDatabaseHelper database, IFileHelper fileHelper, ILoggerFactory loggerFactory) : BackgroundService
+    public sealed class DbupMigrator(IEnvironmentWrapper environment, IConfiguration configuration, IDatabaseHelper database, IFileHelper fileHelper, IEncryptionHelper encryption, ILoggerFactory loggerFactory) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -41,7 +41,12 @@ namespace WeddingShare.Helpers.Dbup
                     logger.LogWarning($"DBUP failed with error: '{dbupResult?.Error?.Message}' - '{dbupResult?.Error?.ToString()}'");
                 }
 
-                var adminAccount = new UserModel() { Username = config.GetOrDefault("Settings:Account:Admin:Username", "admin"), Password = config.GetOrDefault("Settings:Account:Admin:Password", "admin") };
+                var username = config.GetOrDefault("Settings:Account:Admin:Username", "admin");
+                var adminAccount = new UserModel() 
+                {
+                    Username = username,
+                    Password = encryption.Encrypt(config.GetOrDefault("Settings:Account:Admin:Password", "admin"), username)
+                };
                 await database.InitAdminAccount(adminAccount);
                     
                 if (config.GetOrDefault("Settings:Account:Admin:Log_Password", true))

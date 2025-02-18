@@ -16,6 +16,10 @@
     <div class="container px-3 px-lg-1 my-1 pt-4 pt-lg-4">
         <div class="row">
             <div class="col-12 text-center">
+                <div class="mx-0 mx-sm-5 px-2 px-xl-5 text-success d-inline-block">
+                    <i class="btnAddUser fa-solid fa-user-plus fa-2x pointer" alt="@_localizer["Add"].Value"></i>
+                    <h6>@_localizer["Add"].Value</h6>
+                </div>
                 @if (!_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
                 {
                     <div class="mx-0 mx-sm-5 px-2 px-xl-5 text-success d-inline-block">

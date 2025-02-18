@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>NAME OF TRANSLATORS</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Opsai, atrodo, įvyko netikėta klaida...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Atrodo, kad jums neleidžiama peržiūrėti šio puslapio...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Prisijungimas atmestas</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>Pateiktas slaptas raktas buvo neteisingas</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Blogas slaptas raktas</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>Nurodytas gasse neegzistuoja ir Jūs neturite leidimų jį sukurti</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Prisijungimas atmestas</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Veiksmai</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Pridėti</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>@ action: button</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Patvirtintas</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Galerijos</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Švarus</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Tu tikrai nori išvalyti šią galeriją?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Spauskite čia norėdami pasirinkti įkelti failus</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Užverti</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Sukurti</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>NAME OF TRANSLATORS</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Trinti</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Jūs tikrai norite ištrinti šią galeriją?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Jūs negalite atsisiųsti šios galerijos</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Vilkimas</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Eksportas</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Nepavyko sukurti galerijos</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Nepavyko sukurti naudotojo</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Nepavyko ištrinti galerijos</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Nepavyko ištrinti naudotojo</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Nepavyko atsiųsti galerijos</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Nepavyko atnaujinti galerijos</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>Nepavyko atnaujinti naudotojo</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Nepavyko eksportuoti duomenų</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Nepavyko rasti failo</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Nepavyko importuoti duomenų</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Nepavyko peržiūrėti elemento</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Nepavyko išvalyti galerijos</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Nepavyko ištrinti galerijos</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Nepavyko atsiųsti FFMPEG kelio</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Bando generuoti vaizdo miniatiūras, bet FFMPEG dar nėra atsisiuntęs. NAME OF TRANSLATORS</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Nepavyko įkelti failo</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Galerija</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galerija</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>Prašoma galerija nerasta arba neegzistuoja</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Dabar nėra bendrų prisiminimų</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Dabar nėra jokių prisiminimų, kodėl jums neįkelti savo aukščiau!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Galerija yra pilnas ir viršijo didžiausią dydį</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Galerija</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Prašome įvesti slaptą raktą.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>vestuvių diena</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Nepavyko gauti galerijos sąrašo</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Galerija</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Galerija jau egzistuoja</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Prašome įvesti galerijos, kurioje norite apsilankyti, pavadinimą.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>my-wedding- galerija</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Galerija</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Generuoti</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Įvyko klaida įkeliant pagrindinį puslapį</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Nepavyko nustatyti naudotojo tapatybės sesijos - vardas</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Nepavyko įkelti paveikslėlių</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importuoti</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Failo tipas neteisingas</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Klaidinga galerija Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Blogas galerijos raktas</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>Prašymas buvo pateiktas naudojant klaidingą slaptą raktą</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Raktas</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Nuoroda</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Prisijungimas</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Nepavyko prisijungti prie naudotojo</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Prašome įvesti paskyros slaptažodį.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Slaptažodis</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Prašome įvesti paskyros naudotojo vardą.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Adminas</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Maks. failo dydis</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Nepavyko sukurti 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Pavadinimas</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Galerija negali būti tuščia</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>NAME OF TRANSLATORS</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Failų įkelti nepavyko</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Galerijos dar nesukurtos</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>NAME OF TRANSLATORS</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Laukiama</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>NAME OF TRANSLATORS</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Nepavyko gauti lauktų įkelmų</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Pašalinti</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Pervadinti</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Peržiūra</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Įrašyti QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Nepavyko įrašyti paveikslėlio į galeriją</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Skaitykite QR kodą su savo telefonu, kad bendrintumėte savo paveikslėlius</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Akcijų kodas</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Rikiuoti</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Iš viso</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Nežinoma peržiūros priemonė</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Atnaujinti</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Siųsti mediją</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Nusiuntė</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Siuntėjas</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Vartotojo vardas</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Naudotojai</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Nepavyko gauti naudotojų sąrašo</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Rodyti</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Apsilankymas</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Šalinti</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Tu tikrai nori nušluostyti visas galerijas?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Tu tikrai nori išvalyti šią galeriją?</value>
+  </data>
+</root>

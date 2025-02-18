@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Kung ang labas na ito ay patuloy na makipag - ugnayan sa administrador ng web</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Opps, parang isang di inaasahang pagkakamali ang naganap...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Parang hindi ka awtorisadong tingnan ang pahinang iyan...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Itinakwil ang Access</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>Mali ang inilaang lihim na susi</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Hindi tanggap na Lihim</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>Ang espesipikong gellery ay hindi umiiral at wala kang pahintulot na lumikha nito</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Itinakwil ang Access</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Mga Gagawin</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Magdagdag</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Sinasang - ayunan</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Sinang - ayunan</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Makukuhang mga Gallery</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Malinis</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Sigurado ka bang gusto mong linisin ang galeryang ito?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>I-cick dito upang pumili ng mga files na i-upload</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Malapit</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Gumawa</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Pagkawasak</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Ibagsak</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Tiyak mo bang nais mong alisin ang galeryang ito?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Hindi ka may - akda na mag - download ng galeryang ito</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Drag</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Natuklasan ang talaksang Diplicate</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Transportasyon</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Sawi ang paglikha ng galerya</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Sawi ang paglikha ng user</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Sawi sa pag-distrate ng galerya</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Sawi sa pag-delete ng gumagamit</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Sawi sa pag-download ng galerya</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Bigo sa update gallery</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>Sawi sa pag-update ng gumagamit</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Sawi sa pagluluwas ng datos</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Sawi sa paghanap ng talaksan</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Sawi sa pag-angkat ng datos</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Sawi sa pagrepaso ng balita</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Sawi sa pagbura ng mga galerya</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Sawi sa pagbura ng galerya</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Sawi sa pag-download ng FFMPEG sa landas</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Sinikap na lumikha ng video na thumbanail ngunit ang FFMPEG ay hindi pa natatapos na mag-download. Kung ito ay isang bagong install, pakisuyong hintayin ang download upang makumpleto at ang nawawalang mga thumbnail ay gagawin ng background scanner</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Sawi ang pag-download ng talaksan</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Mga Gulong</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Gallery</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>Ang hiniling na galerya ay hindi nasumpungan o hindi umiiral</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Sa kasalukuyan ay wala pang alaalang naikukuwento</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Sa kasalukuyan ay walang mga alaalang pinagsasaluhan, bakit hindi mo i - download ang iyong mga alaala sa itaas!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Ang Gallery ay punô at nahigitan ang sukat ng max ng</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Susi sa Gallery</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Pakisuyong ipasok ang sekretong susi.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>araw ng kasal</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Sawi sa pagkuha ng listahan ng gallery</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Pangalan ng Gallery</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Umiiral na ang pangalang Gallery</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Pakisuyong pumasok sa pangalan ng galerya na nais mong dalawin.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>aking-weding-gallery</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Pagpili ng Gallery</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Pag - aanak</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Nagkaroon ng pagkakamali sa pagkarga sa pagguho ng bahay</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Sawi sa pagtakda ng user identity session - Pangalan</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Sawi ang pag-download ng mga larawan</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Pag - aangkat</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Ang ibinigay na paunawa ay hindi tanggap</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Hindi tanggap ang talaksan</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Hindi tanggap na galerya Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Hindi tanggap na gallery key</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>Isang kahilingan ang hiniling na gumamit ng di - tanggap na lihim na susi</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Susi</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Kaugnayan</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Sawi sa pag- log in</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Pakipasok ang account password.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Pakipasok ang account username.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Maingay</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Max na laki ng talaksan ay</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Sawi sa pagtatatag ng 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Pangalan</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Ang pangalang Gallery ay hindi maaaring walang laman</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Bagong Repleksiyon ng mga Bagay - Bagay</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Walang nakitang files para sa download</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Wala pang mga galeryang nalilikha</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Walang mga pakete na naghihintay ng review</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Paglalagay</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Pagtaas ng mga Pabigat</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Sawi ang pag-set up ngloads</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Itakwil</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Muling Pangalan</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Repaso</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Iligtas ang QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Sawi sa pagliligtas ng larawan sa galerya</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Ang QR code kasama ang iyong telepono upang ibahagi ang iyong mga larawan</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Bahaging Kodigo</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Uri</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Kabuuan</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Di - kilalang ginawa ng pagrerepaso</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Pinatataas na Media</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Nabibigatan</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Mag - download</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>Ang ibinigay na password at confrim password ay hindi katugma</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Idagdag ang gumagamit na may kaparehong pangalan na umiiral na</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Pangalan</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Mga Gumagamit</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Sawi sa pagkuha ng listahan ng mga gumagamit</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Pangmalas</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Pagdalaw</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Uso</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Sigurado ka bang gusto mong pahirin ang lahat ng galerya?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Sigurado ka bang papahirin mo ang galeryang ito?</value>
+  </data>
+</root>

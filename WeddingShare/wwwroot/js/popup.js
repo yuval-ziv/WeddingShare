@@ -1,10 +1,22 @@
 ﻿function displayPopup(options) {
     let fields = '';
     (options?.Fields ?? [])?.forEach((field, index) => {
+        let input = '';
+
+        if (field?.Type?.toLowerCase() == 'select') {
+            let options = ``;
+            (field?.SelectOptions ?? [])?.forEach((option, index) => {
+                options += `<option value="${option?.key}" ${option?.selected ? "selected=\"selected\"" : ""}>${option?.value}</option>`;
+            });
+            input = `<select id="popup-modal-field-${field?.Id}" class="form-control ${field?.Class ?? ""}" aria-describedby="${field?.DescribedBy ?? ""}" placeholder="${field?.Placeholder ?? ""}" aria-label="${field?.Name}" ${field?.Disabled ? "disabled=\"disabled\"" : ""}>${options}</select>`;
+        } else {
+            input = `<input type="${field?.Type?.toLowerCase() ?? "text"}" id="popup-modal-field-${field?.Id}" class="form-control ${field?.Class ?? ""}" aria-describedby="${field?.DescribedBy ?? ""}" placeholder="${field?.Placeholder ?? ""}" value="${field?.Value ?? ""}" aria-label="${field?.Name}" ${field?.Disabled ? "disabled=\"disabled\"" : ""} ${field?.Accept ? "accept=\"" + field?.Accept + "\"" : ""} />`;
+        }
+
         fields += `<div class="row pb-3 ${field?.Type?.toLowerCase() == 'hidden' ? "d-none" : ""}">
             <div class="col-12">
                 <label>${field?.Name}</label>
-                <input type="${field?.Type?.toLowerCase() ?? "text"}" id="popup-modal-field-${field?.Id}" class="form-control" aria-describedby="${field?.DescribedBy ?? ""}" placeholder="${field?.Placeholder ?? ""}" value="${field?.Value ?? ""}" aria-label="${field?.Name}" ${field?.Disabled ? "disabled=\"disabled\"" : ""} ${field?.Accept ? "accept=\"" + field?.Accept + "\"" : ""} />
+                ${input}
                 <div class="form-text">${field?.Hint ?? ""}</div>
             </div>
         </div>`;
@@ -50,6 +62,7 @@
                     ${options?.CustomHtml ?? ''}
                     ${fields}
                     ${message}
+                    ${options?.FooterHtml ?? ''}
                     <div class="row ${(options?.Fields?.length ?? 0) > 0 ? "pt-3" : ""}">
                         ${buttons}
                     </div>

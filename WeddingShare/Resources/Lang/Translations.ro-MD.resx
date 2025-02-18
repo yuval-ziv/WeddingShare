@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Dacă această problemă persistă vă rugăm să contactați administratorul web</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Opps, se pare că a avut loc o eroare neaşteptată...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Se pare că nu eşti autorizat să vezi acea pagină...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Acces refuzat</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>Cheia secretă furnizată a fost incorectă</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Cheie secretă nevalidă</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>Gellery specificat nu există și nu aveți permisiuni pentru a crea</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Acces refuzat</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Acțiuni</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Adaugă</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Aprobare</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Aprobat</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Galerii disponibile</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Curăță</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Sigur vrei să cureţi galeria asta?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Click aici pentru a selecta fișiere pentru a încărca</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Închide</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Creează</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Implicit</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Șterge</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Sigur doriți să ștergeți această galerie?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Nu sunteţi autorizat să descărcaţi această galerie</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Trage</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Fișier duplicat detectat</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exportă</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Crearea galeriei a eșuat</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>A eșuat crearea utilizatorului</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Eșec la ștergerea galeriei</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Eșec la ștergerea utilizatorului</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>A eșuat descărcarea galeriei</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Eroare la actualizarea galeriei</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>Eroare la actualizarea utilizatorului</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>A eșuat exportul datelor</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Eroare la găsirea fișierului</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Eșec la importul datelor</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Nu a reușit să revizuiască elementul</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Ştergerea galeriilor a eşuat</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Eșec la ștergerea galeriei</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>A eșuat descărcarea FFMPEG pe cale</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Tentativa de a genera video miniatură, dar FFMPEG nu a finalizat încă descărcarea. În cazul în care aceasta este o instalare proaspătă vă rugăm să așteptați pentru descărcarea pentru a finaliza și a ratat miniaturi vor fi generate de scanerul de fundal</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Eroare la încărcarea fișierului</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Galerii</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galerie</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>Galeria solicitată nu a fost găsită sau nu există</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>În prezent nu există amintiri comune</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>În prezent nu există amintiri comune, de ce nu-l încarci pe al tău mai sus!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Galeria este plină și a depășit dimensiunea maximă a</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Cheie galerie</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Introduceți cheia secretă.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>ziua nunții</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Eșec la obținerea listei de galerii</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Numele galeriei</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Numele galeriei există deja</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Introduceți numele galeriei pe care doriți să o vizitați.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>galeria mea de nuntă</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Selector galerie</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Generează</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>A apărut o eroare la încărcarea paginii de start</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Sesiunea de identitate a utilizatorului a eșuat - Nume</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Încărcarea imaginilor a eșuat</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importă</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Tokenul de acces furnizat a fost invalid</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Tipul fișierului este invalid</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Galerie nevalidă Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Cheie galerie nevalidă</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>O cerere a fost făcută folosind o cheie secretă invalidă</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Cheie</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Legătură</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Autentificare</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Eșec la autentificarea utilizatorului în</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Introduceți parola contului.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Parolă</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Introduceți numele de utilizator al contului.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Deconectare</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Dimensiunea maximă a fișierului este</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Eșec la configurarea 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nume</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Numele galeriei nu poate fi gol</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Elemente noi în așteptare revizuire</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Nu au fost detectate fișiere pentru încărcare</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Încă nu s-au creat galerii</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Nicio încărcare în curs de revizuire</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>În așteptare</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Încărcare în așteptare</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Eșec la încărcarea în așteptare</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Respinge</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Redenumește</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Revizuirea</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Salvează QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Eșec la salvarea imaginii în galerie</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Scanați codul QR cu telefonul pentru a partaja imaginile</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Partajează codul</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sortează</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Acţiune de revizuire necunoscută</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Actualizează</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Încarcă media</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Încărcat de</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Încărcător</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>Parola furnizata si parola confrim nu se potrivesc</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Adaugă utilizator cu același nume există deja</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Nume utilizator</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Utilizatori</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Eșec la obținerea listei de utilizatori</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Vizualizare</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Vizită</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Şterge</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Sigur vrei să ştergi toate galeriile?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Eşti sigur că vrei să ştergi galeria?</value>
+  </data>
+</root>

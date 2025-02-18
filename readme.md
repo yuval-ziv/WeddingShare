@@ -34,7 +34,6 @@ Not all image formats are supported in browsers so although you may be able to a
 | TITLE                                      | WeddingShare                                 |
 | LOGO                                       | https://someurl/someimage.png                |
 | BASE_URL                                   | www.wedding-share.com                        |
-| LANGUAGE                                   | en-GB                                        |
 | FORCE_HTTPS                                | false                                        |
 | SINGLE_GALLERY_MODE                        | false                                        |
 | HOME_LINK                                  | true                                         |
@@ -174,6 +173,13 @@ All settings in the table below can have a gallery specific override by appendin
 :::tip Reset 2FA
 If for any reason your 2FA no longer works correctly you can reset it by setting the `2FA_RESET_TO_DEFAULT` environment variable to `true` and restarting the container. Just be sure to remove it or set it back to `false` once done or it will reset again next restart.
 :::
+
+# Languages
+
+| Name                            | Value                                        |
+| ------------------------------- | -------------------------------------------- |
+| LANGUAGES_ENABLED               | true                                         |
+| LANGUAGES_DEFAULT               | en-GB                                        |
 
 # Request Headers
 

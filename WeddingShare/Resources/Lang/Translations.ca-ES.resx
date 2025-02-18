@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Si aquest problema persisteix, contacteu amb l' administrador del web</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Opps, sembla que ha ocorregut un error inesperat...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Sembla que no esteu autoritzat a veure aquesta pàgina...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>S' ha denegat l' accés</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>La clau secreta proporcionada no era vàlida</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Clau secreta no vàlida</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>La litereria especificada no existeix i no teniu permisos per crear- la</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>S' ha denegat l' accés</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Accions</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Afegeix</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Aprova</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Aprovada</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Galleries disponibles</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Neteja</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Segur que voleu netejar aquesta galeria?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Cliqueu aquí per a seleccionar els fitxers a pujar</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Tanca</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Crea</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Omissió</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Esborra</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Esteu segur que voleu esborrar aquesta galeria?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>No esteu autoritzat a descarregar aquesta galeria</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Arrossega</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>S' ha detectat un fitxer duplicat</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exporta</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Ha fallat en crear la galeria</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Ha fallat en crear l' usuari</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Ha fallat en esborrar la galeria</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Ha fallat en esborrar l' usuari</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Ha fallat en baixar la galeria</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Ha fallat en actualitzar la galeria</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>Ha fallat en actualitzar l' usuari</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>No s' han pogut exportar les dades</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>No s' ha pogut trobar el fitxer</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>No s' han pogut importar les dades</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Ha fallat en revisar l' element</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Ha fallat en netejar galeries</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Ha fallat en esborrar la galeria</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Ha fallat en baixar el FFMPEG al camí</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>S' ha intentat generar una miniatura de vídeo però FFMPEG encara no ha completat la baixada. Si aquesta és una instal· lació nova, espereu que la baixada completi i que les miniatures perdudes es generaran per l' escàner de fons</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>No s' ha pogut pujar el fitxer</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Galleries</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galeria</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>No s' ha trobat la galeria demanada o no existeix</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Actualment no hi ha records compartits</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Ara mateix no hi ha records compartits, per què no puja les teves a dalt!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>La galeria està plena i ha excedit la mida màxima de</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Clau de Gallery</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Si us plau, introduïu la clau secreta.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>dia del casament@ info: whatsthis</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Ha fallat en obtenir la llista de la galeria</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Nom de la galeria</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>El nom de la galeria ja existeix</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Si us plau, introduïu el nom de la galeria que voleu visitar.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>la meva passada d'un costat</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Selector de galeria</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Genera</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Hi ha hagut un error en carregar la pàgina web</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Ha fallat en establir la sessió d' identitat de l' usuari - Nom</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Ha fallat en pujar les imatges</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importa</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>El testimoni d' accés proporcionat no era vàlid</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>El tipus de fitxer no és vàlid</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Galeria no vàlida Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Clau de galeria no vàlida</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>S' ha fet una petició usant una clau secreta no vàlida</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Clau</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Enllaç</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Entrada</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Ha fallat en iniciar l' usuari</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Introduïu la contrasenya del compte.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Contrasenya</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Introduïu el nom d' usuari del compte.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Administrador</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Surt</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>La mida màx. de fitxer és</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Ha fallat en establir la 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>El nom de la galeria no pot estar buit</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Nova revisió d' elements pendents</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>No s' ha detectat cap fitxer per pujar</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Encara no s' han creat galeries</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>No hi ha pujades pendents</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pendent</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Pujades pendents</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Ha fallat en obtenir les pujades pendents</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Rebutja</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Reanomena</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Revisió</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Desa QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Ha fallat en desar la imatge a la galeria</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Escaneja el codi QR amb el telèfon per compartir les imatges</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Codi de compartició</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Ordena</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Acció de revisió desconeguda</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Actualitza</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Puja suports</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Pujat per</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Pujador</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>La contrasenya i contrasenya proporcionada no coincideixen</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Afegeix usuari amb el mateix nom ja existeix</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Nom d' usuari</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Usuaris</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Ha fallat en obtenir la llista d' usuaris</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Visualitza</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Visiteu</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Esborrat</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Segur que vols esborrar totes les galeries?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Esteu segur que voleu esborrar aquesta galeria?</value>
+  </data>
+</root>

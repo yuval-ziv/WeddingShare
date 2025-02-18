@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>এই ইস্যুটি যদি এখনও যোগাযোগ করে চলে তবে অনুগ্রহ করে ওয়েব-সাইটের সাথে যোগাযোগ করুন</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>ওপস, দেখে মনে হচ্ছে একটা অপ্রত্যাশিত ভুল হয়েছে...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>দেখে মনে হচ্ছে আপনার এই পৃষ্ঠা দেখার অনুমতি নেই...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>প্রবেশাধিকার প্রত্যাখ্যাত</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>প্রদত্ত কি সঠিক নয়</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>অবৈধ গোপনীয় কি</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>উল্লিখিত গ্যালারি বর্তমানে উপস্থিত নেই এবং এর অনুমতি আপনার নেই</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>প্রবেশাধিকার প্রত্যাখ্যাত</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>কাজ</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>যোগ করুন</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>লিবরো</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>অনুমোদিত</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>উপলব্ধ নথিপত্র</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>পরিশ্রুত</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>আপনি কি নিশ্চিতরূপে এই গ্যালারিটি মুছে ফেলতে ইচ্ছুক?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>আপলোড করার জন্য এখানে ক্লিক করুন</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>বন্ধ</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>তৈরি করুন (_r)</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>ডিফল্ট</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>মুছে ফেলুন</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>আপনি কি নিশ্চিতরূপে এই গ্যালারিটি মুছে ফেলতে ইচ্ছুক?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>এই গ্যালারি ডাউনলোড করার অনুমতি আপনার নেই</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>টেনে এনে ফেলুন</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>অনুরূপ ফাইল সনাক্ত করা হয়েছে</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>এক্সপোর্ট করুন</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>সংকলন নির্মাণ করতে ব্যর্থ</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>ব্যবহারকারী তৈরি করতে ব্যর্থ</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>সংকলন মুছে ফেলতে ব্যর্থ</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>ব্যবহারকারী মুছতে ব্যর্থ</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>সংকলন ডাউনলোড করতে ব্যর্থ</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>সংকলন আপডেট করতে ব্যর্থ</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>ব্যবহারকারী আপডেট করতে ব্যর্থ</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>কি এক্সপোর্ট করতে ব্যর্থ</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>ফাইল সন্ধান করতে ব্যর্থ</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>পরিচয় প্রমাণে ব্যর্থ।</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>হেডার পুনরায় লোড করতে ব্যর্থ</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>বর্ণালী সংরক্ষণ করতে ব্যর্থ</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>গ্যালারি লোড করতে ব্যর্থ</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>FFMPG পাথ ডাউনলোড করতে ব্যর্থ</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>ভিডিও থাম্বনেইল তৈরি করার চেষ্টা করছে কিন্তু এফএফএমপিইজি এখনো ডাউনলোড করা হয়নি। যদি এটি একটি নতুন ইনস্টল করা থাকে, অনুগ্রহ করে ডাউনলোড প্রক্রিয়া সম্পন্ন করার জন্য অপেক্ষা করুন এবং ব্যাক-আপের মাধ্যমে থাম্বনেইল চিত্রের মাধ্যমে থাম্বনেইল তৈরি করা হবে</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>ফাইল আপলোড করতে ব্যর্থ</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>স্লট</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>গ্যালারি</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>অনুরোধ করা গ্যালারি পাওয়া যায়নি অথবা বর্তমানে উপস্থিত নেই</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>বর্তমানে কোনো স্মৃতি শেয়ার করা হয়নি</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>বর্তমানে কোন স্মৃতি নেই, আপনি উপরে আপনার ছবি আপলোড করছেন না!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>গ্যালারিটি পূর্ণ এবং সর্বাধিক মাপ কাছাকাছি রয়েছে</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>গ্যালারি কী</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>অনুগ্রহ করে গোপনীয় কি সন্নিবেশ করুন.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>বিয়ের দিন</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>সংকলনের তালিকা প্রাপ্ত করতে ব্যর্থ</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>গ্যালারির নাম</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>গ্যালারির নাম বর্তমানে উপস্থিত রয়েছে</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>অনুগ্রহ করে গ্যালারির নাম লিখুন ।.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>আমার উপদেবতা</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>গ্যালারি নির্বাচক</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>উত্‍পাদন করো</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>হোম-পেজ লোড করার সময় সমস্যা দেখা দিয়েছে</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>ব্যবহারকারীর পরিচয় নির্ধারণ করতে ব্যর্থ - নাম</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>ছবি আপলোড করতে ব্যর্থ</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>ইম্পোর্ট</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>প্রদত্ত টোকেন অকার্যকর</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>ফাইলের ধরন বৈধ নয়</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>সংকলন বৈধ নয় আই. ডি</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>কি-র সংকলন বৈধ নয়</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>একটি অবৈধ গোপনীয় কি নির্ধারণ করা হয়েছে</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>কি</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>লিংক</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>লগ-ইন করুন</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>লগ-ইন করতে ব্যর্থ</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>অনুগ্রহ করে অ্যাকাউন্টের পাসওয়ার্ড লিখুন।.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>পাসওয়ার্ড</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>অনুগ্রহ করে অ্যাকাউন্টের নাম লিখুন।.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>অ্যাডমিন</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>লগ-আউট করুন</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>ফাইলের সর্বাধিক মাপ</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>পরিচয় নির্ধারণ করতে ব্যর্থ</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>নাম</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>গ্যালারির নাম ফাঁকা নেই</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>নতুন বস্তু পর্যালোচনা</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>আপলোড করার উদ্দেশ্যে কোনো ফাইল সনাক্ত করা যায়নি</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>কোনো গ্যালারি নির্মাণ করা হয়নি</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>কোনো আপলোডের অনুরোধ সম্পূর্ণ হয়নি</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>অসমাপ্ত</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>আপলোডিং</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>আপলোডের অনুরোধ প্রাপ্ত করতে ব্যর্থ</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>বাতিল</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>পুনরায় নামকরণ</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>পর্যালোচনা</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>এম- পি- ডি সংরক্ষণ করো</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>সংকলনের মধ্যে ছবি সংরক্ষণ করতে ব্যর্থ</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>আপনার ছবি শেয়ার করার জন্য RQR কোড স্ক্যান করুন</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>শেয়ার কোড</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>ক্রমবিন্যাস</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>সর্বমোট</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>অজানা পর্যালোচনা কর্ম</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>আপডেট</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>মিডিয়া আপলোড করুন</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>আপলোড করা হয়েছে</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>আপলোডার</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>পাসওয়ার্ড ও dconf পাসওয়ার্ড মিলছে না</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>একই নামের একটি ফোল্ডার বর্তমানে উপস্থিত রয়েছে</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>ব্যবহারকারীর নাম</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>ব্যবহারকারী</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>ব্যবহারকারীর তালিকা প্রাপ্ত করতে ব্যর্থ</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>প্রদর্শন</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>পরিদর্শন করুন</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>ওয়াইপে</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>আপনি কি নিশ্চিত আপনি সমস্ত গ্যালাক্সি মুছে ফেলতে চান?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>আপনি কি নিশ্চিতরূপে এই গ্যালারিটি মুছে ফেলতে ইচ্ছুক?</value>
+  </data>
+</root>

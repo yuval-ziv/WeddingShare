@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Localization;
-using System.Globalization;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 using WeddingShare.Helpers;
 
 namespace WeddingShare.Configurations
@@ -16,30 +16,18 @@ namespace WeddingShare.Configurations
             });
 
             services.Configure<RequestLocalizationOptions>(options => {
-                var language = config.GetOrDefault("Settings:Language", string.Empty);
-                var supportedCultures = new[]
-                {
-                    new CultureInfo("en-GB"),
-                    new CultureInfo("fr-FR"),
-                    new CultureInfo("de-DE"),
-                    new CultureInfo("nl-NL"),
-                    new CultureInfo("es-ES"),
-                    new CultureInfo("sv-SE")
-                };
+                var supportedCultures = new LanguageHelper().DetectSupportedCultures();
 
+                var language = config.GetOrDefault("Settings:Languages:Default", "en-GB");
                 CurrentCulture = GetDefaultCulture(supportedCultures, language);
-                if (!string.IsNullOrWhiteSpace(language) && !string.Equals("en-GB", CurrentCulture, StringComparison.OrdinalIgnoreCase))
-                {
-                    supportedCultures = supportedCultures?.Where(x => CultureMatches(x, CurrentCulture))?.ToArray();
-                }
-
+                
                 options.DefaultRequestCulture = new RequestCulture(CurrentCulture);
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
             });
         }
 
-        private static string GetDefaultCulture(CultureInfo[] supported, string key)
+        private static string GetDefaultCulture(List<CultureInfo> supported, string key)
         {
             try
             {

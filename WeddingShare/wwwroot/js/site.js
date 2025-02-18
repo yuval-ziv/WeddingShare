@@ -162,6 +162,49 @@ function displayIdentityCheck(required, callbackFn) {
             window.location.reload();
         });
 
+        $(document).off('click', '.change-language').on('click', '.change-language', function (e) {
+            preventDefaults(e);
+
+            $.ajax({
+                type: "GET",
+                url: '/Language',
+                success: function (data) {
+                    if (data.supported && data.supported.length > 0) {
+                        console.log(data.supported);
+                        displayPopup({
+                            Title: localization.translate('Language_Change'),
+                            Fields: [{
+                                Id: 'language-id',
+                                Name: localization.translate('Language'),
+                                Hint: localization.translate('Language_Name_Hint'),
+                                Placeholder: 'English (en-GB)',
+                                Type: 'select',
+                                SelectOptions: data.supported
+                            }],
+                            Buttons: [{
+                                Text: localization.translate('Switch'),
+                                Class: 'btn-success',
+                                Callback: function () {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: '/Language/ChangeDisplayLanguage',
+                                        data: { culture: $('#popup-modal-field-language-id').val().trim() },
+                                        success: function (data) {
+                                            if (data.success) {
+                                                window.location.reload();
+                                            }
+                                        }
+                                    });
+                                }
+                            }, {
+                                Text: localization.translate('Cancel')
+                            }]
+                        });
+                    }
+                }
+            });
+        });
+
         $(document).off('click', '.change-identity').on('click', '.change-identity', function (e) {
             preventDefaults(e);
             displayPopup({

@@ -27,7 +27,7 @@ namespace WeddingShare
         public void ConfigureServices(IServiceCollection services)
         {
             var config = new ConfigHelper(new EnvironmentWrapper(), Configuration, _loggerFactory.CreateLogger<ConfigHelper>());
-            
+
             services.AddDependencyInjectionConfiguration();
             services.AddDatabaseConfiguration(config);
             services.AddNotificationConfiguration(config);

@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Kui see probleem püsib, võtke ühendust veebiadministraatoriga</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Tundub, nagu oleks juhtunud ootamatu viga...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Tundub, et teil pole lubatud seda lehekülge vaadata...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Juurdepääs keelatud</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>Esitatud salajane võti oli vale</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Vigane salajane võti</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>Määratud gellery ei ole olemas ja teil ei ole õigusi selle loomiseks</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Juurdepääs keelatud</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Tegevused</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Lisa</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Kinnita</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Heaks kiidetud</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Saadaolevad galeriid</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Puhasta</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Oled sa kindel, et tahad seda galeriid puhastada?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Klõpsa siia üleslaaditavate failide valimiseks</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Sulge</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Loo</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Vaikimisi</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Kustuta</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Kas tõesti kustutada see galerii?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Teil ei ole lubatud seda galeriid alla laadida</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Lohista</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Tuvastati topeltfail</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Eksport</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Galerii loomine nurjus</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Kasutaja loomine nurjus</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Galerii kustutamine nurjus</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Kasutaja kustutamine nurjus</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Galerii allalaadimine nurjus</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Galerii uuendamine nurjus</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>Kasutaja uuendamine nurjus</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Andmete eksport nurjus</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Faili leidmine nurjus</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Andmete import nurjus</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Elemendi läbivaatamine nurjus</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Galeriide pühkimine nurjus</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Galerii pühkimine nurjus</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>FFMPEGi allalaadimine asukohta nurjus</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Proovis luua video pisipilti, kuid FFMPEG ei ole veel allalaadimist lõpetanud. Kui tegemist on värske installiga, oodake, kuni allalaadimine on lõpetatud ja taustaskanner genereerib vastamata pisipildid</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Faili üleslaadimine nurjus</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Galerii</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galeriis</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>Soovitud galeriid ei leitud või ei eksisteeri</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Hetkel ei ole mälestusi jagatud</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Praegu ei ole mälestusi jagatud, miks te ei lae üles oma eespool!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Galerii on täis ja ületanud max-suuruse</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Galerii võti</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Palun sisesta salajane võti.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>pulmapäev</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Galerii nimekirja hankimine nurjus</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Galerii nimi</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Galerii nimi on juba olemas</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Palun sisestage selle galerii nimi, mida soovite külastada.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>pulmagalerii</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Galeriivalija</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Genereeri</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Kodulehe laadimisel tekkis viga</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Kasutaja identiteedi seansi määramine nurjus - nimi</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Piltide üleslaadimine nurjus</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Pakutud juurdepääsuluba oli vigane</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Failitüüp on vigane</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Vigane galerii Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Vigane galeriivõti</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>Nõue tehti vigase salajase võtmega</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Võti</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Sisselogimine</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Kasutaja sisselogimine nurjus</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Palun sisesta konto parool.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Parool</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Palun sisesta konto kasutajanimi.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logi välja</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Maksimaalne faili suurus</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>2FA loomine nurjus</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nimi</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Galerii nimi ei saa olla tühi</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Läbivaatamist ootavad uued elemendid</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Üleslaadimiseks faile ei leitud</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Galeriisid pole veel loodud</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Üleslaadimist pole vaja</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Oodates</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Oodatavad üleslaadimised</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Ootel üleslaadimiste hankimine nurjus</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Tagasi lükata</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Ümbernimeta</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Läbivaatamine</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Salvesta QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Pildi salvestamine galeriisse nurjus</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Skaneerige oma telefoniga QR-koodi, et jagada oma pilte</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Aktsia kood</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Kokku</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Teadmata läbivaatamismeede</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Uuenda</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Meedia üleslaadimine</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Üleslaaditud</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Üleslaadija</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>Antud parool ja parool ei sobi kokku</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Sama nimega kasutaja lisamine on juba olemas</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Kasutajanimi</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Kasutajad</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Kasutajate nimekirja hankimine nurjus</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Vaade</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Külasta</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Pühkige</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Oled kindel, et tahad kõik galeriid ära pühkida?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Oled sa kindel, et tahad selle galerii ära pühkida?</value>
+  </data>
+</root>

@@ -15,6 +15,7 @@ namespace WeddingShare.Configurations
             services.AddSingleton<ISmtpClientWrapper, SmtpClientWrapper>();
             services.AddSingleton<IEncryptionHelper, EncryptionHelper>();
             services.AddSingleton<IUrlHelper, UrlHelper>();
+            services.AddSingleton<ILanguageHelper, LanguageHelper>();
         }
     }
 }

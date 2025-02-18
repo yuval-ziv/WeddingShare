@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>이 문제는 웹 관리자에 문의하시기 바랍니다</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Opps, 그것은 예상치 못한 오류가 발생 ...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>그것은 당신이 그 페이지를 볼 수있는 권한이 없습니다 ...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>연락처</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>제공된 비밀 열쇠는 incorrect이었습니다</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>잘못된 비밀 키</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>지정된 gellery는 존재하지 않으며, 그것을 만들 수있는 권한이 없습니다</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>연락처</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>팟캐스트</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>기타 제품</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>앱로드</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>인증 및 인증</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>사용 가능한 갤러리</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>제품정보</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>이 갤러리를 청소하고 싶습니까?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>파일을 업로드하려면 여기를 클릭하십시오</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>뚱 베어</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>이름 *</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>기본 정보</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>기타 제품</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>이 갤러리를 삭제하시겠습니까?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>이 갤러리를 다운로드 할 수 없습니다</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>사이트맵</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>중복 파일 감지</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>수출입</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>본문 바로가기</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>사용자를 만드는 실패</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>본문 바로가기</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>사용자 삭제 실패</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>갤러리 다운로드 실패</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>업데이트 갤러리에 실패</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>사용자 업데이트 실패</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>수출 자료에 실패</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>파일 찾기</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>데이터를 가져올 실패</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>상품 리뷰 실패</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>포토 갤러리</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>글 탐색</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>FFMPEG 다운로드 실패</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>비디오 썸네일을 생성하기 위해 시도했지만 FFMPEG는 아직 다운로드를 완료하지 않았습니다. 이 신선한 설치는 다운로드를 기다리고 완료하고 놓친 엄밀한 엄밀한 스캐너는 배경 스캐너에 의해 생성됩니다</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>파일 업로드</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>팟캐스트</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>회사연혁</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>요청한 갤러리는 발견되지 않았거나 존재하지 않습니다</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>현재 기억이 없습니다</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>현재 기억이 공유되지 않습니다. 왜 너를 업로드하지 않습니까!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>갤러리는 전체이며 최대 크기를 초과했습니다</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>갤러리 키</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>비밀 키를 입력하십시오.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>웨딩 일</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>본문 바로가기</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>갤러리 이름</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>갤러리 이름 이미 존재</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>방문하고 싶은 갤러리의 이름을 입력하십시오.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>나의 결혼식-gallery</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>갤러리 선택</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>제품 정보</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>오류가 발생했습니다</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>사용자 정체 세션 설정 실패 - Name</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>이미지 업로드</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>제품정보</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>제공된 액세스 토큰은 잘못되었습니다</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>파일 형식은 invalid</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>잘못된 갤러리 ₢ 킹</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>잘못된 갤러리 키</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>잘못된 비밀 키를 사용하여 요청되었습니다</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>이름 *</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>팟캐스트</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>로그인</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>로그인하기</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>비밀번호 입력.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>비밀번호</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>계정 사용자 이름 입력.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>계정 관리</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>로그아웃</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>최대 파일 크기</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>2FA 설정 실패</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>이름 *</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>갤러리 이름은 비어있을 수 없습니다</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>새로운 항목 공개 검토</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>파일이 업로드되었습니다</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>아직 만든 갤러리 없음</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>리뷰 없음</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>관련 기사</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Pending 업로드</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>종료된 파일을 얻을 실패</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>관련 제품</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>이름 *</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>(주)</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>QR 코드</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>이미지 저장 실패 갤러리</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>QR 코드를 휴대폰으로 스캔하여 이미지를 공유</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>공유 코드</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>제품정보</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>·</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Unknown 검토 활동</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>(주)</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>미디어 업로드</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>다운로드</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>다운로드</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>제공된 암호와 confrim 암호는 일치하지 않습니다</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>같은 이름을 가진 사용자를 이미 존재합니다</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>사용자 이름</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>이름 *</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>사용자 목록을 얻기 위해 실패</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>- 연혁</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>- 연혁</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>사이트맵</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>모든 갤러리를 닦고 싶으신가요?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>이 갤러리를 닦고 싶으신가요?</value>
+  </data>
+</root>

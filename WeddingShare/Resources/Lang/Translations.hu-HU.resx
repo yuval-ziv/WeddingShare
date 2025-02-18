@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Ha ez a probléma továbbra is fennáll, kérjük, forduljon a webes adminisztrátorhoz</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Opps, úgy tűnik, váratlan hiba történt...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Úgy tűnik, nincs felhatalmazása, hogy megnézze azt az oldalt...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Hozzáférés megtagadva</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>A megadott titkos kulcs helytelen volt</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Érvénytelen titkos kulcs</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>A meghatározott ékszer nem létezik, és nincs jogosultsága, hogy létrehozza</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Hozzáférés megtagadva</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Intézkedések</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Hozzáadás</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Jóváhagyás</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Jóváhagyva</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Elérhető galériák</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Tiszta</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Biztos, hogy ki akarod takarítani a galériát?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Kattintson ide a feltöltendő fájlok kiválasztásához</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Bezárás</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Létrehozás</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Alapértelmezés</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Törlés</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Biztos, hogy törölni akarod ezt a galériát?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Nem engedélyezett a galéria letöltése</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Húzás</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>A kijelölt fájl másolása</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exportálás</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Nem sikerült galéria létrehozása</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Nem sikerült létrehozni a felhasználót</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>A galéria törlése nem sikerült</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Nem sikerült törölni a felhasználót</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Nem sikerült letölteni a galériát</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Nem sikerült frissíteni a galériát</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>A felhasználó frissítése nem sikerült</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Az adatok exportálása nem sikerült</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Nem sikerült megtalálni a fájlt</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Nem sikerült importálni az adatokat</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>A felülvizsgálat nem sikerült</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Nem sikerült galériákat törölni</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Nem sikerült törölni a galériát</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Az FFMPEG letöltése nem sikerült</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>A videó hüvelykujj készítésének kísérlete, de az FFMPEG még nem töltötte le. Ha ez egy friss telepítés, kérjük, várjon, amíg a letöltés befejeződik, és kihagyott fotóalbumok generálja a háttér szkenner</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Nem sikerült betölteni a fájlt</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Galéria</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galéria</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>A kért galéria nem található vagy nem létezik</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>Jelenleg nincs közös emlékünk</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>Jelenleg nincs közös emlékünk, miért nem töltöd fel a tiédet!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Galéria tele van, és túllépte a maximális méretét</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Galéria kulcsa</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Kérem, adja meg a titkos kulcsot.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>esküvői nap</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>A galéria listájának letöltése nem sikerült</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Galéria neve</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>A galéria neve már létezik</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Kérem, adja meg a galéria nevét, ahová el szeretne menni.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>az esküvőm galériája</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Galéria választó</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Generálás</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Hiba történt a honlap betöltése közben</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Nem sikerült beállítani a felhasználói identitás munkamenetet - Név</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Nem sikerült feltölteni a képeket</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>A biztosított belépőkártya érvénytelen volt</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>A fájltípus érvénytelen</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Érvénytelen galéria ID</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Érvénytelen galéria kulcs</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>A kérés érvénytelen titkos kulccsal történt</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Kulcs</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Kapcsolat</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Bejelentkezés</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Nem sikerült bejelentkezni</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Adja meg a számlajelszót.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Jelszó</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Adja meg a felhasználó nevét.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Kijelentkezés</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Max. fájlméret</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Nem sikerült létrehozni a 2FA-t</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>A galéria neve nem lehet üres</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>A felülvizsgálat alatt álló új tételek</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>A feltöltéshez nem észleltek fájlokat</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Még nincsenek galériák</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Nincs feltöltés függőben felülvizsgálat</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Függőben</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Függőben lévő feltöltések</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>A függőben lévő feltöltés nem sikerült</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Elutasítás</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Átnevezés</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Felülvizsgálat</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>QR mentése</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Nem sikerült elmenteni a képet a galériába</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Keresse meg a QR kódot a telefonjával a képek megosztásához</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Megosztás kódja</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Rendezés</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Összesen</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Ismeretlen felülvizsgálati intézkedés</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Frissítés</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Média feltöltése</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Feltöltve</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Feltöltő</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>A megadott jelszó és konfrim jelszó nem egyezik</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Az azonos nevű felhasználó hozzáadása</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Felhasználónév</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Felhasználók</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>A felhasználói lista nem sikerült</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Nézet</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Látogatás</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Törlő</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Biztos, hogy le akarod törölni az összes galériát?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Biztos, hogy törölni akarod ezt a galériát?</value>
+  </data>
+</root>

@@ -7,5 +7,6 @@
         public const string MultiFactorTokenSet = "2FA_SET";
         public const string MultiFactorSecret = "2FA_SECRET";
         public const string MultiFactorQR = "2FA_QR_CODE";
+        public const string SelectedLanguage = "SelectedLanguage";
     }
 }

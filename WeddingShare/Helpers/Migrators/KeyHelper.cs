@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using WeddingShare.Models.Migrator;
+﻿using WeddingShare.Models.Migrator;
 
 namespace WeddingShare.Helpers.Migrators
 {
@@ -25,6 +24,10 @@ namespace WeddingShare.Helpers.Migrators
                 else if (string.Equals(key, "Settings:Themes:Enabled", StringComparison.OrdinalIgnoreCase))
                 {
                     keys.Add(new KeyMigrator(2, "Settings:Disable_Dark_Mode", (v) => { return (bool.Parse(v) == false).ToString(); }));
+                }
+                else if (string.Equals(key, "Settings:Languages:Default", StringComparison.OrdinalIgnoreCase))
+                {
+                    keys.Add(new KeyMigrator(2, "Settings:Language", (v) => { return (bool.Parse(v) == false).ToString(); }));
                 }
 
                 else if (string.Equals(key, "Settings:Themes:Enabled", StringComparison.OrdinalIgnoreCase))

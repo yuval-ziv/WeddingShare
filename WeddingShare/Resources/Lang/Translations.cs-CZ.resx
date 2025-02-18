@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="400_Error_Message" xml:space="preserve">
+    <value>Pokud tento problém přetrvává, kontaktujte prosím správce webu</value>
+  </data>
+  <data name="400_Error_Title" xml:space="preserve">
+    <value>Opps, vypadá to, že došlo k neočekávané chybě...</value>
+  </data>
+  <data name="401_Error_Message" xml:space="preserve">
+    <value>Vypadá to, že nemáte oprávnění prohlížet si tu stránku...</value>
+  </data>
+  <data name="401_Error_Title" xml:space="preserve">
+    <value>Přístup zamítnut</value>
+  </data>
+  <data name="402_Error_Message" xml:space="preserve">
+    <value>Poskytnutý tajný klíč byl nesprávný</value>
+  </data>
+  <data name="402_Error_Title" xml:space="preserve">
+    <value>Neplatný tajný klíč</value>
+  </data>
+  <data name="403_Error_Message" xml:space="preserve">
+    <value>Zadané žezlo neexistuje a nemáte oprávnění k jeho vytvoření</value>
+  </data>
+  <data name="403_Error_Title" xml:space="preserve">
+    <value>Přístup zamítnut</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Akce</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Přidat</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Schválení</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Schváleno</value>
+  </data>
+  <data name="Available_Galleries" xml:space="preserve">
+    <value>Dostupné galerie</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Čisté</value>
+  </data>
+  <data name="Clean_Confirmation" xml:space="preserve">
+    <value>Jsi si jistý, že chceš uklidit tuhle galerii?</value>
+  </data>
+  <data name="Click_To_Upload" xml:space="preserve">
+    <value>Klikněte zde pro výběr souborů pro nahrávání</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Zavřít</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Vytvořit</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Výchozí</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Smazat</value>
+  </data>
+  <data name="Delete_Confirmation" xml:space="preserve">
+    <value>Jste si jistý, že chcete tuto galerii smazat?</value>
+  </data>
+  <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
+    <value>Nejste oprávněni ke stažení této galerie</value>
+  </data>
+  <data name="Drag_And_Drop" xml:space="preserve">
+    <value>Přetáhnout</value>
+  </data>
+  <data name="Duplicate_Item_Detected" xml:space="preserve">
+    <value>Zjištěn duplicitní soubor</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Vývoz</value>
+  </data>
+  <data name="Failed_Add_Gallery" xml:space="preserve">
+    <value>Nepodařilo se vytvořit galerii</value>
+  </data>
+  <data name="Failed_Add_User" xml:space="preserve">
+    <value>Selhalo vytvoření uživatele</value>
+  </data>
+  <data name="Failed_Delete_Gallery" xml:space="preserve">
+    <value>Nepodařilo se odstranit galerii</value>
+  </data>
+  <data name="Failed_Delete_User" xml:space="preserve">
+    <value>Nepodařilo se odstranit uživatele</value>
+  </data>
+  <data name="Failed_Download_Gallery" xml:space="preserve">
+    <value>Selhalo stahování galerie</value>
+  </data>
+  <data name="Failed_Edit_Gallery" xml:space="preserve">
+    <value>Nepodařilo se aktualizovat galerii</value>
+  </data>
+  <data name="Failed_Edit_User" xml:space="preserve">
+    <value>Chyba při aktualizaci uživatele</value>
+  </data>
+  <data name="Failed_Export" xml:space="preserve">
+    <value>Nepodařilo se exportovat data</value>
+  </data>
+  <data name="Failed_Finding_File" xml:space="preserve">
+    <value>Nepodařilo se najít soubor</value>
+  </data>
+  <data name="Failed_Import" xml:space="preserve">
+    <value>Nepodařilo se importovat data</value>
+  </data>
+  <data name="Failed_Reviewing_Media" xml:space="preserve">
+    <value>Selhalo přezkoumání položky</value>
+  </data>
+  <data name="Failed_Wipe_Galleries" xml:space="preserve">
+    <value>Nepodařilo se vymazat galerie</value>
+  </data>
+  <data name="Failed_Wipe_Gallery" xml:space="preserve">
+    <value>Nepodařilo se vymazat galerii</value>
+  </data>
+  <data name="FFMPEG_Download_Failed" xml:space="preserve">
+    <value>Selhalo stahování FFMPEG na cestu</value>
+  </data>
+  <data name="FFMPEG_Downloading" xml:space="preserve">
+    <value>Pokusit se generovat video miniatura, ale FFMPEG ještě nedokončil stahování. Pokud se jedná o novou instalaci, počkejte prosím na stahování pro dokončení a vynechání náhledů bude generován pozadí skeneru</value>
+  </data>
+  <data name="File_Upload_Failed" xml:space="preserve">
+    <value>Chyba při nahrávání souboru</value>
+  </data>
+  <data name="Galleries" xml:space="preserve">
+    <value>Galerie</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galerie</value>
+  </data>
+  <data name="Gallery_Does_Not_Exist" xml:space="preserve">
+    <value>Požadovaná galerie nebyla nalezena nebo neexistuje</value>
+  </data>
+  <data name="Gallery_Empty" xml:space="preserve">
+    <value>V současné době nejsou sdíleny žádné vzpomínky</value>
+  </data>
+  <data name="Gallery_Empty_Upload" xml:space="preserve">
+    <value>V současné době nejsou žádné vzpomínky sdílené, proč si nenahrát svůj výše!</value>
+  </data>
+  <data name="Gallery_Full" xml:space="preserve">
+    <value>Galerie je plná a překročila maximální velikost</value>
+  </data>
+  <data name="Gallery_Key" xml:space="preserve">
+    <value>Klíč galerie</value>
+  </data>
+  <data name="Gallery_Key_Help" xml:space="preserve">
+    <value>Prosím, zadejte tajný klíč.</value>
+  </data>
+  <data name="Gallery_Key_Placeholder" xml:space="preserve">
+    <value>svatební den</value>
+  </data>
+  <data name="Gallery_List_Failed" xml:space="preserve">
+    <value>Nepodařilo se získat seznam galerie</value>
+  </data>
+  <data name="Gallery_Name" xml:space="preserve">
+    <value>Název galerie</value>
+  </data>
+  <data name="Gallery_Name_Already_Exists" xml:space="preserve">
+    <value>Název galerie již existuje</value>
+  </data>
+  <data name="Gallery_Name_Help" xml:space="preserve">
+    <value>Zadejte prosím název galerie, kterou chcete navštívit.</value>
+  </data>
+  <data name="Gallery_Name_Placeholder" xml:space="preserve">
+    <value>moje svatební galerie</value>
+  </data>
+  <data name="Gallery_Selector_Title" xml:space="preserve">
+    <value>Výběr galerie</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Generovat</value>
+  </data>
+  <data name="Homepage_Load_Error" xml:space="preserve">
+    <value>Nastala chyba při načítání domovské stránky</value>
+  </data>
+  <data name="Identity_Session_Error" xml:space="preserve">
+    <value>Selhalo nastavení session uživatelské identity - Název</value>
+  </data>
+  <data name="Image_Upload_Failed" xml:space="preserve">
+    <value>Selhalo nahrávání obrázků</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importovat</value>
+  </data>
+  <data name="Invalid_Access_Token" xml:space="preserve">
+    <value>Poskytnutý přístupový symbol byl neplatný</value>
+  </data>
+  <data name="Invalid_File_Type" xml:space="preserve">
+    <value>Typ souboru je neplatný</value>
+  </data>
+  <data name="Invalid_Gallery_Id" xml:space="preserve">
+    <value>Neplatná galerie Id</value>
+  </data>
+  <data name="Invalid_Gallery_Key" xml:space="preserve">
+    <value>Neplatný klíč galerie</value>
+  </data>
+  <data name="Invalid_Secret_Key_Warning" xml:space="preserve">
+    <value>Žádost byla podána pomocí neplatného tajného klíče</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Klíč</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Odkaz</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Přihlášení</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>Selhalo přihlášení uživatele</value>
+  </data>
+  <data name="Login_Password_Help" xml:space="preserve">
+    <value>Zadejte prosím heslo k účtu.</value>
+  </data>
+  <data name="Login_Password_Placeholder" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="Login_Username_Help" xml:space="preserve">
+    <value>Zadejte prosím uživatelské jméno účtu.</value>
+  </data>
+  <data name="Login_Username_Placeholder" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Odhlášení</value>
+  </data>
+  <data name="Max_File_Size" xml:space="preserve">
+    <value>Maximální velikost souboru je</value>
+  </data>
+  <data name="MultiFactor_Token_Set_Failed" xml:space="preserve">
+    <value>Selhalo nastavení 2FA</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Název</value>
+  </data>
+  <data name="Name_Cannot_Be_Blank" xml:space="preserve">
+    <value>Název galerie nemůže být prázdný</value>
+  </data>
+  <data name="New_Items_Pending_Review" xml:space="preserve">
+    <value>Nové položky probíhající přezkum</value>
+  </data>
+  <data name="No_Files_For_Upload" xml:space="preserve">
+    <value>Pro nahrávání nebyly zjištěny žádné soubory</value>
+  </data>
+  <data name="No_Galleries" xml:space="preserve">
+    <value>Zatím žádné galerie</value>
+  </data>
+  <data name="No_Pending_Uploads" xml:space="preserve">
+    <value>Žádné nahrávání do přezkumu</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Probíhá</value>
+  </data>
+  <data name="Pending_Uploads" xml:space="preserve">
+    <value>Probíhá nahrávání</value>
+  </data>
+  <data name="Pending_Uploads_Failed" xml:space="preserve">
+    <value>Selhalo, aby se nevyplnil</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Odmítnout</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Přejmenovat</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Přezkum</value>
+  </data>
+  <data name="Save_QR" xml:space="preserve">
+    <value>Uložit QR</value>
+  </data>
+  <data name="Save_To_Gallery_Failed" xml:space="preserve">
+    <value>Nepodařilo se uložit obrázek do galerie</value>
+  </data>
+  <data name="Scan_To_Share" xml:space="preserve">
+    <value>Proskenujte QR kód svým telefonem pro sdílení obrázků</value>
+  </data>
+  <data name="Share_Code" xml:space="preserve">
+    <value>Kód podílu</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Třídit</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Celkem</value>
+  </data>
+  <data name="Unknown_Review_Action" xml:space="preserve">
+    <value>Neznámá přezkumná akce</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Aktualizovat</value>
+  </data>
+  <data name="Upload_Media" xml:space="preserve">
+    <value>Nahrát média</value>
+  </data>
+  <data name="Uploaded_By" xml:space="preserve">
+    <value>Uploadnul</value>
+  </data>
+  <data name="Uploader" xml:space="preserve">
+    <value>Nahrávač</value>
+  </data>
+  <data name="User_CPassword_Missmatch" xml:space="preserve">
+    <value>Poskytnuté heslo a confrim heslo se neshodují</value>
+  </data>
+  <data name="User_Name_Already_Exists" xml:space="preserve">
+    <value>Přidat uživatele se stejným názvem již existuje</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Uživatelské jméno</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Uživatelé</value>
+  </data>
+  <data name="Users_List_Failed" xml:space="preserve">
+    <value>Nepodařilo se získat seznam uživatelů</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Pohled</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Návštěva</value>
+  </data>
+  <data name="Wipe" xml:space="preserve">
+    <value>Utřít</value>
+  </data>
+  <data name="Wipe_All_Confirmation" xml:space="preserve">
+    <value>Jsi si jistý, že chceš otřít všechny galerie?</value>
+  </data>
+  <data name="Wipe_Confirmation" xml:space="preserve">
+    <value>Jste si jistý, že chcete otřít tuto galerii?</value>
+  </data>
+</root>

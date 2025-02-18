@@ -1,5 +1,4 @@
 ﻿using WeddingShare.Helpers.Migrators;
-using WeddingShare.Models.Migrator;
 
 namespace WeddingShare.Helpers
 {
