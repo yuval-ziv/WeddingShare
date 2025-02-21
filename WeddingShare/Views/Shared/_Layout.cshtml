@@ -26,10 +26,14 @@
         theme = "default";
     }
 
-    string culture;
+    string? culture;
     try
     {
-        culture = WeddingShare.Configurations.LocalizationConfiguration.CurrentCulture;
+        culture = Context?.Session?.GetString(SessionKey.SelectedLanguage)?.Trim();
+        if (string.IsNullOrEmpty(culture))
+        { 
+            culture = WeddingShare.Configurations.LocalizationConfiguration.CurrentCulture;
+        }
     }
     catch
     {

@@ -112,6 +112,9 @@
   <data name="Create" xml:space="preserve">
     <value>Sortu</value>
   </data>
+  <data name="Danger_Zone" xml:space="preserve">
+    <value>Arrisku-eremua</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>Lehenetsia</value>
   </data>
@@ -282,6 +285,9 @@
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Saioa amaitu</value>
+  </data>
+  <data name="Manage_Data" xml:space="preserve">
+    <value>Kudeatu datuak</value>
   </data>
   <data name="Max_File_Size" xml:space="preserve">
     <value>Fitxategi-tamaina maximoa</value>

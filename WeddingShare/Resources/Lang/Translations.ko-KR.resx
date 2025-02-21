@@ -112,6 +112,9 @@
   <data name="Create" xml:space="preserve">
     <value>이름 *</value>
   </data>
+  <data name="Danger_Zone" xml:space="preserve">
+    <value>위험 구역</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>기본 정보</value>
   </data>
@@ -282,6 +285,9 @@
   </data>
   <data name="Logout" xml:space="preserve">
     <value>로그아웃</value>
+  </data>
+  <data name="Manage_Data" xml:space="preserve">
+    <value>Data 관리</value>
   </data>
   <data name="Max_File_Size" xml:space="preserve">
     <value>최대 파일 크기</value>

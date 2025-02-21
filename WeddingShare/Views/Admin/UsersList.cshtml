@@ -5,10 +5,10 @@
 
 @if (Model != null && Model.Any())
 {
-    <table class="table table-bordered">
+    <table class="table table-rounded-border">
         <tr>
             <th class="col-5 col-md-4">@_localizer["Name"].Value</th>
-            <th class="col-7 col-md-4">@_localizer["Actions"].Value</th>
+            <th class="col-7 col-md-8">@_localizer["Actions"].Value</th>
         </tr>
         @foreach (var user in Model.OrderBy(x => x.Username.ToLower()))
         {

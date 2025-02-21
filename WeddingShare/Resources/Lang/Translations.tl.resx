@@ -112,6 +112,9 @@
   <data name="Create" xml:space="preserve">
     <value>Gumawa</value>
   </data>
+  <data name="Danger_Zone" xml:space="preserve">
+    <value>Panganib</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>Pagkawasak</value>
   </data>
@@ -282,6 +285,9 @@
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Maingay</value>
+  </data>
+  <data name="Manage_Data" xml:space="preserve">
+    <value>Pamumunong Data</value>
   </data>
   <data name="Max_File_Size" xml:space="preserve">
     <value>Max na laki ng talaksan ay</value>

@@ -172,3 +172,59 @@ tr td i {
     height: 13px;
     margin: -3px 4px 0px;
 }
+
+.header-actions {
+    position: relative;
+    bottom: -5px;
+    right: 0px;
+    float: right;
+}
+
+    .header-actions .action {
+        display: inline-block;
+        text-align: center;
+    }
+
+        .header-actions .action i {
+            font-size: 20px !important;
+            display: block;
+        }
+
+        .header-actions .action span {
+            font-size: 10px;
+            font-weight: bold;
+            display: block;
+        }
+
+.table-rounded-border {
+    border-radius: 5px;
+    overflow: hidden !important;
+    outline: 1px solid #DEDEDE;
+    border-collapse: collapse !important;
+}
+
+    .table-rounded-border tbody {
+        border: 0 !important;
+    }
+
+    .table-rounded-border td, .table-rounded-border th {
+        border: 1px solid var(--bs-table-border-color) !important;
+    }
+
+    .table-rounded-border tr:first-child th {
+        border-top: 0 !important;
+    }
+
+    .table-rounded-border tr:last-child td {
+        border-bottom: 0 !important;
+    }
+
+    .table-rounded-border tr td:first-child,
+    .table-rounded-border tr th:first-child {
+        border-left: 0 !important;
+    }
+
+    .table-rounded-border tr td:last-child,
+    .table-rounded-border tr th:last-child {
+        border-right: 0 !important;
+    }
