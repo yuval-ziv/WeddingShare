@@ -48,7 +48,7 @@ namespace WeddingShare.Controllers
         {
             try
             {
-                HttpContext.Session.SetString(SessionKey.SelectedLanguage, culture.ToLower());
+                HttpContext.Session.SetString(SessionKey.SelectedLanguage, culture);
                 Response.Cookies.Append(
                     CookieRequestCultureProvider.DefaultCookieName,
                     CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
