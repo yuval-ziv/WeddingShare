@@ -112,6 +112,9 @@
   <data name="Create" xml:space="preserve">
     <value>Ustvari</value>
   </data>
+  <data name="Danger_Zone" xml:space="preserve">
+    <value>Nevarno območje</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>Privzeto</value>
   </data>
@@ -282,6 +285,9 @@
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Odjava</value>
+  </data>
+  <data name="Manage_Data" xml:space="preserve">
+    <value>Upravljaj podatke</value>
   </data>
   <data name="Max_File_Size" xml:space="preserve">
     <value>Največja velikost datoteke je</value>

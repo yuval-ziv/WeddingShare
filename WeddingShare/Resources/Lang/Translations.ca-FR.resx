@@ -112,6 +112,9 @@
   <data name="Create" xml:space="preserve">
     <value>Crea</value>
   </data>
+  <data name="Danger_Zone" xml:space="preserve">
+    <value>Zona perillosa</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>Omissió</value>
   </data>
@@ -282,6 +285,9 @@
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Surt</value>
+  </data>
+  <data name="Manage_Data" xml:space="preserve">
+    <value>Gestiona les dades</value>
   </data>
   <data name="Max_File_Size" xml:space="preserve">
     <value>La mida màx. de fitxer és</value>

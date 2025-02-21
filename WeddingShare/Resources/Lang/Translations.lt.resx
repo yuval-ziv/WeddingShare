@@ -112,6 +112,9 @@
   <data name="Create" xml:space="preserve">
     <value>Sukurti</value>
   </data>
+  <data name="Danger_Zone" xml:space="preserve">
+    <value>Pavojaus zona</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>NAME OF TRANSLATORS</value>
   </data>
@@ -282,6 +285,9 @@
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Comment</value>
+  </data>
+  <data name="Manage_Data" xml:space="preserve">
+    <value>Tvarkyti duomenis</value>
   </data>
   <data name="Max_File_Size" xml:space="preserve">
     <value>Maks. failo dydis</value>

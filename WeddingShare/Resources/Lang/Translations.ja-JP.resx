@@ -112,6 +112,9 @@
   <data name="Create" xml:space="preserve">
     <value>作成する</value>
   </data>
+  <data name="Danger_Zone" xml:space="preserve">
+    <value>危険ゾーン</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>デフォルト</value>
   </data>
@@ -282,6 +285,9 @@
   </data>
   <data name="Logout" xml:space="preserve">
     <value>ログイン</value>
+  </data>
+  <data name="Manage_Data" xml:space="preserve">
+    <value>データの管理</value>
   </data>
   <data name="Max_File_Size" xml:space="preserve">
     <value>最大ファイルサイズは</value>

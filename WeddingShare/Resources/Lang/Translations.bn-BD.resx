@@ -112,6 +112,9 @@
   <data name="Create" xml:space="preserve">
     <value>তৈরি করুন (_r)</value>
   </data>
+  <data name="Danger_Zone" xml:space="preserve">
+    <value>বিপদ সংকেত</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>ডিফল্ট</value>
   </data>
@@ -282,6 +285,9 @@
   </data>
   <data name="Logout" xml:space="preserve">
     <value>লগ-আউট করুন</value>
+  </data>
+  <data name="Manage_Data" xml:space="preserve">
+    <value>তথ্য পরিচালনা করুন</value>
   </data>
   <data name="Max_File_Size" xml:space="preserve">
     <value>ফাইলের সর্বাধিক মাপ</value>

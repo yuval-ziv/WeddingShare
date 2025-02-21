@@ -112,6 +112,9 @@
   <data name="Create" xml:space="preserve">
     <value>Creare</value>
   </data>
+  <data name="Danger_Zone" xml:space="preserve">
+    <value>Zona di pericolo</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>Predefinito</value>
   </data>
@@ -282,6 +285,9 @@
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
+  </data>
+  <data name="Manage_Data" xml:space="preserve">
+    <value>Gestione dei dati</value>
   </data>
   <data name="Max_File_Size" xml:space="preserve">
     <value>Dimensione del file max è</value>

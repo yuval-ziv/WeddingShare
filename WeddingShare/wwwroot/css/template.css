@@ -3758,6 +3758,7 @@ textarea.form-control-lg {
   --bs-navbar-border-color: #EFEFEF;
   background-color: rgba(var(--bs-navbar-bg-color), var(--bs-navbar-bg-opacity)) !important;
   position: fixed;
+  top: 0px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;

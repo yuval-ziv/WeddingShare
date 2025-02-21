@@ -112,6 +112,9 @@
   <data name="Create" xml:space="preserve">
     <value>Loo</value>
   </data>
+  <data name="Danger_Zone" xml:space="preserve">
+    <value>Ohutsooni</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>Vaikimisi</value>
   </data>
@@ -282,6 +285,9 @@
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Logi välja</value>
+  </data>
+  <data name="Manage_Data" xml:space="preserve">
+    <value>Andmete haldamine</value>
   </data>
   <data name="Max_File_Size" xml:space="preserve">
     <value>Maksimaalne faili suurus</value>
