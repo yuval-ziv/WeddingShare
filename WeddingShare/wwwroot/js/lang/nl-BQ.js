@@ -106,7 +106,7 @@
             "Upload_Invalid_Gallery_Detected": "Ongeldige galerij Id gedetecteerd",
             "Upload_Invalid_Upload_Url": "Kon upload niet vinden Url",
             "Upload_No_Files_Detected": "Er zijn geen bestanden gevonden om te uploaden",
-            "Upload_Progress": "Item {index} van {telling} uploaden...",
+            "Upload_Progress": "Item {index} van {count} uploaden...",
             "Upload_Success": "Met succes geüpload {count} item(s)",
             "Upload_Success_Pending_Review": "Succesvol geüpload {count} item(s) in afwachting van beoordeling",
             "User_Confirm_Password": "Wachtwoord bevestigen",

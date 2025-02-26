@@ -106,7 +106,7 @@
             "Upload_Invalid_Gallery_Detected": "Vigane galerii Identifitseeritud",
             "Upload_Invalid_Upload_Url": "Üleslaadimist ei leitud Url",
             "Upload_No_Files_Detected": "Üleslaadimiseks ei leitud ühtegi faili",
-            "Upload_Progress": "{count} elemendi {indeks} üleslaadimine...",
+            "Upload_Progress": "{count} elemendi {index} üleslaadimine...",
             "Upload_Success": "Edukalt üleslaaditud {count} element( d)",
             "Upload_Success_Pending_Review": "Edukalt üleslaaditud {count} element(id) ootel läbivaatamine",
             "User_Confirm_Password": "Parooli kinnitamine",

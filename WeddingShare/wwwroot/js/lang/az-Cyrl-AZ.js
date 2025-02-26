@@ -57,7 +57,7 @@
             "Gallery_Secret_Key_Hint": "Daxil ol",
             "Gallery_Wipe": "Qeydiyyat",
             "Gallery_Wipe_Failed": "Sərginin silinməsi",
-            "Gallery_Wipe_Message": " gallery { {name}?",
+            "Gallery_Wipe_Message": " gallery {name}?",
             "Gallery_Wipe_Success": "Ətraflı qalereya",
             "Identity_Check": "Qeydiyyat",
             "Identity_Check_Change": "Qeydiyyat",
