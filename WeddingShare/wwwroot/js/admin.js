@@ -1,4 +1,4 @@
-﻿function reviewPhoto(element, action) {
+function reviewPhoto(element, action) {
     var id = element.parent('.btn-group').data('id');
     if (!id) {
         displayMessage(localization.translate('Review'), localization.translate('Review_Id_Missing'));
@@ -184,7 +184,7 @@ function setPasswordValidationField(field, valid) {
                         }
 
                         let email = $('#popup-modal-field-user-email').val();
-                        const emailRegex = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+                        const emailRegex = /^((?!\.)[\w\-_.]*[^.])(@[\w\-_]+)(\.\w+(\.\w+)?[^.\W])$/;
                         if (email != undefined && email.length > 0 && !emailRegex.test(email)) {
                             displayMessage(localization.translate('User_Create'), localization.translate('User_Invalid_Email'));
                             return;
@@ -777,7 +777,7 @@ function setPasswordValidationField(field, valid) {
                         }
 
                         let email = $('#popup-modal-field-user-email').val();
-                        const emailRegex = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+                        const emailRegex = /^((?!\.)[\w\-_.]*[^.])(@[\w\-_]+)(\.\w+(\.\w+)?[^.\W])$/;
                         if (email != undefined && email.length > 0 && !emailRegex.test(email)) {
                             displayMessage(localization.translate('User_Create'), localization.translate('User_Invalid_Email'));
                             return;
