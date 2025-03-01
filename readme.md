@@ -70,7 +70,9 @@ All settings in the table below can have a gallery specific override by appendin
 | GALLERY_REQUIRE_REVIEW             | true                                         |
 | GALLERY_REVIEW_COUNTER             | true                                         |
 | GALLERY_PREVENT_DUPLICATES         | true                                         |
-| GALLERY_QR_CODE                    | true                                         |
+| GALLERY_QR_CODE_ENABLED            | true                                         |
+| GALLERY_QR_CODE_DEFAULT_VIEW       | (optional)                                   |
+| GALLERY_QR_CODE_DEFAULT_SORT       | (optional)                                   |
 | GALLERY_IDLE_REFRESH_MINS          | 5 (0 = disable)                              |
 | GALLERY_MAX_SIZE_MB                | 1024                                         |
 | GALLERY_MAX_FILE_SIZE_MB           | 10                                           |
