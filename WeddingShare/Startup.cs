@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Localization;
 using WeddingShare.BackgroundWorkers;
 using WeddingShare.Configurations;
 using WeddingShare.Helpers;
+using Xabe.FFmpeg.Extensions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WeddingShare
 {
@@ -101,7 +104,41 @@ namespace WeddingShare
             {
                 try
                 {
-                    var logoImages = string.Join(' ', Configuration.AsEnumerable().Where(x => (x.Key.StartsWith("Settings:Logo", StringComparison.OrdinalIgnoreCase) || x.Key.StartsWith("LOGO", StringComparison.OrdinalIgnoreCase)) && (!string.IsNullOrEmpty(x.Value) && !x.Value.StartsWith(".") && !x.Value.StartsWith("/") && !x.Value.StartsWith("\\"))).Select(x => x.Value));
+                    var logoImages = Configuration.AsEnumerable().Where(x => (x.Key.StartsWith("Settings:Logo", StringComparison.OrdinalIgnoreCase) || x.Key.StartsWith("LOGO", StringComparison.OrdinalIgnoreCase)) && (!string.IsNullOrEmpty(x.Value) && !x.Value.StartsWith(".") && !x.Value.StartsWith("/") && !x.Value.StartsWith("\\")));
+                    if (logoImages != null && logoImages.Any())
+                    {
+                        var logoPath = Path.Combine("wwwroot", "logos");
+
+                        var fileHelper = new FileHelper(_loggerFactory.CreateLogger<FileHelper>());
+                        fileHelper.PurgeDirectory(logoPath);
+
+                        foreach (var logo in logoImages)
+                        {
+                            try
+                            {
+                                if (!string.IsNullOrWhiteSpace(logo.Value))
+                                {
+                                    var galleryMatches = Regex.Match(logo.Key, @"^(Settings\:Logo_(.+))|(LOGO_(.+))$", RegexOptions.IgnoreCase);
+                                    var galleryId = !string.IsNullOrWhiteSpace(galleryMatches.Groups[2].Value) ? galleryMatches.Groups[2].Value : galleryMatches.Groups[4].Value;
+                                    
+                                    if (!string.IsNullOrWhiteSpace(galleryId))
+                                    {
+                                        var ext = Path.GetExtension(logo.Value)?.Trim('.');
+                                        var filename = $"{galleryId.ToLower()}.{ext}";
+
+                                        using (var client = new HttpClient())
+                                        using (var fs = new FileStream(Path.Combine(logoPath, filename), FileMode.Create, FileAccess.Write))
+                                        {
+                                            client.DownloadAsync(logo.Value, fs).Wait();
+                                            fs.Flush();
+                                        }
+                                    }
+                                }
+                            }
+                            catch { }
+                        }
+                    }
+
                     app.Use(async (context, next) =>
                     {
                         context.Response.Headers.Remove("X-Frame-Options");
@@ -111,7 +148,7 @@ namespace WeddingShare
                         context.Response.Headers.Append("X-Content-Type-Options", config.GetOrDefault("Security:Headers:X_Content_Type_Options", "nosniff"));
 
                         context.Response.Headers.Remove("Content-Security-Policy");
-                        context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault("Security:Headers:CSP", $"default-src 'self' http://localhost:* ws://localhost:*; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src {(!string.IsNullOrWhiteSpace(logoImages) ? $"{logoImages} " : string.Empty)}'self' data:; frame-src 'self'; frame-ancestors 'self';"));
+                        context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault("Security:Headers:CSP", $"default-src 'self' http://localhost:* ws://localhost:*; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; frame-src 'self'; frame-ancestors 'self';"));
 
                         await next();
                     });

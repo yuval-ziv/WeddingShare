@@ -60,9 +60,10 @@ namespace WeddingShare.Helpers.Migrators
                 {
                     keys.Add(new KeyMigrator(2, "Settings:Admin:Log_Password"));
                 }
-                else if (string.Equals(key, "Settings:Gallery:QR_Code", StringComparison.OrdinalIgnoreCase))
+                else if (string.Equals(key, "Settings:Gallery:QR_Code:Enabled", StringComparison.OrdinalIgnoreCase))
                 {
-                    keys.Add(new KeyMigrator(2, "Settings:Disable_QR_Code", (v) => { return (bool.Parse(v) == false).ToString(); }));
+                    keys.Add(new KeyMigrator(2, "Settings:Gallery:QR_Code"));
+                    keys.Add(new KeyMigrator(3, "Settings:Disable_QR_Code", (v) => { return (bool.Parse(v) == false).ToString(); }));
                 }
                 else if (string.Equals(key, "Settings:Gallery:Secret_Key", StringComparison.OrdinalIgnoreCase))
                 {

@@ -5,7 +5,21 @@
 @{
     var galleryId = (!string.IsNullOrWhiteSpace(ViewBag.GalleryId) ? ViewBag.GalleryId : "_").Trim().ToUpper();
     var title = _config.GetOrDefault($"Settings:Title_{galleryId}", _config.GetOrDefault("Settings:Title", "WeddingShare"));
-    var logo = _config.GetOrDefault($"Settings:Logo_{galleryId}", _config.GetOrDefault("Settings:Logo", "/images/logo.png"));
+
+    string logo;
+    try
+    {
+        logo = _config.GetOrDefault($"Settings:Logo_{galleryId}", _config.GetOrDefault("Settings:Logo", "/images/logo.png"));
+        if (!logo.StartsWith("/images", StringComparison.OrdinalIgnoreCase))
+        {
+            logo = $"/logos/{galleryId.ToLower()}.{System.IO.Path.GetExtension(logo).Trim('.')}";
+        }
+    }
+    catch
+    {
+        logo = "/images/logo.png";
+    }
+
     var viewMode = ViewBag.ViewMode != null ? ViewBag.ViewMode : ViewMode.Default;
 
     string theme;

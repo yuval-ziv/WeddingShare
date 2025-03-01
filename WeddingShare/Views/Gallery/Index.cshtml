@@ -7,7 +7,28 @@
 @inject WeddingShare.Helpers.IUrlHelper _url
 
 @{
-    ViewBag.QRCodeLink = _url.GenerateFullUrl(Context.Request, Context.Request.Path, null, _config.GetOrDefault("Hide_Key_From_QR_Code", false) ? new List<string>() { "key", "enc" } : null);
+    var qrAppend = new List<KeyValuePair<string, string>>();
+
+    var qrDefaultView = _gallery.GetConfig(Model.GalleryName, "Gallery:QR_Code:Default_View", string.Empty);
+    if (!string.IsNullOrWhiteSpace(qrDefaultView))
+    {
+        qrAppend.Add(new KeyValuePair<string, string>("mode", qrDefaultView));
+    }
+
+    var qrDefaultOrder = _gallery.GetConfig(Model.GalleryName, "Gallery:QR_Code:Default_Sort", string.Empty);
+    if (!string.IsNullOrWhiteSpace(qrDefaultOrder))
+    {
+        qrAppend.Add(new KeyValuePair<string, string>("order", qrDefaultOrder));
+    }
+
+    var qrExclude = new List<string>();
+    if (_config.GetOrDefault("Hide_Key_From_QR_Code", false))
+    {
+        qrExclude.Add("key");
+        qrExclude.Add("enc");
+    }
+
+    ViewBag.QRCodeLink = _url.GenerateFullUrl(Context.Request, Context.Request.Path, qrAppend, qrExclude);
 }
 
 @if (Model?.FileUploader != null && Model.ViewMode != ViewMode.Presentation && Model.ViewMode != ViewMode.Slideshow)

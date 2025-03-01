@@ -113,6 +113,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 
         [TestCase("Disable_QR_Code", "true")]
         [TestCase("Gallery:QR_Code", "false")]
+        [TestCase("Gallery:QR_Code:Enabled", "false")]
         public void GalleryHelper_GetConfig_Migrated_GalleryEnvKey(string key, string expected)
         {
             var environment = Substitute.For<IEnvironmentWrapper>();
@@ -120,11 +121,14 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             environment.GetEnvironmentVariable("DISABLE_QR_CODE_GALLERY1").Returns("true");
             environment.GetEnvironmentVariable("GALLERY_QR_CODE").Returns("true");
             environment.GetEnvironmentVariable("GALLERY_QR_CODE_GALLERY1").Returns("false");
+            environment.GetEnvironmentVariable("GALLERY_QR_CODE_ENABLED").Returns("true");
+            environment.GetEnvironmentVariable("GALLERY_QR_CODE_ENABLED_GALLERY1").Returns("false");
 
             var configuration = ConfigurationHelper.MockConfiguration(new Dictionary<string, string?>()
             {
                 { "Disable_QR_Code_Gallery2", "false" },
-                { "Gallery:QR_Code_Gallery2", "true" }
+                { "Gallery:QR_Code_Gallery2", "true" },
+                { "Gallery:QR_Code:Enabled_Gallery2", "true" }
             });
 
             var config = new ConfigHelper(environment, configuration, Substitute.For<ILogger<ConfigHelper>>());
