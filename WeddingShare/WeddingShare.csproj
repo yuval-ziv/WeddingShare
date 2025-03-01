@@ -64,6 +64,7 @@
   <ItemGroup>
     <Folder Include="config\" />
     <Folder Include="wwwroot\lib\jquery-qrcode\" />
+    <Folder Include="wwwroot\logos\" />
     <Folder Include="wwwroot\thumbnails\" />
   </ItemGroup>
 

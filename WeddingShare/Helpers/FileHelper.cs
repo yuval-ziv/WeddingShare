@@ -8,6 +8,7 @@ namespace WeddingShare.Helpers
         bool DirectoryExists(string path);
         bool CreateDirectoryIfNotExists(string path);
         bool DeleteDirectoryIfExists(string path, bool recursive = true);
+        bool PurgeDirectory(string path);
         string[] GetDirectories(string path, string pattern = "*", SearchOption searchOption = SearchOption.AllDirectories);
         string[] GetFiles(string path, string pattern = "*.*", SearchOption searchOption = SearchOption.AllDirectories);
         bool FileExists(string path);
@@ -55,6 +56,12 @@ namespace WeddingShare.Helpers
             }
 
             return false;
+        }
+
+        public bool PurgeDirectory(string path)
+        {
+            DeleteDirectoryIfExists(path);
+            return CreateDirectoryIfNotExists(path);
         }
 
         public string[] GetDirectories(string path, string pattern = "*", SearchOption searchOption = SearchOption.AllDirectories)
