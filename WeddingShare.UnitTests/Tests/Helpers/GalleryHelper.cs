@@ -21,6 +21,22 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         {
         }
 
+        [TestCase("", "default")]
+        [TestCase("all", "default")]
+        [TestCase("default", "default")]
+        [TestCase("Gallery1", "gallery1")]
+        [TestCase("Gallery2", "gallery2")]
+        public void GalleryHelper_GetGalleryName(string galleryId, string expected)
+        {
+            var environment = Substitute.For<IEnvironmentWrapper>();
+            var configuration = ConfigurationHelper.MockConfiguration(new Dictionary<string, string?>());
+
+            var config = new ConfigHelper(environment, configuration, Substitute.For<ILogger<ConfigHelper>>());
+
+            var actual = new GalleryHelper(config, _database).GetGalleryName(galleryId);
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
         [TestCase()]
         public async Task GalleryHelper_GetSecretKey_DefaultEnvKey()
         {

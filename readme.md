@@ -59,6 +59,7 @@ All settings in the table below can have a gallery specific override by appendin
 | ---------------------------------- | -------------------------------------------- |
 | TITLE                              | WeddingShare                                 |
 | LOGO                               | https://someurl/someimage.png                |
+| GALLERY_BANNER_IMAGE               | (optional)                                   |
 | GALLERY_QUOTE                      | (optional)                                   |
 | GALLERY_SECRET_KEY                 | (optional)                                   |
 | GALLERY_COLUMNS                    | 4 (1, 2, 3, 4, 6, 12)                        |

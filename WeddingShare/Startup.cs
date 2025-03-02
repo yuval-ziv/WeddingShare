@@ -100,45 +100,13 @@ namespace WeddingShare
                 app.UseHttpsRedirection();
             }
 
+            this.DownloadLogoImagesLocally();
+            this.DownloadBannerImagesLocally();
+
             if (config.GetOrDefault("Security:Headers:Enabled", true))
             {
                 try
                 {
-                    var logoImages = Configuration.AsEnumerable().Where(x => (x.Key.StartsWith("Settings:Logo", StringComparison.OrdinalIgnoreCase) || x.Key.StartsWith("LOGO", StringComparison.OrdinalIgnoreCase)) && (!string.IsNullOrEmpty(x.Value) && !x.Value.StartsWith(".") && !x.Value.StartsWith("/") && !x.Value.StartsWith("\\")));
-                    if (logoImages != null && logoImages.Any())
-                    {
-                        var logoPath = Path.Combine("wwwroot", "logos");
-
-                        var fileHelper = new FileHelper(_loggerFactory.CreateLogger<FileHelper>());
-                        fileHelper.PurgeDirectory(logoPath);
-
-                        foreach (var logo in logoImages)
-                        {
-                            try
-                            {
-                                if (!string.IsNullOrWhiteSpace(logo.Value))
-                                {
-                                    var galleryMatches = Regex.Match(logo.Key, @"^(Settings\:Logo_(.+))|(LOGO_(.+))$", RegexOptions.IgnoreCase);
-                                    var galleryId = !string.IsNullOrWhiteSpace(galleryMatches.Groups[2].Value) ? galleryMatches.Groups[2].Value : galleryMatches.Groups[4].Value;
-                                    
-                                    if (!string.IsNullOrWhiteSpace(galleryId))
-                                    {
-                                        var ext = Path.GetExtension(logo.Value)?.Trim('.');
-                                        var filename = $"{galleryId.ToLower()}.{ext}";
-
-                                        using (var client = new HttpClient())
-                                        using (var fs = new FileStream(Path.Combine(logoPath, filename), FileMode.Create, FileAccess.Write))
-                                        {
-                                            client.DownloadAsync(logo.Value, fs).Wait();
-                                            fs.Flush();
-                                        }
-                                    }
-                                }
-                            }
-                            catch { }
-                        }
-                    }
-
                     app.Use(async (context, next) =>
                     {
                         context.Response.Headers.Remove("X-Frame-Options");
@@ -171,6 +139,80 @@ namespace WeddingShare
                     defaults: new { controller = "Home", action = "Index" });
                 endpoints.MapRazorPages();
             });
+        }
+
+        private void DownloadLogoImagesLocally()
+        {
+            try
+            {
+                var logoImages = Configuration.AsEnumerable().Where(x => (x.Key.StartsWith("Settings:Logo", StringComparison.OrdinalIgnoreCase) || x.Key.StartsWith("LOGO", StringComparison.OrdinalIgnoreCase)) && (!string.IsNullOrEmpty(x.Value) && !x.Value.StartsWith(".") && !x.Value.StartsWith("/") && !x.Value.StartsWith("\\")));
+                if (logoImages != null && logoImages.Any())
+                {
+                    var logoPath = Path.Combine("wwwroot", "logos");
+
+                    var fileHelper = new FileHelper(_loggerFactory.CreateLogger<FileHelper>());
+                    fileHelper.PurgeDirectory(logoPath);
+
+                    foreach (var logo in logoImages)
+                    {
+                        try
+                        {
+                            if (!string.IsNullOrWhiteSpace(logo.Value))
+                            {
+                                var galleryMatches = Regex.Match(logo.Key, @"^(Settings\:Logo_(.+))|(LOGO_(.+))$", RegexOptions.IgnoreCase);
+                                var galleryId = !string.IsNullOrWhiteSpace(galleryMatches.Groups[2].Value) ? galleryMatches.Groups[2].Value : galleryMatches.Groups[4].Value;
+                                galleryId = !string.IsNullOrWhiteSpace(galleryId) ? galleryId.ToLower() : "default";
+
+                                using (var client = new HttpClient())
+                                using (var fs = new FileStream(Path.Combine(logoPath, $"{galleryId.ToLower()}.{Path.GetExtension(logo.Value)?.Trim('.')}"), FileMode.Create, FileAccess.Write))
+                                {
+                                    client.DownloadAsync(logo.Value, fs).Wait();
+                                    fs.Flush();
+                                }
+                            }
+                        }
+                        catch { }
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private void DownloadBannerImagesLocally()
+        {
+            try
+            {
+                var bannerImages = Configuration.AsEnumerable().Where(x => (x.Key.StartsWith("Settings:Gallery:Banner", StringComparison.OrdinalIgnoreCase) || x.Key.StartsWith("GALLERY_BANNER", StringComparison.OrdinalIgnoreCase)) && (!string.IsNullOrEmpty(x.Value) && !x.Value.StartsWith(".") && !x.Value.StartsWith("/") && !x.Value.StartsWith("\\")));
+                if (bannerImages != null && bannerImages.Any())
+                {
+                    var bannerPath = Path.Combine("wwwroot", "banners");
+
+                    var fileHelper = new FileHelper(_loggerFactory.CreateLogger<FileHelper>());
+                    fileHelper.PurgeDirectory(bannerPath);
+
+                    foreach (var banner in bannerImages)
+                    {
+                        try
+                        {
+                            if (!string.IsNullOrWhiteSpace(banner.Value))
+                            {
+                                var galleryMatches = Regex.Match(banner.Key, @"^(Settings\:Gallery\:Banner_Image_(.+))|(GALLERY_BANNER_IMAGE_(.+))$", RegexOptions.IgnoreCase);
+                                var galleryId = !string.IsNullOrWhiteSpace(galleryMatches.Groups[2].Value) ? galleryMatches.Groups[2].Value : galleryMatches.Groups[4].Value;
+                                galleryId = !string.IsNullOrWhiteSpace(galleryId) ? galleryId.ToLower() : "default";
+
+                                using (var client = new HttpClient())
+                                using (var fs = new FileStream(Path.Combine(bannerPath, $"{galleryId.ToLower()}.{Path.GetExtension(banner.Value)?.Trim('.')}"), FileMode.Create, FileAccess.Write))
+                                {
+                                    client.DownloadAsync(banner.Value, fs).Wait();
+                                    fs.Flush();
+                                }
+                            }
+                        }
+                        catch { }
+                    }
+                }
+            }
+            catch { }
         }
     }
 }
