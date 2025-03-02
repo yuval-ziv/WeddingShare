@@ -11,6 +11,7 @@ namespace WeddingShare.Helpers
         double GetConfig(string? galleryId, string key, double defaultValue);
         bool GetConfig(string? galleryId, string key, bool defaultValue);
         DateTime? GetConfig(string section, string key, DateTime? defaultValue);
+        string GetGalleryName(string galleryId);
         Task<string?> GetSecretKey(string galleryId);
     }
 
@@ -31,6 +32,8 @@ namespace WeddingShare.Helpers
 
             try
             {
+                galleryId = !galleryId?.Equals("all", StringComparison.Ordinal) ?? true ? galleryId : "default";
+
                 value = _config.Get($"Settings:{key}", galleryId ?? "default");
                 if (string.IsNullOrWhiteSpace(value))
                 {
@@ -136,6 +139,20 @@ namespace WeddingShare.Helpers
             catch { }
 
             return defaultValue;
+        }
+
+        public string GetGalleryName(string galleryId)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(galleryId) && !galleryId.Equals("all", StringComparison.OrdinalIgnoreCase))
+                {
+                    return galleryId.ToLower();
+                }
+            }
+            catch { }
+             
+            return "default";
         }
 
         public async Task<string?> GetSecretKey(string galleryId)

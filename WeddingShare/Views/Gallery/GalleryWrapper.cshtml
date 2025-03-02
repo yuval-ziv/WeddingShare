@@ -5,7 +5,28 @@
 
 @if (Model.ViewMode != ViewMode.Slideshow)
 {
-    var quote = _gallery.GetConfig(Model?.GalleryName, "Gallery:Quote", string.Empty);
+    var galleryName = _gallery.GetGalleryName(Model?.GalleryName ?? "default");
+
+    string banner;
+    try
+    {
+        banner = _gallery.GetConfig(galleryName, $"Gallery:Banner_Image", string.Empty);
+        if (!string.IsNullOrWhiteSpace(banner) && !banner.StartsWith("/images", StringComparison.OrdinalIgnoreCase))
+        {
+            banner = $"/banners/{galleryName}.{System.IO.Path.GetExtension(banner).Trim('.')}";
+            if (!string.IsNullOrWhiteSpace(banner))
+            {
+                <div class="row mb-3 mb-lg-4 p-0">
+                    <div class="col-12 gallery_banner_header text-center p-0">
+                        <img src="@banner" alt="banner image" />
+                    </div>
+                </div>
+            }
+        }
+    }
+    catch { }
+
+    var quote = _gallery.GetConfig(galleryName, "Gallery:Quote", string.Empty);
     if (!string.IsNullOrWhiteSpace(quote))
     {
         <div class="row mb-3 mb-lg-4 border rounded">
