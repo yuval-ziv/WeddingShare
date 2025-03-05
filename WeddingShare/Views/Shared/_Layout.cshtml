@@ -9,10 +9,12 @@
     string logo;
     try
     {
-        logo = _config.GetOrDefault($"Settings:Logo_{galleryName}", _config.GetOrDefault("Settings:Logo", "/images/logo.png"));
+        var logoGallery = _config.Get($"Settings:Logo_{galleryName}") != null ? galleryName : "default";
+
+        logo = _gallery.GetConfig(logoGallery, "Logo", "/images/logo.png");
         if (!logo.StartsWith("/images", StringComparison.OrdinalIgnoreCase))
         {
-            logo = $"/logos/{galleryName}.{System.IO.Path.GetExtension(logo).Trim('.')}";
+            logo = $"/logos/{logoGallery}.{System.IO.Path.GetExtension(logo).Trim('.')}";
         }
     }
     catch
