@@ -41,7 +41,7 @@ namespace WeddingShare.Helpers.Dbup
                     logger.LogWarning($"DBUP failed with error: '{dbupResult?.Error?.Message}' - '{dbupResult?.Error?.ToString()}'");
                 }
 
-                var username = config.GetOrDefault("Settings:Account:Admin:Username", "admin");
+                var username = config.GetOrDefault("Settings:Account:Admin:Username", "admin").ToLower();
                 var adminAccount = new UserModel() 
                 {
                     Username = username,
