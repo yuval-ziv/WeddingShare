@@ -1,6 +1,7 @@
 @model WeddingShare.Models.PhotoGallery
 @using WeddingShare.Enums
 @using WeddingShare.Views.Gallery
+@inject WeddingShare.Helpers.IConfigHelper _config
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
 
 @if (Model.ViewMode != ViewMode.Slideshow)
@@ -10,10 +11,16 @@
     string banner;
     try
     {
+        var bannerGallery = _config.Get($"Settings:Gallery:Banner_Image_{galleryName}") != null ? galleryName : "default";
+
         banner = _gallery.GetConfig(galleryName, $"Gallery:Banner_Image", string.Empty);
-        if (!string.IsNullOrWhiteSpace(banner) && !banner.StartsWith("/images", StringComparison.OrdinalIgnoreCase))
+        if (!string.IsNullOrWhiteSpace(banner))
         {
-            banner = $"/banners/{galleryName}.{System.IO.Path.GetExtension(banner).Trim('.')}";
+            if (!banner.StartsWith("/images", StringComparison.OrdinalIgnoreCase) && !banner.StartsWith("/banners", StringComparison.OrdinalIgnoreCase))
+            {
+                banner = $"/banners/{bannerGallery}.{System.IO.Path.GetExtension(banner).Trim('.')}";
+            }
+
             if (!string.IsNullOrWhiteSpace(banner))
             {
                 <div class="row mb-3 mb-lg-4 p-0">
