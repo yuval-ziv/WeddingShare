@@ -72,6 +72,25 @@
                 }
             </div>
         </div>
+
+        <div class="btn-group w-100 mb-2">
+            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @_localizer["Filter"].Value
+            </button>
+            <div class="dropdown-menu">
+                @foreach (MediaType filter in (Enum.GetValues(typeof(MediaType))).Cast<MediaType>().OrderBy(x => x.ToString()))
+                {
+                    if (filter != MediaType.Unknown)
+                    {
+                        var append = new List<KeyValuePair<string, string>>()
+                        {
+                            new KeyValuePair<string, string>("filter", ((int)filter).ToString())
+                        };
+                        <a class="dropdown-item" href="@_url.GenerateFullUrl(Context.Request, Context.Request.Path, append)">@filter</a>
+                    }
+                }
+            </div>
+        </div>
         
         @if (_gallery.GetConfig(Model?.GalleryName, "Gallery:Download", true) || (User?.Identity != null && User.Identity.IsAuthenticated))
         {
