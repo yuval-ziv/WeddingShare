@@ -80,7 +80,7 @@ namespace WeddingShare.Controllers
         [RequiresSecretKey]
         [AllowGuestCreate]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> Index(string id = "default", string? key = null, ViewMode? mode = null, GalleryOrder order = GalleryOrder.UploadedDesc, bool partial = false)
+        public async Task<IActionResult> Index(string id = "default", string? key = null, ViewMode? mode = null, GalleryOrder order = GalleryOrder.UploadedDesc, MediaType filter = MediaType.All, bool partial = false)
         {
             id = (!string.IsNullOrWhiteSpace(id) && !_config.GetOrDefault("Settings:Single_Gallery_Mode", false)) ? id.ToLower() : "default";
 
@@ -130,7 +130,7 @@ namespace WeddingShare.Controllers
                 }
                 catch { }
 
-                var mediaType = mode == ViewMode.Slideshow ? MediaType.Image : MediaType.All;
+                var mediaType = mode == ViewMode.Slideshow ? MediaType.Image : filter;
                 var itemsPerPage = _gallery.GetConfig(gallery?.Name, "Gallery:Items_Per_Page", 50);
                 var allowedFileTypes = _gallery.GetConfig(gallery?.Name, "Gallery:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                 var items = (await _database.GetAllGalleryItems(gallery?.Id, GalleryItemState.Approved, mediaType, order, itemsPerPage, currentPage))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));

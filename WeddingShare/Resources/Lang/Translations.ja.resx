@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>ファイルをアップロードできなかった</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>フィルター</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>ギャラリー</value>
   </data>

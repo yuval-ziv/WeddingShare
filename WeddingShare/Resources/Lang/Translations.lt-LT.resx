@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>Nepavyko įkelti failo</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtras</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>Galerija</value>
   </data>
