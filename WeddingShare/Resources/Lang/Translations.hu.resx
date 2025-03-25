@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>Nem sikerült betölteni a fájlt</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Szűrő</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>Galéria</value>
   </data>
@@ -231,6 +234,9 @@
   </data>
   <data name="Generate" xml:space="preserve">
     <value>Generálás</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Csoport</value>
   </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>Hiba történt a honlap betöltése közben</value>

@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>Gagal mengunggah berkas</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>Galeri</value>
   </data>
@@ -231,6 +234,9 @@
   </data>
   <data name="Generate" xml:space="preserve">
     <value>Hasilkan</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Grup</value>
   </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>Terjadi galat saat memuat laman</value>

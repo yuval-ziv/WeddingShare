@@ -235,6 +235,9 @@
   <data name="Generate" xml:space="preserve">
     <value>উত্‍পাদন করো</value>
   </data>
+  <data name="Group" xml:space="preserve">
+    <value>দল</value>
+  </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>হোম-পেজ লোড করার সময় সমস্যা দেখা দিয়েছে</value>
   </data>

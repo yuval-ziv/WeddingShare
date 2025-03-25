@@ -235,6 +235,9 @@
   <data name="Generate" xml:space="preserve">
     <value>제품 정보</value>
   </data>
+  <data name="Group" xml:space="preserve">
+    <value>그룹</value>
+  </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>오류가 발생했습니다</value>
   </data>

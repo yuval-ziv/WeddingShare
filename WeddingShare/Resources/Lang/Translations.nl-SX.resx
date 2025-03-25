@@ -235,6 +235,9 @@
   <data name="Generate" xml:space="preserve">
     <value>Genereren</value>
   </data>
+  <data name="Group" xml:space="preserve">
+    <value>Groep</value>
+  </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>Er is een fout opgetreden bij het laden van de startpagina</value>
   </data>

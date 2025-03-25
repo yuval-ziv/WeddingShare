@@ -235,6 +235,9 @@
   <data name="Generate" xml:space="preserve">
     <value>Generuoti</value>
   </data>
+  <data name="Group" xml:space="preserve">
+    <value>Grupė</value>
+  </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>Įvyko klaida įkeliant pagrindinį puslapį</value>
   </data>

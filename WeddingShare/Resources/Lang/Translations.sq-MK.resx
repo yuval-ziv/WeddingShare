@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>Ngarkoje file</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtra</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>Galleritë</value>
   </data>
@@ -231,6 +234,9 @@
   </data>
   <data name="Generate" xml:space="preserve">
     <value>Gjenero</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Grupi</value>
   </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>U ndesh një gabim gjatë ngarkimit të faqes home</value>

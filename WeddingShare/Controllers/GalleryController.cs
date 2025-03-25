@@ -1,6 +1,5 @@
 using System.IO.Compression;
 using System.Net;
-using System.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -80,7 +79,7 @@ namespace WeddingShare.Controllers
         [RequiresSecretKey]
         [AllowGuestCreate]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> Index(string id = "default", string? key = null, ViewMode? mode = null, GalleryOrder order = GalleryOrder.UploadedDesc, MediaType filter = MediaType.All, bool partial = false)
+        public async Task<IActionResult> Index(string id = "default", string? key = null, ViewMode? mode = null, GalleryGroup group = GalleryGroup.None, GalleryOrder order = GalleryOrder.Descending, GalleryFilter filter = GalleryFilter.All, bool partial = false)
         {
             id = (!string.IsNullOrWhiteSpace(id) && !_config.GetOrDefault("Settings:Single_Gallery_Mode", false)) ? id.ToLower() : "default";
 
@@ -130,11 +129,48 @@ namespace WeddingShare.Controllers
                 }
                 catch { }
 
-                var mediaType = mode == ViewMode.Slideshow ? MediaType.Image : filter;
+                var mediaType = MediaType.All;
+                if (mode == ViewMode.Slideshow)
+                {
+                    mediaType = MediaType.Image;
+                }
+                else
+                {
+                    switch (filter)
+                    {
+                        case GalleryFilter.Images:
+                            mediaType = MediaType.Image;
+                            break;
+                        case GalleryFilter.Videos:
+                            mediaType = MediaType.Video;
+                            break;
+                        default:
+                            mediaType = MediaType.All;
+                            break;
+                    }
+                }
+
+                var orientation = ImageOrientation.None;
+                switch (filter)
+                {
+                    case GalleryFilter.Landscape:
+                        orientation = ImageOrientation.Landscape;
+                        break;
+                    case GalleryFilter.Portrait:
+                        orientation = ImageOrientation.Portrait;
+                        break;
+                    case GalleryFilter.Square:
+                        orientation = ImageOrientation.Square;
+                        break;
+                    default:
+                        orientation = ImageOrientation.None;
+                        break;
+                }
+
                 var itemsPerPage = _gallery.GetConfig(gallery?.Name, "Gallery:Items_Per_Page", 50);
                 var allowedFileTypes = _gallery.GetConfig(gallery?.Name, "Gallery:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-                var items = (await _database.GetAllGalleryItems(gallery?.Id, GalleryItemState.Approved, mediaType, order, itemsPerPage, currentPage))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
-                
+                var items = (await _database.GetAllGalleryItems(gallery?.Id, GalleryItemState.Approved, mediaType, orientation, group, order, itemsPerPage, currentPage))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
+
                 var isAdmin = User?.Identity != null && User.Identity.IsAuthenticated;
 
                 FileUploader? fileUploader = null;
@@ -186,27 +222,31 @@ namespace WeddingShare.Controllers
                     }
                 }
 
+                var itemCounts = await _database.GetGalleryItemCount(gallery?.Id, GalleryItemState.All, mediaType, orientation);
                 var model = new PhotoGallery()
                 {
                     GalleryId = gallery?.Id,
                     GalleryName = gallery?.Name,
                     Images = items?.Select(x => new PhotoGalleryImage() 
-                    { 
+                    {
                         Id = x.Id, 
                         GalleryId = x.GalleryId,
                         GalleryName = x.GalleryName,
                         Name = Path.GetFileName(x.Title),
                         UploadedBy = x.UploadedBy,
+                        UploadDate = x.UploadedDate,
                         ImagePath = $"/{Path.Combine(UploadsDirectory, x.GalleryName).Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}/{x.Title}",
                         ThumbnailPath = $"/{ThumbnailsDirectory.Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}/{Path.GetFileNameWithoutExtension(x.Title)}.webp",
                         MediaType = x.MediaType
                     })?.ToList(),
                     CurrentPage = currentPage,
-                    ApprovedCount = gallery?.ApprovedItems ?? 0,
-                    PendingCount = gallery?.PendingItems ?? 0,
+                    ApprovedCount = (int)itemCounts["Approved"],
+                    PendingCount = (int)itemCounts["Pending"],
                     ItemsPerPage = itemsPerPage,
                     FileUploader =  fileUploader,
                     ViewMode = (ViewMode)ViewBag.ViewMode,
+                    GroupBy = group,
+                    OrderBy = order,
                     Pagination = order != GalleryOrder.Random,
                     LoadScripts = !partial
                 };
@@ -290,10 +330,12 @@ namespace WeddingShare.Controllers
                                             _fileHelper.DeleteFileIfExists(filePath);
                                         }
                                         else
-                                        { 
-                                            _fileHelper.CreateDirectoryIfNotExists(ThumbnailsDirectory);
-                                            await _imageHelper.GenerateThumbnail(filePath, Path.Combine(ThumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(filePath)}.webp"), _config.GetOrDefault("Settings:Thumbnail_Size", 720));
+                                        {
+                                            var savePath = Path.Combine(ThumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(filePath)}.webp");
 
+                                            _fileHelper.CreateDirectoryIfNotExists(ThumbnailsDirectory);
+                                            await _imageHelper.GenerateThumbnail(filePath, savePath, _config.GetOrDefault("Settings:Thumbnail_Size", 720));
+                                            
                                             var item = await _database.AddGalleryItem(new GalleryItemModel()
                                             {
                                                 GalleryId = gallery.Id,
@@ -301,6 +343,7 @@ namespace WeddingShare.Controllers
                                                 UploadedBy = uploadedBy,
                                                 Checksum = checksum,
                                                 MediaType = _imageHelper.GetMediaType(filePath),
+                                                Orientation = await _imageHelper.GetOrientation(savePath),
                                                 State = requiresReview ? GalleryItemState.Pending : GalleryItemState.Approved
                                             });
 

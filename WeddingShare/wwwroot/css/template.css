@@ -570,6 +570,17 @@ progress {
   }
 }
 
+.display-7 {
+  font-size: 1.3rem;
+  font-weight: 300;
+  line-height: 1.1;
+}
+@media (min-width: 1200px) {
+  .display-7 {
+    font-size: 1.5rem;
+  }
+}
+
 .list-unstyled {
   padding-left: 0;
   list-style: none;

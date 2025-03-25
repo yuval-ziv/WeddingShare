@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>فائل اٹھانے میں ناکامی</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>فائلز</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>گلابی رنگ</value>
   </data>
@@ -231,6 +234,9 @@
   </data>
   <data name="Generate" xml:space="preserve">
     <value>جنات</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>گروپ</value>
   </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>گھریلو صفحات لوڈ کرنے کے دوران غلطی</value>

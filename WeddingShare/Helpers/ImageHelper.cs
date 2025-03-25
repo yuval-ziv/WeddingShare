@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using WeddingShare.Enums;
@@ -12,6 +11,7 @@ namespace WeddingShare.Helpers
     public interface IImageHelper
     {
         Task<bool> GenerateThumbnail(string filePath, string savePath, int size = 720);
+        Task<ImageOrientation> GetOrientation(string path);
         ImageOrientation GetOrientation(Image img);
         MediaType GetMediaType(string filePath);
         Task<bool> DownloadFFMPEG(string path);
@@ -121,6 +121,28 @@ namespace WeddingShare.Helpers
             catch { }
                 
             return MediaType.Unknown;
+        }
+
+        public async Task<ImageOrientation> GetOrientation(string path)
+        {
+            var orientation = ImageOrientation.None;
+
+            if (_fileHelper.FileExists(path))
+            {
+                try
+                {
+                    using (var img = await Image.LoadAsync(path))
+                    {
+                        orientation = this.GetOrientation(img);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, $"Failed to get image orientation- '{path}'");
+                }
+            }
+
+            return orientation;
         }
 
         public ImageOrientation GetOrientation(Image img)

@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>Kunne ikke uploade fil</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>Gallerier</value>
   </data>
@@ -231,6 +234,9 @@
   </data>
   <data name="Generate" xml:space="preserve">
     <value>Generér</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Gruppe</value>
   </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>En fejl opstod indlæsning af hjemmesiden</value>

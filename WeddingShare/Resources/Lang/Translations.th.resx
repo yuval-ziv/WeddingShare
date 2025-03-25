@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>ล้มเหลวในการอัปโหลดแฟ้ม</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>กรอง</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>แกล เล รี</value>
   </data>
@@ -231,6 +234,9 @@
   </data>
   <data name="Generate" xml:space="preserve">
     <value>สร้าง</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>กลุ่ม</value>
   </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>เกิดข้อผิดพลาดระหว่างทําการโหลดหน้าเว็บหลัก</value>

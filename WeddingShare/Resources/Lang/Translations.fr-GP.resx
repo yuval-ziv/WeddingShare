@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>Impossible de télécharger le fichier</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtre</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>Galeries</value>
   </data>
@@ -231,6 +234,9 @@
   </data>
   <data name="Generate" xml:space="preserve">
     <value>Générer</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Groupe</value>
   </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>Une erreur est survenue lors du chargement de la page d'accueil</value>
