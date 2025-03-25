@@ -235,6 +235,9 @@
   <data name="Generate" xml:space="preserve">
     <value>Generuj</value>
   </data>
+  <data name="Group" xml:space="preserve">
+    <value>Grupa</value>
+  </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>Wystąpił błąd podczas wczytywania strony głównej</value>
   </data>

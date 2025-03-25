@@ -74,15 +74,17 @@ namespace WeddingShare.BackgroundWorkers
                                                     try
                                                     {
                                                         var filename = Path.GetFileName(file);
-                                                        if (!galleryItems.Exists(x => string.Equals(x.Title, filename, StringComparison.OrdinalIgnoreCase)))
+                                                        var g = galleryItems.FirstOrDefault(x => string.Equals(x.Title, filename, StringComparison.OrdinalIgnoreCase));
+                                                        if (g == null)
                                                         {
-                                                            await databaseHelper.AddGalleryItem(new GalleryItemModel()
+                                                            g = await databaseHelper.AddGalleryItem(new GalleryItemModel()
                                                             {
                                                                 GalleryId = galleryItem.Id,
                                                                 Title = filename,
                                                                 Checksum = await fileHelper.GetChecksum(file),
                                                                 MediaType = imageHelper.GetMediaType(file),
-                                                                State = GalleryItemState.Approved
+                                                                State = GalleryItemState.Approved,
+                                                                UploadedDate = new FileInfo(file).CreationTimeUtc
                                                             });
                                                         }
 
@@ -103,6 +105,34 @@ namespace WeddingShare.BackgroundWorkers
                                                                 {
                                                                     await img.SaveAsWebpAsync(thumbnailPath);
                                                                 }
+                                                            }
+                                                        }
+
+                                                        if (g != null)
+                                                        {
+                                                            var updated = false;
+
+                                                            if (g.UploadedDate == null)
+                                                            {
+                                                                g.UploadedDate = new FileInfo(file).CreationTimeUtc;
+                                                                updated = true;
+                                                            }
+
+                                                            if (g.MediaType == MediaType.Unknown)
+                                                            {
+                                                                g.MediaType = imageHelper.GetMediaType(file);
+                                                                updated = true;
+                                                            }
+
+                                                            if (g.Orientation == ImageOrientation.None)
+                                                            {
+                                                                g.Orientation = await imageHelper.GetOrientation(thumbnailPath);
+                                                                updated = true;
+                                                            }
+
+                                                            if (updated)
+                                                            {   
+                                                                await databaseHelper.EditGalleryItem(g);
                                                             }
                                                         }
                                                     }

@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>شکست در آپلود فایل</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>فیلتر</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>گالری ها</value>
   </data>
@@ -231,6 +234,9 @@
   </data>
   <data name="Generate" xml:space="preserve">
     <value>Generate</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>گروه Group</value>
   </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>یک خطا در بارگذاری صفحه اصلی رخ داد</value>

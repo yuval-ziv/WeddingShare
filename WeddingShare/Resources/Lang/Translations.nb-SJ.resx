@@ -235,6 +235,9 @@
   <data name="Generate" xml:space="preserve">
     <value>Oppretter</value>
   </data>
+  <data name="Group" xml:space="preserve">
+    <value>Gruppe</value>
+  </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>En feil oppstod ved lasting av hjemmesiden</value>
   </data>

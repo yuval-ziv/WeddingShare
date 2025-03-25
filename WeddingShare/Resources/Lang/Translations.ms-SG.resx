@@ -235,6 +235,9 @@
   <data name="Generate" xml:space="preserve">
     <value>Hasilkan</value>
   </data>
+  <data name="Group" xml:space="preserve">
+    <value>Kumpulan</value>
+  </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>Kesalahan terjadi ketika memuat laman utama</value>
   </data>

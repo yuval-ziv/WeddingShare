@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>Dosya yüklemeye başarısız oldu</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtre</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>Galleries</value>
   </data>
@@ -231,6 +234,9 @@
   </data>
   <data name="Generate" xml:space="preserve">
     <value>Genrate</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Grup Grup Grup Grubu</value>
   </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>Bir hata ana sayfayı yükleme oldu</value>

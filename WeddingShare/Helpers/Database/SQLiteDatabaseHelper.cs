@@ -305,29 +305,82 @@ namespace WeddingShare.Helpers.Database
         #endregion
 
         #region Gallery Items
-        public async Task<List<GalleryItemModel>> GetAllGalleryItems(int? galleryId, GalleryItemState state = GalleryItemState.All, MediaType type = MediaType.All, GalleryOrder order = GalleryOrder.UploadedDesc, int limit = int.MaxValue, int page = 1)
+        public async Task<IDictionary<string, long>> GetGalleryItemCount(int? galleryId, GalleryItemState state = GalleryItemState.All, MediaType type = MediaType.All, ImageOrientation orientation = ImageOrientation.None)
+        {
+            var results = new Dictionary<string, long>();
+
+            using (var conn = await GetConnection())
+            {
+                var query = $"SELECT `state`, COUNT(gi.`id`) AS `count` FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE {(galleryId != null && galleryId > 0 ? "gi.`gallery_id`=@Id" : "gi.`gallery_id` > 0")}{(type != MediaType.All ? " AND gi.`media_type`=@Type" : string.Empty)}{(orientation != ImageOrientation.None ? " AND gi.`orientation`=@Orientation" : string.Empty)}{(state != GalleryItemState.All ? " AND gi.`state`=@State" : string.Empty)} GROUP BY `state`;";
+
+                var cmd = CreateCommand(query, conn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("Id", galleryId);
+                cmd.Parameters.AddWithValue("Type", type);
+                cmd.Parameters.AddWithValue("Orientation", orientation);
+                cmd.Parameters.AddWithValue("State", state);
+
+                await conn.OpenAsync();
+                var reader = await cmd.ExecuteReaderAsync();
+                if (reader != null && reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        try
+                        {
+                            var key = !await reader.IsDBNullAsync("state") ? (GalleryItemState)reader.GetInt32("state") : GalleryItemState.Pending;
+                            var value = !await reader.IsDBNullAsync("count") ? reader.GetInt64("count") : 0;
+                            results.Add(key.ToString(), value);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogWarning(ex, $"Failed to parse gallery item model from database - {ex?.Message}");
+                        }
+                    }
+                }
+
+                await conn.CloseAsync();
+            }
+
+            foreach (var s in Enum.GetNames(typeof(GalleryItemState)))
+            {
+                if (!results.ContainsKey(s))
+                {
+                    results.Add(s, s.Equals("All", StringComparison.OrdinalIgnoreCase) ? results.Sum(x => x.Value) : 0);
+                }
+            }
+
+            return results;
+        }
+
+        public async Task<List<GalleryItemModel>> GetAllGalleryItems(int? galleryId, GalleryItemState state = GalleryItemState.All, MediaType type = MediaType.All, ImageOrientation orientation = ImageOrientation.None, GalleryGroup group = GalleryGroup.None, GalleryOrder order = GalleryOrder.Descending, int limit = int.MaxValue, int page = 1)
         {
             List<GalleryItemModel> result;
 
             using (var conn = await GetConnection())
             {
-                var query = $"SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE {(galleryId != null && galleryId > 0 ? "gi.`gallery_id`=@Id" : "gi.`gallery_id` > 0")} {(type != MediaType.All ? "AND gi.`media_type`=@Type" : string.Empty)} {(state != GalleryItemState.All ? "AND gi.`state`=@State" : string.Empty)};";
-                switch (order)
+                var query = $"SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE {(galleryId != null && galleryId > 0 ? "gi.`gallery_id`=@Id" : "gi.`gallery_id` > 0")}{(type != MediaType.All ? " AND gi.`media_type`=@Type" : string.Empty)}{(orientation != ImageOrientation.None ? " AND gi.`orientation`=@Orientation" : string.Empty)}{(state != GalleryItemState.All ? " AND gi.`state`=@State" : string.Empty)};";
+                switch (group)
                 {
-                    case GalleryOrder.UploadedAsc:
-                        query = $"{query.TrimEnd(' ', ';')} ORDER BY gi.`id` ASC;";
+                    case GalleryGroup.Date:
+                        query = $"{query.TrimEnd(' ', ';')} ORDER BY gi.`uploaded_date` {(order == GalleryOrder.Ascending ? "ASC" : "DESC")};";
                         break;
-                    case GalleryOrder.UploadedDesc:
-                        query = $"{query.TrimEnd(' ', ';')} ORDER BY gi.`id` DESC;";
+                    case GalleryGroup.Uploader:
+                        query = $"{query.TrimEnd(' ', ';')} ORDER BY gi.`uploaded_by` {(order == GalleryOrder.Ascending ? "ASC" : "DESC")};";
                         break;
-                    case GalleryOrder.NameAsc:
-                        query = $"{query.TrimEnd(' ', ';')} ORDER BY gi.`title` ASC;";
+                    case GalleryGroup.MediaType:
+                        query = $"{query.TrimEnd(' ', ';')} ORDER BY gi.`media_type` {(order == GalleryOrder.Ascending ? "ASC" : "DESC")};";
                         break;
-                    case GalleryOrder.NameDesc:
-                        query = $"{query.TrimEnd(' ', ';')} ORDER BY gi.`title` DESC;";
-                        break;
-                    case GalleryOrder.Random:
-                        query = $"{query.TrimEnd(' ', ';')} ORDER BY RANDOM();";
+                    case GalleryGroup.None:
+                        switch (order)
+                        {
+                            case GalleryOrder.Random:
+                                query = $"{query.TrimEnd(' ', ';')} ORDER BY RANDOM();";
+                                break;
+                            default:
+                                query = $"{query.TrimEnd(' ', ';')} ORDER BY gi.`uploaded_date` {(order == GalleryOrder.Ascending ? "ASC" : "DESC")};";
+                                break;
+                        }
                         break;
                     default:
                         break;
@@ -342,6 +395,7 @@ namespace WeddingShare.Helpers.Database
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", galleryId);
                 cmd.Parameters.AddWithValue("Type", type);
+                cmd.Parameters.AddWithValue("Orientation", orientation);
                 cmd.Parameters.AddWithValue("State", state);
                 cmd.Parameters.AddWithValue("Limit", limit);
                 cmd.Parameters.AddWithValue("Offset", ((page - 1) * limit));
@@ -470,14 +524,16 @@ namespace WeddingShare.Helpers.Database
             { 
                 using (var conn = await GetConnection())
                 {
-                    var cmd = CreateCommand($"INSERT INTO `gallery_items` (`gallery_id`, `title`, `state`, `uploaded_by`, `checksum`, `media_type`) VALUES (@GalleryId, @Title, @State, @UploadedBy, @Checksum, @MediaType); SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE gi.`id`=last_insert_rowid();", conn);
+                    var cmd = CreateCommand($"INSERT INTO `gallery_items` (`gallery_id`, `title`, `state`, `uploaded_by`, `uploaded_date`, `checksum`, `media_type`, `orientation`) VALUES (@GalleryId, @Title, @State, @UploadedBy, @UploadedDate, @Checksum, @MediaType, @Orientation); SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE gi.`id`=last_insert_rowid();", conn);
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("GalleryId", model.GalleryId);
                     cmd.Parameters.AddWithValue("Title", model.Title);
                     cmd.Parameters.AddWithValue("State", (int)model.State);
                     cmd.Parameters.AddWithValue("UploadedBy", !string.IsNullOrWhiteSpace(model.UploadedBy) ? model.UploadedBy : DBNull.Value);
+                    cmd.Parameters.AddWithValue("UploadedDate", (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds);
                     cmd.Parameters.AddWithValue("Checksum", !string.IsNullOrWhiteSpace(model.Checksum) ? model.Checksum : DBNull.Value);
                     cmd.Parameters.AddWithValue("MediaType", (int)model.MediaType);
+                    cmd.Parameters.AddWithValue("Orientation", (int)model.Orientation);
 
                     await conn.OpenAsync();
                     var tran = await CreateTransaction(conn);
@@ -509,13 +565,16 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = await GetConnection())
             {
-                var cmd = CreateCommand($"UPDATE `gallery_items` SET `title`=@Title, `state`=@State, `uploaded_by`=@UploadedBy, `checksum`=@Checksum WHERE `id`=@Id; SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE gi.`id`=@Id;", conn);
+                var cmd = CreateCommand($"UPDATE `gallery_items` SET `title`=@Title, `state`=@State, `uploaded_by`=@UploadedBy, `uploaded_date`=@UploadedDate, `checksum`=@Checksum, `media_type`=@MediaType, `orientation`=@Orientation WHERE `id`=@Id; SELECT g.`name` AS `gallery_name`, gi.* FROM `gallery_items` AS gi LEFT JOIN `galleries` AS g ON gi.`gallery_id` = g.`id` WHERE gi.`id`=@Id;", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", model.Id);
                 cmd.Parameters.AddWithValue("Title", model.Title);
                 cmd.Parameters.AddWithValue("State", (int)model.State);
                 cmd.Parameters.AddWithValue("UploadedBy", !string.IsNullOrWhiteSpace(model.UploadedBy) ? model.UploadedBy : DBNull.Value);
+                cmd.Parameters.AddWithValue("UploadedDate", model.UploadedDate != null ? ((DateTime)model.UploadedDate - new DateTime(1970, 1, 1)).TotalSeconds : (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds);
                 cmd.Parameters.AddWithValue("Checksum", !string.IsNullOrWhiteSpace(model.Checksum) ? model.Checksum : DBNull.Value);
+                cmd.Parameters.AddWithValue("MediaType", (int)model.MediaType);
+                cmd.Parameters.AddWithValue("Orientation", (int)model.Orientation);
 
                 await conn.OpenAsync();
                 var tran = await CreateTransaction(conn);
@@ -1063,8 +1122,10 @@ namespace WeddingShare.Helpers.Database
                                 GalleryName = !await reader.IsDBNullAsync("gallery_name") ? reader.GetString("gallery_name") : string.Empty,
                                 Title = !await reader.IsDBNullAsync("title") ? reader.GetString("title") : string.Empty,
                                 UploadedBy = !await reader.IsDBNullAsync("uploaded_by") ? reader.GetString("uploaded_by") : null,
+                                UploadedDate = !await reader.IsDBNullAsync("uploaded_date") ? DateTime.UnixEpoch.AddSeconds(reader.GetInt32("uploaded_date")) : null,
                                 Checksum = !await reader.IsDBNullAsync("checksum") ? reader.GetString("checksum") : null,
                                 MediaType = !await reader.IsDBNullAsync("media_type") ? (MediaType)reader.GetInt32("media_type") : MediaType.Unknown,
+                                Orientation = !await reader.IsDBNullAsync("orientation") ? (ImageOrientation)reader.GetInt32("orientation") : ImageOrientation.None,
                                 State = !await reader.IsDBNullAsync("state") ? (GalleryItemState)reader.GetInt32("state") : GalleryItemState.Pending
                             });
                         }
@@ -1102,6 +1163,7 @@ namespace WeddingShare.Helpers.Database
                                 UploadedBy = !await reader.IsDBNullAsync("uploaded_by") ? reader.GetString("uploaded_by") : null,
                                 Checksum = !await reader.IsDBNullAsync("checksum") ? reader.GetString("checksum") : null,
                                 MediaType = !await reader.IsDBNullAsync("media_type") ? (MediaType)reader.GetInt32("media_type") : MediaType.Unknown,
+                                Orientation = !await reader.IsDBNullAsync("orientation") ? (ImageOrientation)reader.GetInt32("orientation") : ImageOrientation.None,
                                 State = !await reader.IsDBNullAsync("state") ? (GalleryItemState)reader.GetInt32("state") : GalleryItemState.Pending
                             });
                         }

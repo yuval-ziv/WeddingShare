@@ -235,6 +235,9 @@
   <data name="Generate" xml:space="preserve">
     <value>生成する</value>
   </data>
+  <data name="Group" xml:space="preserve">
+    <value>グループ</value>
+  </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>ホームページをロードするエラーが発生しました</value>
   </data>

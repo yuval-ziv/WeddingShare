@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>Завантажити файл</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Фільтри</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>Галене</value>
   </data>
@@ -231,6 +234,9 @@
   </data>
   <data name="Generate" xml:space="preserve">
     <value>Генерація</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Група</value>
   </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>Похибка стала завантаження головної сторінки</value>

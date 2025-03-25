@@ -2,11 +2,8 @@
 {
     public enum GalleryOrder
     {
-        None,
-        UploadedAsc,
-        UploadedDesc,
-        NameAsc,
-        NameDesc,
+        Ascending,
+        Descending,
         Random
     }
 }

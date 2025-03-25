@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>上传文件失败</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>过滤器</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>盖尔</value>
   </data>
@@ -231,6 +234,9 @@
   </data>
   <data name="Generate" xml:space="preserve">
     <value>生成</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>组</value>
   </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>装入主页出错</value>

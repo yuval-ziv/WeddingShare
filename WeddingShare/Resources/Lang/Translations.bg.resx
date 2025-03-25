@@ -235,6 +235,9 @@
   <data name="Generate" xml:space="preserve">
     <value>Генериране</value>
   </data>
+  <data name="Group" xml:space="preserve">
+    <value>Група</value>
+  </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>Грешка при зареждане на началната страница</value>
   </data>

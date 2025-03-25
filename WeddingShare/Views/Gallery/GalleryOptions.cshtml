@@ -28,7 +28,7 @@
 }
 
 <div class="row px-4 mb-4 presentation-hidden">
-    <div class="col-12 px-5">
+    <div class="col-12 px-2 px-xl-5">
         @if (_gallery.GetConfig(Model?.GalleryName, "Gallery:QR_Code:Enabled", true))
         {
             <div class="btn-group w-100 mb-2">
@@ -56,19 +56,32 @@
 
         <div class="btn-group w-100 mb-2">
             <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @_localizer["Group"].Value
+            </button>
+            <div class="dropdown-menu">
+                @foreach (GalleryGroup group in (Enum.GetValues(typeof(GalleryGroup)).Cast<GalleryGroup>().OrderBy(x => x == GalleryGroup.None ? 0 : 1).ThenBy(x => x.ToString())))
+                {
+                    var append = new List<KeyValuePair<string, string>>()
+                    {
+                        new KeyValuePair<string, string>("group", ((int)group).ToString())
+                    };
+                    <a class="dropdown-item" href="@_url.GenerateFullUrl(Context.Request, Context.Request.Path, append)">@group</a>
+                }
+            </div>
+        </div>
+
+        <div class="btn-group w-100 mb-2">
+            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @_localizer["Sort"].Value
             </button>
             <div class="dropdown-menu">
                 @foreach (GalleryOrder order in Enum.GetValues(typeof(GalleryOrder)))
                 {
-                    if (order != GalleryOrder.None)
-                    {
-                        var append = new List<KeyValuePair<string, string>>() 
-                        { 
-                            new KeyValuePair<string, string>("order", ((int)order).ToString()) 
-                        };
-                        <a class="dropdown-item" href="@_url.GenerateFullUrl(Context.Request, Context.Request.Path, append)">@order</a>
-                    }
+                    var append = new List<KeyValuePair<string, string>>() 
+                    { 
+                        new KeyValuePair<string, string>("order", ((int)order).ToString()) 
+                    };
+                    <a class="dropdown-item" href="@_url.GenerateFullUrl(Context.Request, Context.Request.Path, append)">@order</a>
                 }
             </div>
         </div>
@@ -78,16 +91,13 @@
                 @_localizer["Filter"].Value
             </button>
             <div class="dropdown-menu">
-                @foreach (MediaType filter in (Enum.GetValues(typeof(MediaType))).Cast<MediaType>().OrderBy(x => x.ToString()))
+                @foreach (GalleryFilter filter in (Enum.GetValues(typeof(GalleryFilter))).Cast<GalleryFilter>().OrderBy(x => x == GalleryFilter.All ? 0 : 1).ThenBy(x => x.ToString()))
                 {
-                    if (filter != MediaType.Unknown)
+                    var append = new List<KeyValuePair<string, string>>()
                     {
-                        var append = new List<KeyValuePair<string, string>>()
-                        {
-                            new KeyValuePair<string, string>("filter", ((int)filter).ToString())
-                        };
-                        <a class="dropdown-item" href="@_url.GenerateFullUrl(Context.Request, Context.Request.Path, append)">@filter</a>
-                    }
+                        new KeyValuePair<string, string>("filter", ((int)filter).ToString())
+                    };
+                    <a class="dropdown-item" href="@_url.GenerateFullUrl(Context.Request, Context.Request.Path, append)">@filter</a>
                 }
             </div>
         </div>

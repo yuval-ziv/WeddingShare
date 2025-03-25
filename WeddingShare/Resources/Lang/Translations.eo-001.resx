@@ -184,6 +184,9 @@
   <data name="File_Upload_Failed" xml:space="preserve">
     <value>Malsukcesita por alŝuti dosieron</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtero</value>
+  </data>
   <data name="Galleries" xml:space="preserve">
     <value>Gallery</value>
   </data>
@@ -231,6 +234,9 @@
   </data>
   <data name="Generate" xml:space="preserve">
     <value>Generita</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Grupo de grupo</value>
   </data>
   <data name="Homepage_Load_Error" xml:space="preserve">
     <value>Eraro okazis ŝarĝi la hejmpaĝon</value>
