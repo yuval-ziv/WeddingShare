@@ -7,7 +7,6 @@ using WeddingShare.BackgroundWorkers;
 using WeddingShare.Configurations;
 using WeddingShare.Helpers;
 using Xabe.FFmpeg.Extensions;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace WeddingShare
 {

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using WeddingShare.Controllers;
 using WeddingShare.Enums;
 using WeddingShare.Helpers;
+using WeddingShare.Helpers.Database;
 using WeddingShare.UnitTests.Helpers;
 
 namespace WeddingShare.UnitTests.Tests.Helpers
@@ -12,6 +13,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
     public class HomeControllerTests
     {
         private readonly IConfigHelper _config = Substitute.For<IConfigHelper>();
+        private readonly IDatabaseHelper _database = Substitute.For<IDatabaseHelper>();
         private readonly IGalleryHelper _gallery = Substitute.For<IGalleryHelper>();
         private readonly IDeviceDetector _deviceDetector = Substitute.For<IDeviceDetector>();
         private readonly ILogger<HomeController> _logger = Substitute.For<ILogger<HomeController>>();
@@ -40,7 +42,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             _config.GetOrDefault("Settings:Single_Gallery_Mode", Arg.Any<bool>()).Returns(singleGalleryMode);
             _gallery.GetSecretKey(Arg.Any<string>()).Returns(secretKey);
 
-            var controller = new HomeController(_config, _gallery, _deviceDetector, _logger, _localizer);
+            var controller = new HomeController(_config, _database, _gallery, _deviceDetector, _logger, _localizer);
             controller.ControllerContext.HttpContext = new DefaultHttpContext()
             {
                 Session = new MockSession()

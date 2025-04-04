@@ -46,6 +46,43 @@ namespace WeddingShare.Helpers.Database
         #endregion
 
         #region Gallery
+        public async Task<IEnumerable<string>> GetGalleryNames()
+        {
+            List<string> result = new List<string>();
+
+            using (var conn = await GetConnection())
+            {
+                var cmd = CreateCommand($"SELECT g.`name` FROM `galleries` AS g ORDER BY `name` ASC;", conn);
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    if (reader != null && reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            try
+                            {
+                                var name = !await reader.IsDBNullAsync("name") ? reader.GetString("name") : null;
+                                if (!string.IsNullOrWhiteSpace(name))
+                                {
+                                    result.Add(name);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogWarning(ex, $"Failed to parse gallery model from database - {ex?.Message}");
+                            }
+                        }
+                    }
+                }
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
         public async Task<List<GalleryModel>> GetAllGalleries()
         {
             List<GalleryModel> result;
@@ -530,7 +567,7 @@ namespace WeddingShare.Helpers.Database
                     cmd.Parameters.AddWithValue("Title", model.Title);
                     cmd.Parameters.AddWithValue("State", (int)model.State);
                     cmd.Parameters.AddWithValue("UploadedBy", !string.IsNullOrWhiteSpace(model.UploadedBy) ? model.UploadedBy : DBNull.Value);
-                    cmd.Parameters.AddWithValue("UploadedDate", (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds);
+                    cmd.Parameters.AddWithValue("UploadedDate", ((model.UploadedDate ?? DateTime.UtcNow) - new DateTime(1970, 1, 1)).TotalSeconds);
                     cmd.Parameters.AddWithValue("Checksum", !string.IsNullOrWhiteSpace(model.Checksum) ? model.Checksum : DBNull.Value);
                     cmd.Parameters.AddWithValue("MediaType", (int)model.MediaType);
                     cmd.Parameters.AddWithValue("Orientation", (int)model.Orientation);

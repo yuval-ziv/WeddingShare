@@ -423,7 +423,44 @@ function setPasswordValidationField(field, valid) {
 
             displayPopup({
                 Title: localization.translate('Export_Data'),
-                Message: localization.translate('Export_Data_Message'),
+                //Message: localization.translate('Export_Data_Message'),
+                Fields: [{
+                    Id: 'database',
+                    Type: 'checkbox',
+                    Checked: true,
+                    Class: 'form-check-input',
+                    Label: 'Database'
+                }, {
+                    Id: 'uploads',
+                    Type: 'checkbox',
+                    Checked: true,
+                    Class: 'form-check-input',
+                    Label: 'Uploads'
+                }, {
+                    Id: 'thumbnails',
+                    Type: 'checkbox',
+                    Checked: true,
+                    Class: 'form-check-input',
+                    Label: 'Thumbnails'
+                }, {
+                    Id: 'logos',
+                    Type: 'checkbox',
+                    Checked: true,
+                    Class: 'form-check-input',
+                    Label: 'Logos'
+                }, {
+                    Id: 'banners',
+                    Type: 'checkbox',
+                    Checked: true,
+                    Class: 'form-check-input',
+                    Label: 'Banners'
+                }, {
+                    Id: 'custom-resources',
+                    Type: 'checkbox',
+                    Checked: true,
+                    Class: 'form-check-input',
+                    Label: 'Custom Resources'
+                }],
                 Buttons: [{
                     Text: localization.translate('Export'),
                     Class: 'btn-success',
@@ -432,7 +469,15 @@ function setPasswordValidationField(field, valid) {
 
                         $.ajax({
                             url: '/Admin/ExportBackup',
-                            method: 'GET'
+                            method: 'POST',
+                            data: {
+                                Database: $('#popup-modal-field-database').is(':checked'),
+                                Uploads: $('#popup-modal-field-uploads').is(':checked'),
+                                Thumbnails: $('#popup-modal-field-thumbnails').is(':checked'),
+                                Logos: $('#popup-modal-field-logos').is(':checked'),
+                                Banners: $('#popup-modal-field-banners').is(':checked'),
+                                CustomResources: $('#popup-modal-field-custom-resources').is(':checked')
+                            }
                         })
                             .done(data => {
                                 hideLoader();

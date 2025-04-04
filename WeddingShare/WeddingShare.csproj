@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -17,12 +17,14 @@
     <None Remove="SqlScripts\MySQL\004 - Add 2FA.sql" />
     <None Remove="SqlScripts\MySQL\005 - Add ImageOrientation.sql" />
     <None Remove="SqlScripts\MySQL\006 - Add Uploaded Date.sql" />
+    <None Remove="SqlScripts\MySQL\007 - Wipe DateTimes for Rescan.sql" />
     <None Remove="SqlScripts\SQLite\001 - Add Failed Login Tracking.sql" />
     <None Remove="SqlScripts\SQLite\002 - Add MediaType.sql" />
     <None Remove="SqlScripts\SQLite\003 - Add Checksum.sql" />
     <None Remove="SqlScripts\SQLite\004 - Add 2FA.sql" />
     <None Remove="SqlScripts\SQLite\005 - Add ImageOrientation.sql" />
     <None Remove="SqlScripts\SQLite\006 - Add Uploaded Date.sql" />
+    <None Remove="SqlScripts\SQLite\007 - Wipe DateTimes for Rescan.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +33,7 @@
     <EmbeddedResource Include="SqlScripts\MySQL\002 - Add MediaType.sql" />
     <EmbeddedResource Include="SqlScripts\MySQL\003 - Add Checksum.sql" />
     <EmbeddedResource Include="SqlScripts\MySQL\004 - Add 2FA.sql" />
+    <EmbeddedResource Include="SqlScripts\MySQL\007 - Wipe DateTimes for Rescan.sql" />
     <EmbeddedResource Include="SqlScripts\MySQL\006 - Add Uploaded Date.sql" />
     <EmbeddedResource Include="SqlScripts\MySQL\005 - Add ImageOrientation.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\004 - Add 2FA.sql" />
@@ -40,6 +43,7 @@
     <EmbeddedResource Include="SqlScripts\SQLite\000 - Initialize Database.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\005 - Add ImageOrientation.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\006 - Add Uploaded Date.sql" />
+    <EmbeddedResource Include="SqlScripts\SQLite\007 - Wipe DateTimes for Rescan.sql" />
   </ItemGroup>
 
   <ItemGroup>

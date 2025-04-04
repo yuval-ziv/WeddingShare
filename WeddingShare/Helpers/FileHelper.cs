@@ -18,6 +18,7 @@ namespace WeddingShare.Helpers
         Task<byte[]> ReadAllBytes(string path);
         Task SaveFile(IFormFile file, string path, FileMode mode);
         Task<string> GetChecksum(string path);
+        Task<DateTime?> GetCreationDatetime(string path);
     }
 
     public class FileHelper : IFileHelper
@@ -158,6 +159,21 @@ namespace WeddingShare.Helpers
                 }
 
                 return checksum;
+            });
+        }
+
+        public async Task<DateTime?> GetCreationDatetime(string path)
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    return new FileInfo(path).CreationTimeUtc;
+                }
+                catch
+                {
+                    return DateTime.UtcNow;
+                }
             });
         }
     }

@@ -261,7 +261,7 @@ function displayIdentityCheck(required, callbackFn) {
         $(document).off('submit', '#frmSelectGallery').on('submit', '#frmSelectGallery', function (e) {
             preventDefaults(e);
 
-            var galleryId = $('input#gallery-id').val();
+            var galleryId = $('input#gallery-id,select#gallery-id').val();
             var secretKey = $('input#gallery-key').val();
 
             const regex = /^[a-zA-Z0-9\-\s-_~]+$/;
