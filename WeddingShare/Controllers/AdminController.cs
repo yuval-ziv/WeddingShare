@@ -33,6 +33,9 @@ namespace WeddingShare.Controllers
         private readonly string TempDirectory;
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
+        private readonly string LogosDirectory;
+        private readonly string BannersDirectory;
+        private readonly string CustomResourcesDirectory;
 
         public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IEncryptionHelper encryption, INotificationHelper notificationHelper, Helpers.IUrlHelper url, ILogger<AdminController> logger, IStringLocalizer<Lang.Translations> localizer)
         {
@@ -50,6 +53,9 @@ namespace WeddingShare.Controllers
             TempDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "temp");
             UploadsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
             ThumbnailsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "thumbnails");
+            LogosDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "logos");
+            BannersDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "banners");
+            CustomResourcesDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "custom_resources");
         }
 
         [AllowAnonymous]
@@ -770,8 +776,8 @@ namespace WeddingShare.Controllers
             return Json(new { success = false });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ExportBackup()
+        [HttpPost]
+        public async Task<IActionResult> ExportBackup(ExportOptions options)
         {
             if (User?.Identity != null && User.Identity.IsAuthenticated)
             {
@@ -786,14 +792,44 @@ namespace WeddingShare.Controllers
                         _fileHelper.CreateDirectoryIfNotExists(exportDir);
 
                         var dbExport = Path.Combine(exportDir, $"WeddingShare.bak");
-                        var exported = await _database.Export($"Data Source={dbExport}");
+
+                        var exported = true;
+                        if (options.Database)
+                        { 
+                            exported = await _database.Export($"Data Source={dbExport}");
+                        }
+
                         if (exported)
                         {
                             var uploadsZip = Path.Combine(exportDir, $"Uploads.bak");
-                            ZipFile.CreateFromDirectory(UploadsDirectory, uploadsZip, CompressionLevel.Optimal, false);
+                            if (options.Uploads)
+                            { 
+                                ZipFile.CreateFromDirectory(UploadsDirectory, uploadsZip, CompressionLevel.Optimal, false);
+                            }
 
                             var thumbnailsZip = Path.Combine(exportDir, $"Thumbnails.bak");
-                            ZipFile.CreateFromDirectory(ThumbnailsDirectory, thumbnailsZip, CompressionLevel.Optimal, false);
+                            if (options.Thumbnails)
+                            { 
+                                ZipFile.CreateFromDirectory(ThumbnailsDirectory, thumbnailsZip, CompressionLevel.Optimal, false);
+                            }
+
+                            var logosZip = Path.Combine(exportDir, $"Logos.bak");
+                            if (options.Logos && _fileHelper.DirectoryExists(CustomResourcesDirectory))
+                            {
+                                ZipFile.CreateFromDirectory(LogosDirectory, logosZip, CompressionLevel.Optimal, false);
+                            }
+
+                            var bannersZip = Path.Combine(exportDir, $"Banners.bak");
+                            if (options.Banners && _fileHelper.DirectoryExists(BannersDirectory))
+                            {
+                                ZipFile.CreateFromDirectory(BannersDirectory, bannersZip, CompressionLevel.Optimal, false);
+                            }
+
+                            var customResourcesZip = Path.Combine(exportDir, $"CustomResources.bak");
+                            if (options.CustomResources && _fileHelper.DirectoryExists(CustomResourcesDirectory))
+                            {
+                                ZipFile.CreateFromDirectory(CustomResourcesDirectory, customResourcesZip, CompressionLevel.Optimal, false);
+                            }
 
                             var exportZipFile = Path.Combine(TempDirectory, $"WeddingShare-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.zip");
                             _fileHelper.DeleteFileIfExists(exportZipFile);
@@ -802,6 +838,9 @@ namespace WeddingShare.Controllers
                             _fileHelper.DeleteFileIfExists(dbExport);
                             _fileHelper.DeleteFileIfExists(uploadsZip);
                             _fileHelper.DeleteFileIfExists(thumbnailsZip);
+                            _fileHelper.DeleteFileIfExists(logosZip);
+                            _fileHelper.DeleteFileIfExists(bannersZip);
+                            _fileHelper.DeleteFileIfExists(customResourcesZip);
 
                             return Json(new { success = true, filename = $"/temp/{Path.GetFileName(exportZipFile)}" });
                         }
@@ -855,6 +894,24 @@ namespace WeddingShare.Controllers
 
                                     var thumbnailsZip = Path.Combine(importDir, "Thumbnails.bak");
                                     ZipFile.ExtractToDirectory(thumbnailsZip, ThumbnailsDirectory, true);
+
+                                    var logosZip = Path.Combine(importDir, "Logos.bak");
+                                    if (_fileHelper.FileExists(logosZip))
+                                    { 
+                                        ZipFile.ExtractToDirectory(logosZip, LogosDirectory, true);
+                                    }
+
+                                    var bannersZip = Path.Combine(importDir, "Banners.bak");
+                                    if (_fileHelper.FileExists(bannersZip))
+                                    {
+                                        ZipFile.ExtractToDirectory(bannersZip, BannersDirectory, true);
+                                    }
+
+                                    var customResourcesZip = Path.Combine(importDir, "CustomResources.bak");
+                                    if (_fileHelper.FileExists(customResourcesZip))
+                                    {
+                                        ZipFile.ExtractToDirectory(customResourcesZip, CustomResourcesDirectory, true);
+                                    }
 
                                     var dbImport = Path.Combine(importDir, "WeddingShare.bak");
                                     var imported = await _database.Import($"Data Source={dbImport}");

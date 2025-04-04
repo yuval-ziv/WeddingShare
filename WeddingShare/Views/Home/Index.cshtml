@@ -1,9 +1,10 @@
-﻿@model WeddingShare.Models.PhotoGallery
+﻿@model WeddingShare.Views.Home.IndexModel
 @using WeddingShare.Views.Home
 @inject WeddingShare.Helpers.IConfigHelper _config
 
 @{
     var singleGalleryMode = _config.GetOrDefault("Settings:Single_Gallery_Mode", false);
+    var galleryNameDropdown = _config.GetOrDefault("Settings:Gallery_Selector:Dropdown", false);
 }
 <section class="py-1 py-lg-5">
     <div class="container px-3 px-lg-1 my-3 mt-lg-1">
@@ -18,10 +19,24 @@
                     @if (!singleGalleryMode)
                     {
                         <div class="input-group">
-                            <input type="text" id="gallery-id" class="form-control" aria-describedby="gallery-id-help" placeholder="@_localizer["Gallery_Name_Placeholder"].Value" aria-label="@_localizer["Gallery_Name"].Value" />
-                            @if (_config.GetOrDefault("Settings:Guest_Gallery_Creation", false) || (User?.Identity != null && User.Identity.IsAuthenticated))
+                            @if (galleryNameDropdown && Model?.GalleryNames != null && Model.GalleryNames.Any())
                             {
-                                <input type="button" id="btnGenerateGalleryName" class="btn btn-outline-success" value="@_localizer["Generate"].Value" />
+                                <select id="gallery-id" class="form-control form-select capitalize" aria-describedby="gallery-id-help" aria-label="@_localizer["Gallery_Name"].Value">
+                                    @{
+                                        foreach (var gallery in Model.GalleryNames)
+                                        {
+                                            <option value="@gallery">@gallery</option>
+                                        }
+                                    }
+                                </select>
+                            }
+                            else
+                            {
+                                <input type="text" id="gallery-id" class="form-control" aria-describedby="gallery-id-help" placeholder="@_localizer["Gallery_Name_Placeholder"].Value" aria-label="@_localizer["Gallery_Name"].Value" />
+                                @if (_config.GetOrDefault("Settings:Guest_Gallery_Creation", false) || (User?.Identity != null && User.Identity.IsAuthenticated))
+                                {
+                                    <input type="button" id="btnGenerateGalleryName" class="btn btn-outline-success" value="@_localizer["Generate"].Value" />
+                                }
                             }
                         </div>
                         <div id="gallery-id-help" class="form-text mb-4 mb-lg-5">

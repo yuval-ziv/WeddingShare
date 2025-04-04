@@ -84,7 +84,7 @@ namespace WeddingShare.BackgroundWorkers
                                                                 Checksum = await fileHelper.GetChecksum(file),
                                                                 MediaType = imageHelper.GetMediaType(file),
                                                                 State = GalleryItemState.Approved,
-                                                                UploadedDate = new FileInfo(file).CreationTimeUtc
+                                                                UploadedDate = await fileHelper.GetCreationDatetime(file)
                                                             });
                                                         }
 
@@ -161,7 +161,8 @@ namespace WeddingShare.BackgroundWorkers
                                                                     Title = filename,
                                                                     Checksum = await fileHelper.GetChecksum(file),
                                                                     MediaType = imageHelper.GetMediaType(file),
-                                                                    State = GalleryItemState.Pending
+                                                                    State = GalleryItemState.Pending,
+                                                                    UploadedDate = await fileHelper.GetCreationDatetime(file)
                                                                 });
                                                             }
                                                         }

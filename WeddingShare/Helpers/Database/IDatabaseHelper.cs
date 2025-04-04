@@ -5,6 +5,7 @@ namespace WeddingShare.Helpers.Database
 {
     public interface IDatabaseHelper
     {
+        Task<IEnumerable<string>> GetGalleryNames();
         Task<List<GalleryModel>> GetAllGalleries();
         Task<GalleryModel?> GetGallery(int id);
         Task<GalleryModel?> GetGallery(string name);

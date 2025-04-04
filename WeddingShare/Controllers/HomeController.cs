@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using WeddingShare.Helpers;
+using WeddingShare.Helpers.Database;
 using WeddingShare.Models;
 
 namespace WeddingShare.Controllers
@@ -11,14 +12,16 @@ namespace WeddingShare.Controllers
     public class HomeController : Controller
     {
         private readonly IConfigHelper _config;
+        private readonly IDatabaseHelper _database;
         private readonly IGalleryHelper _gallery;
         private readonly IDeviceDetector _deviceDetector;
         private readonly ILogger _logger;
         private readonly IStringLocalizer<Lang.Translations> _localizer;
 
-        public HomeController(IConfigHelper config, IGalleryHelper gallery, IDeviceDetector deviceDetector, ILogger<HomeController> logger, IStringLocalizer<Lang.Translations> localizer)
+        public HomeController(IConfigHelper config, IDatabaseHelper database, IGalleryHelper gallery, IDeviceDetector deviceDetector, ILogger<HomeController> logger, IStringLocalizer<Lang.Translations> localizer)
         {
             _config = config;
+            _database = database;
             _gallery = gallery;
             _deviceDetector = deviceDetector;
             _logger = logger;
@@ -28,6 +31,8 @@ namespace WeddingShare.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            var model = new Views.Home.IndexModel();
+
             try
             {
                 var deviceType = HttpContext.Session.GetString(SessionKey.DeviceType);
@@ -45,13 +50,15 @@ namespace WeddingShare.Controllers
                         return RedirectToAction("Index", "Gallery");
                     }
                 }
+
+                model.GalleryNames = _config.GetOrDefault("Settings:Gallery_Selector:Dropdown", false) ? await _database.GetGalleryNames() : new List<string>() { "default" };
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"{_localizer["Homepage_Load_Error"].Value} - {ex?.Message}");
             }
 
-            return View();
+            return View(model);
         }
 
         [HttpPost]

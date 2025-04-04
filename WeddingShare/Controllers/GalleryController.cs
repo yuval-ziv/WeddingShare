@@ -341,6 +341,7 @@ namespace WeddingShare.Controllers
                                                 GalleryId = gallery.Id,
                                                 Title = fileName,
                                                 UploadedBy = uploadedBy,
+                                                UploadedDate = await _fileHelper.GetCreationDatetime(filePath),
                                                 Checksum = checksum,
                                                 MediaType = _imageHelper.GetMediaType(filePath),
                                                 Orientation = await _imageHelper.GetOrientation(savePath),
