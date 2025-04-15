@@ -345,7 +345,8 @@ namespace WeddingShare.Controllers
                                                 Checksum = checksum,
                                                 MediaType = _imageHelper.GetMediaType(filePath),
                                                 Orientation = await _imageHelper.GetOrientation(savePath),
-                                                State = requiresReview ? GalleryItemState.Pending : GalleryItemState.Approved
+                                                State = requiresReview ? GalleryItemState.Pending : GalleryItemState.Approved,
+                                                FileSize = file.Length,
                                             });
 
                                             if (item?.Id > 0)

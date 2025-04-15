@@ -4,18 +4,20 @@
 @inject WeddingShare.Helpers.IConfigHelper _config
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
 @inject WeddingShare.Helpers.IEncryptionHelper _encryption
+@inject WeddingShare.Helpers.IFileHelper _file
 @inject WeddingShare.Helpers.IUrlHelper _url
 
 @if (Model != null && Model.Any())
 {
     <table class="table table-rounded-border">
         <tr>
-            <th class="col-5 col-md-4">@_localizer["Name"].Value</th>
+            <th class="col-5 col-md-3">@_localizer["Name"].Value</th>
             <th class="col-1 d-none d-md-table-cell">@_localizer["Total"].Value</th>
             <th class="col-1 d-none d-md-table-cell">@_localizer["Approved"].Value</th>
             <th class="col-1 d-none d-md-table-cell">@_localizer["Pending"].Value</th>
             <th class="col-1 d-none d-md-table-cell">@_localizer["Key"].Value</th>
-            <th class="col-7 col-md-4">@_localizer["Actions"].Value</th>
+            <th class="col-2 d-none d-md-table-cell">@_localizer["Space_Percent_Used"].Value</th>
+            <th class="col-7 col-md-3">@_localizer["Actions"].Value</th>
         </tr>
         @foreach (var gallery in Model.OrderBy(x => string.Equals("All", x.Name, StringComparison.OrdinalIgnoreCase) ? 0 : string.Equals("default", x.Name, StringComparison.OrdinalIgnoreCase) ? 1 : 2))
         {
@@ -39,6 +41,9 @@
                 <td class="d-none d-md-table-cell text-center">@gallery.PendingItems</td>
                 <td class="d-none d-md-table-cell text-center">
                     <i class="fa-solid @(!string.IsNullOrWhiteSpace(secretKey) ? "fa-lock" : "fa-lock-open") m-0"></i>
+                </td>
+                <td class="d-none d-md-table-cell text-center">
+                    @(gallery.Name.Equals("all", StringComparison.OrdinalIgnoreCase) ? _file.BytesToHumanReadable(gallery.TotalGallerySize) : $"{_file.BytesToHumanReadable(gallery.TotalGallerySize)} ({gallery.CalculateUsage(_gallery.GetConfig(gallery.Name, "Gallery:Max_Size_Mb", long.MaxValue))})")
                 </td>
                 <td>
                     <i class="btnOpenGallery btn btn-outline-primary fa-solid fa-up-right-from-square" data-url="@_url.GenerateFullUrl(Context?.Request, "/Gallery", append)" data-target="@(_config.GetOrDefault("Settings:Links_Open_New_Tab", true) ? "_blank" : "_self")" alt="Open"></i>

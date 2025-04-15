@@ -12,6 +12,7 @@ namespace WeddingShare.Helpers
         string[] GetDirectories(string path, string pattern = "*", SearchOption searchOption = SearchOption.AllDirectories);
         string[] GetFiles(string path, string pattern = "*.*", SearchOption searchOption = SearchOption.AllDirectories);
         bool FileExists(string path);
+        long FileSize(string path);
         bool DeleteFileIfExists(string path);
         bool MoveFileIfExists(string source, string destination);
         long GetDirectorySize(string path);
@@ -19,6 +20,7 @@ namespace WeddingShare.Helpers
         Task SaveFile(IFormFile file, string path, FileMode mode);
         Task<string> GetChecksum(string path);
         Task<DateTime?> GetCreationDatetime(string path);
+        string BytesToHumanReadable(long bytes);
     }
 
     public class FileHelper : IFileHelper
@@ -78,6 +80,11 @@ namespace WeddingShare.Helpers
         public bool FileExists(string path)
         {
             return File.Exists(path);
+        }
+
+        public long FileSize(string path)
+        {
+            return new FileInfo(path).Length;
         }
 
         public bool DeleteFileIfExists(string path)
@@ -175,6 +182,26 @@ namespace WeddingShare.Helpers
                     return DateTime.UtcNow;
                 }
             });
+        }
+
+        public string BytesToHumanReadable(long bytes)
+        {
+            if (bytes > 0)
+            { 
+                try
+                {
+                    var sizes = new string[] { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
+
+                    long b = Math.Abs(bytes);
+                    int place = Convert.ToInt32(Math.Floor(Math.Log(b ,1000)));
+                    double num = Math.Round(b / Math.Pow(1000, place), 2);
+
+                    return (Math.Sign(bytes) * num).ToString($"###0.00 {sizes[place]}");
+                }
+                catch { }
+            }
+
+            return "0.00 B";
         }
     }
 }
