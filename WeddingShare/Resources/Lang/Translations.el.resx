@@ -352,6 +352,9 @@
   <data name="Sort" xml:space="preserve">
     <value>Ταξινόμηση</value>
   </data>
+  <data name="Space_Percent_Used" xml:space="preserve">
+    <value>Χρήση</value>
+  </data>
   <data name="Total" xml:space="preserve">
     <value>Σύνολο</value>
   </data>

@@ -84,7 +84,8 @@ namespace WeddingShare.BackgroundWorkers
                                                                 Checksum = await fileHelper.GetChecksum(file),
                                                                 MediaType = imageHelper.GetMediaType(file),
                                                                 State = GalleryItemState.Approved,
-                                                                UploadedDate = await fileHelper.GetCreationDatetime(file)
+                                                                UploadedDate = await fileHelper.GetCreationDatetime(file),
+                                                                FileSize = fileHelper.FileSize(file),
                                                             });
                                                         }
 
@@ -130,6 +131,12 @@ namespace WeddingShare.BackgroundWorkers
                                                                 updated = true;
                                                             }
 
+                                                            if (g.FileSize == 0)
+                                                            {
+                                                                g.FileSize = fileHelper.FileSize(file);
+                                                                updated = true;
+                                                            }
+
                                                             if (updated)
                                                             {   
                                                                 await databaseHelper.EditGalleryItem(g);
@@ -162,7 +169,8 @@ namespace WeddingShare.BackgroundWorkers
                                                                     Checksum = await fileHelper.GetChecksum(file),
                                                                     MediaType = imageHelper.GetMediaType(file),
                                                                     State = GalleryItemState.Pending,
-                                                                    UploadedDate = await fileHelper.GetCreationDatetime(file)
+                                                                    UploadedDate = await fileHelper.GetCreationDatetime(file),
+                                                                    FileSize = new FileInfo(file).Length
                                                                 });
                                                             }
                                                         }

@@ -352,6 +352,9 @@
   <data name="Sort" xml:space="preserve">
     <value>Triediť</value>
   </data>
+  <data name="Space_Percent_Used" xml:space="preserve">
+    <value>Použitie</value>
+  </data>
   <data name="Total" xml:space="preserve">
     <value>Spolu</value>
   </data>

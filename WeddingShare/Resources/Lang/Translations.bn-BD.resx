@@ -352,6 +352,9 @@
   <data name="Sort" xml:space="preserve">
     <value>ক্রমবিন্যাস</value>
   </data>
+  <data name="Space_Percent_Used" xml:space="preserve">
+    <value>ব্যবহার প্রণালী</value>
+  </data>
   <data name="Total" xml:space="preserve">
     <value>সর্বমোট</value>
   </data>

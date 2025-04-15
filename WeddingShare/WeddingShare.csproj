@@ -18,6 +18,7 @@
     <None Remove="SqlScripts\MySQL\005 - Add ImageOrientation.sql" />
     <None Remove="SqlScripts\MySQL\006 - Add Uploaded Date.sql" />
     <None Remove="SqlScripts\MySQL\007 - Wipe DateTimes for Rescan.sql" />
+    <None Remove="SqlScripts\MySQL\008 - Add File Size.sql" />
     <None Remove="SqlScripts\SQLite\001 - Add Failed Login Tracking.sql" />
     <None Remove="SqlScripts\SQLite\002 - Add MediaType.sql" />
     <None Remove="SqlScripts\SQLite\003 - Add Checksum.sql" />
@@ -25,6 +26,7 @@
     <None Remove="SqlScripts\SQLite\005 - Add ImageOrientation.sql" />
     <None Remove="SqlScripts\SQLite\006 - Add Uploaded Date.sql" />
     <None Remove="SqlScripts\SQLite\007 - Wipe DateTimes for Rescan.sql" />
+    <None Remove="SqlScripts\SQLite\008 - Add File Size.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +37,7 @@
     <EmbeddedResource Include="SqlScripts\MySQL\004 - Add 2FA.sql" />
     <EmbeddedResource Include="SqlScripts\MySQL\007 - Wipe DateTimes for Rescan.sql" />
     <EmbeddedResource Include="SqlScripts\MySQL\006 - Add Uploaded Date.sql" />
+    <EmbeddedResource Include="SqlScripts\MySQL\008 - Add File Size.sql" />
     <EmbeddedResource Include="SqlScripts\MySQL\005 - Add ImageOrientation.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\004 - Add 2FA.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\003 - Add Checksum.sql" />
@@ -44,6 +47,7 @@
     <EmbeddedResource Include="SqlScripts\SQLite\005 - Add ImageOrientation.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\006 - Add Uploaded Date.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\007 - Wipe DateTimes for Rescan.sql" />
+    <EmbeddedResource Include="SqlScripts\SQLite\008 - Add File Size.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,7 +64,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
     <PackageReference Include="MySql.Data" Version="9.2.0" />
     <PackageReference Include="NCrontab" Version="3.3.3" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
     <PackageReference Include="TwoFactorAuth.Net" Version="1.4.0" />
     <PackageReference Include="Xabe.FFmpeg" Version="5.2.6" />
     <PackageReference Include="Xabe.FFmpeg.Downloader" Version="5.2.6" />
