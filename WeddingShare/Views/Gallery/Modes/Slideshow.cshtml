@@ -74,6 +74,8 @@
                                 type: 'GET',
                                 url: `${window.location.pathname}${window.location.search}&partial=true`,
                                 success: function (data) {
+                                    clearInterval(slidetimer);
+                                    clearTimeout(transitionTimer);
                                     $('#main-gallery').html(data);
                                     init();
                                 }
