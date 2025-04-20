@@ -814,7 +814,7 @@ namespace WeddingShare.Controllers
                             }
 
                             var logosZip = Path.Combine(exportDir, $"Logos.bak");
-                            if (options.Logos && _fileHelper.DirectoryExists(CustomResourcesDirectory))
+                            if (options.Logos && _fileHelper.DirectoryExists(LogosDirectory))
                             {
                                 ZipFile.CreateFromDirectory(LogosDirectory, logosZip, CompressionLevel.Optimal, false);
                             }

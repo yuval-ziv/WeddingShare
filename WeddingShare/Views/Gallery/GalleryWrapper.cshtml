@@ -16,7 +16,7 @@
         banner = _gallery.GetConfig(galleryName, $"Gallery:Banner_Image", string.Empty);
         if (!string.IsNullOrWhiteSpace(banner))
         {
-            if (!banner.StartsWith("/images", StringComparison.OrdinalIgnoreCase) && !banner.StartsWith("/banners", StringComparison.OrdinalIgnoreCase))
+            if (!banner.StartsWith("/images", StringComparison.OrdinalIgnoreCase) && !banner.StartsWith("/banners", StringComparison.OrdinalIgnoreCase) && !banner.StartsWith("/custom_resources", StringComparison.OrdinalIgnoreCase))
             {
                 banner = $"/banners/{bannerGallery}.{System.IO.Path.GetExtension(banner).Trim('.')}";
             }
