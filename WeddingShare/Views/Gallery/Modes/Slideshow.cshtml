@@ -41,6 +41,9 @@
         document.addEventListener('DOMContentLoaded', function () { 
             $(function () {
 
+                var slidetimer = null;
+                var transitionTimer = null;
+
                 $(window).off('resize').on('resize', function () {
                     setTimeout(function () {
                         init();
@@ -66,7 +69,7 @@
                     var currentSlide = 0;
                     var fadeInterval = @slideshowFade;
                     clearInterval(slidetimer);
-                    var slidetimer = setInterval(function () {
+                    slidetimer = setInterval(function () {
                         currentSlide++;
 
                         if (currentSlide >= $('.slideshow .slideshow-slide').length) {
@@ -84,7 +87,7 @@
 
                         $('.slideshow-slide').fadeOut(fadeInterval);
                         clearTimeout(transitionTimer);
-                        var transitionTimer = setTimeout(function () {
+                        transitionTimer = setTimeout(function () {
                             $(`.slideshow-slide[data-slide-index="${currentSlide}"]`).fadeIn(fadeInterval);
                         }, fadeInterval);
                     }, @slideshowInterval);
