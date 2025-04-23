@@ -28,6 +28,7 @@
             "Delete_Item_Message": "Are you sure you want to delete '{name}'?",
             "Delete_Item_Success": "Successfully deleted item",
             "Download": "Download",
+            "Download_By_Others": "Download by others",
             "Download_Failed": "Failed to download gallery",
             "Error": "Error",
             "Errors": "Errors",

@@ -484,5 +484,93 @@ namespace WeddingShare.Controllers
 
             return Json(new { success = false });
         }
+        
+        [HttpPost]
+        public async Task<IActionResult> DownloadByOthers(int id)
+        {
+            try
+            {
+                string currentUser = HttpContext.Session.GetString(SessionKey.ViewerIdentity) ?? "Anonymous";
+                if (currentUser == "Anonymous")
+                {
+                    return Json(new { success = false, message = _localizer["Download_By_Others_Failed_Unknown_Identity"].Value });;
+                }
+                
+                GalleryModel? gallery = await _database.GetGallery(id);
+                
+                if (gallery == null)
+                {
+                    return Json(new { success = false, message = _localizer["Failed_Download_Gallery"].Value });
+                }
+
+                if (!_gallery.GetConfig(gallery.Name, "Gallery:Download", true) && User?.Identity is not { IsAuthenticated: true })
+                {
+                    return Json(new { success = false, message = _localizer["Download_Gallery_Not_Allowed"].Value });
+                }
+
+                string galleryDir = id > 0 ? Path.Combine(UploadsDirectory, gallery.Name) : UploadsDirectory;
+                
+                if (_fileHelper.DirectoryExists(galleryDir))
+                {
+                    _fileHelper.CreateDirectoryIfNotExists(TempDirectory);
+
+                    string tempZipFile = Path.Combine(TempDirectory, $"{gallery.Name}-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.zip");
+                    ZipFile.CreateFromDirectory(galleryDir, tempZipFile, CompressionLevel.Optimal, false);
+
+                    await RemovePendingAndRejectedItemsForNonAuthenticatedUsers(tempZipFile);
+                    await RemoveFilesByTheSameUser(id, tempZipFile);
+                    await DeleteEmptyFolders(tempZipFile);
+
+                    return Json(new { success = true, filename = $"/temp/{Path.GetFileName(tempZipFile)}" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{_localizer["Failed_Download_Gallery"].Value} - {ex?.Message}");
+            }
+
+            return Json(new { success = false });
+        }
+
+        private async Task RemovePendingAndRejectedItemsForNonAuthenticatedUsers(string tempZipFile)
+        {
+            if (User?.Identity is not { IsAuthenticated: true })
+            {
+                await using var fs = new FileStream(tempZipFile, FileMode.Open, FileAccess.ReadWrite);
+                using var archive = new ZipArchive(fs, ZipArchiveMode.Update, false);
+                foreach (ZipArchiveEntry entry in archive.Entries.Where(IsPendingOrRejected))
+                {
+                    entry.Delete();
+                }
+            }
+        }
+
+        private static bool IsPendingOrRejected(ZipArchiveEntry x)
+        {
+            return x.FullName.StartsWith("Pending/", StringComparison.OrdinalIgnoreCase) || x.FullName.StartsWith("Rejected/", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private async Task RemoveFilesByTheSameUser(int id, string tempZipFile)
+        {
+            string currentUser = HttpContext.Session.GetString(SessionKey.ViewerIdentity) ?? "Anonymous";
+            List<GalleryItemModel> items = await _database.GetAllGalleryItems(id);
+            List<string> filesToRemove = items.Where(item => item.UploadedBy == currentUser).Select(item => item.Title).ToList();
+            await using var fs = new FileStream(tempZipFile, FileMode.Open, FileAccess.ReadWrite);
+            using var archive = new ZipArchive(fs, ZipArchiveMode.Update, false);
+            foreach (ZipArchiveEntry entry in archive.Entries.Where(x => filesToRemove.Contains(x.Name)).ToList())
+            {
+                entry.Delete();
+            }
+        }
+
+        private static async Task DeleteEmptyFolders(string tempZipFile)
+        {
+            await using var fs = new FileStream(tempZipFile, FileMode.Open, FileAccess.ReadWrite);
+            using var archive = new ZipArchive(fs, ZipArchiveMode.Update, false);
+            foreach (ZipArchiveEntry emptyFolderEntry in archive.Entries.Where(x => x.FullName.EndsWith('/')).ToList())
+            {
+                emptyFolderEntry.Delete();
+            }
+        }
     }
 }

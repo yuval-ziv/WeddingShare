@@ -403,4 +403,10 @@
   <data name="Wipe_Confirmation" xml:space="preserve">
     <value>Are you sure you want to wipe this gallery?</value>
   </data>
+  <data name="Download_By_Others" xml:space="preserve">
+    <value>Download by others</value>
+  </data>
+  <data name="Download_By_Others_Failed_Unknown_Identity" xml:space="preserve">
+    <value>Failed to download by others - unknown identity</value>
+  </data>
 </root>

@@ -403,4 +403,10 @@
   <data name="Wipe_Confirmation" xml:space="preserve">
     <value>¿Seguro que quieres limpiar esta galería?</value>
   </data>
+  <data name="Download_By_Others" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Download_By_Others_Failed_Unknown_Identity" xml:space="preserve">
+    <value />
+  </data>
 </root>

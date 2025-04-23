@@ -241,6 +241,40 @@
                     displayMessage(localization.translate('Download'), localization.translate('Download_Failed'), [error]);
                 });
         });
+
+        $(document).off('click', 'button.btnDownloadByOthers').on('click', 'button.btnDownloadByOthers', function (e) {
+            preventDefaults(e);
+            console.log('download by others');
+
+            if ($(this).attr('disabled') == 'disabled') {
+                return;
+            }
+
+            displayLoader(localization.translate('Loading'));
+
+            let id = $(this).data('gallery-id');
+
+            $.ajax({
+                url: '/Gallery/DownloadByOthers',
+                method: 'POST',
+                data: { Id: id }
+            })
+                .done(data => {
+                    hideLoader();
+
+                    if (data.success === true && data.filename) {
+                        window.location.href = data.filename;
+                    } else if (data.message) {
+                        displayMessage(localization.translate('Download_By_Others'), localization.translate('Download_Failed'), [data.message]);
+                    } else {
+                        displayMessage(localization.translate('Download_By_Others'), localization.translate('Download_Failed'));
+                    }
+                })
+                .fail((xhr, error) => {
+                    hideLoader();
+                    displayMessage(localization.translate('Download_By_Others'), localization.translate('Download_Failed'), [error]);
+                });
+        });
         
         $(document).off('click', 'button.btnDeletePhoto').on('click', 'button.btnDeletePhoto', function (e) {
             preventDefaults(e);
