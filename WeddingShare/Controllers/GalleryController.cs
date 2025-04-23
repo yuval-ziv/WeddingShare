@@ -509,20 +509,22 @@ namespace WeddingShare.Controllers
                 }
 
                 string galleryDir = id > 0 ? Path.Combine(UploadsDirectory, gallery.Name) : UploadsDirectory;
-                
-                if (_fileHelper.DirectoryExists(galleryDir))
+
+                if (!_fileHelper.DirectoryExists(galleryDir))
                 {
-                    _fileHelper.CreateDirectoryIfNotExists(TempDirectory);
-
-                    string tempZipFile = Path.Combine(TempDirectory, $"{gallery.Name}-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.zip");
-                    ZipFile.CreateFromDirectory(galleryDir, tempZipFile, CompressionLevel.Optimal, false);
-
-                    await RemovePendingAndRejectedItemsForNonAuthenticatedUsers(tempZipFile);
-                    await RemoveFilesByTheSameUser(id, tempZipFile);
-                    await DeleteEmptyFolders(tempZipFile);
-
-                    return Json(new { success = true, filename = $"/temp/{Path.GetFileName(tempZipFile)}" });
+                    return Json(new { success = false });
                 }
+
+                _fileHelper.CreateDirectoryIfNotExists(TempDirectory);
+
+                string tempZipFile = Path.Combine(TempDirectory, $"{gallery.Name}-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.zip");
+                ZipFile.CreateFromDirectory(galleryDir, tempZipFile, CompressionLevel.Optimal, false);
+
+                await RemovePendingAndRejectedItemsForNonAuthenticatedUsers(tempZipFile);
+                await RemoveFilesByTheSameUser(id, tempZipFile);
+                await DeleteEmptyFolders(tempZipFile);
+
+                return Json(new { success = true, filename = $"/temp/{Path.GetFileName(tempZipFile)}" });
             }
             catch (Exception ex)
             {
