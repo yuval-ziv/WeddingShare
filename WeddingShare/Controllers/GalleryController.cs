@@ -30,6 +30,7 @@ namespace WeddingShare.Controllers
         private readonly ILogger _logger;
         private readonly IStringLocalizer<Lang.Translations> _localizer;
 
+        private readonly string ImagesDirectory;
         private readonly string TempDirectory;
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
@@ -48,6 +49,7 @@ namespace WeddingShare.Controllers
             _logger = logger;
             _localizer = localizer;
 
+            ImagesDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "images");
             TempDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "temp");
             UploadsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
             ThumbnailsDirectory = Path.Combine(_hostingEnvironment.WebRootPath, "thumbnails");
@@ -333,7 +335,15 @@ namespace WeddingShare.Controllers
                                     var filePath = Path.Combine(galleryPath, fileName);
                                     if (!string.IsNullOrWhiteSpace(filePath))
                                     {
-                                        await _fileHelper.SaveFile(file, filePath, FileMode.Create);
+                                        var isDemoMode = await _settings.GetOrDefault(Settings.IsDemoMode, false);
+                                        if (!isDemoMode)
+                                        {
+                                            await _fileHelper.SaveFile(file, filePath, FileMode.Create);
+                                        }
+                                        else
+                                        {
+                                            System.IO.File.Copy(Path.Combine(ImagesDirectory, $"DemoImage.png"), filePath, true);
+                                        }
 
                                         var checksum = await _fileHelper.GetChecksum(filePath);
                                         if (await _settings.GetOrDefault(Settings.Gallery.PreventDuplicates, true, galleryId) && (string.IsNullOrWhiteSpace(checksum) || await _database.GetGalleryItemByChecksum(gallery.Id, checksum) != null))
