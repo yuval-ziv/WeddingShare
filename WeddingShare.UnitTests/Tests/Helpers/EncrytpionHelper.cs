@@ -1,15 +1,16 @@
+using WeddingShare.Constants;
 using WeddingShare.Helpers;
 
 namespace WeddingShare.UnitTests.Tests.Helpers
 {
     public class EncrytpionHelper
     {
-        private readonly IConfigHelper _config = Substitute.For<IConfigHelper>();
-        
+        private readonly ISettingsHelper _settings = Substitute.For<ISettingsHelper>();
+
         public EncrytpionHelper() 
         {
-            _config.GetOrDefault("Security:Encryption:HashType", Arg.Any<string>()).Returns("SHA256");
-            _config.GetOrDefault("Security:Encryption:Iterations", Arg.Any<int>()).Returns(1000);
+            _settings.GetOrDefault(Security.Encryption.HashType, Arg.Any<string>()).Returns("SHA256");
+            _settings.GetOrDefault(Security.Encryption.Iterations, Arg.Any<int>()).Returns(1000);
         }
 
         [SetUp]
@@ -22,10 +23,10 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase("Test", "Key3", "Salt3", "47VYeotX2C8GPuhaQlrWXg==")]
         public void EncrytpionHelper_ValidDetails(string value, string key, string salt, string expected)
         {
-            _config.GetOrDefault("Security:Encryption:Key", Arg.Any<string>()).Returns(key);
-            _config.GetOrDefault("Security:Encryption:Salt", Arg.Any<string>()).Returns(salt);
+            _settings.GetOrDefault(Security.Encryption.Key, Arg.Any<string>()).Returns(key);
+            _settings.GetOrDefault(Security.Encryption.Salt, Arg.Any<string>()).Returns(salt);
 
-            var actual = new EncryptionHelper(_config).Encrypt(value);
+            var actual = new EncryptionHelper(_settings).Encrypt(value);
             Assert.That(actual, Is.EqualTo(expected));
         }
 
@@ -34,10 +35,10 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase("Test3", "Salt3")]
         public void EncrytpionHelper_NoKey(string value, string salt)
         {
-            _config.GetOrDefault("Security:Encryption:Key", Arg.Any<string>()).Returns(string.Empty);
-            _config.GetOrDefault("Security:Encryption:Salt", Arg.Any<string>()).Returns(salt);
+            _settings.GetOrDefault(Security.Encryption.Key, Arg.Any<string>()).Returns(string.Empty);
+            _settings.GetOrDefault(Security.Encryption.Salt, Arg.Any<string>()).Returns(salt);
 
-            var actual = new EncryptionHelper(_config).Encrypt(value);
+            var actual = new EncryptionHelper(_settings).Encrypt(value);
             Assert.That(actual, Is.EqualTo(value));
         }
 
@@ -46,10 +47,10 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase("Test3", "Key3")]
         public void EncrytpionHelper_NoSalt(string value, string key)
         {
-            _config.GetOrDefault("Security:Encryption:Key", Arg.Any<string>()).Returns(key);
-            _config.GetOrDefault("Security:Encryption:Salt", Arg.Any<string>()).Returns(string.Empty);
+            _settings.GetOrDefault(Security.Encryption.Key, Arg.Any<string>()).Returns(key);
+            _settings.GetOrDefault(Security.Encryption.Salt, Arg.Any<string>()).Returns(string.Empty);
 
-            var actual = new EncryptionHelper(_config).Encrypt(value);
+            var actual = new EncryptionHelper(_settings).Encrypt(value);
             Assert.That(actual, Is.EqualTo(value));
         }
 
@@ -58,13 +59,13 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase("Test3", "Key3", "Salt3")]
         public void EncrytpionHelper_DifferentHashes(string value, string key, string salt)
         {
-            _config.GetOrDefault("Security:Encryption:Key", Arg.Any<string>()).Returns(key);
-            _config.GetOrDefault("Security:Encryption:Salt", Arg.Any<string>()).Returns(salt);
-            var helper1 = new EncryptionHelper(_config).Encrypt(value);
+            _settings.GetOrDefault(Security.Encryption.Key, Arg.Any<string>()).Returns(key);
+            _settings.GetOrDefault(Security.Encryption.Salt, Arg.Any<string>()).Returns(salt);
+            var helper1 = new EncryptionHelper(_settings).Encrypt(value);
 
-            _config.GetOrDefault("Security:Encryption:Key", Arg.Any<string>()).Returns("Unit");
-            _config.GetOrDefault("Security:Encryption:Salt", Arg.Any<string>()).Returns("Test");
-            var helper2 = new EncryptionHelper(_config).Encrypt(value);
+            _settings.GetOrDefault(Security.Encryption.Key, Arg.Any<string>()).Returns("Unit");
+            _settings.GetOrDefault(Security.Encryption.Salt, Arg.Any<string>()).Returns("Test");
+            var helper2 = new EncryptionHelper(_settings).Encrypt(value);
 
             Assert.That(helper1, Is.Not.EqualTo(helper2));
         }
@@ -74,10 +75,10 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase("Key", "Salt", true)]
         public void EncrytpionHelper_IsEncryptionEnabled(string key, string salt, bool expected)
         {
-            _config.GetOrDefault("Security:Encryption:Key", Arg.Any<string>()).Returns(key);
-            _config.GetOrDefault("Security:Encryption:Salt", Arg.Any<string>()).Returns(salt);
+            _settings.GetOrDefault(Security.Encryption.Key, Arg.Any<string>()).Returns(key);
+            _settings.GetOrDefault(Security.Encryption.Salt, Arg.Any<string>()).Returns(salt);
             
-            var actual = new EncryptionHelper(_config).IsEncryptionEnabled();
+            var actual = new EncryptionHelper(_settings).IsEncryptionEnabled();
 
             Assert.That(actual, Is.EqualTo(expected));
         }

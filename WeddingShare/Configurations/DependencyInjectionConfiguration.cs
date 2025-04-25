@@ -8,7 +8,7 @@ namespace WeddingShare.Configurations
         {
             services.AddSingleton<IConfigHelper, ConfigHelper>();
             services.AddSingleton<IEnvironmentWrapper, EnvironmentWrapper>();
-            services.AddSingleton<IGalleryHelper, GalleryHelper>();
+            services.AddSingleton<ISettingsHelper, SettingsHelper>();
             services.AddSingleton<IImageHelper, ImageHelper>();
             services.AddSingleton<IFileHelper, FileHelper>();
             services.AddSingleton<IDeviceDetector, DeviceDetector>();

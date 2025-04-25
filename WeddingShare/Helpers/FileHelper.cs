@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Numerics;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace WeddingShare.Helpers
@@ -20,7 +21,7 @@ namespace WeddingShare.Helpers
         Task SaveFile(IFormFile file, string path, FileMode mode);
         Task<string> GetChecksum(string path);
         Task<DateTime?> GetCreationDatetime(string path);
-        string BytesToHumanReadable(long bytes);
+        string BytesToHumanReadable(long bytes, int decimalPlaces = 0);
     }
 
     public class FileHelper : IFileHelper
@@ -184,24 +185,31 @@ namespace WeddingShare.Helpers
             });
         }
 
-        public string BytesToHumanReadable(long bytes)
+        public string BytesToHumanReadable(long bytes, int decimalPlaces = 0)
         {
-            if (bytes > 0)
+            var sizes = new string[] { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
+            var place = 0;
+            var total = 0.0;
+
+            var decimalFormat = "###0.";
+            for (var i = 0; i < decimalPlaces; i++)
+            {
+                decimalFormat += "0";
+            }
+
+            if (bytes >= 0)
             { 
                 try
                 {
-                    var sizes = new string[] { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
-
                     long b = Math.Abs(bytes);
-                    int place = Convert.ToInt32(Math.Floor(Math.Log(b ,1000)));
+                    place = Convert.ToInt32(Math.Floor(Math.Log(b ,1000)));
                     double num = Math.Round(b / Math.Pow(1000, place), 2);
-
-                    return (Math.Sign(bytes) * num).ToString($"###0.00 {sizes[place]}");
+                    total = Math.Sign(bytes) * num;
                 }
                 catch { }
             }
 
-            return "0.00 B";
+            return total.ToString($"{decimalFormat.TrimEnd('.')} {sizes[place]}");
         }
     }
 }

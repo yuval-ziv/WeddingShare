@@ -1,13 +1,13 @@
-﻿@model WeddingShare.Models.PhotoGallery
+@model WeddingShare.Models.PhotoGallery
 @using System.Text
+@using WeddingShare.Constants
 @using WeddingShare.Enums
 @using WeddingShare.Helpers
 @using WeddingShare.Views.Gallery
-@inject WeddingShare.Helpers.IGalleryHelper _gallery
 @inject WeddingShare.Helpers.IUrlHelper _url
 
 @{
-    var qrCodeEnabled = _gallery.GetConfig(Model?.GalleryName, "Gallery:QR_Code:Enabled", true);
+    var qrCodeEnabled = await _settings.GetOrDefault(Settings.Gallery.QRCode.Enabled, true, Model?.GalleryName);
 }
 
 @if (qrCodeEnabled)
@@ -34,7 +34,16 @@
 @if (Model.ViewMode != ViewMode.Slideshow || !(ViewBag.IsMobile ?? false))
 {
     <div class="row px-4 mb-4 presentation-hidden">
-        <div class="col-12 px-2 px-xl-5">
+        <div class="col-12 px-2 px-xl-0">
+            @if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <div class="btn-group w-100 mb-2">
+                    <button class="btnGallerySettings btn btn-danger btn-sm" type="button" data-gallery-name="@Model?.GalleryName" data-gallery-id="@Model?.GalleryId">
+                        @_localizer["Settings"].Value
+                    </button>
+                </div>
+            }
+
             @if (qrCodeEnabled)
             {
                 <div class="btn-group w-100 mb-2">
@@ -108,7 +117,7 @@
                 </div>
             </div>
 
-            @if (_gallery.GetConfig(Model?.GalleryName, "Gallery:Download", true) || (User?.Identity != null && User.Identity.IsAuthenticated))
+            @if (await _settings.GetOrDefault(Settings.Gallery.Download, true, Model?.GalleryName) || (User?.Identity != null && User.Identity.IsAuthenticated))
             {
                 <div class="btn-group w-100 mb-2">
                     <button class="btnDownloadGallery btn btn-primary btn-sm" type="button" data-gallery-id="@Model?.GalleryId">

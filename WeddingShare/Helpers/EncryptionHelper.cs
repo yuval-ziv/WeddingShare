@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using WeddingShare.Constants;
 
 namespace WeddingShare.Helpers
 {
@@ -16,13 +17,13 @@ namespace WeddingShare.Helpers
         private readonly string _key;
         private readonly string _salt;
 
-        public EncryptionHelper(IConfigHelper config)
+        public EncryptionHelper(ISettingsHelper settings)
         {
-            _hashType = ParseHashType(config.GetOrDefault("Security:Encryption:HashType", "SHA256"));
-            _iterations = config.GetOrDefault("Security:Encryption:Iterations", 1000);
+            _hashType = ParseHashType(settings.GetOrDefault(Security.Encryption.HashType, "SHA256").Result);
+            _iterations = settings.GetOrDefault(Security.Encryption.Iterations, 1000).Result;
             
-            _key = config.GetOrDefault("Security:Encryption:Key", string.Empty);
-            _salt = config.GetOrDefault("Security:Encryption:Salt", "WUtlVOvC2a6ol9M6ZidO5sJkQxYMolyasFid2Fyqvjd0uucAjYy5EsHPxdeplFRj");
+            _key = settings.GetOrDefault(Security.Encryption.Key, string.Empty).Result;
+            _salt = settings.GetOrDefault(Security.Encryption.Salt, "WUtlVOvC2a6ol9M6ZidO5sJkQxYMolyasFid2Fyqvjd0uucAjYy5EsHPxdeplFRj").Result;
         }
 
         public bool IsEncryptionEnabled()

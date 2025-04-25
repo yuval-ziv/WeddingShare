@@ -1,28 +1,27 @@
 ﻿@model WeddingShare.Models.PhotoGallery
+@using WeddingShare.Constants
 @using WeddingShare.Enums
 @using WeddingShare.Helpers
 @using WeddingShare.Views.Gallery
-@inject WeddingShare.Helpers.IConfigHelper _config
-@inject WeddingShare.Helpers.IGalleryHelper _gallery
 @inject WeddingShare.Helpers.IUrlHelper _url
 
 @{
     var qrAppend = new List<KeyValuePair<string, string>>();
 
-    var qrDefaultView = _gallery.GetConfig(Model.GalleryName, "Gallery:QR_Code:Default_View", string.Empty);
+    var qrDefaultView = await _settings.GetOrDefault(Settings.Gallery.QRCode.DefaultView, string.Empty, Model?.GalleryName);
     if (!string.IsNullOrWhiteSpace(qrDefaultView))
     {
         qrAppend.Add(new KeyValuePair<string, string>("mode", qrDefaultView));
     }
 
-    var qrDefaultOrder = _gallery.GetConfig(Model.GalleryName, "Gallery:QR_Code:Default_Sort", string.Empty);
+    var qrDefaultOrder = await _settings.GetOrDefault(Settings.Gallery.QRCode.DefaultSort, string.Empty, Model?.GalleryName);
     if (!string.IsNullOrWhiteSpace(qrDefaultOrder))
     {
         qrAppend.Add(new KeyValuePair<string, string>("order", qrDefaultOrder));
     }
 
     var qrExclude = new List<string>();
-    if (_config.GetOrDefault("Hide_Key_From_QR_Code", false))
+    if (await _settings.GetOrDefault(Settings.Basic.HideKeyFromQRCode, false))
     {
         qrExclude.Add("key");
         qrExclude.Add("enc");
@@ -38,7 +37,7 @@
 
 <section class="py-1 py-lg-4">
     <div class="row mt-3 mt-lg-0">
-        @if (_gallery.GetConfig(Model?.GalleryName, "Gallery:Full_Width", false))
+        @if (await _settings.GetOrDefault(Settings.Gallery.FullWidth, false, Model?.GalleryName))
         {
             <div id="main-gallery" class="col-12 px-3 px-lg-5">
                 <partial name="~/Views/Gallery/GalleryWrapper.cshtml" model="Model" />
@@ -50,7 +49,7 @@
             <div id="main-gallery" class="col-12 col-lg-8 px-3 px-lg-1">
                 <partial name="~/Views/Gallery/GalleryWrapper.cshtml" model="Model" />
             </div>
-            <div class="col-12 col-lg-2 d-lg-block pt-3">
+            <div class="col-12 col-lg-2 d-lg-block pt-0 pt-lg-0">
                 <partial name="~/Views/Gallery/GalleryOptions.cshtml" model="Model" />
             </div>
         }

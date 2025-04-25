@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO.Compression;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using TwoFactorAuthNet;
+using WeddingShare.Constants;
 using WeddingShare.Enums;
 using WeddingShare.Helpers;
 using WeddingShare.Helpers.Database;
@@ -20,7 +22,7 @@ namespace WeddingShare.Controllers
     public class AdminController : Controller
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
-        private readonly IConfigHelper _config;
+        private readonly ISettingsHelper _settings;
         private readonly IDatabaseHelper _database;
         private readonly IDeviceDetector _deviceDetector;
         private readonly IFileHelper _fileHelper;
@@ -37,10 +39,10 @@ namespace WeddingShare.Controllers
         private readonly string BannersDirectory;
         private readonly string CustomResourcesDirectory;
 
-        public AdminController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IEncryptionHelper encryption, INotificationHelper notificationHelper, Helpers.IUrlHelper url, ILogger<AdminController> logger, IStringLocalizer<Lang.Translations> localizer)
+        public AdminController(IWebHostEnvironment hostingEnvironment, ISettingsHelper settings, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IEncryptionHelper encryption, INotificationHelper notificationHelper, Helpers.IUrlHelper url, ILogger<AdminController> logger, IStringLocalizer<Lang.Translations> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
-            _config = config;
+            _settings = settings;
             _database = database;
             _deviceDetector = deviceDetector;
             _fileHelper = fileHelper;
@@ -60,6 +62,7 @@ namespace WeddingShare.Controllers
 
         [AllowAnonymous]
         [HttpGet]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Login()
         {
             if (User?.Identity != null && User.Identity.IsAuthenticated)
@@ -137,7 +140,7 @@ namespace WeddingShare.Controllers
 
                             if (mfaSet)
                             {
-                                var tfa = new TwoFactorAuth(_config.GetOrDefault("Settings:Title", "WeddingShare"));
+                                var tfa = new TwoFactorAuth(await _settings.GetOrDefault(Settings.Basic.Title, "WeddingShare"));
                                 if (tfa.VerifyCode(user.MultiFactorToken, model.Code))
                                 {
                                     return Json(new { success = await this.SetUserClaims(this.HttpContext, user) });
@@ -165,6 +168,7 @@ namespace WeddingShare.Controllers
 
         [Authorize]
         [HttpGet]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Logout()
         {
             await this.HttpContext.SignOutAsync();
@@ -193,7 +197,7 @@ namespace WeddingShare.Controllers
                 var user = await _database.GetUser(int.Parse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => string.Equals(ClaimTypes.Sid, x.Type, StringComparison.OrdinalIgnoreCase))?.Value ?? "-1"));
                 if (user != null)
                 { 
-                    if (!_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
+                    if (!await _settings.GetOrDefault(Settings.Basic.SingleGalleryMode, false))
                     {
                         model.Galleries = await _database.GetAllGalleries();
                         if (model.Galleries != null)
@@ -218,6 +222,7 @@ namespace WeddingShare.Controllers
                     }
                             
                     model.Users = await _database.GetAllUsers();
+                    model.Settings = (await _database.GetAllSettings())?.ToDictionary(x => x.Id.ToUpper(), x => x.Value ?? string.Empty);
                 }
             }
             catch (Exception ex)
@@ -229,7 +234,7 @@ namespace WeddingShare.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AvailableGalleries()
+        public async Task<IActionResult> GalleriesList()
         {
             if (User?.Identity == null || !User.Identity.IsAuthenticated)
             {
@@ -243,7 +248,7 @@ namespace WeddingShare.Controllers
                 var user = await _database.GetUser(int.Parse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => string.Equals(ClaimTypes.Sid, x.Type, StringComparison.OrdinalIgnoreCase))?.Value ?? "-1"));
                 if (user != null)
                 {
-                    if (!_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
+                    if (!await _settings.GetOrDefault(Settings.Basic.SingleGalleryMode, false))
                     {
                         result = await _database.GetAllGalleries();
                         if (result != null)
@@ -288,7 +293,7 @@ namespace WeddingShare.Controllers
                 var user = await _database.GetUser(int.Parse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => string.Equals(ClaimTypes.Sid, x.Type, StringComparison.OrdinalIgnoreCase))?.Value ?? "-1"));
                 if (user != null)
                 {
-                    if (!_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
+                    if (!await _settings.GetOrDefault(Settings.Basic.SingleGalleryMode, false))
                     {
                         result = await _database.GetPendingGalleryItems();
                     }
@@ -357,7 +362,7 @@ namespace WeddingShare.Controllers
                         }
                         else if (action == ReviewAction.REJECTED)
                         {
-                            var retain = _config.GetOrDefault("Settings:Gallery:Retain_Rejected_Items", false);
+                            var retain = await _settings.GetOrDefault(Settings.Gallery.RetainRejectedItems, false);
                             if (retain)
                             {
                                 var rejectedDir = Path.Combine(galleryDir, "Rejected");
@@ -415,7 +420,7 @@ namespace WeddingShare.Controllers
                             }
                             else if (action == ReviewAction.REJECTED)
                             {
-                                var retain = _config.GetOrDefault("Settings:Gallery:Retain_Rejected_Items", false);
+                                var retain = await _settings.GetOrDefault(Settings.Gallery.RetainRejectedItems, false);
                                 if (retain)
                                 {
                                     var rejectedDir = Path.Combine(galleryDir, "Rejected");
@@ -459,7 +464,14 @@ namespace WeddingShare.Controllers
                         var check = await _database.GetGallery(model.Name);
                         if (check == null)
                         {
-                            return Json(new { success = string.Equals(model?.Name, (await _database.AddGallery(model))?.Name, StringComparison.OrdinalIgnoreCase) });
+                            if (await _database.GetGalleryCount() < await _settings.GetOrDefault(Settings.Basic.MaxGalleryCount, 1000000))
+                            {
+                                return Json(new { success = string.Equals(model?.Name, (await _database.AddGallery(model))?.Name, StringComparison.OrdinalIgnoreCase) });
+                            }
+                            else
+                            {
+                                return Json(new { success = false, message = _localizer["Gallery_Limit_Reached"].Value });
+                            }
                         }
                         else
                         { 
@@ -546,9 +558,9 @@ namespace WeddingShare.Controllers
                             _fileHelper.DeleteDirectoryIfExists(galleryDir);
                             _fileHelper.CreateDirectoryIfNotExists(galleryDir);
 
-                            if (_config.GetOrDefault("Notifications:Alerts:Destructive_Action", true))
+                            if (await _settings.GetOrDefault(Notifications.Alerts.DestructiveAction, true))
                             { 
-                                await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Wipe' was performed on gallery '{gallery.Name}'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
+                                await _notificationHelper.Send(_localizer["Destructive_Action_Performed"].Value, $"The destructive action 'Wipe' was performed on gallery '{gallery.Name}'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
                             }
                         }
 
@@ -589,9 +601,9 @@ namespace WeddingShare.Controllers
 
                         _fileHelper.CreateDirectoryIfNotExists(Path.Combine(UploadsDirectory, "default"));
 
-                        if (_config.GetOrDefault("Notifications:Alerts:Destructive_Action", true))
+                        if (await _settings.GetOrDefault(Notifications.Alerts.DestructiveAction, true))
                         {
-                            await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Wipe' was performed on all galleries'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
+                            await _notificationHelper.Send(_localizer["Destructive_Action_Performed"].Value, $"The destructive action 'Wipe' was performed on all galleries'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
                         }
                     }
 
@@ -619,9 +631,9 @@ namespace WeddingShare.Controllers
                         var galleryDir = Path.Combine(UploadsDirectory, gallery.Name);
                         _fileHelper.DeleteDirectoryIfExists(galleryDir);
 
-                        if (_config.GetOrDefault("Notifications:Alerts:Destructive_Action", true))
+                        if (await _settings.GetOrDefault(Notifications.Alerts.DestructiveAction, true))
                         {
-                            await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Delete' was performed on gallery '{gallery.Name}'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
+                            await _notificationHelper.Send(_localizer["Destructive_Action_Performed"].Value, $"The destructive action 'Delete' was performed on gallery '{gallery.Name}'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
                         }
 
                         return Json(new { success = await _database.DeleteGallery(gallery) });
@@ -755,9 +767,9 @@ namespace WeddingShare.Controllers
                     var user = await _database.GetUser(id);
                     if (user != null && user.Id > 1)
                     {
-                        if (_config.GetOrDefault("Notifications:Alerts:Destructive_Action", true))
+                        if (await _settings.GetOrDefault(Notifications.Alerts.DestructiveAction, true))
                         {
-                            await _notificationHelper.Send("Destructive Action Performed", $"The destructive action 'Delete' was performed on user '{user.Username}'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
+                            await _notificationHelper.Send(_localizer["Destructive_Action_Performed"].Value, $"The destructive action 'Delete' was performed on user '{user.Username}'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
                         }
 
                         return Json(new { success = await _database.DeleteUser(user) });
@@ -770,6 +782,54 @@ namespace WeddingShare.Controllers
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, $"{_localizer["Failed_Delete_User"].Value} - {ex?.Message}");
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateSettings(List<UpdateSettingsModel> model)
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                if (model != null && model.Count() > 0)
+                {
+                    try
+                    {
+                        var success = true;
+
+                        foreach (var m in model)
+                        {
+                            try
+                            {
+                                var setting = await _database.SetSetting(new SettingModel()
+                                {
+                                    Id = m.Key,
+                                    Value = m.Value
+                                });
+
+                                if (setting == null || setting.Value != (m.Value ?? string.Empty))
+                                {
+                                    success = false;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogError(ex, $"{_localizer["Failed_Update_Setting"].Value} - {ex?.Message}");
+                            }
+                        }
+
+                        return Json(new { success = success });
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, $"{_localizer["Failed_Update_Setting"].Value} - {ex?.Message}");
+                    }
+                }
+                else
+                {
+                    return Json(new { success = false, message = _localizer["Failed_Update_Setting"].Value });
                 }
             }
 
@@ -944,7 +1004,7 @@ namespace WeddingShare.Controllers
                 {
                     try
                     {
-                        var tfa = new TwoFactorAuth(_config.GetOrDefault("Settings:Title", "WeddingShare"));
+                        var tfa = new TwoFactorAuth(await _settings.GetOrDefault(Settings.Basic.Title, "WeddingShare"));
                         if (tfa.VerifyCode(secret, code))
                         {
                             var userId = int.Parse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => string.Equals(ClaimTypes.Sid, x.Type, StringComparison.OrdinalIgnoreCase))?.Value ?? "-1");
@@ -1045,18 +1105,18 @@ namespace WeddingShare.Controllers
         {
             try
             {
-                if (_config.GetOrDefault("Notifications:Alerts:Failed_Login", true))
+                if (await _settings.GetOrDefault(Notifications.Alerts.FailedLogin, true))
                 {
                     await _notificationHelper.Send("Invalid Login Detected", $"An invalid login attempt was made for account '{model?.Username}'.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
                 }
 
                 var failedAttempts = await _database.IncrementLockoutCount(user.Id);
-                if (failedAttempts >= _config.GetOrDefault("Settings:Account:Lockout_Attempts", 5))
+                if (failedAttempts >= await _settings.GetOrDefault(Settings.Account.LockoutAttempts, 5))
                 {
-                    var timeout = _config.GetOrDefault("Settings:Account:Lockout_Mins", 60);
+                    var timeout = await _settings.GetOrDefault(Settings.Account.LockoutMins, 60);
                     await _database.SetLockout(user.Id, DateTime.UtcNow.AddMinutes(timeout));
 
-                    if (_config.GetOrDefault("Notifications:Alerts:Account_Lockout", true))
+                    if (await _settings.GetOrDefault(Notifications.Alerts.AccountLockout, true))
                     {
                         await _notificationHelper.Send("Account Lockout", $"Account '{model?.Username}' has been locked out for {timeout} minutes due to too many failed login attempts.", _url.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
                     }

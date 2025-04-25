@@ -4,10 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
-using NSubstitute;
 using NSubstitute.ReturnsExtensions;
-using System.Net;
-using System.Text.Json;
+using WeddingShare.Constants;
 using WeddingShare.Controllers;
 using WeddingShare.Enums;
 using WeddingShare.Helpers;
@@ -22,8 +20,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
     public class GalleryControllerTests
     {
         private readonly IWebHostEnvironment _env = Substitute.For<IWebHostEnvironment>();
-        private readonly IConfigHelper _config = Substitute.For<IConfigHelper>();
-        private readonly IGalleryHelper _gallery = Substitute.For<IGalleryHelper>();
+        private readonly ISettingsHelper _settings = Substitute.For<ISettingsHelper>();
         private readonly IDatabaseHelper _database = Substitute.For<IDatabaseHelper>();
         private readonly IFileHelper _file = Substitute.For<IFileHelper>();
         private readonly IDeviceDetector _deviceDetector = Substitute.For<IDeviceDetector>();
@@ -78,17 +75,17 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             _database.GetAllGalleryItems(Arg.Any<int>(), GalleryItemState.Approved, Arg.Any<MediaType>(), Arg.Any<ImageOrientation>(), Arg.Any<GalleryGroup>(), Arg.Any<GalleryOrder>(), Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(MockData.MockGalleryItems(10, 1, GalleryItemState.Approved)));
 			_database.GetGalleryItemByChecksum(Arg.Any<int>(), Arg.Any<string>()).ReturnsNull();
 
-            _gallery.GetSecretKey(Arg.Any<string>()).Returns("password");
-            _gallery.GetSecretKey("blaa").Returns("456789");
-            _gallery.GetSecretKey("missing").Returns("123456");
-			_gallery.GetConfig(Arg.Any<string>(), "Gallery:Upload", Arg.Any<bool>()).Returns(true);
-			_gallery.GetConfig(Arg.Any<string>(), "Gallery:Download", Arg.Any<bool>()).Returns(true);
-			_gallery.GetConfig(Arg.Any<string>(), "Gallery:Upload_Period", Arg.Any<string>()).Returns("1970-01-01 00:00:00");
-			_gallery.GetConfig(Arg.Any<string>(), "Gallery:Prevent_Duplicates", Arg.Any<bool>()).Returns(true);
-            _gallery.GetConfig(Arg.Any<string>(), "Gallery:Default_View", Arg.Any<int>()).Returns((int)ViewMode.Default);
-            _gallery.GetConfig(Arg.Any<string>(), "Gallery:Allowed_File_Types", Arg.Any<string>()).Returns(".jpg,.jpeg,.png,.mp4,.mov");
-			_gallery.GetConfig(Arg.Any<string>(), "Gallery:Require_Review", Arg.Any<bool>()).Returns(true);
-            _gallery.GetConfig(Arg.Any<string>(), "Gallery:Max_File_Size_Mb", Arg.Any<int>()).Returns(10);
+            _settings.GetOrDefault(Settings.Gallery.SecretKey, Arg.Any<string>(), Arg.Any<string>()).Returns("password");
+            _settings.GetOrDefault(Settings.Gallery.SecretKey, Arg.Any<string>(), "blaa").Returns("456789");
+            _settings.GetOrDefault(Settings.Gallery.SecretKey, Arg.Any<string>(), "missing").Returns("123456");
+			_settings.GetOrDefault(Settings.Gallery.Upload, Arg.Any<bool>(), Arg.Any<string>()).Returns(true);
+			_settings.GetOrDefault(Settings.Gallery.Download, Arg.Any<bool>(), Arg.Any<string>()).Returns(true);
+			_settings.GetOrDefault(Settings.Gallery.UploadPeriod, Arg.Any<string>(), Arg.Any<string>()).Returns("1970-01-01 00:00:00");
+			_settings.GetOrDefault(Settings.Gallery.PreventDuplicates, Arg.Any<bool>(), Arg.Any<string>()).Returns(true);
+            _settings.GetOrDefault(Settings.Gallery.DefaultView, Arg.Any<int>(), Arg.Any<string>()).Returns((int)ViewMode.Default);
+            _settings.GetOrDefault(Settings.Gallery.AllowedFileTypes, Arg.Any<string>(), Arg.Any<string>()).Returns(".jpg,.jpeg,.png,.mp4,.mov");
+			_settings.GetOrDefault(Settings.Gallery.RequireReview, Arg.Any<bool>(), Arg.Any<string>()).Returns(true);
+            _settings.GetOrDefault(Settings.Gallery.MaxFileSizeMB, Arg.Any<int>(), Arg.Any<string>()).Returns(10);
 
 			_file.GetChecksum(Arg.Any<string>()).Returns(Guid.NewGuid().ToString());
 
@@ -97,28 +94,37 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 			_localizer[Arg.Any<string>()].Returns(new LocalizedString("UnitTest", "UnitTest"));
 		}
 
-        [TestCase(DeviceType.Desktop, 1, "default", "password", ViewMode.Default, GalleryGroup.None, GalleryOrder.Descending)]
-        [TestCase(DeviceType.Mobile, 2, "blaa", "456789", ViewMode.Presentation, GalleryGroup.Date, GalleryOrder.Ascending)]
-        [TestCase(DeviceType.Tablet, 101, "missing", "123456", ViewMode.Slideshow, GalleryGroup.Uploader, GalleryOrder.Ascending)]
-        public async Task GalleryController_Index(DeviceType deviceType, int id, string name, string? key, ViewMode? mode, GalleryGroup group, GalleryOrder order)
+        [TestCase(DeviceType.Desktop, 1, "default", "password", ViewMode.Default, GalleryGroup.None, GalleryOrder.Descending, true)]
+        [TestCase(DeviceType.Mobile, 2, "blaa", "456789", ViewMode.Presentation, GalleryGroup.Date, GalleryOrder.Ascending, true)]
+        [TestCase(DeviceType.Tablet, 101, "missing", "123456", ViewMode.Slideshow, GalleryGroup.Uploader, GalleryOrder.Ascending, false)]
+        public async Task GalleryController_Index(DeviceType deviceType, int id, string name, string? key, ViewMode? mode, GalleryGroup group, GalleryOrder order, bool existing)
         {
             _deviceDetector.ParseDeviceType(Arg.Any<string>()).Returns(deviceType);
-            _config.GetOrDefault("Settings:Single_Gallery_Mode", Arg.Any<bool>()).Returns(false);
+            _settings.GetOrDefault(Settings.Basic.SingleGalleryMode, Arg.Any<bool>()).Returns(false);
+            _settings.GetOrDefault(Settings.Basic.GuestGalleryCreation, Arg.Any<bool>()).Returns(false);
 
-            var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
+            var controller = new GalleryController(_env, _settings, _database, _file, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
             controller.ControllerContext.HttpContext = MockData.MockHttpContext();
 
-            ViewResult actual = (ViewResult)await controller.Index(name, key, mode, group, order);
-            Assert.That(actual, Is.TypeOf<ViewResult>());
-            Assert.That(actual?.Model, Is.Not.Null);
+			if (existing)
+			{
+				ViewResult actual = (ViewResult)await controller.Index(name, key, mode, group, order);
+				Assert.That(actual, Is.TypeOf<ViewResult>());
+                Assert.That(actual?.Model, Is.Not.Null);
 
-            PhotoGallery model = (PhotoGallery)actual.Model;
-            Assert.That(model?.GalleryId, Is.EqualTo(id));
-            Assert.That(model?.GalleryName, Is.EqualTo(name));
-            Assert.That(model.ViewMode, Is.EqualTo(mode));
-            Assert.That(model?.FileUploader?.GalleryId, Is.EqualTo(name));
-            Assert.That(model?.FileUploader?.SecretKey, Is.EqualTo(key));
-            Assert.That(model?.FileUploader?.UploadUrl, Is.EqualTo("/Gallery/UploadImage"));
+				PhotoGallery model = (PhotoGallery)actual.Model;
+				Assert.That(model?.GalleryId, Is.EqualTo(id));
+				Assert.That(model?.GalleryName, Is.EqualTo(name));
+				Assert.That(model.ViewMode, Is.EqualTo(mode));
+				Assert.That(model?.FileUploader?.GalleryId, Is.EqualTo(name));
+				Assert.That(model?.FileUploader?.SecretKey, Is.EqualTo(key));
+				Assert.That(model?.FileUploader?.UploadUrl, Is.EqualTo("/Gallery/UploadImage"));
+			}
+			else
+			{
+                RedirectToActionResult actual = (RedirectToActionResult)await controller.Index(name, key, mode, group, order);
+				Assert.That(actual, Is.TypeOf<RedirectToActionResult>());
+			}
         }
 
         [TestCase(true, true)]
@@ -126,10 +132,10 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         public async Task GalleryController_UploadDisabled(bool disabled, bool expected)
         {
             _deviceDetector.ParseDeviceType(Arg.Any<string>()).Returns(DeviceType.Desktop);
-            _config.GetOrDefault("Settings:Single_Gallery_Mode", Arg.Any<bool>()).Returns(false);
-			_gallery.GetConfig(Arg.Any<string>(), "Gallery:Upload", Arg.Any<bool>()).Returns(disabled);
+            _settings.GetOrDefault(Settings.Basic.SingleGalleryMode, Arg.Any<bool>()).Returns(false);
+            _settings.GetOrDefault(Settings.Gallery.Upload, Arg.Any<bool>(), Arg.Any<string>()).Returns(disabled);
 
-            var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
+            var controller = new GalleryController(_env, _settings, _database, _file, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
             controller.ControllerContext.HttpContext = MockData.MockHttpContext();
 
             ViewResult actual = (ViewResult)await controller.Index("default", "password", ViewMode.Default, GalleryGroup.None, GalleryOrder.Descending);
@@ -148,10 +154,10 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         public async Task GalleryController_UploadDisabled(string uploadPeriod, bool expected)
         {
             _deviceDetector.ParseDeviceType(Arg.Any<string>()).Returns(DeviceType.Desktop);
-            _config.GetOrDefault("Settings:Single_Gallery_Mode", Arg.Any<bool>()).Returns(false);
-            _gallery.GetConfig(Arg.Any<string>(), "Gallery:Upload_Period", Arg.Any<string>()).Returns(uploadPeriod);
+            _settings.GetOrDefault(Settings.Basic.SingleGalleryMode, Arg.Any<bool>()).Returns(false);
+            _settings.GetOrDefault(Settings.Gallery.UploadPeriod, Arg.Any<string>(), Arg.Any<string>()).Returns(uploadPeriod);
 
-            var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
+            var controller = new GalleryController(_env, _settings, _database, _file, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
             controller.ControllerContext.HttpContext = MockData.MockHttpContext();
 
             ViewResult actual = (ViewResult)await controller.Index("default", "password", ViewMode.Default, GalleryGroup.None, GalleryOrder.Descending);
@@ -168,9 +174,9 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 		public async Task GalleryController_Index_SingleGalleryMode(DeviceType deviceType, ViewMode? mode, GalleryGroup group, GalleryOrder order)
 		{
 			_deviceDetector.ParseDeviceType(Arg.Any<string>()).Returns(deviceType);
-			_config.GetOrDefault("Settings:Single_Gallery_Mode", Arg.Any<bool>()).Returns(true);
+            _settings.GetOrDefault(Settings.Basic.SingleGalleryMode, Arg.Any<bool>()).Returns(true);
 
-			var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
+			var controller = new GalleryController(_env, _settings, _database, _file, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
 			controller.ControllerContext.HttpContext = MockData.MockHttpContext();
 
 			ViewResult actual = (ViewResult)await controller.Index("default", "password", mode, group, order);
@@ -192,7 +198,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 		[TestCase(false, 3, "Unit Testing")]
 		public async Task GalleryController_UploadImage(bool requiresReview, int fileCount, string? uploadedBy)
 		{
-			_config.GetOrDefault("Settings:Gallery:Require_Review", Arg.Any<bool>()).Returns(requiresReview);
+            _settings.GetOrDefault(Settings.Gallery.RequireReview, Arg.Any<bool>()).Returns(requiresReview);
 
 			var files = new FormFileCollection();
 			for (var i = 0; i < fileCount; i++)
@@ -203,7 +209,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 			var session = new MockSession();
 			session.Set(SessionKey.ViewerIdentity, uploadedBy ?? string.Empty);
 
-			var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
+			var controller = new GalleryController(_env, _settings, _database, _file, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
 			controller.ControllerContext.HttpContext = MockData.MockHttpContext(
 				session: session,
 				form: new Dictionary<string, StringValues>
@@ -233,7 +239,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             var session = new MockSession();
             session.Set(SessionKey.ViewerIdentity, string.Empty);
 
-            var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
+            var controller = new GalleryController(_env, _settings, _database, _file, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
             controller.ControllerContext.HttpContext = MockData.MockHttpContext(
                 session: session,
                 form: new Dictionary<string, StringValues>
@@ -255,7 +261,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 		[TestCase("")]
 		public async Task GalleryController_UploadImage_InvalidGallery(string? id)
 		{
-			var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
+			var controller = new GalleryController(_env, _settings, _database, _file, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
 			controller.ControllerContext.HttpContext = MockData.MockHttpContext(form: new Dictionary<string, StringValues>
 			{
 				{ "Id", id }
@@ -273,7 +279,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 		[TestCase("")]
 		public async Task GalleryController_UploadImage_InvalidSecretKey(string? key)
 		{
-			var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
+			var controller = new GalleryController(_env, _settings, _database, _file, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
 			controller.ControllerContext.HttpContext = MockData.MockHttpContext(form: new Dictionary<string, StringValues>
 			{
 				{ "Id", "default" },
@@ -291,7 +297,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 		[TestCase()]
 		public async Task GalleryController_UploadImage_MissingGallery()
 		{
-			var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
+			var controller = new GalleryController(_env, _settings, _database, _file, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
 			controller.ControllerContext.HttpContext = MockData.MockHttpContext(form: new Dictionary<string, StringValues>
 			{
 				{ "Id", Guid.NewGuid().ToString() }
@@ -308,7 +314,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 		[TestCase()]
 		public async Task GalleryController_UploadImage_NoFiles()
 		{
-			var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
+			var controller = new GalleryController(_env, _settings, _database, _file, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
 			controller.ControllerContext.HttpContext = MockData.MockHttpContext(form: new Dictionary<string, StringValues>
 			{
 				{ "Id", "default" },
@@ -326,7 +332,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 		[TestCase()]
 		public async Task GalleryController_UploadImage_FileTooBig()
 		{
-			var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
+			var controller = new GalleryController(_env, _settings, _database, _file, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
 			controller.ControllerContext.HttpContext = MockData.MockHttpContext(
 				form: new Dictionary<string, StringValues>
 				{
@@ -348,7 +354,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 		[TestCase()]
 		public async Task GalleryController_UploadImage_InvalidFileType()
 		{
-			var controller = new GalleryController(_env, _config, _database, _file, _gallery, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
+			var controller = new GalleryController(_env, _settings, _database, _file, _deviceDetector, _image, _notification, _encryption, _url, _logger, _localizer);
 			controller.ControllerContext.HttpContext = MockData.MockHttpContext(
 				form: new Dictionary<string, StringValues>
 				{

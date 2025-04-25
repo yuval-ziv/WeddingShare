@@ -1,9 +1,9 @@
 ﻿@using TwoFactorAuthNet
+@using WeddingShare.Constants
 @using WeddingShare.Helpers
-@inject IConfigHelper _config
-@inject Microsoft.Extensions.Localization.IStringLocalizer<WeddingShare.Lang.Translations> _localizer
+
 @{
-    var title = _config.GetOrDefault("Settings:Title", "WeddingShare");
+    var title = await _settings.GetOrDefault(Settings.Basic.Title, "WeddingShare");
 
     var tfa = new TwoFactorAuth(title);
 

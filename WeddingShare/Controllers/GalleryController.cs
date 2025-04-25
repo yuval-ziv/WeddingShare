@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using WeddingShare.Attributes;
+using WeddingShare.Constants;
 using WeddingShare.Enums;
 using WeddingShare.Extensions;
 using WeddingShare.Helpers;
@@ -18,10 +19,9 @@ namespace WeddingShare.Controllers
     public class GalleryController : Controller
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
-        private readonly IConfigHelper _config;
+        private readonly ISettingsHelper _settings;
         private readonly IDatabaseHelper _database;
         private readonly IFileHelper _fileHelper;
-        private readonly IGalleryHelper _gallery;
         private readonly IDeviceDetector _deviceDetector;
         private readonly IImageHelper _imageHelper;
         private readonly INotificationHelper _notificationHelper;
@@ -34,13 +34,12 @@ namespace WeddingShare.Controllers
         private readonly string UploadsDirectory;
         private readonly string ThumbnailsDirectory;
 
-        public GalleryController(IWebHostEnvironment hostingEnvironment, IConfigHelper config, IDatabaseHelper database, IFileHelper fileHelper, IGalleryHelper galleryHelper, IDeviceDetector deviceDetector, IImageHelper imageHelper, INotificationHelper notificationHelper, IEncryptionHelper encryptionHelper, Helpers.IUrlHelper urlHelper, ILogger<GalleryController> logger, IStringLocalizer<Lang.Translations> localizer)
+        public GalleryController(IWebHostEnvironment hostingEnvironment, ISettingsHelper settings, IDatabaseHelper database, IFileHelper fileHelper, IDeviceDetector deviceDetector, IImageHelper imageHelper, INotificationHelper notificationHelper, IEncryptionHelper encryptionHelper, Helpers.IUrlHelper urlHelper, ILogger<GalleryController> logger, IStringLocalizer<Lang.Translations> localizer)
         {
             _hostingEnvironment = hostingEnvironment;
-            _config = config;
+            _settings = settings;
             _database = database;
             _fileHelper = fileHelper;
-            _gallery = galleryHelper;
             _deviceDetector = deviceDetector;
             _imageHelper = imageHelper;
             _notificationHelper = notificationHelper;
@@ -55,13 +54,36 @@ namespace WeddingShare.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string id = "default", string? key = null)
+        public async Task<IActionResult> Login(string id = "default", string? key = null)
         {
-
             var append = new List<KeyValuePair<string, string>>()
             {
                 new KeyValuePair<string, string>("id", id)
             };
+
+            GalleryModel? gallery = await _database.GetGallery(id);
+            if (gallery == null)
+            {
+                if (await _settings.GetOrDefault(Settings.Basic.GuestGalleryCreation, false))
+                { 
+                    if (await _database.GetGalleryCount() < await _settings.GetOrDefault(Settings.Basic.MaxGalleryCount, 1000000))
+                    {
+                        await _database.AddGallery(new GalleryModel()
+                        {
+                            Name = id.ToLower(),
+                            SecretKey = key
+                        });
+                    }
+                    else
+                    {
+                        return new RedirectToActionResult("Index", "Error", new { Reason = ErrorCode.GalleryLimitReached }, false);
+                    }
+                }
+                else
+                {
+                    return new RedirectToActionResult("Index", "Error", new { Reason = ErrorCode.GalleryCreationNotAllowed }, false);
+                }
+            }
 
             if (!string.IsNullOrWhiteSpace(key))
             {
@@ -77,15 +99,14 @@ namespace WeddingShare.Controllers
 
         [HttpGet]
         [RequiresSecretKey]
-        [AllowGuestCreate]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Index(string id = "default", string? key = null, ViewMode? mode = null, GalleryGroup group = GalleryGroup.None, GalleryOrder order = GalleryOrder.Descending, GalleryFilter filter = GalleryFilter.All, bool partial = false)
         {
-            id = (!string.IsNullOrWhiteSpace(id) && !_config.GetOrDefault("Settings:Single_Gallery_Mode", false)) ? id.ToLower() : "default";
+            id = (!string.IsNullOrWhiteSpace(id) && !await _settings.GetOrDefault(Settings.Basic.SingleGalleryMode, false)) ? id.ToLower() : "default";
 
             try
             {
-                ViewBag.ViewMode = mode ?? (ViewMode)_gallery.GetConfig(id, "Gallery:Default_View", (int)ViewMode.Default);
+                ViewBag.ViewMode = mode ?? (ViewMode)await _settings.GetOrDefault(Settings.Gallery.DefaultView, (int)ViewMode.Default, id);
             }
             catch
             {
@@ -106,20 +127,11 @@ namespace WeddingShare.Controllers
             _fileHelper.CreateDirectoryIfNotExists(Path.Combine(galleryPath, "Pending"));
 
             GalleryModel? gallery = await _database.GetGallery(id);
-            if (gallery == null)
-            {
-                gallery = await _database.AddGallery(new GalleryModel()
-                {
-                    Name = id.ToLower(),
-                    SecretKey = key
-                });
-            }
-
             if (gallery != null)
             {
                 ViewBag.GalleryId = gallery.Name;
 
-                var secretKey = await _gallery.GetSecretKey(gallery.Name);
+                var secretKey = await _settings.GetOrDefault(Settings.Gallery.SecretKey, string.Empty, gallery.Name);
                 ViewBag.SecretKey = secretKey;
 
                 var currentPage = 1;
@@ -167,21 +179,21 @@ namespace WeddingShare.Controllers
                         break;
                 }
 
-                var itemsPerPage = _gallery.GetConfig(gallery?.Name, "Gallery:Items_Per_Page", 50);
-                var allowedFileTypes = _gallery.GetConfig(gallery?.Name, "Gallery:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                var itemsPerPage = await _settings.GetOrDefault(Settings.Gallery.ItemsPerPage, 50, gallery?.Name);
+                var allowedFileTypes = (await _settings.GetOrDefault(Settings.Gallery.AllowedFileTypes, ".jpg,.jpeg,.png,.mp4,.mov", gallery?.Name)).Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                 var items = (await _database.GetAllGalleryItems(gallery?.Id, GalleryItemState.Approved, mediaType, orientation, group, order, itemsPerPage, currentPage))?.Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x.Title).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
 
                 var isAdmin = User?.Identity != null && User.Identity.IsAuthenticated;
 
                 FileUploader? fileUploader = null;
-                if (!string.Equals("All", gallery?.Name, StringComparison.OrdinalIgnoreCase) && (_gallery.GetConfig(gallery?.Name, "Gallery:Upload", true) || isAdmin))
+                if (!string.Equals("All", gallery?.Name, StringComparison.OrdinalIgnoreCase) && (await _settings.GetOrDefault(Settings.Gallery.Upload, true, gallery?.Name) || isAdmin))
                 {
                     var uploadActvated = isAdmin;
                     try
                     {
                         if (!uploadActvated)
                         { 
-                            var periods = _gallery.GetConfig(gallery?.Name, "Gallery:Upload_Period", "1970-01-01 00:00")?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                            var periods = (await _settings.GetOrDefault(Settings.Gallery.UploadPeriod, "1970-01-01 00:00", gallery?.Name))?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
                             if (periods != null)
                             { 
                                 var now = DateTime.UtcNow;
@@ -218,7 +230,7 @@ namespace WeddingShare.Controllers
 
                     if (uploadActvated)
                     { 
-                        fileUploader = new FileUploader(gallery?.Name ?? "default", secretKey, "/Gallery/UploadImage", _config.GetOrDefault("Settings:Identity_Check:Require_Identity_For_Upload", false));
+                        fileUploader = new FileUploader(gallery?.Name ?? "default", secretKey, "/Gallery/UploadImage", await _settings.GetOrDefault(Settings.IdentityCheck.RequireIdentityForUpload, false));
                     }
                 }
 
@@ -254,7 +266,7 @@ namespace WeddingShare.Controllers
                 return partial ? PartialView("~/Views/Gallery/GalleryWrapper.cshtml", model) : View(model);
             }
 
-            return View(new PhotoGallery());
+            return new RedirectToActionResult("Index", "Error", new { Reason = ErrorCode.InvalidGalleryId }, false);
         }
 
         [HttpPost]
@@ -273,7 +285,7 @@ namespace WeddingShare.Controllers
                 var gallery = await _database.GetGallery(galleryId);
                 if (gallery != null)
                 {
-                    var secretKey = await _gallery.GetSecretKey(galleryId);
+                    var secretKey = await _settings.GetOrDefault(Settings.Gallery.SecretKey, string.Empty, galleryId);
                     string key = (Request?.Form?.FirstOrDefault(x => string.Equals("SecretKey", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString() ?? string.Empty;
                     if (!string.IsNullOrWhiteSpace(secretKey) && !string.Equals(secretKey, key))
                     {
@@ -285,7 +297,7 @@ namespace WeddingShare.Controllers
                     var files = Request?.Form?.Files;
                     if (files != null && files.Count > 0)
                     {
-                        var requiresReview = _gallery.GetConfig(galleryId, "Gallery:Require_Review", true);
+                        var requiresReview = await _settings.GetOrDefault(Settings.Gallery.RequireReview, true, galleryId);
 
                         var uploaded = 0;
                         var errors = new List<string>();
@@ -294,11 +306,11 @@ namespace WeddingShare.Controllers
                             try
                             {
                                 var extension = Path.GetExtension(file.FileName);
-                                var maxGallerySize = _gallery.GetConfig(galleryId, "Gallery:Max_Size_Mb", 1024L) * 1000000;
-                                var maxFilesSize = _gallery.GetConfig(galleryId, "Gallery:Max_File_Size_Mb", 10L) * 1000000;
+                                var maxGallerySize = await _settings.GetOrDefault(Settings.Gallery.MaxSizeMB, 1024L, galleryId) * 1000000;
+                                var maxFilesSize = await _settings.GetOrDefault(Settings.Gallery.MaxFileSizeMB, 10L, galleryId) * 1000000;
                                 var galleryPath = Path.Combine(UploadsDirectory, gallery.Name);
 
-                                var allowedFileTypes = _gallery.GetConfig(galleryId, "Gallery:Allowed_File_Types", ".jpg,.jpeg,.png,.mp4,.mov").Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                                var allowedFileTypes = (await _settings.GetOrDefault(Settings.Gallery.AllowedFileTypes, ".jpg,.jpeg,.png,.mp4,.mov", galleryId)).Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                                 if (!allowedFileTypes.Any(x => string.Equals(x.Trim('.'), extension.Trim('.'), StringComparison.OrdinalIgnoreCase)))
                                 {
                                     errors.Add($"{_localizer["File_Upload_Failed"].Value}. {_localizer["Invalid_File_Type"].Value}");
@@ -324,7 +336,7 @@ namespace WeddingShare.Controllers
                                         await _fileHelper.SaveFile(file, filePath, FileMode.Create);
 
                                         var checksum = await _fileHelper.GetChecksum(filePath);
-                                        if (_gallery.GetConfig(galleryId, "Gallery:Prevent_Duplicates", true) && (string.IsNullOrWhiteSpace(checksum) || await _database.GetGalleryItemByChecksum(gallery.Id, checksum) != null))
+                                        if (await _settings.GetOrDefault(Settings.Gallery.PreventDuplicates, true, galleryId) && (string.IsNullOrWhiteSpace(checksum) || await _database.GetGalleryItemByChecksum(gallery.Id, checksum) != null))
                                         {
                                             errors.Add($"{_localizer["File_Upload_Failed"].Value}. {_localizer["Duplicate_Item_Detected"].Value}");
                                             _fileHelper.DeleteFileIfExists(filePath);
@@ -334,7 +346,7 @@ namespace WeddingShare.Controllers
                                             var savePath = Path.Combine(ThumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(filePath)}.webp");
 
                                             _fileHelper.CreateDirectoryIfNotExists(ThumbnailsDirectory);
-                                            await _imageHelper.GenerateThumbnail(filePath, savePath, _config.GetOrDefault("Settings:Thumbnail_Size", 720));
+                                            await _imageHelper.GenerateThumbnail(filePath, savePath, await _settings.GetOrDefault(Settings.Basic.ThumbnailSize, 720));
                                             
                                             var item = await _database.AddGalleryItem(new GalleryItemModel()
                                             {
@@ -401,7 +413,7 @@ namespace WeddingShare.Controllers
                 var gallery = await _database.GetGallery(galleryId);
                 if (gallery != null)
                 {
-                    var secretKey = await _gallery.GetSecretKey(galleryId);
+                    var secretKey = await _settings.GetOrDefault(Settings.Gallery.SecretKey, string.Empty, galleryId);
                     string key = (Request?.Form?.FirstOrDefault(x => string.Equals("SecretKey", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString() ?? string.Empty;
                     if (!string.IsNullOrWhiteSpace(secretKey) && !string.Equals(secretKey, key))
                     {
@@ -409,10 +421,10 @@ namespace WeddingShare.Controllers
                     }
 
                     var uploadedBy = HttpContext.Session.GetString(SessionKey.ViewerIdentity) ?? "Anonymous";
-                    var requiresReview = _gallery.GetConfig(galleryId, "Gallery:Require_Review", true);
+                    var requiresReview = await _settings.GetOrDefault(Settings.Gallery.RequireReview, true, galleryId);
 
                     int uploaded = int.Parse((Request?.Form?.FirstOrDefault(x => string.Equals("Count", x.Key, StringComparison.OrdinalIgnoreCase)).Value)?.ToString() ?? "0");
-                    if (uploaded > 0 && requiresReview && _config.GetOrDefault("Notifications:Alerts:Pending_Review", true))
+                    if (uploaded > 0 && requiresReview && await _settings.GetOrDefault(Notifications.Alerts.PendingReview, true))
                     {
                         await _notificationHelper.Send(_localizer["New_Items_Pending_Review"].Value, $"{uploaded} new item(s) have been uploaded to gallery '{gallery.Name}' by '{(!string.IsNullOrWhiteSpace(uploadedBy) ? uploadedBy : "Anonymous")}' and are awaiting your review.", _urlHelper.GenerateBaseUrl(HttpContext?.Request, "/Admin"));
                     }
@@ -442,7 +454,7 @@ namespace WeddingShare.Controllers
                 var gallery = await _database.GetGallery(id);
                 if (gallery != null)
                 {
-                    if (_gallery.GetConfig(gallery.Name, "Gallery:Download", true) || (User?.Identity != null && User.Identity.IsAuthenticated))
+                    if (await _settings.GetOrDefault(Settings.Gallery.Download, true, gallery?.Name) || (User?.Identity != null && User.Identity.IsAuthenticated))
                     {
                         var galleryDir = id > 0 ? Path.Combine(UploadsDirectory, gallery.Name) : UploadsDirectory;
                         if (_fileHelper.DirectoryExists(galleryDir))

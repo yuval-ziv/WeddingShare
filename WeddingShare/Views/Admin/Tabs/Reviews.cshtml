@@ -1,0 +1,27 @@
+﻿@model ReviewsModel
+@using WeddingShare.Views.Admin.Tabs
+
+<section class="pnl-admin pnl-admin-reviews pb-0 pb-lg-4 d-none">
+    <div class="container px-3 px-lg-1 my-3 my-lg-0">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="display-6">@_localizer["Pending_Uploads"].Value
+                    @if (Model?.PendingRequests != null && Model.PendingRequests.Any())
+                    {
+                        <span class="header-actions">
+                            <span class="action text-success pointer">
+                                <i class="btnBulkReview fa-solid fa-thumbs-up" alt="@_localizer["Review"].Value"></i>
+                                <span>@_localizer["Review"].Value</span>
+                            </span>
+                        </span>
+                    }
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div id="pending-reviews" class="col-12 pb-3">
+                <partial name="~/Views/Admin/PendingReviews.cshtml" model="Model?.PendingRequests" />
+            </div>
+        </div>
+    </div>
+</section>

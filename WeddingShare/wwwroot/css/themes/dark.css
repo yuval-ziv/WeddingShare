@@ -86,3 +86,17 @@
 .file-uploader {
     --bs-file-uploader-bg-color: 100, 100, 100;
 }
+
+.accordion {
+    --bs-accordion-bg: #555555;
+    --bs-accordion-btn-color: #FFFFFF;
+}
+
+    .accordion .accordion-body {
+        color: #FFFFFF;
+    }
+
+.accordion-button:not(.collapsed) {
+    color: #FFFFFF;
+    background-color: #999999;
+}

@@ -1,8 +1,18 @@
 ﻿@using WeddingShare.Views.Admin
-@inject WeddingShare.Helpers.IConfigHelper _config
+
+@{
+    var isDemoMode = await _settings.GetOrDefault(Settings.IsDemoMode, false);
+}
 
 <section class="py-1 py-lg-5">
     <div class="container px-3 px-lg-1 my-3 mt-lg-1">
+        @if (isDemoMode)
+        {
+            <div class="alert alert-success text-center mb-2" role="alert">
+                <b>Username:</b> demo | <b>Password:</b> demo
+            </div>
+        }
+
         <div class="card">
             <div class="card-header">
                 <h1 class="display-6">@_localizer["Login"].Value</h1>
