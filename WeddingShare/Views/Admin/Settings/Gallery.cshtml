@@ -1,0 +1,307 @@
+﻿@model IDictionary<string, string>?
+@using WeddingShare.Constants
+@using WeddingShare.Enums
+@using WeddingShare.Extensions
+
+@if (Model != null && Model.Any())
+{
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_DefaultView_Label"].Value</label>
+            <select class="setting-field form-control" data-setting-name="@Settings.Gallery.DefaultView">
+                @foreach (var option in ViewOptions.GalleryDefaultView)
+                {
+                    if (Model.GetValue(Settings.Gallery.DefaultView.ToUpper(), "default").Equals(option.Value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <option value="@option.Value" selected="selected">@option.Key</option>
+                    }
+                    else
+                    {
+                        <option value="@option.Value">@option.Key</option>
+                    }
+                }
+            </select>
+            <div class="form-text">@_localizer["Settings_Gallery_DefaultView_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_SecretKey_Label"].Value</label>
+            <input class="setting-field form-control" data-setting-name="@Settings.Gallery.SecretKey" placeholder="MySuperSecretKey" value="@Model.GetValue(Settings.Gallery.SecretKey.ToUpper(), string.Empty)" type="password" />
+            <div class="form-text">@_localizer["Settings_Gallery_SecretKey_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_FullWidth_Label"].Value</label>
+            <select class="setting-field form-control" data-setting-name="@Settings.Gallery.FullWidth">
+                @foreach (var option in ViewOptions.GalleryWidth)
+                {
+                    if (Model.GetValue(Settings.Gallery.FullWidth.ToUpper(), "false").Equals(option.Value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <option value="@option.Value" selected="selected">@option.Key</option>
+                    }
+                    else
+                    {
+                        <option value="@option.Value">@option.Key</option>
+                    }
+                }
+            </select>
+            <div class="form-text">@_localizer["Settings_Gallery_FullWidth_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_BannerImage_Label"].Value</label>
+            <input class="setting-field form-control" data-setting-name="@Settings.Gallery.BannerImage" placeholder="/custom_resources/my-banner.jpg" value="@Model.GetValue(Settings.Gallery.BannerImage.ToUpper(), string.Empty)" type="text" />
+            <div class="form-text">@_localizer["Settings_Gallery_BannerImage_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_Quote_Label"].Value</label>
+            <input class="setting-field form-control" data-setting-name="@Settings.Gallery.Quote" placeholder="Thank you for attending" value="@Model.GetValue(Settings.Gallery.Quote.ToUpper(), string.Empty)" type="text" />
+            <div class="form-text">@_localizer["Settings_Gallery_Quote_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_ReviewCounter_Label"].Value</label>
+            <select class="setting-field form-control" data-setting-name="@Settings.Gallery.ReviewCounter">
+                @foreach (var option in ViewOptions.YesNo)
+                {
+                    if (Model.GetValue(Settings.Gallery.ReviewCounter.ToUpper(), "true").Equals(option.Value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <option value="@option.Value" selected="selected">@option.Key</option>
+                    }
+                    else
+                    {
+                        <option value="@option.Value">@option.Key</option>
+                    }
+                }
+            </select>
+            <div class="form-text">@_localizer["Settings_Gallery_ReviewCounter_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_Columns_Label"].Value</label>
+            <input class="setting-field form-control" data-setting-name="@Settings.Gallery.Columns" placeholder="1, 2, 3, 4, 6 or 12" value="@Model.GetValue(Settings.Gallery.Columns.ToUpper(), string.Empty)" type="number" min="1" max="12" step="1" />
+            <div class="form-text">@_localizer["Settings_Gallery_Columns_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_ItemsPerPage_Label"].Value</label>
+            <input class="setting-field form-control" data-setting-name="@Settings.Gallery.ItemsPerPage" placeholder="50" value="@Model.GetValue(Settings.Gallery.ItemsPerPage.ToUpper(), string.Empty)" type="number" min="1" max="5000" step="10" />
+            <div class="form-text">@_localizer["Settings_Gallery_ItemsPerPage_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_Upload_Label"].Value</label>
+            <select class="setting-field form-control" data-setting-name="@Settings.Gallery.Upload">
+                @foreach (var option in ViewOptions.YesNo)
+                {
+                    if (Model.GetValue(Settings.Gallery.Upload.ToUpper(), "true").Equals(option.Value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <option value="@option.Value" selected="selected">@option.Key</option>
+                    }
+                    else
+                    {
+                        <option value="@option.Value">@option.Key</option>
+                    }
+                }
+            </select>
+            <div class="form-text">@_localizer["Settings_Gallery_Upload_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_UploadPeriod_Label"].Value</label>
+            <input class="setting-field form-control" data-setting-name="@Settings.Gallery.UploadPeriod" placeholder="2025-01-01 00:00 / 2025-01-03 23:59" value="@Model.GetValue(Settings.Gallery.UploadPeriod.ToUpper(), string.Empty).Replace("1970-01-01 00:00", string.Empty)" type="text" />
+            <div class="form-text">@_localizer["Settings_Gallery_UploadPeriod_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_AllowedFileTypes_Label"].Value</label>
+            <input class="setting-field form-control" data-setting-name="@Settings.Gallery.AllowedFileTypes" placeholder=".jpg,.jpeg,.png,.mp4,.mov" value="@Model.GetValue(Settings.Gallery.AllowedFileTypes.ToUpper(), string.Empty)" type="text" />
+            <div class="form-text">@_localizer["Settings_Gallery_AllowedFileTypes_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_RequireReview_Label"].Value</label>
+            <select class="setting-field form-control" data-setting-name="@Settings.Gallery.RequireReview">
+                @foreach (var option in ViewOptions.YesNo)
+                {
+                    if (Model.GetValue(Settings.Gallery.RequireReview.ToUpper(), "true").Equals(option.Value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <option value="@option.Value" selected="selected">@option.Key</option>
+                    }
+                    else
+                    {
+                        <option value="@option.Value">@option.Key</option>
+                    }
+                }
+            </select>
+            <div class="form-text">@_localizer["Settings_Gallery_RequireReview_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_RetainRejectedItems_Label"].Value</label>
+            <select class="setting-field form-control" data-setting-name="@Settings.Gallery.RetainRejectedItems">
+                @foreach (var option in ViewOptions.YesNo)
+                {
+                    if (Model.GetValue(Settings.Gallery.RetainRejectedItems.ToUpper(), "false").Equals(option.Value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <option value="@option.Value" selected="selected">@option.Key</option>
+                    }
+                    else
+                    {
+                        <option value="@option.Value">@option.Key</option>
+                    }
+                }
+            </select>
+            <div class="form-text">@_localizer["Settings_Gallery_RetainRejectedItems_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_PreventDuplicates_Label"].Value</label>
+            <select class="setting-field form-control" data-setting-name="@Settings.Gallery.PreventDuplicates">
+                @foreach (var option in ViewOptions.YesNo)
+                {
+                    if (Model.GetValue(Settings.Gallery.PreventDuplicates.ToUpper(), "true").Equals(option.Value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <option value="@option.Value" selected="selected">@option.Key</option>
+                    }
+                    else
+                    {
+                        <option value="@option.Value">@option.Key</option>
+                    }
+                }
+            </select>
+            <div class="form-text">@_localizer["Settings_Gallery_PreventDuplicates_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_MaxSizeMb_Label"].Value</label>
+            <input class="setting-field form-control" data-setting-name="@Settings.Gallery.MaxSizeMB" placeholder="1024" value="@Model.GetValue(Settings.Gallery.MaxSizeMB.ToUpper(), string.Empty)" type="number" min="100" step="1" />
+            <div class="form-text">@_localizer["Settings_Gallery_MaxSizeMb_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_MaxFileSizeMb_Label"].Value</label>
+            <input class="setting-field form-control" data-setting-name="@Settings.Gallery.MaxFileSizeMB" placeholder="10" value="@Model.GetValue(Settings.Gallery.MaxFileSizeMB.ToUpper(), string.Empty)" type="number" min="1" step="1" />
+            <div class="form-text">@_localizer["Settings_Gallery_MaxFileSizeMb_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_Download_Label"].Value</label>
+            <select class="setting-field form-control" data-setting-name="@Settings.Gallery.Download">
+                @foreach (var option in ViewOptions.YesNo)
+                {
+                    if (Model.GetValue(Settings.Gallery.Download.ToUpper(), "true").Equals(option.Value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <option value="@option.Value" selected="selected">@option.Key</option>
+                    }
+                    else
+                    {
+                        <option value="@option.Value">@option.Key</option>
+                    }
+                }
+            </select>
+            <div class="form-text">@_localizer["Settings_Gallery_Download_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_QRCodeEnabled_Label"].Value</label>
+            <select class="setting-field form-control" data-setting-name="@Settings.Gallery.QRCode.Enabled">
+                @foreach (var option in ViewOptions.YesNo)
+                {
+                    if (Model.GetValue(Settings.Gallery.QRCode.Enabled.ToUpper(), "true").Equals(option.Value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <option value="@option.Value" selected="selected">@option.Key</option>
+                    }
+                    else
+                    {
+                        <option value="@option.Value">@option.Key</option>
+                    }
+                }
+            </select>
+            <div class="form-text">@_localizer["Settings_Gallery_QRCodeEnabled_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_QRCodeDefaultView_Label"].Value</label>
+            <select class="setting-field form-control" data-setting-name="@Settings.Gallery.QRCode.DefaultView">
+                @foreach (var option in ViewOptions.GalleryDefaultView)
+                {
+                    if (Model.GetValue(Settings.Gallery.QRCode.DefaultView.ToUpper(), "default").Equals(option.Value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <option value="@option.Value" selected="selected">@option.Key</option>
+                    }
+                    else
+                    {
+                        <option value="@option.Value">@option.Key</option>
+                    }
+                }
+            </select>
+            <div class="form-text">@_localizer["Settings_Gallery_QRCodeDefaultView_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_QRCodeDefaultSort_Label"].Value</label>
+            <select class="setting-field form-control" data-setting-name="@Settings.Gallery.QRCode.DefaultSort">
+                @foreach (var option in ViewOptions.GalleryDefaultSort)
+                {
+                    if (Model.GetValue(Settings.Gallery.QRCode.DefaultSort.ToUpper(), "1").Equals(option.Value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <option value="@option.Value" selected="selected">@option.Key</option>
+                    }
+                    else
+                    {
+                        <option value="@option.Value">@option.Key</option>
+                    }
+                }
+            </select>
+            <div class="form-text">@_localizer["Settings_Gallery_QRCodeDefaultSort_Help"].Value</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mb-lg-4">
+        <div class="col-12">
+            <label>@_localizer["Settings_Gallery_IdleRefreshMins_Label"].Value</label>
+            <input class="setting-field form-control" data-setting-name="@Settings.Gallery.IdleRefreshMins" placeholder="5" value="@Model.GetValue(Settings.Gallery.IdleRefreshMins.ToUpper(), string.Empty)" type="number" min="0" max="5000" step="1" />
+            <div class="form-text">@_localizer["Settings_Gallery_IdleRefreshMins_Help"].Value</div>
+        </div>
+    </div>
+}

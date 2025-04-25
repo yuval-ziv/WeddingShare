@@ -49,7 +49,7 @@ function getCookie(cname) {
     return "";
 }
 
-function displayMessage(title, message, errors) {
+function displayMessage(title, message, errors, callbackFn) {
     hideLoader();
 
     $('#alert-message-modal .modal-title').text(title);
@@ -74,7 +74,10 @@ function displayMessage(title, message, errors) {
     clearTimeout(displayMessageTimeout);
     displayMessageTimeout = setTimeout(function () {
         hideMessage();
-    }, 2000);
+        if (callbackFn !== undefined && callbackFn !== null) {
+            callbackFn();
+        }
+    }, 5000);
 }
 
 function hideMessage() {

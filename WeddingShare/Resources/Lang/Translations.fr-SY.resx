@@ -82,6 +82,18 @@
   <data name="403_Error_Title" xml:space="preserve">
     <value>Accès refusé</value>
   </data>
+  <data name="405_Error_Message" xml:space="preserve">
+    <value>Vous avez atteint la limite maximale de création de galerie</value>
+  </data>
+  <data name="405_Error_Title" xml:space="preserve">
+    <value>Limite atteinte</value>
+  </data>
+  <data name="406_Error_Message" xml:space="preserve">
+    <value>La galerie spécifiée n'existe pas</value>
+  </data>
+  <data name="406_Error_Title" xml:space="preserve">
+    <value>Galerie non valide</value>
+  </data>
   <data name="Actions" xml:space="preserve">
     <value>Actions</value>
   </data>
@@ -123,6 +135,9 @@
   </data>
   <data name="Delete_Confirmation" xml:space="preserve">
     <value>Voulez-vous vraiment supprimer cette galerie ?</value>
+  </data>
+  <data name="Destructive_Action_Performed" xml:space="preserve">
+    <value>Action destructive effectuée</value>
   </data>
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>Vous n'êtes pas autorisé à télécharger cette galerie</value>
@@ -169,6 +184,9 @@
   <data name="Failed_Reviewing_Media" xml:space="preserve">
     <value>Échec de l ' examen</value>
   </data>
+  <data name="Failed_Update_Setting" xml:space="preserve">
+    <value>Impossible de mettre à jour les paramètres</value>
+  </data>
   <data name="Failed_Wipe_Galleries" xml:space="preserve">
     <value>Échec des galeries</value>
   </data>
@@ -213,6 +231,9 @@
   </data>
   <data name="Gallery_Key_Placeholder" xml:space="preserve">
     <value>le jour du mariage</value>
+  </data>
+  <data name="Gallery_Limit_Reached" xml:space="preserve">
+    <value>Le nombre maximal autorisé de galeries a été atteint</value>
   </data>
   <data name="Gallery_List_Failed" xml:space="preserve">
     <value>Impossible d'obtenir la liste des galeries</value>
@@ -310,6 +331,9 @@
   <data name="New_Items_Pending_Review" xml:space="preserve">
     <value>Nouveaux points en suspens</value>
   </data>
+  <data name="No_Data" xml:space="preserve">
+    <value>Aucune donnée</value>
+  </data>
   <data name="No_Files_For_Upload" xml:space="preserve">
     <value>Aucun fichier n'a été détecté pour le téléchargement</value>
   </data>
@@ -345,6 +369,477 @@
   </data>
   <data name="Scan_To_Share" xml:space="preserve">
     <value>Scannez le code QR avec votre téléphone pour partager vos images</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="Settings_Account" xml:space="preserve">
+    <value>Compte</value>
+  </data>
+  <data name="Settings_Account_Lockout_Attempts_Help" xml:space="preserve">
+    <value>Combien de connexions échouées avant qu'un utilisateur ne soit bloqué</value>
+  </data>
+  <data name="Settings_Account_Lockout_Attempts_Label" xml:space="preserve">
+    <value>Tentatives de verrouillage</value>
+  </data>
+  <data name="Settings_Account_Lockout_Mins_Help" xml:space="preserve">
+    <value>Combien de temps doit être bloqué un utilisateur</value>
+  </data>
+  <data name="Settings_Account_Lockout_Mins_Label" xml:space="preserve">
+    <value>Procès-verbal de verrouillage</value>
+  </data>
+  <data name="Settings_Account_Profile_Icon_Help" xml:space="preserve">
+    <value>Si l'icône du profil apparaît dans l'en-tête</value>
+  </data>
+  <data name="Settings_Account_Profile_Icon_Label" xml:space="preserve">
+    <value>Icône de profil</value>
+  </data>
+  <data name="Settings_Alerts" xml:space="preserve">
+    <value>Alertes</value>
+  </data>
+  <data name="Settings_Alerts_Account_Lockout_Help" xml:space="preserve">
+    <value>Les alertes doivent être envoyées lorsque les comptes sont verrouillés</value>
+  </data>
+  <data name="Settings_Alerts_Account_Lockout_Label" xml:space="preserve">
+    <value>Verrouillage du compte</value>
+  </data>
+  <data name="Settings_Alerts_Destructive_Action_Help" xml:space="preserve">
+    <value>Si des alertes sont envoyées lors d'une action destructrice</value>
+  </data>
+  <data name="Settings_Alerts_Destructive_Action_Label" xml:space="preserve">
+    <value>Actions destructives</value>
+  </data>
+  <data name="Settings_Alerts_Failed_Login_Help" xml:space="preserve">
+    <value>Si des alertes sont envoyées lors de tentatives de connexion ratées</value>
+  </data>
+  <data name="Settings_Alerts_Failed_Login_Label" xml:space="preserve">
+    <value>La connexion a échoué</value>
+  </data>
+  <data name="Settings_Alerts_Pending_Review_Help" xml:space="preserve">
+    <value>Les alertes doivent être envoyées si un nouvel élément est en attente d'examen</value>
+  </data>
+  <data name="Settings_Alerts_Pending_Review_Label" xml:space="preserve">
+    <value>Examen en cours</value>
+  </data>
+  <data name="Settings_BackgroundServices" xml:space="preserve">
+    <value>Services généraux</value>
+  </data>
+  <data name="Settings_BackgroundServices_Cleanup_Help" xml:space="preserve">
+    <value>Nettoie les fichiers temporaires</value>
+  </data>
+  <data name="Settings_BackgroundServices_Cleanup_Label" xml:space="preserve">
+    <value>Nettoyage</value>
+  </data>
+  <data name="Settings_BackgroundServices_DirectoryScanner_Help" xml:space="preserve">
+    <value>Ramasse les fichiers déposés directement dans le dossier de la galerie</value>
+  </data>
+  <data name="Settings_BackgroundServices_DirectoryScanner_Label" xml:space="preserve">
+    <value>Scanner de répertoire</value>
+  </data>
+  <data name="Settings_BackgroundServices_EmailReport_Help" xml:space="preserve">
+    <value>Envoie un rapport sur les statistiques de la galerie</value>
+  </data>
+  <data name="Settings_BackgroundServices_EmailReport_Label" xml:space="preserve">
+    <value>Rapports par courriel</value>
+  </data>
+  <data name="Settings_Basic" xml:space="preserve">
+    <value>Données de base</value>
+  </data>
+  <data name="Settings_Basic_BaseUrl_Help" xml:space="preserve">
+    <value>La base Url à utiliser dans les liens et les notifications</value>
+  </data>
+  <data name="Settings_Basic_BaseUrl_Label" xml:space="preserve">
+    <value>Base Url</value>
+  </data>
+  <data name="Settings_Basic_EmailReport_Help" xml:space="preserve">
+    <value>Si un rapport d'email est envoyé avec les statistiques de galerie</value>
+  </data>
+  <data name="Settings_Basic_EmailReport_Label" xml:space="preserve">
+    <value>Rapport par courriel</value>
+  </data>
+  <data name="Settings_Basic_ForceHttps_Help" xml:space="preserve">
+    <value>Devrait Les utilisateurs de Http sont obligés de consulter https</value>
+  </data>
+  <data name="Settings_Basic_ForceHttps_Label" xml:space="preserve">
+    <value>Forcer Https</value>
+  </data>
+  <data name="Settings_Basic_GallerySelectorDropdown_Help" xml:space="preserve">
+    <value>Comment les utilisateurs sélectionnent une galerie</value>
+  </data>
+  <data name="Settings_Basic_GallerySelectorDropdown_Label" xml:space="preserve">
+    <value>Sélecteur de galerie Type</value>
+  </data>
+  <data name="Settings_Basic_GallerySelectorHideDefault_Help" xml:space="preserve">
+    <value>Si l'option de galerie par défaut est visible</value>
+  </data>
+  <data name="Settings_Basic_GallerySelectorHideDefault_Label" xml:space="preserve">
+    <value>Afficher la galerie par défaut</value>
+  </data>
+  <data name="Settings_Basic_GuestGalleryCreation_Help" xml:space="preserve">
+    <value>Si les invités sont autorisés à créer de nouvelles galeries</value>
+  </data>
+  <data name="Settings_Basic_GuestGalleryCreation_Label" xml:space="preserve">
+    <value>Création de la galerie des invités</value>
+  </data>
+  <data name="Settings_Basic_HideKeyFromQRCode_Help" xml:space="preserve">
+    <value>Si la clé secrète est incluse dans le code QR</value>
+  </data>
+  <data name="Settings_Basic_HideKeyFromQRCode_Label" xml:space="preserve">
+    <value>Codes QR non sûrs</value>
+  </data>
+  <data name="Settings_Basic_HomeLink_Help" xml:space="preserve">
+    <value>Si vous cliquez sur le lien d'accueil rediriger l'utilisateur</value>
+  </data>
+  <data name="Settings_Basic_HomeLink_Label" xml:space="preserve">
+    <value>Lien d'accueil cliquable</value>
+  </data>
+  <data name="Settings_Basic_LinksOpenNewTab_Help" xml:space="preserve">
+    <value>Les liens devraient s'ouvrir dans de nouveaux onglets</value>
+  </data>
+  <data name="Settings_Basic_LinksOpenNewTab_Label" xml:space="preserve">
+    <value>Liens de nouveaux onglets</value>
+  </data>
+  <data name="Settings_Basic_MaxGalleryCount_Help" xml:space="preserve">
+    <value>Combien de galeries sont autorisées à créer</value>
+  </data>
+  <data name="Settings_Basic_MaxGalleryCount_Label" xml:space="preserve">
+    <value>Max Galerie Compte</value>
+  </data>
+  <data name="Settings_Basic_SingleGalleryMode_Help" xml:space="preserve">
+    <value>S'il y a une ou plusieurs galeries</value>
+  </data>
+  <data name="Settings_Basic_SingleGalleryMode_Label" xml:space="preserve">
+    <value>Mode Galerie</value>
+  </data>
+  <data name="Settings_Basic_ThumbnailSize_Help" xml:space="preserve">
+    <value>Pixels maximum dans n'importe quelle direction pour les vignettes</value>
+  </data>
+  <data name="Settings_Basic_ThumbnailSize_Label" xml:space="preserve">
+    <value>Résolution sur les vignettes</value>
+  </data>
+  <data name="Settings_Gallery" xml:space="preserve">
+    <value>Par défaut de la galerie</value>
+  </data>
+  <data name="Settings_Gallery_AllowedFileTypes_Help" xml:space="preserve">
+    <value>Quels types de fichiers les invités sont autorisés à télécharger</value>
+  </data>
+  <data name="Settings_Gallery_AllowedFileTypes_Label" xml:space="preserve">
+    <value>Types de fichiers autorisés</value>
+  </data>
+  <data name="Settings_Gallery_BannerImage_Help" xml:space="preserve">
+    <value>Une image à afficher en haut de la galerie</value>
+  </data>
+  <data name="Settings_Gallery_BannerImage_Label" xml:space="preserve">
+    <value>Image de bannière</value>
+  </data>
+  <data name="Settings_Gallery_Columns_Help" xml:space="preserve">
+    <value>Le nombre de colonnes à afficher</value>
+  </data>
+  <data name="Settings_Gallery_Columns_Label" xml:space="preserve">
+    <value>Nombre de colonnes</value>
+  </data>
+  <data name="Settings_Gallery_DefaultView_Help" xml:space="preserve">
+    <value>Quelle est la vue par défaut de la galerie</value>
+  </data>
+  <data name="Settings_Gallery_DefaultView_Label" xml:space="preserve">
+    <value>Affichage par défaut</value>
+  </data>
+  <data name="Settings_Gallery_Download_Help" xml:space="preserve">
+    <value>Si les clients sont autorisés à télécharger des articles</value>
+  </data>
+  <data name="Settings_Gallery_Download_Label" xml:space="preserve">
+    <value>Permettre le téléchargement</value>
+  </data>
+  <data name="Settings_Gallery_FullWidth_Help" xml:space="preserve">
+    <value>La largeur de la galerie</value>
+  </data>
+  <data name="Settings_Gallery_FullWidth_Label" xml:space="preserve">
+    <value>Affichage du type</value>
+  </data>
+  <data name="Settings_Gallery_IdleRefreshMins_Help" xml:space="preserve">
+    <value>Après combien de temps la galerie devrait se rafraîchir pour obtenir un nouveau contenu</value>
+  </data>
+  <data name="Settings_Gallery_IdleRefreshMins_Label" xml:space="preserve">
+    <value>Idle Rafraîchir les Mins</value>
+  </data>
+  <data name="Settings_Gallery_ItemsPerPage_Help" xml:space="preserve">
+    <value>Le nombre maximum d'éléments à afficher par page</value>
+  </data>
+  <data name="Settings_Gallery_ItemsPerPage_Label" xml:space="preserve">
+    <value>Articles par page</value>
+  </data>
+  <data name="Settings_Gallery_MaxFileSizeMb_Help" xml:space="preserve">
+    <value>Quel est le plus grand en MB un fichier téléchargé peut être</value>
+  </data>
+  <data name="Settings_Gallery_MaxFileSizeMb_Label" xml:space="preserve">
+    <value>Taille maximale du fichier (MB)</value>
+  </data>
+  <data name="Settings_Gallery_MaxSizeMb_Help" xml:space="preserve">
+    <value>Combien grand en MB est la galerie autorisée à grandir à</value>
+  </data>
+  <data name="Settings_Gallery_MaxSizeMb_Label" xml:space="preserve">
+    <value>Taille de la galerie Max (MB)</value>
+  </data>
+  <data name="Settings_Gallery_PreventDuplicates_Help" xml:space="preserve">
+    <value>Si les articles dupliqués sont automatiquement rejetés</value>
+  </data>
+  <data name="Settings_Gallery_PreventDuplicates_Label" xml:space="preserve">
+    <value>Prévenir les doubles emplois</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeDefaultSort_Help" xml:space="preserve">
+    <value>Une fois scanner quel ordre doit apparaître les éléments</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeDefaultSort_Label" xml:space="preserve">
+    <value>QR par défaut Tri</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeDefaultView_Help" xml:space="preserve">
+    <value>Une fois scanné quelle mise en page doit voir l'utilisateur</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeDefaultView_Label" xml:space="preserve">
+    <value>QR par défaut Affichage</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeEnabled_Help" xml:space="preserve">
+    <value>Si le code QR est affiché</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeEnabled_Label" xml:space="preserve">
+    <value>Afficher le code QR</value>
+  </data>
+  <data name="Settings_Gallery_Quote_Help" xml:space="preserve">
+    <value>Une citation à afficher en haut de la galerie</value>
+  </data>
+  <data name="Settings_Gallery_Quote_Label" xml:space="preserve">
+    <value>Devis</value>
+  </data>
+  <data name="Settings_Gallery_RequireReview_Help" xml:space="preserve">
+    <value>Les articles doivent-ils être examinés avant d'apparaître sur le site</value>
+  </data>
+  <data name="Settings_Gallery_RequireReview_Label" xml:space="preserve">
+    <value>Requête en révision</value>
+  </data>
+  <data name="Settings_Gallery_RetainRejectedItems_Help" xml:space="preserve">
+    <value>Si les articles rejetés sont conservés pour une utilisation ultérieure</value>
+  </data>
+  <data name="Settings_Gallery_RetainRejectedItems_Label" xml:space="preserve">
+    <value>Conserver les éléments rejetés</value>
+  </data>
+  <data name="Settings_Gallery_ReviewCounter_Help" xml:space="preserve">
+    <value>Si le compteur de révision est affiché</value>
+  </data>
+  <data name="Settings_Gallery_ReviewCounter_Label" xml:space="preserve">
+    <value>Compteur de réexamen</value>
+  </data>
+  <data name="Settings_Gallery_SecretKey_Help" xml:space="preserve">
+    <value>Un mot de passe pour débloquer la galerie</value>
+  </data>
+  <data name="Settings_Gallery_SecretKey_Label" xml:space="preserve">
+    <value>Clé secrète</value>
+  </data>
+  <data name="Settings_Gallery_Upload_Help" xml:space="preserve">
+    <value>Si les clients sont autorisés à télécharger des articles</value>
+  </data>
+  <data name="Settings_Gallery_Upload_Label" xml:space="preserve">
+    <value>Autoriser les chargements</value>
+  </data>
+  <data name="Settings_Gallery_UploadPeriod_Help" xml:space="preserve">
+    <value>Restreindre les téléchargements à une période donnée</value>
+  </data>
+  <data name="Settings_Gallery_UploadPeriod_Label" xml:space="preserve">
+    <value>Périodes de chargement</value>
+  </data>
+  <data name="Settings_Gotify" xml:space="preserve">
+    <value>Gotifier</value>
+  </data>
+  <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
+    <value>Si des alertes Ntfy sont envoyées</value>
+  </data>
+  <data name="Settings_Gotify_Enabled_Label" xml:space="preserve">
+    <value>Activé</value>
+  </data>
+  <data name="Settings_Gotify_Endpoint_Help" xml:space="preserve">
+    <value>L'adresse du serveur Gatify</value>
+  </data>
+  <data name="Settings_Gotify_Endpoint_Label" xml:space="preserve">
+    <value>Point final</value>
+  </data>
+  <data name="Settings_Gotify_Priority_Help" xml:space="preserve">
+    <value>L'importance des alertes</value>
+  </data>
+  <data name="Settings_Gotify_Priority_Label" xml:space="preserve">
+    <value>Priorité</value>
+  </data>
+  <data name="Settings_Gotify_Token_Help" xml:space="preserve">
+    <value>Le jeton utilisé pour l'authentification</value>
+  </data>
+  <data name="Settings_Gotify_Token_Label" xml:space="preserve">
+    <value>Marque d'accès</value>
+  </data>
+  <data name="Settings_IdentityCheck" xml:space="preserve">
+    <value>Vérification de l'identité</value>
+  </data>
+  <data name="Settings_IdentityCheck_Enabled_Help" xml:space="preserve">
+    <value>Des utilisateurs rapides pour leur nom</value>
+  </data>
+  <data name="Settings_IdentityCheck_Enabled_Label" xml:space="preserve">
+    <value>Activé</value>
+  </data>
+  <data name="Settings_IdentityCheck_PageLoad_Help" xml:space="preserve">
+    <value>Si la vérification d'identité est affichée au chargement de la page</value>
+  </data>
+  <data name="Settings_IdentityCheck_PageLoad_Label" xml:space="preserve">
+    <value>Chargement de la page</value>
+  </data>
+  <data name="Settings_IdentityCheck_Upload_Help" xml:space="preserve">
+    <value>Si la vérification d'identité est nécessaire pour télécharger des supports</value>
+  </data>
+  <data name="Settings_IdentityCheck_Upload_Label" xml:space="preserve">
+    <value>Envoi de l'offre</value>
+  </data>
+  <data name="Settings_Languages" xml:space="preserve">
+    <value>Langues</value>
+  </data>
+  <data name="Settings_Languages_Default_Help" xml:space="preserve">
+    <value>La langue par défaut du site si aucune n'est sélectionnée</value>
+  </data>
+  <data name="Settings_Languages_Default_Label" xml:space="preserve">
+    <value>Langue par défaut</value>
+  </data>
+  <data name="Settings_Languages_Enabled_Help" xml:space="preserve">
+    <value>Permettre aux utilisateurs de changer la langue</value>
+  </data>
+  <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
+    <value>Activé</value>
+  </data>
+  <data name="Settings_Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
+  <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
+    <value>Si des alertes Ntfy sont envoyées</value>
+  </data>
+  <data name="Settings_Ntfy_Enabled_Label" xml:space="preserve">
+    <value>Activé</value>
+  </data>
+  <data name="Settings_Ntfy_Endpoint_Help" xml:space="preserve">
+    <value>L'adresse du serveur Ntfy</value>
+  </data>
+  <data name="Settings_Ntfy_Endpoint_Label" xml:space="preserve">
+    <value>Point final</value>
+  </data>
+  <data name="Settings_Ntfy_Priority_Help" xml:space="preserve">
+    <value>L'importance des alertes</value>
+  </data>
+  <data name="Settings_Ntfy_Priority_Label" xml:space="preserve">
+    <value>Priorité</value>
+  </data>
+  <data name="Settings_Ntfy_Token_Help" xml:space="preserve">
+    <value>Le jeton utilisé pour l'authentification</value>
+  </data>
+  <data name="Settings_Ntfy_Token_Label" xml:space="preserve">
+    <value>Marque d'accès</value>
+  </data>
+  <data name="Settings_Ntfy_Topic_Help" xml:space="preserve">
+    <value>Le sujet à envoyer des alertes à</value>
+  </data>
+  <data name="Settings_Ntfy_Topic_Label" xml:space="preserve">
+    <value>Thème</value>
+  </data>
+  <data name="Settings_Slideshow" xml:space="preserve">
+    <value>Diaporama</value>
+  </data>
+  <data name="Settings_Slideshow_Fade_Help" xml:space="preserve">
+    <value>Combien de temps devrait durer la transition entre les diapositives</value>
+  </data>
+  <data name="Settings_Slideshow_Fade_Label" xml:space="preserve">
+    <value>Fade</value>
+  </data>
+  <data name="Settings_Slideshow_Interval_Help" xml:space="preserve">
+    <value>Combien de temps en secondes une diapositive devrait-elle apparaître avant de passer à la diapositive suivante</value>
+  </data>
+  <data name="Settings_Slideshow_Interval_Label" xml:space="preserve">
+    <value>Intervalle</value>
+  </data>
+  <data name="Settings_Slideshow_Limit_Help" xml:space="preserve">
+    <value>Le nombre maximal de diapositives à inclure</value>
+  </data>
+  <data name="Settings_Slideshow_Limit_Label" xml:space="preserve">
+    <value>Limite</value>
+  </data>
+  <data name="Settings_Slideshow_Share_Slide_Help" xml:space="preserve">
+    <value>Si le code QR doit être désactivé à la fin pour les invités à scanner</value>
+  </data>
+  <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
+    <value>Inclure la diapositive de partage</value>
+  </data>
+  <data name="Settings_Smtp" xml:space="preserve">
+    <value>Courriel</value>
+  </data>
+  <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
+    <value>Nom de l'expéditeur convivial</value>
+  </data>
+  <data name="Settings_Smtp_Display_Name_Label" xml:space="preserve">
+    <value>Afficher le nom</value>
+  </data>
+  <data name="Settings_Smtp_Enabled_Help" xml:space="preserve">
+    <value>Si des alertes par courriel sont envoyées</value>
+  </data>
+  <data name="Settings_Smtp_Enabled_Label" xml:space="preserve">
+    <value>Activé</value>
+  </data>
+  <data name="Settings_Smtp_From_Help" xml:space="preserve">
+    <value>L'adresse e-mail de l'alerte est envoyée de</value>
+  </data>
+  <data name="Settings_Smtp_From_Label" xml:space="preserve">
+    <value>De</value>
+  </data>
+  <data name="Settings_Smtp_Host_Help" xml:space="preserve">
+    <value>Le nom d'hôte du fournisseur SMTP</value>
+  </data>
+  <data name="Settings_Smtp_Host_Label" xml:space="preserve">
+    <value>Hébergement</value>
+  </data>
+  <data name="Settings_Smtp_Password_Help" xml:space="preserve">
+    <value>Le mot de passe utilisé pour authentifier la demande</value>
+  </data>
+  <data name="Settings_Smtp_Password_Label" xml:space="preserve">
+    <value>Mot de passe</value>
+  </data>
+  <data name="Settings_Smtp_Port_Help" xml:space="preserve">
+    <value>Le port utilisé par le fournisseur SMTP</value>
+  </data>
+  <data name="Settings_Smtp_Port_Label" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Settings_Smtp_Recipient_Help" xml:space="preserve">
+    <value>Une liste d'adresses email séparées par des virgules</value>
+  </data>
+  <data name="Settings_Smtp_Recipient_Label" xml:space="preserve">
+    <value>Bénéficiaires</value>
+  </data>
+  <data name="Settings_Smtp_Use_SSL_Help" xml:space="preserve">
+    <value>Le fournisseur SMTP utilise-t-il SSL</value>
+  </data>
+  <data name="Settings_Smtp_Use_SSL_Label" xml:space="preserve">
+    <value>Utiliser SSL</value>
+  </data>
+  <data name="Settings_Smtp_Username_Help" xml:space="preserve">
+    <value>Le nom d'utilisateur utilisé pour authentifier la requête</value>
+  </data>
+  <data name="Settings_Smtp_Username_Label" xml:space="preserve">
+    <value>Nom d'utilisateur</value>
+  </data>
+  <data name="Settings_Themes" xml:space="preserve">
+    <value>Thèmes</value>
+  </data>
+  <data name="Settings_Themes_Default_Help" xml:space="preserve">
+    <value>Le thème du site par défaut si aucun n'est sélectionné</value>
+  </data>
+  <data name="Settings_Themes_Default_Label" xml:space="preserve">
+    <value>Par défaut Thème</value>
+  </data>
+  <data name="Settings_Themes_Enabled_Help" xml:space="preserve">
+    <value>Permettre aux utilisateurs de changer le thème</value>
+  </data>
+  <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
+    <value>Activé</value>
   </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Code de partage</value>

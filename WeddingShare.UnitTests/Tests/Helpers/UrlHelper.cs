@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using WeddingShare.Constants;
 using WeddingShare.Helpers;
 using WeddingShare.UnitTests.Helpers;
 
@@ -6,8 +7,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
 {
     public class UrlHelperTests
     {
-        private readonly IConfigHelper _config = Substitute.For<IConfigHelper>();
-        private readonly IGalleryHelper _gallery = Substitute.For<IGalleryHelper>();
+        private readonly ISettingsHelper _settings = Substitute.For<ISettingsHelper>();
 
         public UrlHelperTests()
         {
@@ -16,7 +16,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [SetUp]
         public void Setup()
         {
-            _config.GetOrDefault("Settings:Force_Https", Arg.Any<bool>()).Returns(false);
+            _settings.GetOrDefault(Settings.Basic.ForceHttps, Arg.Any<bool>()).Returns(false);
         }
 
         [TestCase("http", "unittest.com", null, "http://unittest.com/")]
@@ -33,13 +33,13 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase("https", "mobile.unittest.org", "/unittest?unit=test&blaa=test", "https://mobile.unittest.org/unittest?unit=test&blaa=test")]
         public void UrlHelper_GenerateBaseUrl(string scheme, string host, string? querystring, string expected)
         {
-            _config.GetOrDefault("Settings:Base_Url", Arg.Any<string>()).Returns(host);
+            _settings.GetOrDefault(Settings.Basic.BaseUrl, Arg.Any<string>()).Returns(host);
 
             var mockContext = MockData.MockHttpContext();
             mockContext.Request.Scheme = scheme;
             mockContext.Request.Host = new HostString(host);
 
-            var actual = new UrlHelper(_config).GenerateBaseUrl(mockContext?.Request, querystring);
+            var actual = new UrlHelper(_settings).GenerateBaseUrl(mockContext?.Request, querystring);
             Assert.That(actual, Is.EqualTo(expected));
         }
 
@@ -59,7 +59,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
                 return new KeyValuePair<string, string>(val.FirstOrDefault() ?? "default", val.LastOrDefault() ?? "default");
             })?.ToList();
 
-            var actual = new UrlHelper(_config).GenerateQueryString(mockContext?.Request, include, exclude?.Split(',', StringSplitOptions.RemoveEmptyEntries)?.ToList());
+            var actual = new UrlHelper(_settings).GenerateQueryString(mockContext?.Request, include, exclude?.Split(',', StringSplitOptions.RemoveEmptyEntries)?.ToList());
             Assert.That(actual, Is.EqualTo(expected));
         }
 
@@ -80,7 +80,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
                 return new KeyValuePair<string, string>(val.FirstOrDefault() ?? "default", val.LastOrDefault() ?? "default");
             })?.ToList();
 
-            var actual = new UrlHelper(_config).GenerateQueryString(mockContext?.Request, include, exclude?.Split(',', StringSplitOptions.RemoveEmptyEntries)?.ToList());
+            var actual = new UrlHelper(_settings).GenerateQueryString(mockContext?.Request, include, exclude?.Split(',', StringSplitOptions.RemoveEmptyEntries)?.ToList());
             Assert.That(actual, Is.EqualTo(expected));
         }
 
@@ -100,7 +100,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
                 return new KeyValuePair<string, string>(val.FirstOrDefault() ?? "default", val.LastOrDefault() ?? "default");
             })?.ToList();
 
-            var actual = new UrlHelper(_config).GenerateQueryString(mockContext?.Request, include, exclude?.Split(',', StringSplitOptions.RemoveEmptyEntries)?.ToList());
+            var actual = new UrlHelper(_settings).GenerateQueryString(mockContext?.Request, include, exclude?.Split(',', StringSplitOptions.RemoveEmptyEntries)?.ToList());
             Assert.That(actual, Is.EqualTo(expected));
         }
 
@@ -114,7 +114,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
         [TestCase("https://test.com/", "test.com")]
         public void UrlHelper_ExtractHost(string host, string expected)
         {
-            var actual = new UrlHelper(_config).ExtractHost(host);
+            var actual = new UrlHelper(_settings).ExtractHost(host);
             Assert.That(actual, Is.EqualTo(expected));
         }
 
@@ -129,7 +129,7 @@ namespace WeddingShare.UnitTests.Tests.Helpers
             mockContext.Request.Host = new HostString("unit.test.com");
             mockContext.Request.QueryString = new QueryString(queryString);
 
-            var actual = new UrlHelper(_config).ExtractQueryValue(mockContext?.Request, key);
+            var actual = new UrlHelper(_settings).ExtractQueryValue(mockContext?.Request, key);
             Assert.That(actual, Is.EqualTo(expected));
         }
     }

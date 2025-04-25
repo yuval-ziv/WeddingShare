@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using WeddingShare.Constants;
 
 namespace WeddingShare.Helpers
 {
@@ -15,11 +16,11 @@ namespace WeddingShare.Helpers
 
     public class UrlHelper : IUrlHelper
     {
-        private readonly IConfigHelper _config;
+        private readonly ISettingsHelper _settings;
 
-        public UrlHelper(IConfigHelper config)
+        public UrlHelper(ISettingsHelper settings)
         {
-            _config = config;
+            _settings = settings;
         }
 
         public string GenerateFullUrl(HttpRequest? ctx, string? path, List<KeyValuePair<string, string>>? append = null, List<string>? exclude = null)
@@ -31,8 +32,8 @@ namespace WeddingShare.Helpers
         {
             if (ctx != null)
             {
-                var scheme = _config.GetOrDefault("Settings:Force_Https", false) ? "https" : ctx.Scheme;
-                var host = ExtractHost(_config.GetOrDefault("Settings:Base_Url", ctx.Host.Value));
+                var scheme = _settings.GetOrDefault(Settings.Basic.ForceHttps, false).Result ? "https" : ctx.Scheme;
+                var host = ExtractHost(_settings.GetOrDefault(Settings.Basic.BaseUrl, ctx.Host.Value).Result);
 
                 return $"{scheme}://{host}/{path?.TrimStart('/')}";
             }

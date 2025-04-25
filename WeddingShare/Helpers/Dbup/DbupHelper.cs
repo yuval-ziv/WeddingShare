@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using DbUp;
 using DbUp.Engine;
+using WeddingShare.Constants;
 using WeddingShare.Enums;
 using WeddingShare.Helpers.Database;
 using WeddingShare.Models.Database;
@@ -16,12 +17,13 @@ namespace WeddingShare.Helpers.Dbup
             fileHelper.CreateDirectoryIfNotExists("config");
 
             var config = new ConfigHelper(environment, configuration, loggerFactory.CreateLogger<ConfigHelper>());
-            var connString = config.GetOrDefault("Settings:Database:Connection_String", "Data Source=./config/wedding-share.db");
+
+            var connString = config.GetOrDefault(Settings.Database.ConnectionString, "Data Source=./config/wedding-share.db");
             if (!string.IsNullOrWhiteSpace(connString))
             {
                 DatabaseUpgradeResult? dbupResult;
 
-                var dbType = config.GetOrDefault("Settings:Database:Type", "sqlite")?.ToLower();
+                var dbType = config.GetOrDefault(Settings.Database.Type, "sqlite")?.ToLower();
                 switch (dbType)
                 {
                     case "sqlite":
@@ -41,20 +43,29 @@ namespace WeddingShare.Helpers.Dbup
                     logger.LogWarning($"DBUP failed with error: '{dbupResult?.Error?.Message}' - '{dbupResult?.Error?.ToString()}'");
                 }
 
-                var username = config.GetOrDefault("Settings:Account:Admin:Username", "admin").ToLower();
+                if (config.GetOrDefault(Settings.Database.SyncFromConfig, false))
+                { 
+                    logger.LogWarning($"Sync_From_Config set to true, wiping settings database and re-pulling values from config");
+                    await database.DeleteAllSettings();
+                }
+
+                var isDemoMode = config.GetOrDefault(Settings.IsDemoMode, false);
+                var username = !isDemoMode ? config.GetOrDefault(Settings.Account.Admin.Username, "admin").ToLower() : "demo";
                 var adminAccount = new UserModel() 
                 {
                     Username = username,
-                    Password = encryption.Encrypt(config.GetOrDefault("Settings:Account:Admin:Password", "admin"), username)
+                    Password = encryption.Encrypt(!isDemoMode ? config.GetOrDefault(Settings.Account.Admin.Password, "admin") : "demo", username)
                 };
                 await database.InitAdminAccount(adminAccount);
-                    
-                if (config.GetOrDefault("Settings:Account:Admin:Log_Password", true))
+
+                await new DbupImporter(config, database, loggerFactory.CreateLogger<DbupImporter>()).ImportSettings();
+
+                if (config.GetOrDefault(Settings.Account.Admin.LogPassword, false))
                 {
                     logger.LogInformation($"Password: {adminAccount.Password}");
                 }
 
-                if (config.GetOrDefault("Security:2FA:Reset_To_Default", false))
+                if (config.GetOrDefault(Security.MultiFactor.ResetToDefault, false))
                 {
                     await database.ResetMultiFactorToDefault();
                 }

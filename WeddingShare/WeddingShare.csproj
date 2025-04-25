@@ -30,6 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MySQL\009b - Add Gallery Settings Table.sql" />
+    <EmbeddedResource Include="SqlScripts\MySQL\009 - Add Settings Table.sql" />
     <EmbeddedResource Include="SqlScripts\MySQL\000 - Initialize Database.sql" />
     <EmbeddedResource Include="SqlScripts\MySQL\001 - Add Failed Login Tracking.sql" />
     <EmbeddedResource Include="SqlScripts\MySQL\002 - Add MediaType.sql" />
@@ -48,6 +50,8 @@
     <EmbeddedResource Include="SqlScripts\SQLite\006 - Add Uploaded Date.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\007 - Wipe DateTimes for Rescan.sql" />
     <EmbeddedResource Include="SqlScripts\SQLite\008 - Add File Size.sql" />
+    <EmbeddedResource Include="SqlScripts\SQLite\009 - Add Settings Table.sql" />
+    <EmbeddedResource Include="SqlScripts\SQLite\009b - Add Gallery Settings Table.sql" />
   </ItemGroup>
 
   <ItemGroup>

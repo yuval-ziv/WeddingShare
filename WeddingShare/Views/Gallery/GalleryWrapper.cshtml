@@ -1,19 +1,19 @@
 @model WeddingShare.Models.PhotoGallery
+@using WeddingShare.Constants
 @using WeddingShare.Enums
 @using WeddingShare.Views.Gallery
 @inject WeddingShare.Helpers.IConfigHelper _config
-@inject WeddingShare.Helpers.IGalleryHelper _gallery
 
 @if (Model.ViewMode != ViewMode.Slideshow)
 {
-    var galleryName = _gallery.GetGalleryName(Model?.GalleryName ?? "default");
+    var galleryName = (!string.IsNullOrWhiteSpace(Model?.GalleryName) && !Model.GalleryName.Equals("all", StringComparison.OrdinalIgnoreCase)) ? Model.GalleryName.ToLower() : "default";
 
     string banner;
     try
     {
-        var bannerGallery = _config.Get($"Settings:Gallery:Banner_Image_{galleryName}") != null ? galleryName : "default";
+        var bannerGallery = _config.Get($"{Settings.Gallery.BannerImage}_{galleryName}") != null ? galleryName : "default";
 
-        banner = _gallery.GetConfig(galleryName, $"Gallery:Banner_Image", string.Empty);
+        banner = await _settings.GetOrDefault(Settings.Gallery.BannerImage, string.Empty, galleryName);
         if (!string.IsNullOrWhiteSpace(banner))
         {
             if (!banner.StartsWith("/images", StringComparison.OrdinalIgnoreCase) && !banner.StartsWith("/banners", StringComparison.OrdinalIgnoreCase) && !banner.StartsWith("/custom_resources", StringComparison.OrdinalIgnoreCase))
@@ -33,7 +33,7 @@
     }
     catch { }
 
-    var quote = _gallery.GetConfig(galleryName, "Gallery:Quote", string.Empty);
+    var quote = await _settings.GetOrDefault(Settings.Gallery.Quote, string.Empty, galleryName);
     if (!string.IsNullOrWhiteSpace(quote))
     {
         <div class="row mb-3 mb-lg-4 border rounded">
@@ -43,7 +43,7 @@
         </div>
     }
 
-    if (_gallery.GetConfig(Model?.GalleryName, "Gallery:Review_Counter", true))
+    if (await _settings.GetOrDefault(Settings.Gallery.ReviewCounter, true, Model?.GalleryName))
     {
         <div class="row mb-3 mb-lg-4 review-counter">
             <div class="col-4">

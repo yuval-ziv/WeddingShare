@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using Microsoft.Data.Sqlite;
+using WeddingShare.Constants;
 using WeddingShare.Enums;
 using WeddingShare.Models.Database;
 
@@ -12,7 +13,7 @@ namespace WeddingShare.Helpers.Database
 
         public SQLiteDatabaseHelper(IConfigHelper config, ILogger<SQLiteDatabaseHelper> logger)
         {
-            _connString = config.GetOrDefault("Settings:Database:Connection_String", "Data Source=./config/wedding-share.db");
+            _connString = config.GetOrDefault(Settings.Database.ConnectionString, "Data Source=./config/wedding-share.db");
             _logger = logger;
 
             _logger.LogInformation($"Using SQLite connection string: '{_connString}'");
@@ -46,6 +47,23 @@ namespace WeddingShare.Helpers.Database
         #endregion
 
         #region Gallery
+        public async Task<int> GetGalleryCount()
+        {
+            int? result = 0;
+
+            using (var conn = await GetConnection())
+            {
+                var cmd = CreateCommand($"SELECT COUNT(`id`) AS `count` FROM `galleries`;", conn);
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+                result = (int?)(long?)await cmd.ExecuteScalarAsync();
+                await conn.CloseAsync();
+            }
+
+            return result ?? 0;
+        }
+
         public async Task<IEnumerable<string>> GetGalleryNames()
         {
             List<string> result = new List<string>();
@@ -103,6 +121,21 @@ namespace WeddingShare.Helpers.Database
             }
 
             return result;
+        }
+
+        public async Task<int?> GetGalleryId(string? name)
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+            { 
+                return (await this.GetGallery(name))?.Id;
+            }
+
+            return null;
+        }
+
+        public async Task<string?> GetGalleryName(int id)
+        {
+            return (await this.GetGallery(id))?.Name;
         }
 
         public async Task<GalleryModel?> GetGallery(int id)
@@ -212,6 +245,15 @@ namespace WeddingShare.Helpers.Database
                 await conn.CloseAsync();
             }
 
+            if (result != null) 
+            {
+                await this.AddSetting(new SettingModel() 
+                {
+                    Id = Settings.Gallery.SecretKey,
+                    Value = model.SecretKey
+                }, result.Name);
+            }
+
             return result;
         }
 
@@ -258,7 +300,7 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = await GetConnection())
             {
-                var cmd = CreateCommand($"DELETE FROM `gallery_items` WHERE `gallery_id`=@Id;", conn);
+                var cmd = CreateCommand($"DELETE FROM `gallery_settings` WHERE `gallery_id`=@Id; DELETE FROM `gallery_items` WHERE `gallery_id`=@Id;", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", model.Id);
 
@@ -288,7 +330,7 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = await GetConnection())
             {
-                var cmd = CreateCommand($"DELETE FROM `gallery_items`; DELETE FROM `galleries` WHERE `id` > 1;", conn);
+                var cmd = CreateCommand($"DELETE FROM `gallery_settings`; DELETE FROM `gallery_items`; DELETE FROM `galleries` WHERE `id` > 1;", conn);
                 cmd.CommandType = CommandType.Text;
 
                 await conn.OpenAsync();
@@ -317,7 +359,7 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = await GetConnection())
             {
-                var cmd = CreateCommand($"DELETE FROM `gallery_items` WHERE `gallery_id`=@Id; DELETE FROM `galleries` WHERE `id`=@Id;", conn);
+                var cmd = CreateCommand($"DELETE FROM `gallery_settings` WHERE `gallery_id`=@Id; DELETE FROM `gallery_items` WHERE `gallery_id`=@Id; DELETE FROM `galleries` WHERE `id`=@Id;", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", model.Id);
 
@@ -1051,6 +1093,298 @@ namespace WeddingShare.Helpers.Database
         }
         #endregion
 
+        #region Settings
+        public async Task<IEnumerable<SettingModel>?> GetAllSettings(string? gallery = "")
+        {
+            List<SettingModel> result = new List<SettingModel>();
+
+            var galleryId = await this.GetGalleryId(gallery);
+            using (var conn = await GetConnection())
+            {
+                var cmd = CreateCommand($"SELECT `id`, `value` FROM (SELECT `id`, `value`, '2' AS `priority` FROM `settings` UNION SELECT `id`, `value`, '1' AS `priority` FROM `gallery_settings` WHERE `gallery_id`=@GalleryId) GROUP BY `id` ORDER BY `priority` ASC;", conn);
+                
+                cmd.Parameters.AddWithValue("GalleryId", galleryId ?? 0);
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    result = await ReadSettings(reader);
+                }
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<SettingModel?> GetSetting(string id, string? gallery = "")
+        {
+            SettingModel? result;
+
+            var galleryId = await this.GetGalleryId(gallery);
+            using (var conn = await GetConnection())
+            {
+                var cmd = CreateCommand($"SELECT `id`, `value` FROM (SELECT `id`, `value`, '2' AS `priority` FROM `settings` WHERE `id`=@Id UNION SELECT `id`, `value`, '1' AS `priority` FROM `gallery_settings` WHERE `id`=@Id AND `gallery_id`=@GalleryId) ORDER BY `priority` ASC LIMIT 1;", conn);
+
+                cmd.Parameters.AddWithValue("Id", id.ToUpper());
+                cmd.Parameters.AddWithValue("GalleryId", galleryId ?? 0);
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    result = (await ReadSettings(reader))?.FirstOrDefault();
+                }
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<SettingModel?> GetGallerySpecificSetting(string id, string gallery)
+        {
+            SettingModel? result = null;
+
+            var galleryId = await this.GetGalleryId(gallery);
+            if (galleryId != null)
+            { 
+                using (var conn = await GetConnection())
+                {
+                    var cmd = CreateCommand($"SELECT `id`, `value` FROM `gallery_settings` WHERE `id`=@Id AND `gallery_id`=@GalleryId;", conn);
+
+                    cmd.Parameters.AddWithValue("Id", id.ToUpper());
+                    cmd.Parameters.AddWithValue("GalleryId", galleryId);
+                    cmd.CommandType = CommandType.Text;
+
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        result = (await ReadSettings(reader))?.FirstOrDefault();
+                    }
+                    await conn.CloseAsync();
+                }
+            }
+
+            return result;
+        }
+
+        public async Task<SettingModel?> AddSetting(SettingModel model, string? gallery = "")
+        {
+            SettingModel? result = null;
+
+            var galleryId = await this.GetGalleryId(gallery);
+            using (var conn = await GetConnection())
+            {
+                SqliteCommand cmd;
+                if (!string.IsNullOrWhiteSpace(gallery))
+                {
+                    cmd = CreateCommand($"INSERT INTO `gallery_settings` (`id`, `gallery_id`, `value`) VALUES (@Id, @GalleryId, @Value); SELECT * FROM `gallery_settings` WHERE `id`=last_insert_rowid() AND `gallery_id`=@GalleryId;", conn);
+                    cmd.Parameters.AddWithValue("GalleryId", galleryId);
+                }
+                else
+                {
+                    cmd = CreateCommand($"INSERT INTO `settings` (`id`, `value`) VALUES (@Id, @Value); SELECT * FROM `settings` WHERE `id`=last_insert_rowid();", conn);
+                }
+
+                cmd.Parameters.AddWithValue("Id", model.Id.ToUpper());
+                cmd.Parameters.AddWithValue("Value", !string.IsNullOrEmpty(model.Value) ? model.Value : DBNull.Value);
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+                var tran = await CreateTransaction(conn);
+
+                try
+                {
+                    cmd.Transaction = tran;
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        result = (await ReadSettings(reader))?.FirstOrDefault();
+                    }
+                    await tran.CommitAsync();
+                }
+                catch
+                {
+                    await tran.RollbackAsync();
+                }
+
+                await conn.CloseAsync();
+            }
+
+            if (result == null)
+            {
+                result = await this.GetSetting(model.Id, gallery);
+            }
+
+            return result;
+        }
+
+        public async Task<SettingModel?> EditSetting(SettingModel model, string? gallery = "")
+        {
+            SettingModel? result = null;
+
+            var galleryId = await this.GetGalleryId(gallery);
+            using (var conn = await GetConnection())
+            {
+                SqliteCommand cmd;
+                if (!string.IsNullOrWhiteSpace(gallery))
+                {
+                    cmd = CreateCommand($"UPDATE `gallery_settings` SET `value`=@Value WHERE `id`=@Id AND `gallery_id`=@GalleryId; SELECT * FROM `gallery_settings` WHERE `id`=@Id AND `gallery_id`=@GalleryId;", conn);
+                    cmd.Parameters.AddWithValue("GalleryId", galleryId);
+                }
+                else
+                {
+                    cmd = CreateCommand($"UPDATE `settings` SET `value`=@Value WHERE `id`=@Id; SELECT * FROM `settings` WHERE `id`=@Id;", conn);
+                }
+
+                cmd.Parameters.AddWithValue("Id", model.Id.ToUpper());
+                cmd.Parameters.AddWithValue("Value", !string.IsNullOrEmpty(model.Value) ? model.Value : DBNull.Value);
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+                var tran = await CreateTransaction(conn);
+
+                try
+                {
+                    cmd.Transaction = tran;
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        result = (await ReadSettings(reader))?.FirstOrDefault();
+                    }
+                    await tran.CommitAsync();
+                }
+                catch
+                {
+                    await tran.RollbackAsync();
+                }
+
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<SettingModel?> SetSetting(SettingModel model, string? gallery = "")
+        {
+            if (!string.IsNullOrWhiteSpace(model.Id))
+            {
+                try
+                {
+                    var result = await GetSetting(model.Id, gallery);
+                    if (result == null)
+                    {
+                        return await AddSetting(new SettingModel()
+                        {
+                            Id = model.Id.ToUpper(),
+                            Value = model.Value
+                        }, gallery);
+                    }
+                    else
+                    {
+                        return await EditSetting(new SettingModel()
+                        {
+                            Id = model.Id.ToUpper(),
+                            Value = model.Value
+                        }, gallery);
+                    }
+                }
+                catch
+                {
+                    if (await DeleteSetting(model, gallery))
+                    {
+                        return await AddSetting(new SettingModel()
+                        {
+                            Id = model.Id.ToUpper(),
+                            Value = model.Value
+                        }, gallery);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public async Task<bool> DeleteSetting(SettingModel model, string? gallery = "")
+        {
+            bool result = false;
+
+            var galleryId = await this.GetGalleryId(gallery);
+            using (var conn = await GetConnection())
+            {
+                SqliteCommand cmd;
+                if (!string.IsNullOrWhiteSpace(gallery))
+                {
+                    cmd = CreateCommand($"DELETE FROM `gallery_settings` WHERE `id`=@Id AND `gallery_id`=@GalleryId';", conn);
+                    cmd.Parameters.AddWithValue("GalleryId", galleryId);
+                }
+                else
+                {
+                    cmd = CreateCommand($"DELETE FROM `gallery_settings` WHERE `id`=@Id; DELETE FROM `settings` WHERE `id`=@Id;", conn);
+                }
+
+                cmd.Parameters.AddWithValue("Id", model.Id.ToUpper());
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+                var tran = await CreateTransaction(conn);
+
+                try
+                {
+                    cmd.Transaction = tran;
+                    result = (await cmd.ExecuteNonQueryAsync()) > 0;
+                    await tran.CommitAsync();
+                }
+                catch
+                {
+                    await tran.RollbackAsync();
+                }
+
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<bool> DeleteAllSettings(string? gallery = "")
+        {
+            bool result = false;
+
+            var galleryId = await this.GetGalleryId(gallery);
+            using (var conn = await GetConnection())
+            {
+                SqliteCommand cmd;
+                if (!string.IsNullOrWhiteSpace(gallery))
+                { 
+                    cmd = CreateCommand($"DELETE FROM `gallery_settings` WHERE `gallery_id`=@GalleryId';", conn);
+                    cmd.Parameters.AddWithValue("GalleryId", galleryId);
+                }
+                else
+                {
+                    cmd = CreateCommand($"DELETE FROM `gallery_settings`; DELETE FROM `settings`;", conn);
+                }
+
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+                var tran = await CreateTransaction(conn);
+
+                try
+                {
+                    cmd.Transaction = tran;
+                    result = (await cmd.ExecuteNonQueryAsync()) > 0;
+                    await tran.CommitAsync();
+                }
+                catch
+                {
+                    await tran.RollbackAsync();
+                }
+
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+        #endregion
+
         #region Backups
         public async Task<bool> Import(string path)
         {
@@ -1249,6 +1583,36 @@ namespace WeddingShare.Helpers.Database
                     catch (Exception ex)
                     {
                         _logger.LogWarning(ex, $"Failed to parse user model from database - {ex?.Message}");
+                    }
+                }
+            }
+
+            return items;
+        }
+
+        private async Task<List<SettingModel>> ReadSettings(SqliteDataReader? reader)
+        {
+            var items = new List<SettingModel>();
+
+            if (reader != null && reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    try
+                    {
+                        var id = !await reader.IsDBNullAsync("id") ? reader.GetString("id").ToUpper() : string.Empty;
+                        if (!string.IsNullOrWhiteSpace(id))
+                        {
+                            items.Add(new SettingModel()
+                            {
+                                Id = id,
+                                Value = !await reader.IsDBNullAsync("value") ? reader.GetString("value") : string.Empty
+                            });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, $"Failed to parse setting model from database - {ex?.Message}");
                     }
                 }
             }

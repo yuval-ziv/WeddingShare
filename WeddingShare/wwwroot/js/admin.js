@@ -44,9 +44,9 @@ function updateUsersList() {
 function updateGalleryList() {
     $.ajax({
         type: 'GET',
-        url: `/Admin/AvailableGalleries`,
+        url: `/Admin/GalleriesList`,
         success: function (data) {
-            $('#available-galleries').html(data);
+            $('#galleries-list').html(data);
         }
     });
 }
@@ -110,8 +110,67 @@ function setPasswordValidationField(field, valid) {
     }
 }
 
+function selectActiveTab(tab) {
+    tab = tab.replace('#', '');
+
+    if (tab === undefined || tab === null || tab.length === 0) {
+        tab = $('a.pnl-selector')[0].attributes['data-tab'].value;
+    }
+
+    $('a.pnl-selector').removeClass('active');
+    $(`a.pnl-selector[data-tab="${tab}"]`).addClass('active');
+
+    $('section.pnl-admin').addClass('d-none');
+    $(`section.pnl-admin-${tab}`).removeClass('d-none');
+
+    window.location.hash = `#${tab}`;
+}
+
 (function () {
     document.addEventListener('DOMContentLoaded', function () {
+
+        selectActiveTab(window.location.hash);
+
+        $(document).off('click', 'a.pnl-selector').on('click', 'a.pnl-selector', function (e) {
+            preventDefaults(e);
+
+            let tab = $(this).data('tab');
+            selectActiveTab(tab);
+        });
+
+        $(document).off('change', 'input.setting-field,select.setting-field').on('change', 'input.setting-field,select.setting-field', function (e) {
+            $(this).attr('data-updated', 'true');
+        });
+
+        $(document).off('click', 'button#btnSaveSettings').on('click', 'button#btnSaveSettings', function (e) {
+            let updatedFields = $('.setting-field[data-updated="true"]');
+            if (updatedFields.length > 0) {
+                var settingsList = $.map(updatedFields, function (item) {
+                    let element = $(item);
+                    return { key: element.data('setting-name'), value: element.val() };
+                });
+
+                $.ajax({
+                    url: '/Admin/UpdateSettings',
+                    method: 'PUT',
+                    data: { model: settingsList }
+                })
+                    .done(data => {
+                        if (data.success === true) {
+                            displayMessage(localization.translate('Update_Settings'), localization.translate('Update_Settings_Success'));
+                        } else if (data.message) {
+                            displayMessage(localization.translate('Update_Settings'), localization.translate('Update_Settings_Failed'), [data.message]);
+                        } else {
+                            displayMessage(localization.translate('Update_Settings'), localization.translate('Update_Settings_Failed'));
+                        }
+                    })
+                    .fail((xhr, error) => {
+                        displayMessage(localization.translate('Update_Settings'), localization.translate('Update_Settings_Failed'), [error]);
+                    });
+            } else {
+                displayMessage(localization.translate('Update_Settings'), localization.translate('Update_Settings_No_Change'));
+            }
+        });
 
         $(document).off('click', 'button.btnReviewApprove').on('click', 'button.btnReviewApprove', function (e) {
             preventDefaults(e);
@@ -485,13 +544,13 @@ function setPasswordValidationField(field, valid) {
                                 if (data.success === true && data.filename) {
                                     window.location.href = data.filename;
                                 } else if (data.message) {
-                                    displayMessage(localization.translate('Export_Data'), localization.translate('Export_Failed'), [data.message]);
+                                    displayMessage(localization.translate('Export_Data'), localization.translate('Export_Data_Failed'), [data.message]);
                                 } else {
-                                    displayMessage(localization.translate('Export_Data'), localization.translate('Export_Failed'));
+                                    displayMessage(localization.translate('Export_Data'), localization.translate('Export_Data_Failed'));
                                 }
                             })
                             .fail((xhr, error) => {
-                                displayMessage(localization.translate('Export_Data'), localization.translate('Export_Failed'), [error]);
+                                displayMessage(localization.translate('Export_Data'), localization.translate('Export_Data_Failed'), [error]);
                             });
                     }
                 }, {

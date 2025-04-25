@@ -82,6 +82,18 @@
   <data name="403_Error_Title" xml:space="preserve">
     <value>Rochtain a Fháil</value>
   </data>
+  <data name="405_Error_Message" xml:space="preserve">
+    <value>Tá tú bainte amach an teorainn a chruthú gailearaí uasta</value>
+  </data>
+  <data name="405_Error_Title" xml:space="preserve">
+    <value>Teorainn a Bhainistiú</value>
+  </data>
+  <data name="406_Error_Message" xml:space="preserve">
+    <value>Níl an gailearaí sonraithe ann</value>
+  </data>
+  <data name="406_Error_Title" xml:space="preserve">
+    <value>Clár na dToghthóirí</value>
+  </data>
   <data name="Actions" xml:space="preserve">
     <value>Amharc ar gach eolas</value>
   </data>
@@ -123,6 +135,9 @@
   </data>
   <data name="Delete_Confirmation" xml:space="preserve">
     <value>An bhfuil tú cinnte gur mhaith leat an gailearaí seo a scriosadh?</value>
+  </data>
+  <data name="Destructive_Action_Performed" xml:space="preserve">
+    <value>GnÃ omhaÃ ochta suaite</value>
   </data>
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>Níl tú údaraithe an gailearaí seo a íoslódáil</value>
@@ -169,6 +184,9 @@
   <data name="Failed_Reviewing_Media" xml:space="preserve">
     <value>Failed a athbhreithniú mír</value>
   </data>
+  <data name="Failed_Update_Setting" xml:space="preserve">
+    <value>Failed chun socruithe cothrom le dáta</value>
+  </data>
   <data name="Failed_Wipe_Galleries" xml:space="preserve">
     <value>Failed a wipe dánlanna</value>
   </data>
@@ -213,6 +231,9 @@
   </data>
   <data name="Gallery_Key_Placeholder" xml:space="preserve">
     <value>bainise-lá</value>
+  </data>
+  <data name="Gallery_Limit_Reached" xml:space="preserve">
+    <value>Tá an líon uasta ceadaithe dánlanna bainte amach</value>
   </data>
   <data name="Gallery_List_Failed" xml:space="preserve">
     <value>Failed a fháil liosta gailearaí</value>
@@ -310,6 +331,9 @@
   <data name="New_Items_Pending_Review" xml:space="preserve">
     <value>Míreanna Nua ar feitheamh Athbhreithniú</value>
   </data>
+  <data name="No_Data" xml:space="preserve">
+    <value>Níl aon sonraí</value>
+  </data>
   <data name="No_Files_For_Upload" xml:space="preserve">
     <value>Níor aimsíodh aon chomhaid le haghaidh uaslódáil</value>
   </data>
@@ -345,6 +369,477 @@
   </data>
   <data name="Scan_To_Share" xml:space="preserve">
     <value>Scan an cód QR le do ghuthán a roinnt do íomhánna</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>An tSraith Shinsearach</value>
+  </data>
+  <data name="Settings_Account" xml:space="preserve">
+    <value>Cuntas deimhnithe</value>
+  </data>
+  <data name="Settings_Account_Lockout_Attempts_Help" xml:space="preserve">
+    <value>Cé mhéad logáilte theip sula bhfuil úsáideoir blocáilte</value>
+  </data>
+  <data name="Settings_Account_Lockout_Attempts_Label" xml:space="preserve">
+    <value>Lockout Iarrachtaí</value>
+  </data>
+  <data name="Settings_Account_Lockout_Mins_Help" xml:space="preserve">
+    <value>Cé chomh fada ba chóir úsáideoir a bhlocáil</value>
+  </data>
+  <data name="Settings_Account_Lockout_Mins_Label" xml:space="preserve">
+    <value>Naisc ábhartha eile</value>
+  </data>
+  <data name="Settings_Account_Profile_Icon_Help" xml:space="preserve">
+    <value>Ar chóir an deilbhín próifíl le feiceáil sa header</value>
+  </data>
+  <data name="Settings_Account_Profile_Icon_Label" xml:space="preserve">
+    <value>Próifíl 1</value>
+  </data>
+  <data name="Settings_Alerts" xml:space="preserve">
+    <value>Amharc ar gach eolas</value>
+  </data>
+  <data name="Settings_Alerts_Account_Lockout_Help" xml:space="preserve">
+    <value>Ba chóir foláirimh a sheoladh nuair cuntais faoi ghlas amach</value>
+  </data>
+  <data name="Settings_Alerts_Account_Lockout_Label" xml:space="preserve">
+    <value>Logáil isteach</value>
+  </data>
+  <data name="Settings_Alerts_Destructive_Action_Help" xml:space="preserve">
+    <value>Ba chóir foláirimh a sheoladh nuair a dhéantar gníomh millteach</value>
+  </data>
+  <data name="Settings_Alerts_Destructive_Action_Label" xml:space="preserve">
+    <value>GnÃ omhaÃ ochtaÃ suaite</value>
+  </data>
+  <data name="Settings_Alerts_Failed_Login_Help" xml:space="preserve">
+    <value>Ba chóir foláirimh a sheoladh ar iarrachtaí logáil isteach theip</value>
+  </data>
+  <data name="Settings_Alerts_Failed_Login_Label" xml:space="preserve">
+    <value>Failed Logáil isteach</value>
+  </data>
+  <data name="Settings_Alerts_Pending_Review_Help" xml:space="preserve">
+    <value>Ba chóir foláirimh a sheoladh má tá mír nua ar feitheamh athbhreithniú</value>
+  </data>
+  <data name="Settings_Alerts_Pending_Review_Label" xml:space="preserve">
+    <value>Athbhreithniú ar feitheamh</value>
+  </data>
+  <data name="Settings_BackgroundServices" xml:space="preserve">
+    <value>Amharc ar gach eolas</value>
+  </data>
+  <data name="Settings_BackgroundServices_Cleanup_Help" xml:space="preserve">
+    <value>Glanann suas comhaid shealadacha</value>
+  </data>
+  <data name="Settings_BackgroundServices_Cleanup_Label" xml:space="preserve">
+    <value>Glanadh</value>
+  </data>
+  <data name="Settings_BackgroundServices_DirectoryScanner_Help" xml:space="preserve">
+    <value>Picks suas comhaid thit díreach isteach san fhillteán gailearaí</value>
+  </data>
+  <data name="Settings_BackgroundServices_DirectoryScanner_Label" xml:space="preserve">
+    <value>Eolaire Scanner</value>
+  </data>
+  <data name="Settings_BackgroundServices_EmailReport_Help" xml:space="preserve">
+    <value>Seol tuarascáil ar stats gailearaí</value>
+  </data>
+  <data name="Settings_BackgroundServices_EmailReport_Label" xml:space="preserve">
+    <value>Naisc ábhartha eile</value>
+  </data>
+  <data name="Settings_Basic" xml:space="preserve">
+    <value>Bunúsach</value>
+  </data>
+  <data name="Settings_Basic_BaseUrl_Help" xml:space="preserve">
+    <value>An bonn Url a bheidh le húsáid i naisc agus fógraí</value>
+  </data>
+  <data name="Settings_Basic_BaseUrl_Label" xml:space="preserve">
+    <value>Cineál Gluaiseacht</value>
+  </data>
+  <data name="Settings_Basic_EmailReport_Help" xml:space="preserve">
+    <value>Ba chóir tuarascáil ríomhphoist a sheoladh amach le stats gailearaí</value>
+  </data>
+  <data name="Settings_Basic_EmailReport_Label" xml:space="preserve">
+    <value>Nuacht agus Imeachtaí</value>
+  </data>
+  <data name="Settings_Basic_ForceHttps_Help" xml:space="preserve">
+    <value>Ar chóir Http úsáideoirí a chur iallach a https</value>
+  </data>
+  <data name="Settings_Basic_ForceHttps_Label" xml:space="preserve">
+    <value>Cónaidhm na Rúise</value>
+  </data>
+  <data name="Settings_Basic_GallerySelectorDropdown_Help" xml:space="preserve">
+    <value>Conas a roghnaíonn úsáideoirí gailearaí</value>
+  </data>
+  <data name="Settings_Basic_GallerySelectorDropdown_Label" xml:space="preserve">
+    <value>Clár na dToghthóirí Cineál Cineál Cineál Cineál</value>
+  </data>
+  <data name="Settings_Basic_GallerySelectorHideDefault_Help" xml:space="preserve">
+    <value>Ar chóir an rogha gailearaí réamhshocraithe a bheith le feiceáil</value>
+  </data>
+  <data name="Settings_Basic_GallerySelectorHideDefault_Label" xml:space="preserve">
+    <value>Taispeáin Gailearaí na Mainneachtaine</value>
+  </data>
+  <data name="Settings_Basic_GuestGalleryCreation_Help" xml:space="preserve">
+    <value>Ba chóir go mbeadh cead ag aíonna dánlanna nua a chruthú</value>
+  </data>
+  <data name="Settings_Basic_GuestGalleryCreation_Label" xml:space="preserve">
+    <value>Amharc ar gach eolas</value>
+  </data>
+  <data name="Settings_Basic_HideKeyFromQRCode_Help" xml:space="preserve">
+    <value>Ba chóir an eochair rúnda a chur san áireamh sa chód QR</value>
+  </data>
+  <data name="Settings_Basic_HideKeyFromQRCode_Label" xml:space="preserve">
+    <value>Cóid QR Insecure</value>
+  </data>
+  <data name="Settings_Basic_HomeLink_Help" xml:space="preserve">
+    <value>Ba chóir cliceáil ar an nasc baile atreorú an t-úsáideoir</value>
+  </data>
+  <data name="Settings_Basic_HomeLink_Label" xml:space="preserve">
+    <value>Link Baile Cliceáil</value>
+  </data>
+  <data name="Settings_Basic_LinksOpenNewTab_Help" xml:space="preserve">
+    <value>Ar chóir naisc oscailte i tabs nua</value>
+  </data>
+  <data name="Settings_Basic_LinksOpenNewTab_Label" xml:space="preserve">
+    <value>Naisc go dtí suíomhanna eile</value>
+  </data>
+  <data name="Settings_Basic_MaxGalleryCount_Help" xml:space="preserve">
+    <value>Cé mhéad dánlanna a cheadaítear a chruthú</value>
+  </data>
+  <data name="Settings_Basic_MaxGalleryCount_Label" xml:space="preserve">
+    <value>Clár na dToghthóirí</value>
+  </data>
+  <data name="Settings_Basic_SingleGalleryMode_Help" xml:space="preserve">
+    <value>Ar chóir go mbeadh ceann amháin nó níos mó dánlanna</value>
+  </data>
+  <data name="Settings_Basic_SingleGalleryMode_Label" xml:space="preserve">
+    <value>Amharc ar gach eolas</value>
+  </data>
+  <data name="Settings_Basic_ThumbnailSize_Help" xml:space="preserve">
+    <value>Pixel uasta in aon treo le haghaidh thumbnails</value>
+  </data>
+  <data name="Settings_Basic_ThumbnailSize_Label" xml:space="preserve">
+    <value>Féachaint ar Fholúntais</value>
+  </data>
+  <data name="Settings_Gallery" xml:space="preserve">
+    <value>Déan Teagmháil Linn</value>
+  </data>
+  <data name="Settings_Gallery_AllowedFileTypes_Help" xml:space="preserve">
+    <value>Cad iad na cineálacha comhaid aíonna a cheadaítear a uaslódáil</value>
+  </data>
+  <data name="Settings_Gallery_AllowedFileTypes_Label" xml:space="preserve">
+    <value>Cineálacha Comhaid Ceadaithe</value>
+  </data>
+  <data name="Settings_Gallery_BannerImage_Help" xml:space="preserve">
+    <value>Tá íomhá a thaispeáint ag barr an gailearaí</value>
+  </data>
+  <data name="Settings_Gallery_BannerImage_Label" xml:space="preserve">
+    <value>Íomhá Banner</value>
+  </data>
+  <data name="Settings_Gallery_Columns_Help" xml:space="preserve">
+    <value>An líon colúin a thaispeáint</value>
+  </data>
+  <data name="Settings_Gallery_Columns_Label" xml:space="preserve">
+    <value>Comhaireamh na Colún</value>
+  </data>
+  <data name="Settings_Gallery_DefaultView_Help" xml:space="preserve">
+    <value>Cad é an dearcadh gailearaí réamhshocraithe</value>
+  </data>
+  <data name="Settings_Gallery_DefaultView_Label" xml:space="preserve">
+    <value>Réamhshocrú View</value>
+  </data>
+  <data name="Settings_Gallery_Download_Help" xml:space="preserve">
+    <value>Ar chóir go mbeadh cead ag aíonna míreanna a íoslódáil</value>
+  </data>
+  <data name="Settings_Gallery_Download_Label" xml:space="preserve">
+    <value>Naisc ábhartha eile</value>
+  </data>
+  <data name="Settings_Gallery_FullWidth_Help" xml:space="preserve">
+    <value>Leithead an gailearaí</value>
+  </data>
+  <data name="Settings_Gallery_FullWidth_Label" xml:space="preserve">
+    <value>Cineál Taispeáin</value>
+  </data>
+  <data name="Settings_Gallery_IdleRefreshMins_Help" xml:space="preserve">
+    <value>Tar éis cé chomh fada ba chóir an gailearaí athnuachan a fháil ábhar nua</value>
+  </data>
+  <data name="Settings_Gallery_IdleRefreshMins_Label" xml:space="preserve">
+    <value>Idle Mianaigh Refresh</value>
+  </data>
+  <data name="Settings_Gallery_ItemsPerPage_Help" xml:space="preserve">
+    <value>An líon uasta na n-ítimí a thaispeáint in aghaidh an leathanaigh</value>
+  </data>
+  <data name="Settings_Gallery_ItemsPerPage_Label" xml:space="preserve">
+    <value>Míreanna in aghaidh Leathanach</value>
+  </data>
+  <data name="Settings_Gallery_MaxFileSizeMb_Help" xml:space="preserve">
+    <value>Cad é an ceann is mó i MB is féidir comhad a uaslódáil a bheith</value>
+  </data>
+  <data name="Settings_Gallery_MaxFileSizeMb_Label" xml:space="preserve">
+    <value>Méid Comhad Max (MB)</value>
+  </data>
+  <data name="Settings_Gallery_MaxSizeMb_Help" xml:space="preserve">
+    <value>Cé chomh mór i MB é an gailearaí a cheadaítear ag fás</value>
+  </data>
+  <data name="Settings_Gallery_MaxSizeMb_Label" xml:space="preserve">
+    <value>Méid na Gailearaí Max (MB)</value>
+  </data>
+  <data name="Settings_Gallery_PreventDuplicates_Help" xml:space="preserve">
+    <value>Ar chóir dúbailt míreanna diúltaíodh go huathoibríoch</value>
+  </data>
+  <data name="Settings_Gallery_PreventDuplicates_Label" xml:space="preserve">
+    <value>Dúblach a Chosc</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeDefaultSort_Help" xml:space="preserve">
+    <value>Nuair scanóir cad ba chóir ordú le feiceáil míreanna</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeDefaultSort_Label" xml:space="preserve">
+    <value>Réamhshocrú QR Sórtáil</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeDefaultView_Help" xml:space="preserve">
+    <value>Nuair scanadh cad ba chóir leagan amach an úsáideora a fheiceáil</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeDefaultView_Label" xml:space="preserve">
+    <value>Réamhshocrú QR Féach ar an roghchlár</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeEnabled_Help" xml:space="preserve">
+    <value>Má tá an cód QR ar taispeáint</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeEnabled_Label" xml:space="preserve">
+    <value>Taispeáin Cód QR</value>
+  </data>
+  <data name="Settings_Gallery_Quote_Help" xml:space="preserve">
+    <value>A ceanglófar a thaispeáint ag barr an gailearaí</value>
+  </data>
+  <data name="Settings_Gallery_Quote_Label" xml:space="preserve">
+    <value>Déan Teagmháil</value>
+  </data>
+  <data name="Settings_Gallery_RequireReview_Help" xml:space="preserve">
+    <value>An gá míreanna a athbhreithniú sula láithreoidh siad ar an suíomh</value>
+  </data>
+  <data name="Settings_Gallery_RequireReview_Label" xml:space="preserve">
+    <value>Athbhreithniú a Fhiosrú</value>
+  </data>
+  <data name="Settings_Gallery_RetainRejectedItems_Help" xml:space="preserve">
+    <value>Ba chóir míreanna diúltaithe a stóráil le haghaidh úsáide níos déanaí</value>
+  </data>
+  <data name="Settings_Gallery_RetainRejectedItems_Label" xml:space="preserve">
+    <value>A choinneáil Míreanna Instealladh</value>
+  </data>
+  <data name="Settings_Gallery_ReviewCounter_Help" xml:space="preserve">
+    <value>Ar chóir an gcuntar athbhreithniú a thaispeáint</value>
+  </data>
+  <data name="Settings_Gallery_ReviewCounter_Label" xml:space="preserve">
+    <value>Athbhreithniú Counter</value>
+  </data>
+  <data name="Settings_Gallery_SecretKey_Help" xml:space="preserve">
+    <value>A focal faire a dhíghlasáil an gailearaí</value>
+  </data>
+  <data name="Settings_Gallery_SecretKey_Label" xml:space="preserve">
+    <value>Gach ceart ar cosaint</value>
+  </data>
+  <data name="Settings_Gallery_Upload_Help" xml:space="preserve">
+    <value>Má cheadaíonn aíonna míreanna a uaslódáil</value>
+  </data>
+  <data name="Settings_Gallery_Upload_Label" xml:space="preserve">
+    <value>Ceadaigh Uaslódáil</value>
+  </data>
+  <data name="Settings_Gallery_UploadPeriod_Help" xml:space="preserve">
+    <value>Uaslódáil a shrianadh go tréimhse ar leith</value>
+  </data>
+  <data name="Settings_Gallery_UploadPeriod_Label" xml:space="preserve">
+    <value>Tréimhsí Uaslódáil</value>
+  </data>
+  <data name="Settings_Gotify" xml:space="preserve">
+    <value>Gotify</value>
+  </data>
+  <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
+    <value>Ba chóir foláirimh Ntfy a sheoladh</value>
+  </data>
+  <data name="Settings_Gotify_Enabled_Label" xml:space="preserve">
+    <value>Cumasaigh</value>
+  </data>
+  <data name="Settings_Gotify_Endpoint_Help" xml:space="preserve">
+    <value>An seoladh freastalaí Gotify</value>
+  </data>
+  <data name="Settings_Gotify_Endpoint_Label" xml:space="preserve">
+    <value>Deireadh an chomhrá</value>
+  </data>
+  <data name="Settings_Gotify_Priority_Help" xml:space="preserve">
+    <value>An tábhacht a bhaineann le foláirimh</value>
+  </data>
+  <data name="Settings_Gotify_Priority_Label" xml:space="preserve">
+    <value>Amharc ar gach eolas</value>
+  </data>
+  <data name="Settings_Gotify_Token_Help" xml:space="preserve">
+    <value>An dearbhán a úsáidtear le haghaidh fíordheimhnithe</value>
+  </data>
+  <data name="Settings_Gotify_Token_Label" xml:space="preserve">
+    <value>Rochtain a fháil ar chomhartha</value>
+  </data>
+  <data name="Settings_IdentityCheck" xml:space="preserve">
+    <value>Seiceáil Aitheantais</value>
+  </data>
+  <data name="Settings_IdentityCheck_Enabled_Help" xml:space="preserve">
+    <value>Úsáideoirí pras le haghaidh a n-ainm</value>
+  </data>
+  <data name="Settings_IdentityCheck_Enabled_Label" xml:space="preserve">
+    <value>Cumasaigh</value>
+  </data>
+  <data name="Settings_IdentityCheck_PageLoad_Help" xml:space="preserve">
+    <value>Ar chóir an seiceáil aitheantais a chur ar taispeáint ag ualach leathanach</value>
+  </data>
+  <data name="Settings_IdentityCheck_PageLoad_Label" xml:space="preserve">
+    <value>Leathanach Main</value>
+  </data>
+  <data name="Settings_IdentityCheck_Upload_Help" xml:space="preserve">
+    <value>Más gá seiceáil aitheantais a uaslódáil meáin</value>
+  </data>
+  <data name="Settings_IdentityCheck_Upload_Label" xml:space="preserve">
+    <value>Uaslódáil Prompt</value>
+  </data>
+  <data name="Settings_Languages" xml:space="preserve">
+    <value>Teangacha</value>
+  </data>
+  <data name="Settings_Languages_Default_Help" xml:space="preserve">
+    <value>Teanga láithreán gréasáin réamhshocraithe má roghnaítear aon cheann</value>
+  </data>
+  <data name="Settings_Languages_Default_Label" xml:space="preserve">
+    <value>Réamhshocrú Teanga</value>
+  </data>
+  <data name="Settings_Languages_Enabled_Help" xml:space="preserve">
+    <value>Ceadaigh d'úsáideoirí an teanga a athrú</value>
+  </data>
+  <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
+    <value>Cumasaigh</value>
+  </data>
+  <data name="Settings_Ntfy" xml:space="preserve">
+    <value>Déan Teagmháil Linn</value>
+  </data>
+  <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
+    <value>Ba chóir foláirimh Ntfy a sheoladh</value>
+  </data>
+  <data name="Settings_Ntfy_Enabled_Label" xml:space="preserve">
+    <value>Cumasaigh</value>
+  </data>
+  <data name="Settings_Ntfy_Endpoint_Help" xml:space="preserve">
+    <value>Seoladh freastalaí Ntfy</value>
+  </data>
+  <data name="Settings_Ntfy_Endpoint_Label" xml:space="preserve">
+    <value>Deireadh an chomhrá</value>
+  </data>
+  <data name="Settings_Ntfy_Priority_Help" xml:space="preserve">
+    <value>An tábhacht a bhaineann le foláirimh</value>
+  </data>
+  <data name="Settings_Ntfy_Priority_Label" xml:space="preserve">
+    <value>Amharc ar gach eolas</value>
+  </data>
+  <data name="Settings_Ntfy_Token_Help" xml:space="preserve">
+    <value>An dearbhán a úsáidtear le haghaidh fíordheimhnithe</value>
+  </data>
+  <data name="Settings_Ntfy_Token_Label" xml:space="preserve">
+    <value>Rochtain a fháil ar chomhartha</value>
+  </data>
+  <data name="Settings_Ntfy_Topic_Help" xml:space="preserve">
+    <value>An topaic foláirimh a sheoladh chuig</value>
+  </data>
+  <data name="Settings_Ntfy_Topic_Label" xml:space="preserve">
+    <value>Taiseachas aeir: fliuch</value>
+  </data>
+  <data name="Settings_Slideshow" xml:space="preserve">
+    <value>Seirbhís do Chustaiméirí</value>
+  </data>
+  <data name="Settings_Slideshow_Fade_Help" xml:space="preserve">
+    <value>Cé chomh fada ba chóir an t-aistriú idir sleamhnáin a bheith</value>
+  </data>
+  <data name="Settings_Slideshow_Fade_Label" xml:space="preserve">
+    <value>Tréimhse saoil: ilbhliantúil</value>
+  </data>
+  <data name="Settings_Slideshow_Interval_Help" xml:space="preserve">
+    <value>Cé chomh fada i soicind ba chóir seó sleamhnán roimh bogadh go dtí an sleamhnán seo chugainn</value>
+  </data>
+  <data name="Settings_Slideshow_Interval_Label" xml:space="preserve">
+    <value>Idirchaidreamh</value>
+  </data>
+  <data name="Settings_Slideshow_Limit_Help" xml:space="preserve">
+    <value>An líon uasta de sleamhnáin a bheidh le cur san áireamh</value>
+  </data>
+  <data name="Settings_Slideshow_Limit_Label" xml:space="preserve">
+    <value>Teorainn</value>
+  </data>
+  <data name="Settings_Slideshow_Share_Slide_Help" xml:space="preserve">
+    <value>Má tá an cód QR a dhíchumasú ag an deireadh do aíonna a scanadh</value>
+  </data>
+  <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
+    <value>Lena n-áirítear Slide Share</value>
+  </data>
+  <data name="Settings_Smtp" xml:space="preserve">
+    <value>Naisc go dtí suíomhanna eile</value>
+  </data>
+  <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
+    <value>Ainm seoltóra cairdiúil don úsáideoir</value>
+  </data>
+  <data name="Settings_Smtp_Display_Name_Label" xml:space="preserve">
+    <value>Ainm an Táirge</value>
+  </data>
+  <data name="Settings_Smtp_Enabled_Help" xml:space="preserve">
+    <value>Ba chóir foláirimh ríomhphoist a sheoladh</value>
+  </data>
+  <data name="Settings_Smtp_Enabled_Label" xml:space="preserve">
+    <value>Cumasaigh</value>
+  </data>
+  <data name="Settings_Smtp_From_Help" xml:space="preserve">
+    <value>Seoltar an seoladh ríomhphoist ón bhfoláireamh</value>
+  </data>
+  <data name="Settings_Smtp_From_Label" xml:space="preserve">
+    <value>Ó dhúchas</value>
+  </data>
+  <data name="Settings_Smtp_Host_Help" xml:space="preserve">
+    <value>Ainm an tsoláthraí SMTP</value>
+  </data>
+  <data name="Settings_Smtp_Host_Label" xml:space="preserve">
+    <value>Óstach</value>
+  </data>
+  <data name="Settings_Smtp_Password_Help" xml:space="preserve">
+    <value>An focal faire a úsáidtear a fhíordheimhniú an iarraidh</value>
+  </data>
+  <data name="Settings_Smtp_Password_Label" xml:space="preserve">
+    <value>Post a fhógairt</value>
+  </data>
+  <data name="Settings_Smtp_Port_Help" xml:space="preserve">
+    <value>An calafort a úsáideann an soláthraí SMTP</value>
+  </data>
+  <data name="Settings_Smtp_Port_Label" xml:space="preserve">
+    <value>Port Láirge</value>
+  </data>
+  <data name="Settings_Smtp_Recipient_Help" xml:space="preserve">
+    <value>Liosta scartha de seoltaí ríomhphoist</value>
+  </data>
+  <data name="Settings_Smtp_Recipient_Label" xml:space="preserve">
+    <value>Aiseolas</value>
+  </data>
+  <data name="Settings_Smtp_Use_SSL_Help" xml:space="preserve">
+    <value>An n-úsáideann soláthraí SMTP SSL</value>
+  </data>
+  <data name="Settings_Smtp_Use_SSL_Label" xml:space="preserve">
+    <value>Úsáid SSL</value>
+  </data>
+  <data name="Settings_Smtp_Username_Help" xml:space="preserve">
+    <value>An t-ainm úsáideora a úsáidtear chun an iarraidh a fhíordheimhniú</value>
+  </data>
+  <data name="Settings_Smtp_Username_Label" xml:space="preserve">
+    <value>Ainm úsáideora</value>
+  </data>
+  <data name="Settings_Themes" xml:space="preserve">
+    <value>Téamaí</value>
+  </data>
+  <data name="Settings_Themes_Default_Help" xml:space="preserve">
+    <value>Téama láithreán gréasáin réamhshocraithe má roghnaítear aon cheann</value>
+  </data>
+  <data name="Settings_Themes_Default_Label" xml:space="preserve">
+    <value>Réamhshocrú Téama</value>
+  </data>
+  <data name="Settings_Themes_Enabled_Help" xml:space="preserve">
+    <value>Ligean d'úsáideoirí an téama a athrú</value>
+  </data>
+  <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
+    <value>Cumasaigh</value>
   </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Comhroinn an leathanach</value>

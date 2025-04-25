@@ -5,8 +5,11 @@ namespace WeddingShare.Helpers.Database
 {
     public interface IDatabaseHelper
     {
+        Task<int> GetGalleryCount();
         Task<IEnumerable<string>> GetGalleryNames();
         Task<List<GalleryModel>> GetAllGalleries();
+        Task<int?> GetGalleryId(string name);
+        Task<string?> GetGalleryName(int id);
         Task<GalleryModel?> GetGallery(int id);
         Task<GalleryModel?> GetGallery(string name);
         Task<GalleryModel?> AddGallery(GalleryModel model);
@@ -40,5 +43,13 @@ namespace WeddingShare.Helpers.Database
         Task<bool> ResetMultiFactorToDefault();
         Task<bool> Import(string path);
         Task<bool> Export(string path);
+        Task<IEnumerable<SettingModel>?> GetAllSettings(string? gallery = "");
+        Task<SettingModel?> GetSetting(string id, string? gallery = "");
+        Task<SettingModel?> GetGallerySpecificSetting(string id, string gallery);
+        Task<SettingModel?> AddSetting(SettingModel model, string? gallery = "");
+        Task<SettingModel?> EditSetting(SettingModel model, string? gallery = "");
+        Task<SettingModel?> SetSetting(SettingModel model, string? gallery = "");
+        Task<bool> DeleteSetting(SettingModel model, string? gallery = "");
+        Task<bool> DeleteAllSettings(string? gallery = "");
     }
 }

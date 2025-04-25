@@ -1,6 +1,4 @@
-﻿using WeddingShare.Helpers.Migrators;
-
-namespace WeddingShare.Helpers
+﻿namespace WeddingShare.Helpers
 {
     public interface IConfigHelper
     {
@@ -33,23 +31,21 @@ namespace WeddingShare.Helpers
         {
             try
             {
-                foreach (var envKey in KeyHelper.GetAlternateVersions(key, galleryId))
+                var envKey = !string.IsNullOrWhiteSpace(galleryId) ? $"{key}_{galleryId}" : key;
+                if (!this.IsProtectedVariable(envKey))
                 {
-                    if (!this.IsProtectedVariable(envKey.Key))
-                    {
-                        var keyName = string.Join('_', envKey.Key.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Skip(1)).Trim('_').ToUpper();
+                    var keyName = string.Join('_', envKey.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Skip(1)).Trim('_').ToUpper();
 
-                        var value = _environment.GetEnvironmentVariable(keyName);
-                        if (!string.IsNullOrWhiteSpace(value))
-                        {
-                            return envKey.MigrationAction != null ? envKey.MigrationAction(value) : value;
-                        }
+                    var value = _environment.GetEnvironmentVariable(keyName);
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        return value;
                     }
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, $"Failed to get environment variable '{key}'");
+                _logger.LogWarning(ex, $"Failed to get environment variable '{key}' for gallery '{galleryId}'");
             }
 
             return null;
@@ -77,16 +73,22 @@ namespace WeddingShare.Helpers
         {
             try
             {
-                var value = this.GetEnvironmentVariable(key, galleryId);
-                if (!string.IsNullOrWhiteSpace(value))
+                var envValue = this.GetEnvironmentVariable(key, galleryId);
+                if (!string.IsNullOrWhiteSpace(envValue))
                 {
-                    return value;
+                    return envValue;
                 }
 
-                value = this.GetConfigValue(key);
-                if (!string.IsNullOrWhiteSpace(value))
+                envValue = this.GetEnvironmentVariable(key);
+                if (!string.IsNullOrWhiteSpace(envValue))
                 {
-                    return value;
+                    return envValue;
+                }
+
+                var configValue = this.GetConfigValue(key);
+                if (!string.IsNullOrWhiteSpace(configValue))
+                {
+                    return configValue;
                 }
             }
             catch (Exception ex)

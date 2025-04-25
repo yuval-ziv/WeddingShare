@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace WeddingShare.Models.Database
+﻿namespace WeddingShare.Models.Database
 {
     public class GalleryModel
     {

@@ -82,6 +82,18 @@
   <data name="403_Error_Title" xml:space="preserve">
     <value>ถูกปฏิเสธการเข้าใช้งาน</value>
   </data>
+  <data name="405_Error_Message" xml:space="preserve">
+    <value>คุณถึงขีดจํากัดการสร้างแกลเลอรีสูงสุดแล้ว</value>
+  </data>
+  <data name="405_Error_Title" xml:space="preserve">
+    <value>จํากัด</value>
+  </data>
+  <data name="406_Error_Message" xml:space="preserve">
+    <value>คลังภาพที่ระบุยังไม่มีอยู่</value>
+  </data>
+  <data name="406_Error_Title" xml:space="preserve">
+    <value>คลังภาพไม่ถูกต้อง</value>
+  </data>
   <data name="Actions" xml:space="preserve">
     <value>การกระทํา</value>
   </data>
@@ -123,6 +135,9 @@
   </data>
   <data name="Delete_Confirmation" xml:space="preserve">
     <value>คุณแน่ใจหรือว่าต้องการจะลบคลังภาพนี้?</value>
+  </data>
+  <data name="Destructive_Action_Performed" xml:space="preserve">
+    <value>ปฏิบัติ การ สอน</value>
   </data>
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>คุณไม่ได้รับอนุญาตให้ดาวน์โหลดคลังภาพนี้</value>
@@ -169,6 +184,9 @@
   <data name="Failed_Reviewing_Media" xml:space="preserve">
     <value>ล้มเหลวในการทบทวนรายการ</value>
   </data>
+  <data name="Failed_Update_Setting" xml:space="preserve">
+    <value>ล้มเหลวในการปรับปรุงการตั้งค่า</value>
+  </data>
   <data name="Failed_Wipe_Galleries" xml:space="preserve">
     <value>ล้มเหลวในการลบคลังภาพ</value>
   </data>
@@ -213,6 +231,9 @@
   </data>
   <data name="Gallery_Key_Placeholder" xml:space="preserve">
     <value>วันแต่งงาน</value>
+  </data>
+  <data name="Gallery_Limit_Reached" xml:space="preserve">
+    <value>จํานวนของแกลเลอรี่ที่อนุญาตสูงสุด</value>
   </data>
   <data name="Gallery_List_Failed" xml:space="preserve">
     <value>ล้มเหลวในการรับรายการของคลังภาพ</value>
@@ -310,6 +331,9 @@
   <data name="New_Items_Pending_Review" xml:space="preserve">
     <value>การทบทวนรายการใหม่</value>
   </data>
+  <data name="No_Data" xml:space="preserve">
+    <value>ไม่มีข้อมูล</value>
+  </data>
   <data name="No_Files_For_Upload" xml:space="preserve">
     <value>ไม่พบแฟ้มใด ๆ ในการอัปโหลด</value>
   </data>
@@ -345,6 +369,477 @@
   </data>
   <data name="Scan_To_Share" xml:space="preserve">
     <value>สแกนรหัส QR ด้วยโทรศัพท์ของคุณเพื่อแบ่งปันภาพต่าง ๆ ของคุณ</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>ตั้งค่า</value>
+  </data>
+  <data name="Settings_Account" xml:space="preserve">
+    <value>บัญชี</value>
+  </data>
+  <data name="Settings_Account_Lockout_Attempts_Help" xml:space="preserve">
+    <value>ล็อกอินล้มเหลวกี่รายการก่อนที่จะถูกบล็อคผู้ใช้</value>
+  </data>
+  <data name="Settings_Account_Lockout_Attempts_Label" xml:space="preserve">
+    <value>ความพยายามของล็อคเอาต์</value>
+  </data>
+  <data name="Settings_Account_Lockout_Mins_Help" xml:space="preserve">
+    <value>ต้องบล็อคผู้ใช้นานแค่ไหน</value>
+  </data>
+  <data name="Settings_Account_Lockout_Mins_Label" xml:space="preserve">
+    <value>นาทีการล็อค</value>
+  </data>
+  <data name="Settings_Account_Profile_Icon_Help" xml:space="preserve">
+    <value>จะให้แสดงไอคอนโพรไฟล์ในส่วนหัวหรือไม่</value>
+  </data>
+  <data name="Settings_Account_Profile_Icon_Label" xml:space="preserve">
+    <value>ภาพไอคอนโพรไฟล์</value>
+  </data>
+  <data name="Settings_Alerts" xml:space="preserve">
+    <value>แจ้งเตือน</value>
+  </data>
+  <data name="Settings_Alerts_Account_Lockout_Help" xml:space="preserve">
+    <value>ควรส่งแจ้งเตือนเมื่อปิดบัญชี</value>
+  </data>
+  <data name="Settings_Alerts_Account_Lockout_Label" xml:space="preserve">
+    <value>ล็อคบัญชีผู้ใช้</value>
+  </data>
+  <data name="Settings_Alerts_Destructive_Action_Help" xml:space="preserve">
+    <value>ควร ส่ง สัญญาณ เตือน เมื่อ มี การ ทํา สิ่ง ที่ ก่อ ความ เสีย หาย</value>
+  </data>
+  <data name="Settings_Alerts_Destructive_Action_Label" xml:space="preserve">
+    <value>การกระทําเพื่อ สอน</value>
+  </data>
+  <data name="Settings_Alerts_Failed_Login_Help" xml:space="preserve">
+    <value>ควรส่งแจ้งเตือนเมื่อล้มเหลวในการล็อกอิน</value>
+  </data>
+  <data name="Settings_Alerts_Failed_Login_Label" xml:space="preserve">
+    <value>ล้มเหลวในการล็อกอิน</value>
+  </data>
+  <data name="Settings_Alerts_Pending_Review_Help" xml:space="preserve">
+    <value>ควรส่งแจ้งเตือนเมื่อมีรายการใหม่เกิดขึ้นก่อนการทบทวน</value>
+  </data>
+  <data name="Settings_Alerts_Pending_Review_Label" xml:space="preserve">
+    <value>การ ทบทวน อย่าง ต่อ เนื่อง</value>
+  </data>
+  <data name="Settings_BackgroundServices" xml:space="preserve">
+    <value>บริการพื้นหลัง</value>
+  </data>
+  <data name="Settings_BackgroundServices_Cleanup_Help" xml:space="preserve">
+    <value>ล้างแฟ้มชั่วคราว</value>
+  </data>
+  <data name="Settings_BackgroundServices_Cleanup_Label" xml:space="preserve">
+    <value>ล้างข้อมูล</value>
+  </data>
+  <data name="Settings_BackgroundServices_DirectoryScanner_Help" xml:space="preserve">
+    <value>เลือกแฟ้มที่ถูกหย่อนไปยังโฟลเดอร์ของคลังภาพโดยตรง</value>
+  </data>
+  <data name="Settings_BackgroundServices_DirectoryScanner_Label" xml:space="preserve">
+    <value>ตัวสแกนไดเรกทอรี</value>
+  </data>
+  <data name="Settings_BackgroundServices_EmailReport_Help" xml:space="preserve">
+    <value>ส่งรายงานเกี่ยวกับสถิติของแกลเลอรี่</value>
+  </data>
+  <data name="Settings_BackgroundServices_EmailReport_Label" xml:space="preserve">
+    <value>รายงานอีเมล</value>
+  </data>
+  <data name="Settings_Basic" xml:space="preserve">
+    <value>พื้นฐาน</value>
+  </data>
+  <data name="Settings_Basic_BaseUrl_Help" xml:space="preserve">
+    <value>ตัวดําเนินการพื้นฐานที่จะใช้ในการเชื่อมโยงและการแจ้งให้ทราบ</value>
+  </data>
+  <data name="Settings_Basic_BaseUrl_Label" xml:space="preserve">
+    <value>สะพาน</value>
+  </data>
+  <data name="Settings_Basic_EmailReport_Help" xml:space="preserve">
+    <value>ควรส่งรายงานทางอีเมลพร้อมกับสถิติของแกลเลอรี่หรือไม่</value>
+  </data>
+  <data name="Settings_Basic_EmailReport_Label" xml:space="preserve">
+    <value>รายงานอีเมล</value>
+  </data>
+  <data name="Settings_Basic_ForceHttps_Help" xml:space="preserve">
+    <value>ควร ผู้ใช้ Htp ถูกบังคับให้ใช้ https</value>
+  </data>
+  <data name="Settings_Basic_ForceHttps_Label" xml:space="preserve">
+    <value>บังคับให้ Htps</value>
+  </data>
+  <data name="Settings_Basic_GallerySelectorDropdown_Help" xml:space="preserve">
+    <value>ผู้ใช้เลือกคลังภาพอย่างไร</value>
+  </data>
+  <data name="Settings_Basic_GallerySelectorDropdown_Label" xml:space="preserve">
+    <value>เครื่องมือเลือกคลังภาพ ชนิด</value>
+  </data>
+  <data name="Settings_Basic_GallerySelectorHideDefault_Help" xml:space="preserve">
+    <value>จะให้แสดงตัวเลือกปริยายของคลังภาพหรือไม่</value>
+  </data>
+  <data name="Settings_Basic_GallerySelectorHideDefault_Label" xml:space="preserve">
+    <value>แสดงแกลเลอรีปริยาย</value>
+  </data>
+  <data name="Settings_Basic_GuestGalleryCreation_Help" xml:space="preserve">
+    <value>ควรอนุญาตให้แขกสร้างหอศิลป์ใหม่</value>
+  </data>
+  <data name="Settings_Basic_GuestGalleryCreation_Label" xml:space="preserve">
+    <value>การสร้างแกลเลอรี่แบบต้อนรับ</value>
+  </data>
+  <data name="Settings_Basic_HideKeyFromQRCode_Help" xml:space="preserve">
+    <value>กุญแจลับควรจะรวมอยู่ในรหัส QR</value>
+  </data>
+  <data name="Settings_Basic_HideKeyFromQRCode_Label" xml:space="preserve">
+    <value>รหัส QR</value>
+  </data>
+  <data name="Settings_Basic_HomeLink_Help" xml:space="preserve">
+    <value>ควรมีการคลิกที่ที่อยู่เชื่อมโยงแบบเปลี่ยนเส้นทางของผู้ใช้</value>
+  </data>
+  <data name="Settings_Basic_HomeLink_Label" xml:space="preserve">
+    <value>เชื่อมโยงส่วนตัวแบบคลิ้กได้</value>
+  </data>
+  <data name="Settings_Basic_LinksOpenNewTab_Help" xml:space="preserve">
+    <value>จะให้ที่อยู่เชื่อมโยงเปิดในแท็บใหม่หรือไม่</value>
+  </data>
+  <data name="Settings_Basic_LinksOpenNewTab_Label" xml:space="preserve">
+    <value>ส่วนเชื่อมโยงแบบแท็บใหม่</value>
+  </data>
+  <data name="Settings_Basic_MaxGalleryCount_Help" xml:space="preserve">
+    <value>ผู้ใช้ได้รับอนุญาตให้สร้างระเบียงได้กี่ห้อง</value>
+  </data>
+  <data name="Settings_Basic_MaxGalleryCount_Label" xml:space="preserve">
+    <value>จํานวนสูงสุดของคลังภาพ</value>
+  </data>
+  <data name="Settings_Basic_SingleGalleryMode_Help" xml:space="preserve">
+    <value>ถ้าจะมีแกลอรี่ซักแห่งหรือมากกว่านั้น</value>
+  </data>
+  <data name="Settings_Basic_SingleGalleryMode_Label" xml:space="preserve">
+    <value>โหมดแกลเลอรี</value>
+  </data>
+  <data name="Settings_Basic_ThumbnailSize_Help" xml:space="preserve">
+    <value>ค่าสูงสุดของพิกเซลสําหรับภาพตัวอย่าง</value>
+  </data>
+  <data name="Settings_Basic_ThumbnailSize_Label" xml:space="preserve">
+    <value>ความละเอียดภาพตัวอย่าง</value>
+  </data>
+  <data name="Settings_Gallery" xml:space="preserve">
+    <value>แกลเลอรีปริยาย</value>
+  </data>
+  <data name="Settings_Gallery_AllowedFileTypes_Help" xml:space="preserve">
+    <value>แขกที่จะอัปโหลดชนิดของแฟ้ม</value>
+  </data>
+  <data name="Settings_Gallery_AllowedFileTypes_Label" xml:space="preserve">
+    <value>ประเภทแฟ้มที่อนุญาต</value>
+  </data>
+  <data name="Settings_Gallery_BannerImage_Help" xml:space="preserve">
+    <value>ภาพที่จะแสดงอยู่ด้านบนสุดของคลังภาพ</value>
+  </data>
+  <data name="Settings_Gallery_BannerImage_Label" xml:space="preserve">
+    <value>อิมเมจแบนเนอร์</value>
+  </data>
+  <data name="Settings_Gallery_Columns_Help" xml:space="preserve">
+    <value>จํานวนของคอลัมน์ที่จะแสดง</value>
+  </data>
+  <data name="Settings_Gallery_Columns_Label" xml:space="preserve">
+    <value>จํานวนคอลัมน์</value>
+  </data>
+  <data name="Settings_Gallery_DefaultView_Help" xml:space="preserve">
+    <value>มุมมองคลังภาพปริยายคืออะไร</value>
+  </data>
+  <data name="Settings_Gallery_DefaultView_Label" xml:space="preserve">
+    <value>มุมมองปริยาย</value>
+  </data>
+  <data name="Settings_Gallery_Download_Help" xml:space="preserve">
+    <value>ควรอนุญาตให้แขกดาวน์โหลดรายการ</value>
+  </data>
+  <data name="Settings_Gallery_Download_Label" xml:space="preserve">
+    <value>อนุญาตให้ดาวน์โหลด</value>
+  </data>
+  <data name="Settings_Gallery_FullWidth_Help" xml:space="preserve">
+    <value>ความกว้างของคลังภาพ</value>
+  </data>
+  <data name="Settings_Gallery_FullWidth_Label" xml:space="preserve">
+    <value>ชนิดการแสดงผล</value>
+  </data>
+  <data name="Settings_Gallery_IdleRefreshMins_Help" xml:space="preserve">
+    <value>หลังจากนานควรจะปรับปรุงแกลเลอรี่เพื่อให้ได้เนื้อหาใหม่</value>
+  </data>
+  <data name="Settings_Gallery_IdleRefreshMins_Label" xml:space="preserve">
+    <value>มินรีเฟรชของ IBL</value>
+  </data>
+  <data name="Settings_Gallery_ItemsPerPage_Help" xml:space="preserve">
+    <value>จํานวนสูงสุดของรายการที่จะแสดงต่อหน้า</value>
+  </data>
+  <data name="Settings_Gallery_ItemsPerPage_Label" xml:space="preserve">
+    <value>รายการต่อหน้า</value>
+  </data>
+  <data name="Settings_Gallery_MaxFileSizeMb_Help" xml:space="preserve">
+    <value>แฟ้มที่มีขนาดใหญ่ที่สุดใน MB แฟ้มที่อัปโหลดมาได้</value>
+  </data>
+  <data name="Settings_Gallery_MaxFileSizeMb_Label" xml:space="preserve">
+    <value>ขนาดแฟ้มสูงสุด (MB)</value>
+  </data>
+  <data name="Settings_Gallery_MaxSizeMb_Help" xml:space="preserve">
+    <value>ขนาดใน MB ที่แกลอรี่อนุญาตให้เติบโตได้</value>
+  </data>
+  <data name="Settings_Gallery_MaxSizeMb_Label" xml:space="preserve">
+    <value>ขนาดสูงสุดของแกลเลอรีภาพ (MB)</value>
+  </data>
+  <data name="Settings_Gallery_PreventDuplicates_Help" xml:space="preserve">
+    <value>ควรปฏิเสธรายการซ้ําหรือไม่</value>
+  </data>
+  <data name="Settings_Gallery_PreventDuplicates_Label" xml:space="preserve">
+    <value>ป้องกันการซ้ํา</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeDefaultSort_Help" xml:space="preserve">
+    <value>เมื่อสแกนรายการตามลําดับที่ควรจะปรากฏ</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeDefaultSort_Label" xml:space="preserve">
+    <value>ค่าปริยาย QR ชนิด</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeDefaultView_Help" xml:space="preserve">
+    <value>เมื่อสแกนแล้ว ผู้ใช้จะเห็นสิ่งใดบ้าง</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeDefaultView_Label" xml:space="preserve">
+    <value>ค่าปริยาย QR แสดง</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeEnabled_Help" xml:space="preserve">
+    <value>จะให้แสดงรหัส QR หรือไม่</value>
+  </data>
+  <data name="Settings_Gallery_QRCodeEnabled_Label" xml:space="preserve">
+    <value>แสดงรหัส QR</value>
+  </data>
+  <data name="Settings_Gallery_Quote_Help" xml:space="preserve">
+    <value>ข้อความอ้างอิงที่จะแสดงอยู่ด้านบนสุดของคลังภาพ</value>
+  </data>
+  <data name="Settings_Gallery_Quote_Label" xml:space="preserve">
+    <value>ข้อความอ้างถึง</value>
+  </data>
+  <data name="Settings_Gallery_RequireReview_Help" xml:space="preserve">
+    <value>ต้องทําการทบทวนรายการต่างๆ ก่อนจะปรากฏบนเว็บไซต์</value>
+  </data>
+  <data name="Settings_Gallery_RequireReview_Label" xml:space="preserve">
+    <value>ต้องการการทบทวน</value>
+  </data>
+  <data name="Settings_Gallery_RetainRejectedItems_Help" xml:space="preserve">
+    <value>ควรเก็บรายการที่ถูกปฏิเสธไว้เพื่อใช้ในภายหลังหรือไม่</value>
+  </data>
+  <data name="Settings_Gallery_RetainRejectedItems_Label" xml:space="preserve">
+    <value>ยกเลิกรายการ</value>
+  </data>
+  <data name="Settings_Gallery_ReviewCounter_Help" xml:space="preserve">
+    <value>ควร แสดง ตัว แทน ทบทวน</value>
+  </data>
+  <data name="Settings_Gallery_ReviewCounter_Label" xml:space="preserve">
+    <value>ตัวโต้แย้งการทบทวน</value>
+  </data>
+  <data name="Settings_Gallery_SecretKey_Help" xml:space="preserve">
+    <value>รหัสผ่านที่จะปลดล็อคคลังภาพ</value>
+  </data>
+  <data name="Settings_Gallery_SecretKey_Label" xml:space="preserve">
+    <value>กุญแจลับ</value>
+  </data>
+  <data name="Settings_Gallery_Upload_Help" xml:space="preserve">
+    <value>ควรอนุญาตให้แขกทําการอัปโหลดรายการ</value>
+  </data>
+  <data name="Settings_Gallery_Upload_Label" xml:space="preserve">
+    <value>อนุญาตการอัปโหลด</value>
+  </data>
+  <data name="Settings_Gallery_UploadPeriod_Help" xml:space="preserve">
+    <value>ห้ามการอัปโหลดไปยังช่วงเวลาที่กําหนด</value>
+  </data>
+  <data name="Settings_Gallery_UploadPeriod_Label" xml:space="preserve">
+    <value>ช่วงเวลาอัปโหลด</value>
+  </data>
+  <data name="Settings_Gotify" xml:space="preserve">
+    <value>รับทราบ</value>
+  </data>
+  <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
+    <value>ควรส่งแจ้งเตือนของ NTFF</value>
+  </data>
+  <data name="Settings_Gotify_Enabled_Label" xml:space="preserve">
+    <value>เปิดใช้งาน</value>
+  </data>
+  <data name="Settings_Gotify_Endpoint_Help" xml:space="preserve">
+    <value>ที่อยู่ของแม่ข่าย</value>
+  </data>
+  <data name="Settings_Gotify_Endpoint_Label" xml:space="preserve">
+    <value>จุดสิ้นสุด</value>
+  </data>
+  <data name="Settings_Gotify_Priority_Help" xml:space="preserve">
+    <value>ความสําคัญของการแจ้งเตือน</value>
+  </data>
+  <data name="Settings_Gotify_Priority_Label" xml:space="preserve">
+    <value>สูง</value>
+  </data>
+  <data name="Settings_Gotify_Token_Help" xml:space="preserve">
+    <value>สัญลักษณ์ที่จะใช้ในการตรวจสอบสิทธิ์</value>
+  </data>
+  <data name="Settings_Gotify_Token_Label" xml:space="preserve">
+    <value>การเข้าถึง</value>
+  </data>
+  <data name="Settings_IdentityCheck" xml:space="preserve">
+    <value>ตรวจสอบการแสดงตัว</value>
+  </data>
+  <data name="Settings_IdentityCheck_Enabled_Help" xml:space="preserve">
+    <value>เรียกผู้ใช้โดยใช้ชื่อ</value>
+  </data>
+  <data name="Settings_IdentityCheck_Enabled_Label" xml:space="preserve">
+    <value>เปิดใช้งาน</value>
+  </data>
+  <data name="Settings_IdentityCheck_PageLoad_Help" xml:space="preserve">
+    <value>ควรให้ตรวจสอบการแสดงตัวถูกแสดงในหน้าเว็บหรือไม่</value>
+  </data>
+  <data name="Settings_IdentityCheck_PageLoad_Label" xml:space="preserve">
+    <value>เตือนการโหลดหน้าเว็บ</value>
+  </data>
+  <data name="Settings_IdentityCheck_Upload_Help" xml:space="preserve">
+    <value>ต้องการตรวจสอบการแสดงตัวเพื่ออัปโหลดสื่อ</value>
+  </data>
+  <data name="Settings_IdentityCheck_Upload_Label" xml:space="preserve">
+    <value>แจ้งการอัปโหลด</value>
+  </data>
+  <data name="Settings_Languages" xml:space="preserve">
+    <value>ภาษา</value>
+  </data>
+  <data name="Settings_Languages_Default_Help" xml:space="preserve">
+    <value>ภาษาปริยายของเว็บไซต์หากยังไม่มีการเลือก</value>
+  </data>
+  <data name="Settings_Languages_Default_Label" xml:space="preserve">
+    <value>ภาษาปริยาย</value>
+  </data>
+  <data name="Settings_Languages_Enabled_Help" xml:space="preserve">
+    <value>อนุญาตให้ผู้ใช้เปลี่ยนภาษาได้</value>
+  </data>
+  <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
+    <value>เปิดใช้งาน</value>
+  </data>
+  <data name="Settings_Ntfy" xml:space="preserve">
+    <value>ภาษาไทยName</value>
+  </data>
+  <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
+    <value>ควรส่งแจ้งเตือนของ NTFF</value>
+  </data>
+  <data name="Settings_Ntfy_Enabled_Label" xml:space="preserve">
+    <value>เปิดใช้งาน</value>
+  </data>
+  <data name="Settings_Ntfy_Endpoint_Help" xml:space="preserve">
+    <value>ที่อยู่เซิร์ฟเวอร์ Ntfle</value>
+  </data>
+  <data name="Settings_Ntfy_Endpoint_Label" xml:space="preserve">
+    <value>จุดสิ้นสุด</value>
+  </data>
+  <data name="Settings_Ntfy_Priority_Help" xml:space="preserve">
+    <value>ความสําคัญของการแจ้งเตือน</value>
+  </data>
+  <data name="Settings_Ntfy_Priority_Label" xml:space="preserve">
+    <value>สูง</value>
+  </data>
+  <data name="Settings_Ntfy_Token_Help" xml:space="preserve">
+    <value>สัญลักษณ์ที่จะใช้ในการตรวจสอบสิทธิ์</value>
+  </data>
+  <data name="Settings_Ntfy_Token_Label" xml:space="preserve">
+    <value>การเข้าถึง</value>
+  </data>
+  <data name="Settings_Ntfy_Topic_Help" xml:space="preserve">
+    <value>หัวข้อที่จะส่งแจ้งเตือนไปยัง</value>
+  </data>
+  <data name="Settings_Ntfy_Topic_Label" xml:space="preserve">
+    <value>ภาพร่าง</value>
+  </data>
+  <data name="Settings_Slideshow" xml:space="preserve">
+    <value>นําเสนอภาพนิ่ง</value>
+  </data>
+  <data name="Settings_Slideshow_Fade_Help" xml:space="preserve">
+    <value>ระยะเวลาเปลี่ยนแปลงระหว่างสไลด์</value>
+  </data>
+  <data name="Settings_Slideshow_Fade_Label" xml:space="preserve">
+    <value>ค่อย ๆ จางหาย</value>
+  </data>
+  <data name="Settings_Slideshow_Interval_Help" xml:space="preserve">
+    <value>ระยะเวลาในวินาทีควรจะแสดงภาพนิ่งก่อนที่จะย้ายไปภาพนิ่งถัดไป</value>
+  </data>
+  <data name="Settings_Slideshow_Interval_Label" xml:space="preserve">
+    <value>ช่วงเวลา</value>
+  </data>
+  <data name="Settings_Slideshow_Limit_Help" xml:space="preserve">
+    <value>จํานวนสูงสุดของภาพนิ่งที่จะรวม</value>
+  </data>
+  <data name="Settings_Slideshow_Limit_Label" xml:space="preserve">
+    <value>จํากัด</value>
+  </data>
+  <data name="Settings_Slideshow_Share_Slide_Help" xml:space="preserve">
+    <value>ควรถอดรหัส QR ตอนจบให้แขกสแกน</value>
+  </data>
+  <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
+    <value>รวมภาพนิ่งร่วมกัน</value>
+  </data>
+  <data name="Settings_Smtp" xml:space="preserve">
+    <value>อีเมล</value>
+  </data>
+  <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
+    <value>ชื่อผู้ส่งที่เป็นมิตร</value>
+  </data>
+  <data name="Settings_Smtp_Display_Name_Label" xml:space="preserve">
+    <value>ชื่อการแสดงผล</value>
+  </data>
+  <data name="Settings_Smtp_Enabled_Help" xml:space="preserve">
+    <value>ควรส่งแจ้งเตือนอีเมล</value>
+  </data>
+  <data name="Settings_Smtp_Enabled_Label" xml:space="preserve">
+    <value>เปิดใช้งาน</value>
+  </data>
+  <data name="Settings_Smtp_From_Help" xml:space="preserve">
+    <value>ที่อยู่อีเมล แจ้งเตือนถูกส่งมาจาก</value>
+  </data>
+  <data name="Settings_Smtp_From_Label" xml:space="preserve">
+    <value>จาก</value>
+  </data>
+  <data name="Settings_Smtp_Host_Help" xml:space="preserve">
+    <value>ชื่อโฮสต์ของผู้ให้บริการ SMTP</value>
+  </data>
+  <data name="Settings_Smtp_Host_Label" xml:space="preserve">
+    <value>เครื่อง</value>
+  </data>
+  <data name="Settings_Smtp_Password_Help" xml:space="preserve">
+    <value>รหัสผ่านที่จะใช้ยืนยันการร้องขอ</value>
+  </data>
+  <data name="Settings_Smtp_Password_Label" xml:space="preserve">
+    <value>รหัสผ่าน</value>
+  </data>
+  <data name="Settings_Smtp_Port_Help" xml:space="preserve">
+    <value>พอร์ตที่ใช้โดยผู้ให้บริการ SMTP</value>
+  </data>
+  <data name="Settings_Smtp_Port_Label" xml:space="preserve">
+    <value>พอร์ต</value>
+  </data>
+  <data name="Settings_Smtp_Recipient_Help" xml:space="preserve">
+    <value>รายการที่อยู่อีเมลที่แยกเครื่องหมายจุลภาค</value>
+  </data>
+  <data name="Settings_Smtp_Recipient_Label" xml:space="preserve">
+    <value>ผู้รับ</value>
+  </data>
+  <data name="Settings_Smtp_Use_SSL_Help" xml:space="preserve">
+    <value>ผู้ให้บริการ SMTP ใช้ SSL หรือไม่</value>
+  </data>
+  <data name="Settings_Smtp_Use_SSL_Label" xml:space="preserve">
+    <value>ใช้ SSL</value>
+  </data>
+  <data name="Settings_Smtp_Username_Help" xml:space="preserve">
+    <value>ชื่อผู้ใช้ที่จะใช้ยืนยันการร้องขอ</value>
+  </data>
+  <data name="Settings_Smtp_Username_Label" xml:space="preserve">
+    <value>ชื่อผู้ใช้</value>
+  </data>
+  <data name="Settings_Themes" xml:space="preserve">
+    <value>ชุดตกแต่ง</value>
+  </data>
+  <data name="Settings_Themes_Default_Help" xml:space="preserve">
+    <value>ชุดตกแต่งปริยายของเว็บไซต์หากยังไม่มีการเลือก</value>
+  </data>
+  <data name="Settings_Themes_Default_Label" xml:space="preserve">
+    <value>ค่าปริยาย ชุดตกแต่ง</value>
+  </data>
+  <data name="Settings_Themes_Enabled_Help" xml:space="preserve">
+    <value>อนุญาตให้ผู้ใช้เปลี่ยนชุดตกแต่งได้</value>
+  </data>
+  <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
+    <value>เปิดใช้งาน</value>
   </data>
   <data name="Share_Code" xml:space="preserve">
     <value>รหัสใช้ร่วมกัน</value>

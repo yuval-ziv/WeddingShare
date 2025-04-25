@@ -1,13 +1,12 @@
 ﻿@model WeddingShare.Models.PhotoGallery
 
+@using WeddingShare.Constants
 @using WeddingShare.Enums
 @using WeddingShare.Views.Gallery.Modes
-@inject WeddingShare.Helpers.IConfigHelper _config
-@inject WeddingShare.Helpers.IGalleryHelper _gallery
 
 @{
-    var columnCount = _gallery.GetConfig(Model?.GalleryName, "Gallery:Columns", 4);
-    var identityEnabled = _config.GetOrDefault("Settings:Identity_Check:Enabled", true);
+    var columnCount = await _settings.GetOrDefault(Settings.Gallery.Columns, 4, Model?.GalleryName);
+    var identityEnabled = await _settings.GetOrDefault(Settings.IdentityCheck.Enabled, true);
 
     try
     {
@@ -115,7 +114,7 @@
                         var image = imageGroupImages.ElementAt(index);
 
                         <div class="image-tile mb-4">
-                            <a href="@image.ImagePath" class="media-viewer-item" data-media-viewer-type="@image?.MediaType.ToString().ToLower()" data-media-viewer-collection="@image.GalleryName" data-media-viewer-author="@(identityEnabled ? $"{_localizer["Uploaded_By"].Value}: {(!string.IsNullOrWhiteSpace(image?.UploadedBy) ? image?.UploadedBy : "Anonymous")}" : string.Empty)" data-media-viewer-download="@((_gallery.GetConfig(Model?.GalleryName, "Gallery:Download", true) || (User?.Identity != null && User.Identity.IsAuthenticated)).ToString().ToLower())">
+                            <a href="@image.ImagePath" class="media-viewer-item" data-media-viewer-type="@image?.MediaType.ToString().ToLower()" data-media-viewer-collection="@image.GalleryName" data-media-viewer-author="@(identityEnabled ? $"{_localizer["Uploaded_By"].Value}: {(!string.IsNullOrWhiteSpace(image?.UploadedBy) ? image?.UploadedBy : "Anonymous")}" : string.Empty)" data-media-viewer-download="@((await _settings.GetOrDefault(Settings.Gallery.Download, true, Model?.GalleryName) || (User?.Identity != null && User.Identity.IsAuthenticated)).ToString().ToLower())">
                                 <img src="@image?.ThumbnailPath" class="w-100 shadow-1-strong" loading="lazy" />
                                 @if (image?.MediaType == MediaType.Video)
                                 {
@@ -135,7 +134,7 @@
 
         @if (Model?.LoadScripts ?? true)
         {
-            var idleTimeout = _gallery.GetConfig(Model?.GalleryName, "Gallery:Idle_Refresh_Mins", 0);
+            var idleTimeout = await _settings.GetOrDefault(Settings.Gallery.IdleRefreshMins, 0, Model?.GalleryName);
             if (idleTimeout > 0)
             {
                 <script>
@@ -149,14 +148,7 @@
                             function onIdle() {
                                 clearTimeout(idleTimeout);
                                 idleTimeout = setTimeout(function () {
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: `${window.location.pathname}${window.location.search}&partial=true`,
-                                        success: function (data) {
-                                            $('#main-gallery').html(data);
-                                            onIdle();
-                                        }
-                                    });
+                                    refreshGalleryPage(onIdle);
                                 }, @TimeSpan.FromMinutes(idleTimeout).TotalMilliseconds);
                             }
                         });

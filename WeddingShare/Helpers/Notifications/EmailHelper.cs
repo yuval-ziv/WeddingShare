@@ -1,59 +1,58 @@
 ﻿using System.Net;
 using System.Net.Mail;
-using System.Text;
 
 namespace WeddingShare.Helpers.Notifications
 {
     public class EmailHelper : INotificationHelper
     {
-        private readonly IConfigHelper _config;
+        private readonly ISettingsHelper _settings;
         private readonly ISmtpClientWrapper _client;
         private readonly ILogger _logger;
 
-        public EmailHelper(IConfigHelper config, ISmtpClientWrapper client, ILogger<EmailHelper> logger)
+        public EmailHelper(ISettingsHelper settings, ISmtpClientWrapper client, ILogger<EmailHelper> logger)
         {
-            _config = config;
+            _settings = settings;
             _client = client;
             _logger = logger;
         }
 
         public async Task<bool> Send(string title, string message, string? actionLink = null)
         {
-            if (_config.GetOrDefault("Notifications:Smtp:Enabled", false))
+            if (await _settings.GetOrDefault(Constants.Notifications.Smtp.Enabled, false))
             { 
                 try
                 {
-                    var recipients = _config.GetOrDefault("Notifications:Smtp:Recipient", string.Empty)?.Split(new char[] { ';', ',' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)?.Select(x => new MailAddress(x));
+                    var recipients = (await _settings.GetOrDefault(Constants.Notifications.Smtp.Recipient, string.Empty))?.Split(new char[] { ';', ',' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)?.Select(x => new MailAddress(x));
                     if (recipients != null && recipients.Any())
                     { 
-                        var host = _config.GetOrDefault("Notifications:Smtp:Host", string.Empty);
+                        var host = await _settings.GetOrDefault(Constants.Notifications.Smtp.Host, string.Empty);
                         if (!string.IsNullOrWhiteSpace(host))
                         {
-                            var port = _config.GetOrDefault("Notifications:Smtp:Port", 587);
+                            var port = await _settings.GetOrDefault(Constants.Notifications.Smtp.Port, 587);
                             if (port > 0)
                             {
-                                var from = _config.GetOrDefault("Notifications:Smtp:From", string.Empty);
+                                var from = await _settings.GetOrDefault(Constants.Notifications.Smtp.From, string.Empty);
                                 if (!string.IsNullOrWhiteSpace(from))
                                 {
                                     var sentToAll = true;
                                     using (var smtp = new SmtpClient(host, port))
                                     {
-                                        var username = _config.GetOrDefault("Notifications:Smtp:Username", string.Empty);
-                                        var password = _config.GetOrDefault("Notifications:Smtp:Password", string.Empty);
+                                        var username = await _settings.GetOrDefault(Constants.Notifications.Smtp.Username, string.Empty);
+                                        var password = await _settings.GetOrDefault(Constants.Notifications.Smtp.Password, string.Empty);
                                         if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
                                         {
                                             smtp.UseDefaultCredentials = false;
                                             smtp.Credentials = new NetworkCredential(username, password);
                                         }
 
-                                        smtp.EnableSsl = _config.GetOrDefault("Notifications:Smtp:Use_SSL", false);
+                                        smtp.EnableSsl = await _settings.GetOrDefault(Constants.Notifications.Smtp.UseSSL, false);
 
-                                        var sender = new MailAddress(from, _config.GetOrDefault("Notifications:Smtp:DisplayName", "WeddingShare"));
+                                        var sender = new MailAddress(from, await _settings.GetOrDefault(Constants.Notifications.Smtp.DisplayName, "WeddingShare"));
                                         foreach (var to in recipients)
                                         {
                                             try
                                             {
-                                                await _client.SendMailAsync(smtp, new MailMessage(new MailAddress(from, _config.GetOrDefault("Notifications:Smtp:DisplayName", "WeddingShare")), to)
+                                                await _client.SendMailAsync(smtp, new MailMessage(new MailAddress(from, await _settings.GetOrDefault(Constants.Notifications.Smtp.DisplayName, "WeddingShare")), to)
                                                 {
                                                     Sender = sender,
                                                     Subject = title,

@@ -1,0 +1,24 @@
+﻿@model IDictionary<string, string>?
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-rounded-border">
+        <tr>
+            <th class="col-5 col-md-4">@_localizer["Key"].Value</th>
+            <th class="col-7 col-md-8">@_localizer["Value"].Value</th>
+        </tr>
+        @foreach (var setting in Model)
+        {
+            <tr data-setting-id="@setting.Key" data-setting-value="@setting.Value">
+                <td>@setting.Key</td>
+                <td>@setting.Value</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <div class="col-12 text-center border rounded py-3 py-lg-4">
+        <h3 class="display-6">@_localizer["No_Data"].Value</h3>
+    </div>
+}

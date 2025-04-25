@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Localization;
 using WeddingShare.BackgroundWorkers;
 using WeddingShare.Configurations;
+using WeddingShare.Constants;
 using WeddingShare.Helpers;
 using Xabe.FFmpeg.Extensions;
 
@@ -31,9 +32,11 @@ namespace WeddingShare
             var config = new ConfigHelper(new EnvironmentWrapper(), Configuration, _loggerFactory.CreateLogger<ConfigHelper>());
 
             services.AddDependencyInjectionConfiguration();
-            services.AddDatabaseConfiguration(config);
-            services.AddNotificationConfiguration(config);
-            services.AddLocalizationConfiguration(config);
+            var dbHelper = services.AddDatabaseConfiguration(config, _loggerFactory);
+
+            var settings = new SettingsHelper(dbHelper, config, _loggerFactory.CreateLogger<SettingsHelper>());
+            services.AddNotificationConfiguration(settings);
+            services.AddLocalizationConfiguration(settings);
 
             services.AddHostedService<DirectoryScanner>();
             services.AddHostedService<NotificationReport>();
@@ -74,7 +77,7 @@ namespace WeddingShare
             });
 
             var localizer = services.BuildServiceProvider().GetRequiredService<IStringLocalizer<Lang.Translations>>();
-            var ffmpegPath = config.GetOrDefault("FFMPEG:InstallPath", "/ffmpeg");
+            var ffmpegPath = config.GetOrDefault(FFMPEG.InstallPath, "/ffmpeg");
             var imageHelper = new ImageHelper(new FileHelper(_loggerFactory.CreateLogger<FileHelper>()), _loggerFactory.CreateLogger<ImageHelper>(), localizer);
             var downloaded = imageHelper.DownloadFFMPEG(ffmpegPath).Result;
             if (!downloaded)
@@ -94,7 +97,7 @@ namespace WeddingShare
             }
 
             var config = new ConfigHelper(new EnvironmentWrapper(), Configuration, _loggerFactory.CreateLogger<ConfigHelper>());
-            if (config.GetOrDefault("Settings:Force_Https", false))
+            if (config.GetOrDefault(Settings.Basic.ForceHttps, false))
             { 
                 app.UseHttpsRedirection();
             }
@@ -102,20 +105,20 @@ namespace WeddingShare
             this.DownloadLogoImagesLocally();
             this.DownloadBannerImagesLocally();
 
-            if (config.GetOrDefault("Security:Headers:Enabled", true))
+            if (config.GetOrDefault(Security.Headers.Enabled, true))
             {
                 try
                 {
                     app.Use(async (context, next) =>
                     {
                         context.Response.Headers.Remove("X-Frame-Options");
-                        context.Response.Headers.Append("X-Frame-Options", config.GetOrDefault("Security:Headers:X_Frame_Options", "SAMEORIGIN"));
+                        context.Response.Headers.Append("X-Frame-Options", config.GetOrDefault(Security.Headers.XFrameOptions, "SAMEORIGIN"));
 
                         context.Response.Headers.Remove("X-Content-Type-Options");
-                        context.Response.Headers.Append("X-Content-Type-Options", config.GetOrDefault("Security:Headers:X_Content_Type_Options", "nosniff"));
+                        context.Response.Headers.Append("X-Content-Type-Options", config.GetOrDefault(Security.Headers.XContentTypeOptions, "nosniff"));
 
                         context.Response.Headers.Remove("Content-Security-Policy");
-                        context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault("Security:Headers:CSP", $"default-src 'self' http://localhost:* ws://localhost:*; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; frame-src 'self'; frame-ancestors 'self';"));
+                        context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault(Security.Headers.CSP, $"default-src 'self' http://localhost:* ws://localhost:*; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; frame-src 'self'; frame-ancestors 'self';"));
 
                         await next();
                     });
@@ -144,7 +147,7 @@ namespace WeddingShare
         {
             try
             {
-                var logoImages = Configuration.AsEnumerable().Where(x => (x.Key.StartsWith("Settings:Logo", StringComparison.OrdinalIgnoreCase) || x.Key.StartsWith("LOGO", StringComparison.OrdinalIgnoreCase)) && (!string.IsNullOrEmpty(x.Value) && !x.Value.StartsWith(".") && !x.Value.StartsWith("/") && !x.Value.StartsWith("\\")));
+                var logoImages = Configuration.AsEnumerable().Where(x => (x.Key.StartsWith(Settings.Basic.Logo, StringComparison.OrdinalIgnoreCase) || x.Key.StartsWith("LOGO", StringComparison.OrdinalIgnoreCase)) && (!string.IsNullOrEmpty(x.Value) && !x.Value.StartsWith(".") && !x.Value.StartsWith("/") && !x.Value.StartsWith("\\")));
                 if (logoImages != null && logoImages.Any())
                 {
                     var logoPath = Path.Combine("wwwroot", "logos");
@@ -158,7 +161,7 @@ namespace WeddingShare
                         {
                             if (!string.IsNullOrWhiteSpace(logo.Value))
                             {
-                                var galleryMatches = Regex.Match(logo.Key, @"^(Settings\:Logo_(.+))|(LOGO_(.+))$", RegexOptions.IgnoreCase);
+                                var galleryMatches = Regex.Match(logo.Key, $@"^({Settings.Basic.Logo}_(.+))|(LOGO_(.+))$", RegexOptions.IgnoreCase);
                                 var galleryId = !string.IsNullOrWhiteSpace(galleryMatches.Groups[2].Value) ? galleryMatches.Groups[2].Value : galleryMatches.Groups[4].Value;
                                 galleryId = !string.IsNullOrWhiteSpace(galleryId) ? galleryId.ToLower() : "default";
 
@@ -181,7 +184,7 @@ namespace WeddingShare
         {
             try
             {
-                var bannerImages = Configuration.AsEnumerable().Where(x => (x.Key.StartsWith("Settings:Gallery:Banner", StringComparison.OrdinalIgnoreCase) || x.Key.StartsWith("GALLERY_BANNER", StringComparison.OrdinalIgnoreCase)) && (!string.IsNullOrEmpty(x.Value) && !x.Value.StartsWith(".") && !x.Value.StartsWith("/") && !x.Value.StartsWith("\\")));
+                var bannerImages = Configuration.AsEnumerable().Where(x => (x.Key.StartsWith(Settings.Gallery.BannerImage, StringComparison.OrdinalIgnoreCase) || x.Key.StartsWith("GALLERY_BANNER", StringComparison.OrdinalIgnoreCase)) && (!string.IsNullOrEmpty(x.Value) && !x.Value.StartsWith(".") && !x.Value.StartsWith("/") && !x.Value.StartsWith("\\")));
                 if (bannerImages != null && bannerImages.Any())
                 {
                     var bannerPath = Path.Combine("wwwroot", "banners");
@@ -195,7 +198,7 @@ namespace WeddingShare
                         {
                             if (!string.IsNullOrWhiteSpace(banner.Value))
                             {
-                                var galleryMatches = Regex.Match(banner.Key, @"^(Settings\:Gallery\:Banner_Image_(.+))|(GALLERY_BANNER_IMAGE_(.+))$", RegexOptions.IgnoreCase);
+                                var galleryMatches = Regex.Match(banner.Key, $@"^({Settings.Gallery.BannerImage.Replace(":", "\\:")}_(.+))|(GALLERY_BANNER_IMAGE_(.+))$", RegexOptions.IgnoreCase);
                                 var galleryId = !string.IsNullOrWhiteSpace(galleryMatches.Groups[2].Value) ? galleryMatches.Groups[2].Value : galleryMatches.Groups[4].Value;
                                 galleryId = !string.IsNullOrWhiteSpace(galleryId) ? galleryId.ToLower() : "default";
 

@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using WeddingShare.Constants;
 using WeddingShare.Helpers;
 using WeddingShare.Helpers.Database;
 using WeddingShare.Models;
@@ -11,24 +12,23 @@ namespace WeddingShare.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        private readonly IConfigHelper _config;
+        private readonly ISettingsHelper _settings;
         private readonly IDatabaseHelper _database;
-        private readonly IGalleryHelper _gallery;
         private readonly IDeviceDetector _deviceDetector;
         private readonly ILogger _logger;
         private readonly IStringLocalizer<Lang.Translations> _localizer;
 
-        public HomeController(IConfigHelper config, IDatabaseHelper database, IGalleryHelper gallery, IDeviceDetector deviceDetector, ILogger<HomeController> logger, IStringLocalizer<Lang.Translations> localizer)
+        public HomeController(ISettingsHelper settings, IDatabaseHelper database, IDeviceDetector deviceDetector, ILogger<HomeController> logger, IStringLocalizer<Lang.Translations> localizer)
         {
-            _config = config;
+            _settings = settings;
             _database = database;
-            _gallery = gallery;
             _deviceDetector = deviceDetector;
             _logger = logger;
             _localizer = localizer;
         }
 
         [HttpGet]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Index()
         {
             var model = new Views.Home.IndexModel();
@@ -42,17 +42,17 @@ namespace WeddingShare.Controllers
                     HttpContext.Session.SetString(SessionKey.DeviceType, deviceType ?? "Desktop");
                 }
 
-                if (_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
+                if (await _settings.GetOrDefault(Settings.Basic.SingleGalleryMode, false))
                 {
-                    var key = await _gallery.GetSecretKey("default");
+                    var key = await _settings.GetOrDefault(Settings.Gallery.SecretKey, string.Empty, "default");
                     if (string.IsNullOrWhiteSpace(key))
                     {
                         return RedirectToAction("Index", "Gallery");
                     }
                 }
 
-                model.GalleryNames = _config.GetOrDefault("Settings:Gallery_Selector:Dropdown", false) ? await _database.GetGalleryNames() : new List<string>() { "default" };
-                if (_config.GetOrDefault("Settings:Gallery_Selector:Hide_Default_Option", false))
+                model.GalleryNames = await _settings.GetOrDefault(Settings.GallerySelector.Dropdown, false) ? await _database.GetGalleryNames() : new List<string>() { "default" };
+                if (await _settings.GetOrDefault(Settings.GallerySelector.HideDefaultOption, false))
                 {
                     model.GalleryNames = model.GalleryNames.Where(x => !x.Equals("default", StringComparison.OrdinalIgnoreCase));
                 }
