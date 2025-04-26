@@ -125,6 +125,15 @@
                     </button>
                 </div>
             }
+            
+            @if (Context.Session.GetString(SessionKey.ViewerIdentity) != "Anonymous" && (await _settings.GetOrDefault(Settings.Gallery.Download, true, Model?.GalleryName) || (User?.Identity != null && User.Identity.IsAuthenticated)))
+            {
+                <div class="btn-group w-100 mb-2">
+                    <button class="btnDownloadByOthers btn btn-primary btn-sm" type="button" data-gallery-id="@Model?.GalleryId">
+                        @_localizer["Download_By_Others"].Value
+                    </button>
+                </div>
+            }
         </div>
     </div>
 }

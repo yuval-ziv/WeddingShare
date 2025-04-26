@@ -28,6 +28,7 @@
             "Delete_Item_Message": "אתה בטוח שאתה רוצה למחוק את השם?",
             "Delete_Item_Success": "פריט נמחק מוצלח",
             "Download": "הורד Download",
+            "Download_By_Others": "הורד על ידי אחרים",
             "Download_Failed": "נכשל להוריד את הגלריה",
             "Error": "טעות שגיאה",
             "Errors": "טעויות",

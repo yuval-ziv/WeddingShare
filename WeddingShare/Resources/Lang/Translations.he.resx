@@ -898,4 +898,10 @@
   <data name="Wipe_Confirmation" xml:space="preserve">
     <value>אתה בטוח שאתה רוצה למחוק את הגלריה?</value>
   </data>
+  <data name="Download_By_Others" xml:space="preserve">
+    <value>הורדה על ידי אחרים</value>
+  </data>
+  <data name="Download_By_Others_Failed_Unknown_Identity" xml:space="preserve">
+    <value>נכשל להוריד גלריה על ידי אחרים - זהותך אינה ידועה</value>
+  </data>
 </root>
