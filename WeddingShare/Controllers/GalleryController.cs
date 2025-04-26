@@ -461,47 +461,36 @@ namespace WeddingShare.Controllers
         {
             try
             {
-                var gallery = await _database.GetGallery(id);
-                if (gallery != null)
-                {
-                    if (await _settings.GetOrDefault(Settings.Gallery.Download, true, gallery?.Name) || (User?.Identity != null && User.Identity.IsAuthenticated))
-                    {
-                        var galleryDir = id > 0 ? Path.Combine(UploadsDirectory, gallery.Name) : UploadsDirectory;
-                        if (_fileHelper.DirectoryExists(galleryDir))
-                        {
-                            _fileHelper.CreateDirectoryIfNotExists(TempDirectory);
-
-                            var tempZipFile = Path.Combine(TempDirectory, $"{gallery.Name}-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.zip");
-                            ZipFile.CreateFromDirectory(galleryDir, tempZipFile, CompressionLevel.Optimal, false);
-
-                            if (User?.Identity == null || !User.Identity.IsAuthenticated)
-                            {
-                                using (var fs = new FileStream(tempZipFile, FileMode.Open, FileAccess.ReadWrite))
-                                using (var archive = new ZipArchive(fs, ZipArchiveMode.Update, false))
-                                {
-                                    foreach (var entry in archive.Entries.Where(x => x.FullName.StartsWith("Pending/", StringComparison.OrdinalIgnoreCase) || x.FullName.StartsWith("Rejected/", StringComparison.OrdinalIgnoreCase)).ToList())
-                                    {
-                                        entry.Delete();
-                                    }
-                                }
-                            }
-
-                            return Json(new { success = true, filename = $"/temp/{Path.GetFileName(tempZipFile)}" });
-                        }
-                    }
-                    else
-                    {
-                        return Json(new { success = false, message = _localizer["Download_Gallery_Not_Allowed"].Value });
-                    }
-                }
-                else
+                GalleryModel? gallery = await _database.GetGallery(id);
+                if (gallery is null)
                 {
                     return Json(new { success = false, message = _localizer["Failed_Download_Gallery"].Value });
                 }
+
+                if (!await _settings.GetOrDefault(Settings.Gallery.Download, true, gallery.Name) && User?.Identity is not { IsAuthenticated: true })
+                {
+                    return Json(new { success = false, message = _localizer["Download_Gallery_Not_Allowed"].Value });
+                }
+
+                string galleryDir = id > 0 ? Path.Combine(UploadsDirectory, gallery.Name) : UploadsDirectory;
+                if (!_fileHelper.DirectoryExists(galleryDir))
+                {
+                    return Json(new { success = false });
+                }
+
+                _fileHelper.CreateDirectoryIfNotExists(TempDirectory);
+
+                string tempZipFile = Path.Combine(TempDirectory, $"{gallery.Name}-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.zip");
+                ZipFile.CreateFromDirectory(galleryDir, tempZipFile, CompressionLevel.Optimal, false);
+                
+                await RemovePendingAndRejectedItemsForNonAuthenticatedUsers(tempZipFile);
+                await DeleteEmptyFolders(tempZipFile);
+
+                return Json(new { success = true, filename = $"/temp/{Path.GetFileName(tempZipFile)}" });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"{_localizer["Failed_Download_Gallery"].Value} - {ex?.Message}");
+                _logger.LogError(ex, $"{_localizer["Failed_Download_Gallery"].Value} - {ex.Message}");
             }
 
             return Json(new { success = false });
@@ -515,17 +504,17 @@ namespace WeddingShare.Controllers
                 string currentUser = HttpContext.Session.GetString(SessionKey.ViewerIdentity) ?? "Anonymous";
                 if (currentUser == "Anonymous")
                 {
-                    return Json(new { success = false, message = _localizer["Download_By_Others_Failed_Unknown_Identity"].Value });;
+                    return Json(new { success = false, message = _localizer["Download_By_Others_Failed_Unknown_Identity"].Value });
                 }
                 
                 GalleryModel? gallery = await _database.GetGallery(id);
                 
-                if (gallery == null)
+                if (gallery is null)
                 {
                     return Json(new { success = false, message = _localizer["Failed_Download_Gallery"].Value });
                 }
 
-                if (!_gallery.GetConfig(gallery.Name, "Gallery:Download", true) && User?.Identity is not { IsAuthenticated: true })
+                if (await _settings.GetOrDefault(Settings.Gallery.Download, true, gallery.Name) || User?.Identity is { IsAuthenticated: true })
                 {
                     return Json(new { success = false, message = _localizer["Download_Gallery_Not_Allowed"].Value });
                 }
@@ -550,7 +539,7 @@ namespace WeddingShare.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"{_localizer["Failed_Download_Gallery"].Value} - {ex?.Message}");
+                _logger.LogError(ex, $"{_localizer["Failed_Download_Gallery"].Value} - {ex.Message}");
             }
 
             return Json(new { success = false });
