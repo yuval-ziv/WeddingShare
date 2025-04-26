@@ -514,7 +514,7 @@ namespace WeddingShare.Controllers
                     return Json(new { success = false, message = _localizer["Failed_Download_Gallery"].Value });
                 }
 
-                if (await _settings.GetOrDefault(Settings.Gallery.Download, true, gallery.Name) || User?.Identity is { IsAuthenticated: true })
+                if (!await _settings.GetOrDefault(Settings.Gallery.Download, true, gallery.Name) && User?.Identity is not { IsAuthenticated: true })
                 {
                     return Json(new { success = false, message = _localizer["Download_Gallery_Not_Allowed"].Value });
                 }
