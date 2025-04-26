@@ -126,7 +126,7 @@
                 </div>
             }
             
-            @if (Context.Session.GetString(SessionKey.ViewerIdentity) != "Anonymous" && (_gallery.GetConfig(Model?.GalleryName, "Gallery:Download", true) || (User?.Identity != null && User.Identity.IsAuthenticated)))
+            @if (Context.Session.GetString(SessionKey.ViewerIdentity) != "Anonymous" && (await _settings.GetOrDefault(Settings.Gallery.Download, true, Model?.GalleryName) || (User?.Identity != null && User.Identity.IsAuthenticated)))
             {
                 <div class="btn-group w-100 mb-2">
                     <button class="btnDownloadByOthers btn btn-primary btn-sm" type="button" data-gallery-id="@Model?.GalleryId">
