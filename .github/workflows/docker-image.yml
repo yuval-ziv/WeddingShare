@@ -3,8 +3,6 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
 
@@ -15,4 +13,4 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file .\WeddingShare\Dockerfile --tag my-image-name:latest
+      run: docker build . --file .\WeddingShare\Dockerfile --tag yuval-ziv\WeddingShare:latest
