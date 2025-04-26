@@ -1,137 +1,37 @@
 ﻿@model IndexModel
-@using WeddingShare.Enums
-@using WeddingShare.Helpers
 @using WeddingShare.Views.Admin
-@inject WeddingShare.Helpers.IConfigHelper _config
-@inject WeddingShare.Helpers.IGalleryHelper _gallery
-@inject WeddingShare.Helpers.IEncryptionHelper _encryption
-@inject WeddingShare.Helpers.IUrlHelper _url
+@using WeddingShare.Views.Admin.Tabs
 
-@{
-    var identityEnabled = _config.GetOrDefault("Settings:Identity_Check:Enabled", true);
-    var link = _url.GenerateBaseUrl(Context?.Request, "/Gallery");
-}
-
-<section class="pb-0 pb-lg-0">
+<section class="nav-border-bottom pb-0 pb-lg-0">
     <div class="container px-3 px-lg-1 my-3 my-lg-4">
         <div class="row">
             <div class="col-12">
-                <h1 class="display-6">@_localizer["Users"].Value
-                    <span class="header-actions">
-                        <span class="action text-success pointer">
-                            <i class="btnAddUser fa-solid fa-user-plus" alt="@_localizer["Add"].Value"></i>
-                            <span>@_localizer["Add"].Value</span>
-                        </span>
-                    </span>
-                </h1>
-            </div>
-        </div>
-        <div class="row">
-            <div id="users-list" class="col-12">
-                <partial name="~/Views/Admin/UsersList.cshtml" model="Model?.Users" />
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="pb-0 pb-lg-4">
-    <div class="container px-3 px-lg-1 my-3 my-lg-0">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="display-6">@_localizer["Galleries"].Value
-                    @if (!_config.GetOrDefault("Settings:Single_Gallery_Mode", false))
-                    {
-                        <span class="header-actions">
-                            <span class="action text-success pointer">
-                                <i class="btnAddGallery fa-solid fa-calendar-plus" alt="@_localizer["Create"].Value"></i>
-                                <span>@_localizer["Create"].Value</span>
-                            </span>
-                        </span>
-                    }
-                </h1>
-            </div>
-        </div>
-        <div class="row">
-            <div id="available-galleries" class="col-12">
-                <partial name="~/Views/Admin/AvailableGalleries.cshtml" model="Model?.Galleries" />
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="pnl-selector nav-link" href="#" data-tab="reviews">Review</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pnl-selector nav-link" href="#" data-tab="galleries">Galleries</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pnl-selector nav-link" href="#" data-tab="users">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pnl-selector nav-link" href="#" data-tab="settings">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pnl-selector nav-link" href="#" data-tab="data">Data</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </section>
 
-<section class="pb-0 pb-lg-4">
-    <div class="container px-3 px-lg-1 my-3 my-lg-0">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="display-6">@_localizer["Pending_Uploads"].Value
-                    @if (Model?.PendingRequests != null && Model.PendingRequests.Any())
-                    {
-                        <span class="header-actions">
-                            <span class="action text-success pointer">
-                                <i class="btnBulkReview fa-solid fa-thumbs-up" alt="@_localizer["Review"].Value"></i>
-                                <span>@_localizer["Review"].Value</span>
-                            </span>
-                        </span>
-                    }
-                </h1>
-            </div>
-        </div>
-        <div class="row">
-            <div id="pending-reviews" class="col-12 pb-3">
-                <partial name="~/Views/Admin/PendingReviews.cshtml" model="Model?.PendingRequests" />
-            </div>
-        </div>
-    </div>
-</section>
-
-@if (Model?.Galleries != null && Model.Galleries.Any())
-{
-    @if (!string.Equals("mysql", _config.GetOrDefault("Settings:Database:Type", "sqlite"), StringComparison.OrdinalIgnoreCase))
-    {
-        <section class="pb-0 pb-lg-4">
-            <div class="container px-3 px-lg-1 my-3 my-lg-0">
-                <div class="row">
-                    <div class="col-12">
-                        <h1 class="display-6">
-                            @_localizer["Manage_Data"].Value
-                        </h1>
-                    </div>
-                </div>
-                <div class="row px-3 pb-3">
-                    <div class="col-12 border rounded py-3 text-center">
-                        <div class="mx-0 mx-sm-5 px-5 px-xl-5 text-primary d-inline-block">
-                            <i class="btnImport fa-solid fa-upload fa-2x pointer" alt="@_localizer["Import"].Value"></i>
-                            <h6 class="mb-0">@_localizer["Import"].Value</h6>
-                        </div>
-                        <div class="mx-0 mx-sm-5 px-5 px-xl-5 text-primary d-inline-block">
-                            <i class="btnExport fa-solid fa-download fa-2x pointer" alt="@_localizer["Export"].Value"></i>
-                            <h6 class="mb-0">@_localizer["Export"].Value</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    }
-}
-
-<section class="pb-2 pb-lg-5">
-    <div class="container px-3 px-lg-1 my-3 my-lg-0">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="display-6">
-                    @_localizer["Danger_Zone"].Value
-                </h1>
-            </div>
-        </div>
-        <div class="row px-3 pb-3">
-            <div class="col-12 border rounded py-3 text-center">
-                <div class="mx-0 mx-sm-5 px-2 px-xl-5 text-danger d-inline-block">
-                    <i class="btnWipeAllGalleries fa-solid fa-broom fa-2x pointer" alt="@_localizer["Wipe"].Value"></i>
-                    <h6 class="mb-0">@_localizer["Wipe"].Value</h6>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<partial name="~/Views/Admin/Tabs/Reviews.cshtml" model="new ReviewsModel() { PendingRequests = Model?.PendingRequests }" />
+<partial name="~/Views/Admin/Tabs/Users.cshtml" model="new UsersModel() { Users = Model?.Users }" />
+<partial name="~/Views/Admin/Tabs/Galleries.cshtml" model="new GalleriesModel() { Galleries = Model?.Galleries }" />
+<partial name="~/Views/Admin/Tabs/Settings.cshtml" model="new SettingsModel() { Settings = Model?.Settings }" />
+<partial name="~/Views/Admin/Tabs/Data.cshtml" model="new DataModel()" />
 
 <script src="~/js/admin.js" asp-append-version="true"></script>

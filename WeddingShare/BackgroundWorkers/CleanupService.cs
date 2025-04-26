@@ -1,13 +1,14 @@
 ﻿using NCrontab;
+using WeddingShare.Constants;
 using WeddingShare.Helpers;
 
 namespace WeddingShare.BackgroundWorkers
 {
-    public sealed class CleanupService(IWebHostEnvironment hostingEnvironment, IConfigHelper configHelper, IFileHelper fileHelper, ILogger<CleanupService> logger) : BackgroundService
+    public sealed class CleanupService(IWebHostEnvironment hostingEnvironment, ISettingsHelper settingsHelper, IFileHelper fileHelper, ILogger<CleanupService> logger) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var cron = configHelper.GetOrDefault("BackgroundServices:Schedules:Cleanup", "0 4 * * *");
+            var cron = await settingsHelper.GetOrDefault(BackgroundServices.Schedules.Cleanup, "0 4 * * *");
             var schedule = CrontabSchedule.Parse(cron, new CrontabSchedule.ParseOptions() { IncludingSeconds = cron.Split(new[] { ' ' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Length == 6 });
 
             await Task.Delay((int)TimeSpan.FromSeconds(10).TotalMilliseconds, stoppingToken);

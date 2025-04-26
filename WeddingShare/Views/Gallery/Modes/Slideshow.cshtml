@@ -1,14 +1,14 @@
 ﻿@model WeddingShare.Models.PhotoGallery
 
+@using WeddingShare.Constants
 @using WeddingShare.Enums
 @using WeddingShare.Views.Gallery.Modes
-@inject WeddingShare.Helpers.IConfigHelper _config
 
 @{
-    var slideshowInterval = TimeSpan.FromSeconds(_config.GetOrDefault("Settings:Slideshow:Interval", 10)).TotalMilliseconds;
-    var slideshowFade = _config.GetOrDefault("Settings:Slideshow:Fade", 500);
-    var slideLimit = _config.GetOrDefault("Settings:Slideshow:Limit", int.MaxValue);
-    var identityEnabled = _config.GetOrDefault("Settings:Identity_Check:Enabled", true);
+    var slideshowInterval = TimeSpan.FromSeconds(await _settings.GetOrDefault(Settings.Slideshow.Interval, 10)).TotalMilliseconds;
+    var slideshowFade = await _settings.GetOrDefault(Settings.Slideshow.Fade, 500);
+    var slideLimit = await _settings.GetOrDefault(Settings.Slideshow.Limit, int.MaxValue);
+    var identityEnabled = await _settings.GetOrDefault(Settings.IdentityCheck.Enabled, true);
 
     if (Model?.Images != null)
     {
@@ -24,7 +24,7 @@
                 </div>
             }
 
-            @if (_config.GetOrDefault("Settings:Slideshow:Include_Share_Slide", true))
+            @if (await _settings.GetOrDefault(Settings.Slideshow.IncludeShareSlide, true))
             {
                 <div class="slideshow-slide">
                     <span class="slideshow-slide-img share-slide"></span>

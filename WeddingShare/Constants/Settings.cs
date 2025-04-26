@@ -1,0 +1,106 @@
+﻿namespace WeddingShare.Constants
+{
+    public class Settings
+    {
+        public const string IsDemoMode = "Settings:Demo_Mode";
+
+        public class Account
+        {
+            public const string ShowProfileIcon = "Settings:Account:Show_Profile_Icon";
+            public const string LockoutAttempts = "Settings:Account:Lockout_Attempts";
+            public const string LockoutMins = "Settings:Account:Lockout_Mins";
+
+            public class Admin
+            {
+                public const string Username = "Settings:Account:Admin:Username";
+                public const string Password = "Settings:Account:Admin:Password";
+                public const string LogPassword = "Settings:Account:Admin:Log_Password";
+            }
+        }
+
+        public class Basic
+        {
+            public const string Title = "Settings:Title";
+            public const string Logo = "Settings:Logo";
+            public const string BaseUrl = "Settings:Base_Url";
+            public const string ForceHttps = "Settings:Force_Https";
+            public const string SingleGalleryMode = "Settings:Single_Gallery_Mode";
+            public const string MaxGalleryCount = "Settings:Max_Gallery_Count";
+            public const string HomeLink = "Settings:Home_Link";
+            public const string GuestGalleryCreation = "Settings:Guest_Gallery_Creation";
+            public const string HideKeyFromQRCode = "Settings:Hide_Key_From_QR_Code";
+            public const string LinksOpenNewTab = "Settings:Links_Open_New_Tab";
+            public const string ThumbnailSize = "Settings:Thumbnail_Size";
+            public const string EmailReport = "Settings:Email_Report";
+        }
+
+        public class Database
+        {
+            public const string Type = "Settings:Database:Type";
+            public const string ConnectionString = "Settings:Database:Connection_String";
+            public const string SyncFromConfig = "Settings:Database:Sync_From_Config";
+        }
+
+        public class Gallery
+        {
+            public const string BannerImage = "Settings:Gallery:Banner_Image";
+            public const string Quote = "Settings:Gallery:Quote";
+            public const string SecretKey = "Settings:Gallery:Secret_Key";
+            public const string Columns = "Settings:Gallery:Columns";
+            public const string ItemsPerPage = "Settings:Gallery:Items_Per_Page";
+            public const string FullWidth = "Settings:Gallery:Full_Width";
+            public const string RetainRejectedItems = "Settings:Gallery:Retain_Rejected_Items";
+            public const string Upload = "Settings:Gallery:Upload";
+            public const string Download = "Settings:Gallery:Download";
+            public const string RequireReview = "Settings:Gallery:Require_Review";
+            public const string ReviewCounter = "Settings:Gallery:Review_Counter";
+            public const string PreventDuplicates = "Settings:Gallery:Prevent_Duplicates";
+            public const string IdleRefreshMins = "Settings:Gallery:Idle_Refresh_Mins";
+            public const string MaxSizeMB = "Settings:Gallery:Max_Size_MB";
+            public const string MaxFileSizeMB = "Settings:Gallery:Max_File_Size_MB";
+            public const string DefaultView = "Settings:Gallery:Default_View";
+            public const string UploadPeriod = "Settings:Gallery:Upload_Period";
+            public const string AllowedFileTypes = "Settings:Gallery:Allowed_File_Types";
+
+            public class QRCode
+            {
+                public const string Enabled = "Settings:Gallery:QR_Code:Enabled";
+                public const string DefaultView = "Settings:Gallery:QR_Code:Default_View";
+                public const string DefaultSort = "Settings:Gallery:QR_Code:Default_Sort";
+            }
+        }
+
+        public class GallerySelector
+        {
+            public const string Dropdown = "Settings:Gallery_Selector:Dropdown";
+            public const string HideDefaultOption = "Settings:Gallery_Selector:Hide_Default_Option";
+        }
+
+        public class IdentityCheck
+        {
+            public const string Enabled = "Settings:Identity_Check:Enabled";
+            public const string ShowOnPageLoad = "Settings:Identity_Check:Show_On_Page_Load";
+            public const string RequireIdentityForUpload = "Settings:Identity_Check:Require_Identity_For_Upload";
+        }
+
+        public class Languages
+        {
+            public const string Enabled = "Settings:Languages:Enabled";
+            public const string Default = "Settings:Languages:Default";
+        }
+
+        public class Slideshow
+        {
+            public const string Interval = "Settings:Slideshow:Interval";
+            public const string Fade = "Settings:Slideshow:Fade";
+            public const string Limit = "Settings:Slideshow:Limit";
+            public const string IncludeShareSlide = "Settings:Slideshow:Include_Share_Slide";
+        }
+
+        public class Themes
+        {
+            public const string Enabled = "Settings:Themes:Enabled";
+            public const string Default = "Settings:Themes:Default";
+        }
+    }
+}

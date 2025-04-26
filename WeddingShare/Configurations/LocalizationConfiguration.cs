@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using WeddingShare.Constants;
 using WeddingShare.Helpers;
 
 namespace WeddingShare.Configurations
@@ -8,7 +9,7 @@ namespace WeddingShare.Configurations
     {
         public static string CurrentCulture = "en-GB";
 
-        public static void AddLocalizationConfiguration(this IServiceCollection services, ConfigHelper config)
+        public static void AddLocalizationConfiguration(this IServiceCollection services, SettingsHelper settings)
         {
             services.AddLocalization(options =>
             {
@@ -18,7 +19,7 @@ namespace WeddingShare.Configurations
             services.Configure<RequestLocalizationOptions>(options => {
                 var supportedCultures = new LanguageHelper().DetectSupportedCultures();
 
-                var language = config.GetOrDefault("Settings:Languages:Default", "en-GB");
+                var language = settings.GetOrDefault(Settings.Languages.Default, "en-GB").Result;
                 CurrentCulture = GetDefaultCulture(supportedCultures, language);
                 
                 options.DefaultRequestCulture = new RequestCulture(CurrentCulture);

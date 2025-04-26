@@ -178,6 +178,11 @@ function moveSlide(direction) {
             openMediaViewer(this);
         });
 
+        $(document).off('contextmenu', '.image-tile').on('contextmenu', '.image-tile', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+
         $(document).off('click', '.media-viewer .media-viewer-content').on('click', '.media-viewer .media-viewer-content', function (e) {
             e.preventDefault();
             e.stopPropagation();

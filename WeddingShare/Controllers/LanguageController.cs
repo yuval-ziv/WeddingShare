@@ -1,7 +1,7 @@
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using WeddingShare.Constants;
 using WeddingShare.Helpers;
 using WeddingShare.Models;
 
@@ -10,12 +10,12 @@ namespace WeddingShare.Controllers
     [AllowAnonymous]
     public class LanguageController : Controller
     {
-        private readonly IConfigHelper _config;
+        private readonly ISettingsHelper _settings;
         private readonly ILanguageHelper _languageHelper;
 
-        public LanguageController(IConfigHelper config, ILanguageHelper languageHelper)
+        public LanguageController(ISettingsHelper settings, ILanguageHelper languageHelper)
         {
-            _config = config;
+            _settings = settings;
             _languageHelper = languageHelper;
         }
 
@@ -28,8 +28,8 @@ namespace WeddingShare.Controllers
             {
                 var defaultLang = HttpContext.Session.GetString(SessionKey.SelectedLanguage);
                 if (string.IsNullOrWhiteSpace(defaultLang))
-                { 
-                    defaultLang = _config.GetOrDefault("Settings:Languages:Default", "en-GB");
+                {
+                    defaultLang = await _settings.GetOrDefault(Settings.Languages.Default, "en-GB");
                 }
 
                 options = (await _languageHelper.DetectSupportedCulturesAsync())

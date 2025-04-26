@@ -1,7 +1,9 @@
 ﻿using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using WeddingShare.Constants;
 using WeddingShare.Helpers;
+using WeddingShare.Helpers.Database;
 
 namespace WeddingShare.Attributes
 {
@@ -13,11 +15,12 @@ namespace WeddingShare.Attributes
             {
                 var request = filterContext.HttpContext.Request;
 
-                var galleryHelper = filterContext.HttpContext.RequestServices.GetService<IGalleryHelper>();
-                if (galleryHelper != null)
-                {
-                    var galleryId = (request.Query.ContainsKey("id") && !string.IsNullOrWhiteSpace(request.Query["id"])) ? request.Query["id"].ToString().ToLower() : "default";
+                var galleryId = (request.Query.ContainsKey("id") && !string.IsNullOrWhiteSpace(request.Query["id"])) ? request.Query["id"].ToString().ToLower() : "default";
 
+                var databaseHelper = filterContext.HttpContext.RequestServices.GetService<IDatabaseHelper>();
+                var gallery = databaseHelper?.GetGallery(galleryId).Result;
+                if (gallery != null)
+                { 
                     var encryptionHelper = filterContext.HttpContext.RequestServices.GetService<IEncryptionHelper>();
                     if (encryptionHelper != null)
                     { 
@@ -33,20 +36,24 @@ namespace WeddingShare.Attributes
                             filterContext.Result = new RedirectResult($"/Gallery?{queryString.ToString()}");
                         }
                         else
-                        { 
-                            var secretKey = galleryHelper.GetSecretKey(galleryId).Result ?? string.Empty;
-                            if (!string.IsNullOrWhiteSpace(secretKey))
-                            { 
-                                secretKey = encryptionHelper.IsEncryptionEnabled() ? encryptionHelper.Encrypt(secretKey) : secretKey;
-                                if (!string.IsNullOrWhiteSpace(secretKey) && !string.Equals(secretKey, key))
+                        {
+                            var settingsHelper = filterContext.HttpContext.RequestServices.GetService<ISettingsHelper>();
+                            if (settingsHelper != null)
+                            {
+                                var secretKey = settingsHelper.GetOrDefault(Settings.Gallery.SecretKey, string.Empty, galleryId).Result ?? string.Empty;
+                                if (!string.IsNullOrWhiteSpace(secretKey))
                                 {
-                                    var logger = filterContext.HttpContext.RequestServices.GetService<ILogger<RequiresSecretKeyAttribute>>();
-                                    if (logger != null)
+                                    secretKey = encryptionHelper.IsEncryptionEnabled() ? encryptionHelper.Encrypt(secretKey) : secretKey;
+                                    if (!string.IsNullOrWhiteSpace(secretKey) && !string.Equals(secretKey, key))
                                     {
-                                        logger.LogWarning($"A request was made to an endpoint with an invalid secure key");
-                                    }
+                                        var logger = filterContext.HttpContext.RequestServices.GetService<ILogger<RequiresSecretKeyAttribute>>();
+                                        if (logger != null)
+                                        {
+                                            logger.LogWarning($"A request was made to an endpoint with an invalid secure key");
+                                        }
 
-                                    filterContext.Result = new RedirectToActionResult("Index", "Error", new { Reason = ErrorCode.InvalidSecretKey }, false);
+                                        filterContext.Result = new RedirectToActionResult("Index", "Error", new { Reason = ErrorCode.InvalidSecretKey }, false);
+                                    }
                                 }
                             }
                         }

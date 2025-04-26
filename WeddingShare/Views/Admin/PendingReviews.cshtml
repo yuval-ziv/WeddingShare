@@ -1,11 +1,11 @@
 ﻿@model List<GalleryItemModel>
+@using WeddingShare.Constants
 @using WeddingShare.Enums
 @using WeddingShare.Models.Database
 @using WeddingShare.Views.Admin
-@inject WeddingShare.Helpers.IConfigHelper _config
 
 @{
-    var identityEnabled = _config.GetOrDefault("Settings:Identity_Check:Enabled", true);
+    var identityEnabled = await _settings.GetOrDefault(Settings.IdentityCheck.Enabled, true);
 }
 
 @if (Model != null && Model.Any())

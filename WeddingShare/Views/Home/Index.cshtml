@@ -1,13 +1,21 @@
 ﻿@model WeddingShare.Views.Home.IndexModel
+@using WeddingShare.Constants
 @using WeddingShare.Views.Home
-@inject WeddingShare.Helpers.IConfigHelper _config
 
 @{
-    var singleGalleryMode = _config.GetOrDefault("Settings:Single_Gallery_Mode", false);
-    var galleryNameDropdown = _config.GetOrDefault("Settings:Gallery_Selector:Dropdown", false);
+    var singleGalleryMode = await _settings.GetOrDefault(Settings.Basic.SingleGalleryMode, false);
+    var galleryNameDropdown = await _settings.GetOrDefault(Settings.GallerySelector.Dropdown, false);
+    var isDemoMode = await _settings.GetOrDefault(Settings.IsDemoMode, false);
 }
 <section class="py-1 py-lg-5">
     <div class="container px-3 px-lg-1 my-3 mt-lg-1">
+        @if (isDemoMode)
+        {
+            <div class="alert alert-success text-center mb-2" role="alert">
+                <b>Gallery:</b> default | <b>Secret Key:</b> default
+            </div>
+        }
+
         <div class="card">
             <div class="card-header">
                 <h1 class="display-6">@_localizer["Gallery_Selector_Title"].Value</h1>
@@ -33,7 +41,7 @@
                             else
                             {
                                 <input type="text" id="gallery-id" class="form-control" aria-describedby="gallery-id-help" placeholder="@_localizer["Gallery_Name_Placeholder"].Value" aria-label="@_localizer["Gallery_Name"].Value" />
-                                @if (_config.GetOrDefault("Settings:Guest_Gallery_Creation", false) || (User?.Identity != null && User.Identity.IsAuthenticated))
+                                @if (await _settings.GetOrDefault(Settings.Basic.GuestGalleryCreation, false) || (User?.Identity != null && User.Identity.IsAuthenticated))
                                 {
                                     <input type="button" id="btnGenerateGalleryName" class="btn btn-outline-success" value="@_localizer["Generate"].Value" />
                                 }

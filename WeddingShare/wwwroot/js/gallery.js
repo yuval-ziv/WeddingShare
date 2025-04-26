@@ -1,4 +1,17 @@
-﻿(function () {
+﻿function refreshGalleryPage(callback) {
+    $.ajax({
+        type: 'GET',
+        url: `${window.location.pathname}${window.location.search}&partial=true`,
+        success: function (data) {
+            $('#main-gallery').html(data);
+            if (callback !== undefined) {
+                callback();
+            }
+        }
+    });
+}
+
+(function () {
     document.addEventListener('DOMContentLoaded', function () {
 
         const triggerSelector = event => {
@@ -150,7 +163,7 @@
 
                 postData({ url: '/Gallery/UploadCompleted', formData }).then(data => {
                     dataRefs.input.value = '';
-
+                    
                     let counter = $('.review-counter');
                     if (counter.length > 0) {
                         counter.find('.review-counter-total').text(data.counters.total);
@@ -159,7 +172,9 @@
                     }
                 });
             } else {
-                displayMessage(localization.translate('Upload'), localization.translate('Upload_Success', { count: uploadedCount }), errors);
+                displayMessage(localization.translate('Upload'), localization.translate('Upload_Success', { count: uploadedCount }), errors, function () {
+                    refreshGalleryPage();
+                });
             }
         }
 
@@ -193,6 +208,11 @@
 
             await imageUpload(dataRefs);
         }
+
+        $(document).off('click', 'button.btnGallerySettings').on('click', 'button.btnGallerySettings', function (e) {
+            preventDefaults(e);
+            displayMessage(localization.translate('Gallery_Settings'), localization.translate('Feature_Coming_Soon'));
+        });
 
         $(document).off('click', 'button.btnSaveQRCode').on('click', 'button.btnSaveQRCode', function (e) {
             preventDefaults(e);
@@ -314,7 +334,9 @@
                             .done(data => {
                                 if (data.success === true) {
                                     $(`tr[data-gallery-id=${id}]`).remove();
-                                    displayMessage(localization.translate('Delete_Item'), localization.translate('Delete_Item_Success'));
+                                    displayMessage(localization.translate('Delete_Item'), localization.translate('Delete_Item_Success'), null, function () {
+                                        refreshGalleryPage();
+                                    });
                                 } else if (data.message) {
                                     displayMessage(localization.translate('Delete_Item'), localization.translate('Delete_Item_Failed'), [data.message]);
                                 } else {

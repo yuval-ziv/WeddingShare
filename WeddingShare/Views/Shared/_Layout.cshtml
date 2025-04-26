@@ -1,17 +1,18 @@
+@using WeddingShare.Constants
 @using WeddingShare.Enums
 @inject WeddingShare.Helpers.IConfigHelper _config
-@inject WeddingShare.Helpers.IGalleryHelper _gallery
 
 @{
-    var galleryName = _gallery.GetGalleryName(ViewBag.GalleryId);
-    var title = _config.GetOrDefault($"Settings:Title_{galleryName}", _config.GetOrDefault("Settings:Title", "WeddingShare"));
+    var galleryName = (!string.IsNullOrWhiteSpace(ViewBag?.GalleryId) && !ViewBag.GalleryId.Equals("all", StringComparison.OrdinalIgnoreCase)) ? ViewBag.GalleryId.ToLower() : "default";
+    var title = await _settings.GetOrDefault(Settings.Basic.Title, "WeddingShare", galleryName);
+    var isDemoMode = await _settings.GetOrDefault(Settings.IsDemoMode, false);
 
     string logo;
     try
     {
-        var logoGallery = _config.Get($"Settings:Logo_{galleryName}") != null ? galleryName : "default";
+        var logoGallery = _config.Get($"{Settings.Basic.Logo}_{galleryName}") != null ? galleryName : "default";
 
-        logo = _gallery.GetConfig(logoGallery, "Logo", "/images/logo.png");
+        logo = await _settings.GetOrDefault(Settings.Basic.Logo, "/images/logo.png", logoGallery);
         if (!logo.StartsWith("/images", StringComparison.OrdinalIgnoreCase) && !logo.StartsWith("/logos", StringComparison.OrdinalIgnoreCase) && !logo.StartsWith("/custom_resources", StringComparison.OrdinalIgnoreCase))
         {
             logo = $"/logos/{logoGallery}.{System.IO.Path.GetExtension(logo).Trim('.')}";
@@ -24,17 +25,17 @@
 
     var viewMode = ViewBag.ViewMode != null ? ViewBag.ViewMode : ViewMode.Default;
 
-    string theme;
+    string theme = "default";
     try
     {
-        switch (Context?.Request?.Cookies["Theme"]?.Trim()?.ToLower() ?? _config.GetOrDefault("Settings:Themes:Default", "default"))
+        var selected = Context?.Request?.Cookies["Theme"]?.Trim() ?? await _settings.GetOrDefault(Settings.Themes.Default, "default");
+        foreach (Themes t in Enum.GetValues(typeof(Themes)))
         {
-            case "dark":
-                theme = "dark";
+            if (selected.Equals(t.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                theme = t.ToString().ToLower();
                 break;
-            default:
-                theme = "default";
-                break;
+            }
         }
     }
     catch
@@ -99,7 +100,7 @@
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg">
             <div class="container px-3 px-lg-5 @(viewMode == ViewMode.Presentation || viewMode == ViewMode.Slideshow ? "justify-content-center" : string.Empty)">
-                <a class="navbar-brand" href="@(_config.GetOrDefault("Settings:Home_Link", true) ? "/" : "#")">
+                <a class="navbar-brand" href="@(await _settings.GetOrDefault(Settings.Basic.HomeLink, true) ? "/" : "#")">
                     <img class="navbar-logo" src="@logo" />
                     <span class="navbar-title">@title</span>
                 </a>
@@ -108,15 +109,15 @@
                 {
                     <div class="presentation-hidden">
                         <div class="mx-0 mx-lg-4 my-1 float-start">
-                            @if (_config.GetOrDefault("Settings:Languages:Enabled", true))
+                            @if (await _settings.GetOrDefault(Settings.Languages.Enabled, true))
                             {
                                 <i class="change-language fa-solid fa-earth-europe fa-1x text-secondary pointer mx-2"></i>
                             }
-                            @if (_config.GetOrDefault("Settings:Themes:Enabled", true))
+                            @if (await _settings.GetOrDefault(Settings.Themes.Enabled, true))
                             {
                                 <i class="change-theme fa-solid @(string.Equals("default", theme, StringComparison.OrdinalIgnoreCase) ? "fa-moon" : "fa-sun") fa-1x text-secondary pointer mx-2"></i>
                             }
-                            @if (_config.GetOrDefault("Settings:Identity_Check:Enabled", true))
+                            @if (await _settings.GetOrDefault(Settings.IdentityCheck.Enabled, true))
                             {
                                 <i class="change-identity fa-solid fa-id-card fa-1x text-secondary pointer mx-2" data-identity="@Context?.Session.GetString(SessionKey.ViewerIdentity)"></i>
                             }
@@ -126,9 +127,9 @@
                             }
                         </div>
                         <div class="profile-icon my-1 m-lg-0 float-end">
-                            @if (_config.GetOrDefault("Settings:Account:Show_Profile_Icon", true))
+                            @if (await _settings.GetOrDefault(Settings.Account.ShowProfileIcon, true))
                             {
-                                if (!string.IsNullOrWhiteSpace(Context.Request.Path.Value) && Context.Request.Path.Value.Contains("/Admin", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/Login", StringComparison.OrdinalIgnoreCase))
+                                if (!string.IsNullOrWhiteSpace(Context?.Request.Path.Value) && Context.Request.Path.Value.Contains("/Admin", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/Login", StringComparison.OrdinalIgnoreCase))
                                 {
                                     <a href="@Url.Action("Logout", "Admin")">
                                         <i class="fa-solid fa-door-open fa-2x text-danger"></i>
@@ -170,9 +171,16 @@
                 }
             </div>
         </nav>
-        
+
         <!-- Body -->
         <div id="main-wrapper">
+            @if (isDemoMode)
+            {
+                <div class="alert alert-warning text-center" role="alert">
+                    <i class="fa fa-warning mx-3"></i><b>WARNING:</b> This is a demo version. All configuration is periodically wiped to ensure a clean slate for future testers. 
+                </div>
+            }
+
             @{
                 try
                 {
@@ -198,7 +206,7 @@
         <partial name="~/Views/Shared/_Modals.cshtml" model="null" />
         <partial name="~/Views/Shared/_2FA.cshtml" model="null" />
 
-        @if (_config.GetOrDefault("Settings:Identity_Check:Enabled", true) && _config.GetOrDefault("Settings:Identity_Check:Show_On_Page_Load", true) && string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity)))
+        @if (await _settings.GetOrDefault(Settings.IdentityCheck.Enabled, true) && await _settings.GetOrDefault(Settings.IdentityCheck.ShowOnPageLoad, true) && string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity)))
         {
             <script>
                 displayIdentityCheck(false);
@@ -210,10 +218,10 @@
             <div class="container">
                 <p class="m-0 text-white">
                     <span class="float-none">
-                        <a class="text-link text-light" href="https://github.com/Cirx08/WeddingShare" title="Copyright Cirx08" target="_blank"><i class="fa-brands fa-github"></i> WeddingShare v@_config.GetOrDefault("Release:Version", "1.0.0") &copy; Cirx08 @DateTime.UtcNow.Year</a>
+                        <a class="text-link text-light" href="https://github.com/Cirx08/WeddingShare" title="Copyright Cirx08" target="_blank"><i class="fa-brands fa-github"></i> WeddingShare v@(await _settings.GetOrDefault(Release.Version, "1.0.0")) &copy; Cirx08 @DateTime.UtcNow.Year</a>
                     </span>
                     <span class="float-end">
-                        @if (string.Equals("/images/logo.png", _config.GetOrDefault("Settings:Logo", "/images/logo.png"), StringComparison.OrdinalIgnoreCase))
+                        @if (string.Equals("/images/logo.png", await _settings.GetOrDefault(Settings.Basic.Logo, "/images/logo.png"), StringComparison.OrdinalIgnoreCase))
                         {
                             <a class="text-link text-light" href="https://www.flaticon.com/free-icon/wedding-couple_703213" title="bride icons" target="_blank">Freepik - Flaticon</a>
                         }

@@ -1,8 +1,7 @@
 ﻿@model List<GalleryModel>
+@using WeddingShare.Constants
 @using WeddingShare.Views.Admin
 @using WeddingShare.Models.Database
-@inject WeddingShare.Helpers.IConfigHelper _config
-@inject WeddingShare.Helpers.IGalleryHelper _gallery
 @inject WeddingShare.Helpers.IEncryptionHelper _encryption
 @inject WeddingShare.Helpers.IFileHelper _file
 @inject WeddingShare.Helpers.IUrlHelper _url
@@ -26,7 +25,7 @@
                 new KeyValuePair<string, string>("id", gallery.Name)
             };
 
-            var secretKey = await _gallery.GetSecretKey(gallery.Name);
+            var secretKey = await _settings.GetOrDefault(Settings.Gallery.SecretKey, string.Empty, gallery.Name);
             if (!string.IsNullOrWhiteSpace(secretKey))
             {
                 var enc = _encryption.IsEncryptionEnabled();
@@ -43,10 +42,10 @@
                     <i class="fa-solid @(!string.IsNullOrWhiteSpace(secretKey) ? "fa-lock" : "fa-lock-open") m-0"></i>
                 </td>
                 <td class="d-none d-md-table-cell text-center">
-                    @(gallery.Name.Equals("all", StringComparison.OrdinalIgnoreCase) ? _file.BytesToHumanReadable(gallery.TotalGallerySize) : $"{_file.BytesToHumanReadable(gallery.TotalGallerySize)} ({gallery.CalculateUsage(_gallery.GetConfig(gallery.Name, "Gallery:Max_Size_Mb", long.MaxValue))})")
+                    @(gallery.Name.Equals("all", StringComparison.OrdinalIgnoreCase) ? _file.BytesToHumanReadable(gallery.TotalGallerySize, 2) : $"{_file.BytesToHumanReadable(gallery.TotalGallerySize, 2)} ({gallery.CalculateUsage(await _settings.GetOrDefault(Settings.Gallery.MaxSizeMB, long.MaxValue, gallery?.Name))})")
                 </td>
                 <td>
-                    <i class="btnOpenGallery btn btn-outline-primary fa-solid fa-up-right-from-square" data-url="@_url.GenerateFullUrl(Context?.Request, "/Gallery", append)" data-target="@(_config.GetOrDefault("Settings:Links_Open_New_Tab", true) ? "_blank" : "_self")" alt="Open"></i>
+                    <i class="btnOpenGallery btn btn-outline-primary fa-solid fa-up-right-from-square" data-url="@_url.GenerateFullUrl(Context?.Request, "/Gallery", append)" data-target="@(await _settings.GetOrDefault(Settings.Basic.LinksOpenNewTab, true) ? "_blank" : "_self")" alt="Open"></i>
                     <i class="btnDownloadGallery btn @(gallery.TotalItems > 0 ? "btn-outline-primary" : "btn-outline-disabled") fa-solid fa-download" alt="Download" @(gallery.TotalItems == 0 ? "disabled=disabled" : string.Empty)></i>
                     <i class="btn @(gallery.Id > 1 ? "btnEditGallery btn-outline-success" : "btn-outline-disabled") fa-solid fa-pen-to-square" alt="Edit"></i>
                     <i class="btn @(gallery.Id > 0 && gallery.TotalItems > 0 ? "btnWipeGallery btn-outline-danger" : "btn-outline-disabled") fa-solid fa-broom" alt="Wipe" @(gallery.TotalItems == 0 ? "disabled=disabled" : string.Empty)></i>
@@ -55,4 +54,10 @@
             </tr>
         }
     </table>
+}
+else
+{
+    <div class="col-12 text-center border rounded py-3 py-lg-4">
+        <h3 class="display-6">@_localizer["No_Data"].Value</h3>
+    </div>
 }

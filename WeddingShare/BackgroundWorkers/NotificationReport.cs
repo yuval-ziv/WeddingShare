@@ -1,18 +1,19 @@
 ﻿using System.Text;
 using NCrontab;
+using WeddingShare.Constants;
 using WeddingShare.Helpers;
 using WeddingShare.Helpers.Database;
 using WeddingShare.Helpers.Notifications;
 
 namespace WeddingShare.BackgroundWorkers
 {
-    public sealed class NotificationReport(IConfigHelper configHelper, IDatabaseHelper databaseHelper, ISmtpClientWrapper smtpHelper, ILoggerFactory loggerFactory) : BackgroundService
+    public sealed class NotificationReport(ISettingsHelper settingsHelper, IDatabaseHelper databaseHelper, ISmtpClientWrapper smtpHelper, ILoggerFactory loggerFactory) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if (configHelper.GetOrDefault("Settings:Email_Report", true) && configHelper.GetOrDefault("Notifications:Smtp:Enabled", false))
+            if (await settingsHelper.GetOrDefault(Settings.Basic.EmailReport, true) && await settingsHelper.GetOrDefault(Notifications.Smtp.Enabled, false))
             { 
-                var cron = configHelper.GetOrDefault("BackgroundServices:Schedules:Email_Report", "0 0 * * *");
+                var cron = await settingsHelper.GetOrDefault(BackgroundServices.Schedules.EmailReport, "0 0 * * *");
                 var schedule = CrontabSchedule.Parse(cron, new CrontabSchedule.ParseOptions() { IncludingSeconds = cron.Split(new[] { ' ' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Length == 6 });
 
                 while (!stoppingToken.IsCancellationRequested)
@@ -49,7 +50,7 @@ namespace WeddingShare.BackgroundWorkers
                         }
                     }
 
-                    var sent = await new EmailHelper(configHelper, smtpHelper, loggerFactory.CreateLogger<EmailHelper>()).Send("Pending Items Report", builder.ToString());
+                    var sent = await new EmailHelper(settingsHelper, smtpHelper, loggerFactory.CreateLogger<EmailHelper>()).Send("Pending Items Report", builder.ToString());
                     if (!sent)
                     {
                         loggerFactory.CreateLogger<NotificationReport>().LogWarning($"Failed to send notification report");
